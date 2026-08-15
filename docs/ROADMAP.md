@@ -104,14 +104,14 @@ Aplican a toda pantalla, sin que la task lo pida:
 
 ### Bloque D - Constancia (fase 4)
 
-| #   | Task              | Qué es                                                  |
-| --- | ----------------- | ------------------------------------------------------- |
-| 025 | La Regla          | Norma personal editable que no obliga bajo pecado       |
-| 026 | Fidelidad del mes | Calendario de días fieles, huecos sin drama, modo pausa |
-| 027 | Recordatorio      | Uno, a tu hora, o el modelo del Ángelus                 |
-| 028 | Intenciones       | Por quién ofreces, con historial                        |
-| 029 | Rosas del mes     | Corona visual de lo rezado, apagable                    |
-| 030 | Rezar por partes  | Guardar y retomar, con la nota sobre la indulgencia     |
+| #   | Task                                                  | Qué es                                                  |
+| --- | ----------------------------------------------------- | ------------------------------------------------------- |
+| 025 | [La Regla](./tasks/025-la-regla.md)                   | Norma personal editable que no obliga bajo pecado       |
+| 026 | [Fidelidad del mes](./tasks/026-fidelidad-del-mes.md) | Calendario de días fieles, huecos sin drama, modo pausa |
+| 027 | [Recordatorio](./tasks/027-recordatorio.md)           | Uno, a tu hora, o el modelo del Ángelus                 |
+| 028 | [Intenciones](./tasks/028-intenciones.md)             | Por quién ofreces, con historial                        |
+| 029 | [Rosas del mes](./tasks/029-rosas-del-mes.md)         | Corona visual de lo rezado, apagable                    |
+| 030 | [Rezar por partes](./tasks/030-rezar-por-partes.md)   | Guardar y retomar, con la nota sobre la indulgencia     |
 
 ### Bloque E - El Camino (fase 5)
 
