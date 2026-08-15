@@ -101,8 +101,10 @@ Hecho:
   las tres "Dios te salve, María Santísima", templo y sagrario) y de la española
   (versículo de apertura, ofrecimiento, Ave María Purísima).
 
+- Letanías lauretanas completas en latín, español e inglés.
+
 Pendiente:
 
-- Letanías lauretanas completas en los cuatro idiomas.
+- Letanías en la variante regional (España y México cambian alguna invocación).
 - **La revisión humana no se ha hecho.** Nadie ha rezado todavía el Rosario leyendo de la
   app en cada idioma. La task no se cierra sin eso.

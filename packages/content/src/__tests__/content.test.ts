@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { allForms, forms } from '../forms';
 import { mysteries } from '../mysteries';
+import { lauretanae } from '../litany';
 import { findPrayer, prayers, prayersFor } from '../prayers';
 import type { Locale, MysterySetId } from '../types';
 import { validateContent } from '../validate';
@@ -159,5 +160,45 @@ describe('forms', () => {
         true,
       );
     }
+  });
+});
+
+describe('litany of Loreto', () => {
+  it('has every invocation in the three languages', () => {
+    for (const line of lauretanae.lines) {
+      for (const language of ['es', 'en', 'la'] as const) {
+        expect(line.call[language], `${line.id} ${language}`).not.toBe('');
+      }
+    }
+  });
+
+  it('includes the invocations added in 2020, in their place', () => {
+    const ids = lauretanae.lines.map((line) => line.id);
+    expect(ids).toContain('mater-misericordiae');
+    expect(ids).toContain('mater-spei');
+    expect(ids).toContain('solacium-migrantium');
+
+    // The decree puts each one right after a specific invocation.
+    expect(ids[ids.indexOf('mater-misericordiae') - 1]).toBe('mater-ecclesiae');
+    expect(ids[ids.indexOf('mater-spei') - 1]).toBe('mater-divinae-gratiae');
+    expect(ids[ids.indexOf('solacium-migrantium') - 1]).toBe('refugium-peccatorum');
+  });
+
+  it('answers every Marian invocation with "pray for us"', () => {
+    for (const line of lauretanae.lines.filter(
+      (candidate) => candidate.group === 'marian',
+    )) {
+      expect(line.response, line.id).toBe('ora-pro-nobis');
+    }
+  });
+
+  it('ends with the versicle before the closing prayer', () => {
+    const last = lauretanae.lines[lauretanae.lines.length - 1];
+    expect(last?.id).toBe('ut-digni');
+  });
+
+  it('has the three Lamb of God petitions with different responses', () => {
+    const agnus = lauretanae.lines.filter((line) => line.group === 'agnus');
+    expect(agnus.map((line) => line.response)).toEqual(['parce', 'exaudi', 'miserere']);
   });
 });

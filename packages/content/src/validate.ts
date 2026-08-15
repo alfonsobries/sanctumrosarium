@@ -1,4 +1,5 @@
 import { allForms } from './forms';
+import { lauretanae } from './litany';
 import { mysteries } from './mysteries';
 import { findPrayer, prayers } from './prayers';
 import type { Locale } from './types';
@@ -60,6 +61,17 @@ export function validateContent(): readonly ValidationIssue[] {
             detail: `form ${form.id} uses ${step.prayer}, missing in ${locale}`,
           });
         }
+      }
+    }
+  }
+
+  for (const line of lauretanae.lines) {
+    for (const language of ['es', 'en', 'la'] as const) {
+      if (line.call[language].trim() === '') {
+        issues.push({
+          kind: 'empty-text',
+          detail: `litany line ${line.id} missing in ${language}`,
+        });
       }
     }
   }
