@@ -33,6 +33,10 @@ nicho.
 **Pendiente además:** verificar colisión de marca en App Store y Play, y registrar el
 dominio antes de anunciar nada.
 
+**Lo que arrastra el nombre:** los paquetes del monorepo se llaman hoy `@rosario/content`
+y `@rosario/engine`, y el repositorio vive en `Projects/Rosario/rosario`. Los tres se
+renombran al cerrar esta decisión, antes de publicar el repositorio.
+
 ## 2. Identidad visual
 
 **Bloquea:** icono, splash, sitio, láminas de tienda.
