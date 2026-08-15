@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "scripts": {
+    "app": "pnpm --filter app start",
+    "app:ios": "pnpm --filter app ios",
+    "app:android": "pnpm --filter app android",
+    "app:check": "pnpm --filter app check",
+    "site": "pnpm --filter site dev",
+    "site:build": "pnpm --filter site build",
+    "site:check": "pnpm --filter site check",
+    "packages:test": "pnpm -r --filter \"./packages/*\" test",
+    "packages:typecheck": "pnpm -r --filter \"./packages/*\" typecheck",
+    "test": "pnpm packages:test",
+    "typecheck": "pnpm packages:typecheck && pnpm --filter app typecheck && pnpm --filter site check",
+    "lint": "pnpm --filter app lint:check && prettier --check .",
+    "format": "prettier --write .",
+    "check": "pnpm lint && pnpm typecheck && pnpm test",
+    "format:md": "prettier --write \"**/*.md\"",
+    "postinstall": "aikit update"
+  },
+  "devDependencies": {
+    "@alfonsobries/aikit": "^0.10.0",
+    "prettier": "^3.9.6"
+  }
+}

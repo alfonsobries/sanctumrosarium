@@ -1,0 +1,25 @@
+# aikit
+CLAUDE.local.md
+AGENTS.override.md
+
+# deps
+node_modules/
+
+# env & secrets
+.env
+.env.*
+!.env.example
+*.p8
+*.pem
+*.key
+auth.json
+
+# os / editors
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# logs
+logs/
+*.log
