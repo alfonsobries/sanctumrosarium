@@ -205,44 +205,48 @@ Conventions for Expo and React Native apps.
 
 ## Proyecto
 
-App móvil y sitio web para rezar el Santo Rosario: multiidioma (español, inglés y latín), con audio,
-Apple Watch y una progresión que ayuda a la constancia sin gamificar la oración. Fidelidad total a
-lo que la Iglesia católica enseña.
+App móvil y sitio web para rezar el Santo Rosario: multiidioma (español, inglés y latín),
+con audio, Apple Watch y una progresión que ayuda a la constancia sin gamificar la
+oración. Fidelidad total a lo que la Iglesia católica enseña.
 
 Monorepo con pnpm:
 
 - `app/` - app móvil con Expo y React Native (incluye el target de watchOS cuando exista)
 - `site/` - sitio en Astro
-- `packages/content` - todo lo que se reza: oraciones, misterios, formas regionales, con su fuente
+- `packages/content` - todo lo que se reza: oraciones, misterios, formas regionales, con
+  su fuente
 - `packages/engine` - el motor del Rosario: lógica pura que produce la secuencia de pasos
 
 ### Antes de tocar contenido litúrgico, leer la fuente
 
-`docs/referencias/rosario-doctrina.md` es la fuente de verdad de todo lo que se reza y de cómo se
-reza: magisterio, estructura, variantes regionales, textos completos en latín, español e inglés,
-indulgencias y sus condiciones. **Ningún texto se escribe de memoria.** Si no está ahí ni en una
-fuente citable, no entra.
+`docs/referencias/rosario-doctrina.md` es la fuente de verdad de todo lo que se reza y de
+cómo se reza: magisterio, estructura, variantes regionales, textos completos en latín,
+español e inglés, indulgencias y sus condiciones. **Ningún texto se escribe de memoria.**
+Si no está ahí ni en una fuente citable, no entra.
 
 ### When to read what
 
-- Antes de diseñar progresión, rachas, logros o cualquier métrica: `docs/gamificacion.md` y
-  `docs/referencias/ripperger-y-gamificacion.md`. Este producto tiene reglas duras al respecto.
+- Antes de diseñar progresión, rachas, logros o cualquier métrica: `docs/gamificacion.md`
+  y `docs/referencias/ripperger-y-gamificacion.md`. Este producto tiene reglas duras al
+  respecto.
 - Antes de decidir en qué superficie vive una feature: `.agents/superficies.md`.
-- Antes de escribir cualquier texto que un usuario vaya a leer: `docs/voz.md` y el skill `voz`.
-- Antes de tocar el reloj, el audio o el stack: `docs/referencias/tecnica/`, que trae lo verificado
-  y lo que puede no funcionar.
-- Antes de implementar una task: leerla completa en `docs/tasks/` y auditar su alcance contra el
-  código actual.
+- Antes de escribir cualquier texto que un usuario vaya a leer: `docs/voz.md` y el skill
+  `voz`.
+- Antes de tocar el reloj, el audio o el stack: `docs/referencias/tecnica/`, que trae lo
+  verificado y lo que puede no funcionar.
+- Antes de implementar una task: leerla completa en `docs/tasks/` y auditar su alcance
+  contra el código actual.
 - Stack y versiones: `.agents/stack.md`. Comandos: `.agents/commands.md`.
 - Lo que falta decidir (nombre, identidad, modelo económico, voces): `docs/DECISIONES.md`.
 
 ### Plan de producto
 
-`docs/PLAN.md` (visión y principios), `docs/FEATURES.md` (mapa), `docs/ROADMAP.md` (orden y tasks),
-`docs/tasks/` (specs). El ciclo que cierra una feature es el skill `ciclo-completo`.
+`docs/PLAN.md` (visión y principios), `docs/FEATURES.md` (mapa), `docs/ROADMAP.md` (orden
+y tasks), `docs/tasks/` (specs). El ciclo que cierra una feature es el skill
+`ciclo-completo`.
 
-`competencia/` tiene el análisis del mercado: qué hace cada app, qué le reprochan sus usuarios, y
-dónde están los huecos.
+`competencia/` tiene el análisis del mercado: qué hace cada app, qué le reprochan sus
+usuarios, y dónde están los huecos.
 
 ---
 
@@ -281,54 +285,56 @@ Reglas que aplican en la mayoría de las tareas.
 
 ### Contenido litúrgico
 
-- **Ningún texto de oración, misterio o meditación se escribe de memoria ni se genera.** Sale de
-  `docs/referencias/rosario-doctrina.md` o de una fuente citable, y guarda esa fuente en el dato.
-- **Se distingue siempre** magisterio, liturgia y tradición piadosa. Las quince promesas se
-  muestran con su origen y sin lenguaje de garantía.
-- **Las indulgencias se describen, no se otorgan.** La app nunca marca una indulgencia como
-  conseguida ni promete efectos sobrenaturales.
-- **Lo esencial del Rosario no es configurable**: misterio, Padrenuestro, diez Avemarías y Gloria.
-  Lo demás es marco regional.
+- **Ningún texto de oración, misterio o meditación se escribe de memoria ni se genera.**
+  Sale de `docs/referencias/rosario-doctrina.md` o de una fuente citable, y guarda esa
+  fuente en el dato.
+- **Se distingue siempre** magisterio, liturgia y tradición piadosa. Las quince promesas
+  se muestran con su origen y sin lenguaje de garantía.
+- **Las indulgencias se describen, no se otorgan.** La app nunca marca una indulgencia
+  como conseguida ni promete efectos sobrenaturales.
+- **Lo esencial del Rosario no es configurable**: misterio, Padrenuestro, diez Avemarías y
+  Gloria. Lo demás es marco regional.
 
 ### Progresión
 
 - Se cuentan actos (rosarios, decenas, días, minutos), nunca gracias.
-- Sin tablas de posiciones, sin comparar con otras personas, sin rachas que se pierdan con drama,
-  sin notificaciones de pérdida.
+- Sin tablas de posiciones, sin comparar con otras personas, sin rachas que se pierdan con
+  drama, sin notificaciones de pérdida.
 - Todo lo lúdico se puede apagar y la app sigue completa.
-- Antes de dar por buena una pantalla de progresión, se pasa la prueba de `docs/gamificacion.md`.
+- Antes de dar por buena una pantalla de progresión, se pasa la prueba de
+  `docs/gamificacion.md`.
 
 ### Privacidad
 
-- Lo que alguien reza **no sale de su dispositivo**. Sin analítica de comportamiento, sin cuentas,
-  sin servidor por defecto.
-- Los permisos (micrófono, salud, notificaciones) se piden en el momento en que se usan y con una
-  explicación de para qué.
+- Lo que alguien reza **no sale de su dispositivo**. Sin analítica de comportamiento, sin
+  cuentas, sin servidor por defecto.
+- Los permisos (micrófono, salud, notificaciones) se piden en el momento en que se usan y
+  con una explicación de para qué.
 
 ### Código
 
 - Package manager: **pnpm** en todo el monorepo.
-- `packages/content` y `packages/engine` son lógica pura: sin React, sin Expo, sin Astro, con
-  pruebas completas. La app y el sitio los consumen.
-- Tipos estrictos, sin `any`. Los identificadores de oraciones y misterios son estables: no se
-  renombran.
+- `packages/content` y `packages/engine` son lógica pura: sin React, sin Expo, sin Astro,
+  con pruebas completas. La app y el sitio los consumen.
+- Tipos estrictos, sin `any`. Los identificadores de oraciones y misterios son estables:
+  no se renombran.
 - Código, comentarios, nombres de test y commits en inglés; documentación en español.
-- Fechas y horas: el diario guarda la fecha local de quien reza, no UTC. Un Rosario de las 11 de la
-  noche es de ese día.
+- Fechas y horas: el diario guarda la fecha local de quien reza, no UTC. Un Rosario de las
+  11 de la noche es de ese día.
 
 ### Interfaz
 
 - Modo oscuro primero: se reza de noche.
 - Tipografía que crece hasta el máximo del sistema sin romperse.
 - Ninguna pantalla del rezo se interrumpe con diálogos, permisos o avisos.
-- Estados completos: cargando, error, sin permiso, sin audio descargado, sin conexión, primera vez,
-  sesión a medias.
+- Estados completos: cargando, error, sin permiso, sin audio descargado, sin conexión,
+  primera vez, sesión a medias.
 - Nunca un contador sin su misterio a la vista.
 
 ### Texto de cara al usuario
 
-Antes de escribir copy, `docs/voz.md` y el skill `voz`. Todo el copy existe en todos los idiomas
-activos en el mismo cambio.
+Antes de escribir copy, `docs/voz.md` y el skill `voz`. Todo el copy existe en todos los
+idiomas activos en el mismo cambio.
 
 ### Protegidos
 
