@@ -89,3 +89,16 @@ alemanas y la lista de Montfort están en el dossier; se guardan por idioma.
 - Dossier, C.3 (tabla de los veinte misterios con día, cita, fruto y meditación)
 - RVM 19 a 25 para los luminosos y el sentido de cada ciclo
 - Colecciones de dominio público de museos abiertos para las imágenes
+
+## Primera pasada (agosto 2026)
+
+Hecho:
+
+- Los veinte misterios con título en español, inglés y latín, referencia bíblica, fruto,
+  cláusula y meditación breve en español.
+
+Pendiente:
+
+- Texto de la cita bíblica: depende de la decisión 10 (traducción y licencia por idioma).
+- Meditaciones en inglés y latín, con atribución.
+- Imágenes: falta la curaduría entera y su ficha.

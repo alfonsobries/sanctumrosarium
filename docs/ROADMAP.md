@@ -65,22 +65,22 @@ Aplican a toda pantalla, sin que la task lo pida:
 
 ### Bloque A - Rezar bien (fase 1)
 
-| #   | Task                                                                          | Estado    |
-| --- | ----------------------------------------------------------------------------- | --------- |
-| 001 | [Paquete de contenido litúrgico](./tasks/001-paquete-de-contenido.md)         | Pendiente |
-| 002 | [Textos de las oraciones](./tasks/002-textos-de-las-oraciones.md)             | Pendiente |
-| 003 | [Los veinte misterios](./tasks/003-los-veinte-misterios.md)                   | Pendiente |
-| 004 | [Calendario y misterio del día](./tasks/004-calendario-y-misterio-del-dia.md) | Pendiente |
-| 005 | [Motor del Rosario](./tasks/005-motor-del-rosario.md)                         | Pendiente |
-| 006 | [Base de la app](./tasks/006-base-de-la-app.md)                               | Pendiente |
-| 007 | [Pantalla de rezo](./tasks/007-pantalla-de-rezo.md)                           | Pendiente |
-| 008 | [Audio del Rosario](./tasks/008-audio-del-rosario.md)                         | Pendiente |
-| 009 | [Resaltado sincronizado](./tasks/009-resaltado-sincronizado.md)               | Pendiente |
-| 010 | [Rezar a pantalla apagada](./tasks/010-rezar-a-pantalla-apagada.md)           | Pendiente |
-| 011 | [Ajustes del rezo](./tasks/011-ajustes-del-rezo.md)                           | Pendiente |
-| 012 | [Accesibilidad](./tasks/012-accesibilidad.md)                                 | Pendiente |
-| 013 | [Sitio](./tasks/013-sitio.md)                                                 | Pendiente |
-| 014 | [Listo para las tiendas](./tasks/014-listo-para-las-tiendas.md)               | Pendiente |
+| #   | Task                                                                          | Estado         |
+| --- | ----------------------------------------------------------------------------- | -------------- |
+| 001 | [Paquete de contenido litúrgico](./tasks/001-paquete-de-contenido.md)         | Primera pasada |
+| 002 | [Textos de las oraciones](./tasks/002-textos-de-las-oraciones.md)             | Primera pasada |
+| 003 | [Los veinte misterios](./tasks/003-los-veinte-misterios.md)                   | Primera pasada |
+| 004 | [Calendario y misterio del día](./tasks/004-calendario-y-misterio-del-dia.md) | Primera pasada |
+| 005 | [Motor del Rosario](./tasks/005-motor-del-rosario.md)                         | Primera pasada |
+| 006 | [Base de la app](./tasks/006-base-de-la-app.md)                               | Pendiente      |
+| 007 | [Pantalla de rezo](./tasks/007-pantalla-de-rezo.md)                           | Andamio        |
+| 008 | [Audio del Rosario](./tasks/008-audio-del-rosario.md)                         | Pendiente      |
+| 009 | [Resaltado sincronizado](./tasks/009-resaltado-sincronizado.md)               | Pendiente      |
+| 010 | [Rezar a pantalla apagada](./tasks/010-rezar-a-pantalla-apagada.md)           | Pendiente      |
+| 011 | [Ajustes del rezo](./tasks/011-ajustes-del-rezo.md)                           | Pendiente      |
+| 012 | [Accesibilidad](./tasks/012-accesibilidad.md)                                 | Pendiente      |
+| 013 | [Sitio](./tasks/013-sitio.md)                                                 | Pendiente      |
+| 014 | [Listo para las tiendas](./tasks/014-listo-para-las-tiendas.md)               | Pendiente      |
 
 ### Bloque B - Rezar en movimiento (fase 2)
 
@@ -149,6 +149,13 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 045 | Coronilla y Siete Dolores | Devociones hermanas, nunca mezcladas con el Rosario          |
 | 046 | Cofradía del Rosario      | Regla semanal de quince decenas e inscripción                |
 | 047 | Rezar a la vez            | Cuántos rezan ahora, sin nombres ni ranking                  |
+
+## Estado
+
+Las tasks 001 a 005 tienen una primera pasada: el contenido litúrgico en cuatro idiomas y
+cuatro formas regionales, el calendario y el motor, con 57 pruebas. La 007 tiene un
+andamio de dos pantallas que demuestra que el motor llega a la app. Cada task anota al
+final qué quedó hecho y qué falta: ninguna está cerrada.
 
 ## Principios de ejecución
 

@@ -90,3 +90,19 @@ alta contra la pantalla. No es opcional y no lo sustituye ninguna prueba automá
 - Dossier, C.4 (textos completos en latín, español e inglés, ya verificados)
 - Compendio del Catecismo (multilingüe, con latín en paralelo)
 - USCCB para el inglés; Arquidiócesis de México y dominicos para las formas hispanas
+
+## Primera pasada (agosto 2026)
+
+Hecho:
+
+- Oraciones de la estructura completa en `es-MX`, `es-ES`, `en-US` y `la`, con fuente y
+  partidas en líneas y en mitades de guía y respuesta.
+- Las piezas propias de la forma mexicana (por la señal, acto de contrición, jaculatoria,
+  las tres "Dios te salve, María Santísima", templo y sagrario) y de la española
+  (versículo de apertura, ofrecimiento, Ave María Purísima).
+
+Pendiente:
+
+- Letanías lauretanas completas en los cuatro idiomas.
+- **La revisión humana no se ha hecho.** Nadie ha rezado todavía el Rosario leyendo de la
+  app en cada idioma. La task no se cierra sin eso.

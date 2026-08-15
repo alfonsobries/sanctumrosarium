@@ -84,3 +84,21 @@ fricción.
 
 - RVM 38; DPPL 200; USCCB "How to Pray the Rosary"
 - Dossier, C.1 y C.2
+
+## Primera pasada (agosto 2026)
+
+Hecho:
+
+- Cálculo de Pascua, tiempo litúrgico y misterio del día en
+  `packages/engine/src/calendar.ts`, con la regla de RVM 38, las excepciones de los
+  domingos de Adviento, Navidad y Cuaresma, y el esquema anterior a 2002.
+- La razón de la sugerencia viaja en el dato (`reason: 'weekday' | 'season'`) para que la
+  app la muestre en vez de cambiar en silencio.
+- Pascua verificada contra fechas reales de once años entre 2020 y 2050.
+
+Pendiente:
+
+- La excepción de Epifanía (misterios gozosos con la adoración de los Magos como quinto
+  misterio).
+- Fiestas marianas.
+- Selector de otro ciclo en la interfaz.

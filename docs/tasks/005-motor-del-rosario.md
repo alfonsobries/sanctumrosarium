@@ -88,3 +88,22 @@ cualquier parte.
 
 - Dossier, C.1 (estructura), C.2 (variantes regionales), C.5 (rezar por partes)
 - MC 49; RVM 37 y 38; Enchiridion Indulgentiarum, concesión 17
+
+## Primera pasada (agosto 2026)
+
+Hecho:
+
+- Generación de la secuencia en `packages/engine/src/sequence.ts` para las cuatro formas,
+  con ajustes (oraciones opcionales, letanías, lectura, silencio) y Rosario completo de
+  veinte misterios.
+- Estado de sesión en `src/session.ts`: avanzar, retroceder, saltar a una decena,
+  progreso, serializar y registro final.
+- 38 pruebas, incluidas las que cuentan las Avemarías (53 en la forma romana, 50 en la
+  dominicana, 203 en el Rosario completo) y las que comprueban que lo esencial nunca
+  desaparece.
+
+Pendiente:
+
+- Duración propuesta por paso.
+- Comparación de la secuencia contra un archivo de referencia escrito a mano para la forma
+  mexicana: hoy las pruebas verifican piezas, no la secuencia entera.

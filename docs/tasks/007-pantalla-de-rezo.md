@@ -81,3 +81,15 @@ regañar.
 - [ ] ~~Audio - n/a: task 008~~
 - [ ] Accesibilidad - la pantalla se recorre entera con lector de pantalla
 - [ ] ~~Sitio - n/a~~
+
+## Primera pasada (agosto 2026)
+
+Hecho, como prueba de que el motor funciona de punta a punta:
+
+- Pantalla de inicio con el misterio del día y por qué toca ese.
+- Pantalla de rezo que recorre la secuencia completa de la forma mexicana, con avance por
+  toque y vuelta atrás.
+
+Falta prácticamente todo lo de la spec: estados, diseño, retomar sesión, gestos, botones
+grandes, imagen del misterio, terminar bien. Lo construido es un andamio para verificar la
+arquitectura, no la pantalla.

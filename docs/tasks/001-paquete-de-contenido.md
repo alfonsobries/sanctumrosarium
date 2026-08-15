@@ -123,3 +123,20 @@ como paquete abierto (ver decisión 13).
 - Compendio del Catecismo, apéndice de oraciones comunes (ES/EN/LA)
 - USCCB, "How to Pray the Rosary"
 - Letanías lauretanas en vatican.va, con el decreto de 2020
+
+## Primera pasada (agosto 2026)
+
+Hecho:
+
+- Modelo de datos completo en `packages/content/src/types.ts`, con `source` obligatorio.
+- Cuatro formas regionales (`roman`, `es-MX`, `es-ES`, `dominican`) en `src/forms/`.
+- Validador en `src/validate.ts` y 19 pruebas en `src/__tests__/content.test.ts`.
+
+Pendiente:
+
+- Las letanías lauretanas: el modelo tiene el paso `litany`, pero el contenido de las
+  invocaciones no está levantado todavía.
+- La forma alemana, que mete el misterio como cláusula dentro del Ave, sigue solo
+  documentada.
+- Decisión de formato (TypeScript contra JSON con esquema) resuelta de hecho a favor de
+  TypeScript tipado. Si el reloj o el sitio necesitan JSON plano, se genera desde aquí.
