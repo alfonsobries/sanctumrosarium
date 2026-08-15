@@ -79,3 +79,17 @@ terceros.
 - [ ] ~~Audio - n/a~~
 - [ ] Accesibilidad
 - [ ] Sitio
+
+## Primera pasada (agosto 2026)
+
+Hecho, para verificar que el sitio y la app comparten contenido de verdad:
+
+- Sitio en Astro con enrutado de idioma nativo (español sin prefijo, inglés en `/en/`).
+- Página de inicio con el misterio del día, calculado por el mismo motor que la app.
+- Página de los veinte misterios, con su pasaje, su fruto y su cláusula, leídos del
+  paquete de contenido.
+- Tema claro y oscuro con los mismos tokens que la app.
+
+Falta todo lo demás de la spec: la guía de cómo se reza, las preguntas sobre indulgencias
+y promesas, donar, privacidad, capturas, y las URL absolutas de las etiquetas de idioma
+alternativo.
