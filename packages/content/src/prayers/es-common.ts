@@ -6,8 +6,8 @@ const compendium = {
 } as const;
 
 const traditionalSpanish = {
-  name: 'Oraciones tradicionales del Rosario en español, forma de España y México (dominicos.org)',
-  url: 'https://www.dominicos.org/',
+  name: 'Oraciones tradicionales del Rosario en español, forma de España y México (Orden de Predicadores)',
+  url: 'https://www.dominicos.org/quienes-somos/grandes-figuras/rosario/como-se-reza-el-rosario/',
 } as const;
 
 /**
@@ -92,7 +92,7 @@ export function spanishCommonPrayers(
       locale,
       title: 'Gloria',
       lines: [
-        'Gloria al Padre, y al Hijo, y al Espíritu Santo.',
+        'Gloria al Padre y al Hijo y al Espíritu Santo.',
         'Como era en el principio, ahora y siempre,',
         'por los siglos de los siglos.',
         'Amén.',
@@ -129,7 +129,33 @@ export function spanishCommonPrayers(
         'vuelve a nosotros esos tus ojos misericordiosos;',
         'y después de este destierro,',
         'muéstranos a Jesús, fruto bendito de tu vientre.',
-        'Oh clementísima, oh piadosa, oh dulce Virgen María.',
+        '¡Oh clementísima, oh piadosa, oh dulce Virgen María!',
+      ],
+      source: compendium,
+    },
+    {
+      id: 'versiculum-salve',
+      locale,
+      title: 'Versículo después de la Salve',
+      lines: [
+        'Ruega por nosotros, Santa Madre de Dios.',
+        'Para que seamos dignos de alcanzar las promesas de nuestro Señor Jesucristo.',
+      ],
+      responseFrom: 1,
+      source: traditionalSpanish,
+    },
+    {
+      id: 'oratio-litaniarum',
+      locale,
+      title: 'Oración después de las letanías',
+      lines: [
+        'Te rogamos nos concedas, Señor Dios nuestro,',
+        'gozar de continua salud de alma y cuerpo,',
+        'y por la gloriosa intercesión de la bienaventurada siempre Virgen María,',
+        'vernos libres de las tristezas de la vida presente',
+        'y disfrutar de las alegrías eternas.',
+        'Por Cristo nuestro Señor.',
+        'Amén.',
       ],
       source: compendium,
     },

@@ -16,7 +16,7 @@ export const lauretanae: Litany = {
       id: 'kyrie-1',
       group: 'kyrie',
       call: { la: 'Kyrie, eleison.', es: 'Señor, ten piedad.', en: 'Lord have mercy.' },
-      response: 'versicle',
+      response: 'repeat',
     },
     {
       id: 'christe-1',
@@ -26,19 +26,19 @@ export const lauretanae: Litany = {
         es: 'Cristo, ten piedad.',
         en: 'Christ have mercy.',
       },
-      response: 'versicle',
+      response: 'repeat',
     },
     {
       id: 'kyrie-2',
       group: 'kyrie',
       call: { la: 'Kyrie, eleison.', es: 'Señor, ten piedad.', en: 'Lord have mercy.' },
-      response: 'versicle',
+      response: 'repeat',
     },
     {
       id: 'christe-audi',
       group: 'kyrie',
       call: { la: 'Christe, audi nos.', es: 'Cristo, óyenos.', en: 'Christ hear us.' },
-      response: 'versicle',
+      response: 'repeat',
     },
     {
       id: 'christe-exaudi',
@@ -48,7 +48,7 @@ export const lauretanae: Litany = {
         es: 'Cristo, escúchanos.',
         en: 'Christ graciously hear us.',
       },
-      response: 'versicle',
+      response: 'repeat',
     },
     {
       id: 'pater-de-caelis',
@@ -111,7 +111,7 @@ export const lauretanae: Litany = {
       group: 'marian',
       call: {
         la: 'Sancta Virgo virginum',
-        es: 'Santa Virgen de las vírgenes',
+        es: 'Santa Virgen de las Vírgenes',
         en: 'Holy Virgin of virgins',
       },
       response: 'ora-pro-nobis',
@@ -584,7 +584,7 @@ export const lauretanae: Litany = {
       group: 'versicle',
       call: {
         la: 'Ut digni efficiamur promissionibus Christi.',
-        es: 'Para que seamos dignos de alcanzar las promesas de Cristo.',
+        es: 'Para que seamos dignos de las promesas de Cristo.',
         en: 'That we may be made worthy of the promises of Christ.',
       },
       response: 'versicle',
@@ -611,6 +611,7 @@ export const lauretanae: Litany = {
       es: 'escúchanos, Señor.',
       en: 'graciously hear us, O Lord.',
     },
+    repeat: { la: '', es: '', en: '' },
     versicle: { la: '', es: '', en: '' },
   },
   source: {

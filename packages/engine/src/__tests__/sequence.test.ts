@@ -124,3 +124,30 @@ describe('mysteriesOfSet', () => {
     ]);
   });
 });
+
+describe('the mystery is never out of sight', () => {
+  it('carries the mystery on every step of a decade', () => {
+    const decadeSteps = buildRosary({ ...base, include: ['oratio-fatimae'] }).filter(
+      (step) => 'decade' in step && step.decade === 1,
+    );
+
+    expect(decadeSteps.length).toBeGreaterThan(12);
+    for (const step of decadeSteps) {
+      const mystery = 'mystery' in step ? step.mystery : undefined;
+      expect(mystery?.id, step.kind).toBe('gaudiosa-2');
+    }
+  });
+
+  it('carries it in every form', () => {
+    for (const form of ['roman', 'es-MX', 'es-ES', 'dominican'] as const) {
+      const locale = form === 'dominican' ? 'la' : form === 'roman' ? 'en-US' : form;
+      const steps = buildRosary({ form, locale, set: 'dolorosa' });
+      const beads = steps.filter(
+        (step) => step.kind === 'prayer' && step.beadInDecade !== undefined,
+      );
+      for (const bead of beads) {
+        expect('mystery' in bead ? bead.mystery : undefined, form).toBeDefined();
+      }
+    }
+  });
+});

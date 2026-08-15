@@ -29,12 +29,10 @@ const setKey = `sets.${set}` as const;
             {translate('mysteries.fruit')}: {mystery.text[language].fruit}
           </span>
         </p>
-        {mystery.text[language].meditation ? (
-          <p>{mystery.text[language].meditation}</p>
-        ) : null}
-        {mystery.text.la.clause ? (
+        {mystery.text[language].intro ? <p>{mystery.text[language].intro}</p> : null}
+        {mystery.text[language].clause ? (
           <p class="clause">
-            {translate('mysteries.clause')}: <em>{mystery.text.la.clause}</em>
+            {translate('mysteries.clause')}: <em>{mystery.text[language].clause}</em>
           </p>
         ) : null}
       </article>

@@ -5,8 +5,13 @@ const compendium = {
   url: 'https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_lt.html',
 } as const;
 
+/**
+ * Latin texts of the Rosary in common devotional use. The Holy See publishes the Rosary in several
+ * languages here, but this index does not print every Latin text: these are the traditional forms,
+ * and each one still has to be checked against a printed source before the audio is recorded.
+ */
 const traditional = {
-  name: 'Rosario tradicional, texto latino de uso común',
+  name: 'Rosario tradicional, texto latino de uso devocional común (pendiente de cotejo impreso)',
   url: 'https://www.vatican.va/special/rosary/index_rosary.htm',
 } as const;
 
@@ -110,6 +115,31 @@ export const latinPrayers: readonly PrayerText[] = [
       'Eia ergo, advocata nostra, illos tuos misericordes oculos ad nos converte.',
       'Et Iesum, benedictum fructum ventris tui, nobis, post hoc exsilium, ostende.',
       'O clemens, o pia, o dulcis Virgo Maria!',
+    ],
+    source: compendium,
+  },
+  {
+    id: 'versiculum-salve',
+    locale: 'la',
+    title: 'Versiculum post Salve Regina',
+    lines: [
+      'Ora pro nobis, sancta Dei Genetrix.',
+      'Ut digni efficiamur promissionibus Christi.',
+    ],
+    responseFrom: 1,
+    source: traditional,
+  },
+  {
+    id: 'oratio-litaniarum',
+    locale: 'la',
+    title: 'Oratio post Litanias',
+    lines: [
+      'Concede nos famulos tuos, quaesumus, Domine Deus,',
+      'perpetua mentis et corporis sanitate gaudere:',
+      'et gloriosa beatae Mariae semper Virginis intercessione,',
+      'a praesenti liberari tristitia, et aeterna perfrui laetitia.',
+      'Per Christum Dominum nostrum.',
+      'Amen.',
     ],
     source: compendium,
   },

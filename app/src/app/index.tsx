@@ -15,7 +15,7 @@ export default function HomeScreen() {
       <View style={styles.container}>
         <Text style={[styles.set, { color: colors.text }]}>{setNames[today.set]}</Text>
         <Text style={[styles.reason, { color: colors.textMuted }]}>
-          {reasonFor(today.reason, today.season)}
+          {reasonFor(today)}
         </Text>
 
         <View style={styles.mysteries}>

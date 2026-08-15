@@ -4,7 +4,14 @@ export type LitanyGroup = 'kyrie' | 'trinity' | 'marian' | 'agnus' | 'versicle';
 
 /** The response the people give. Marian invocations answer "pray for us". */
 export type LitanyResponse =
-  'miserere' | 'ora-pro-nobis' | 'parce' | 'exaudi' | 'versicle';
+  | 'miserere'
+  | 'ora-pro-nobis'
+  | 'parce'
+  | 'exaudi'
+  /** The people repeat the invocation itself, as in the Kyrie. */
+  | 'repeat'
+  /** Versicle and response, each with its own text. */
+  | 'versicle';
 
 export type LitanyLine = {
   readonly id: string;

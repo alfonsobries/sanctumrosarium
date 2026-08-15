@@ -19,6 +19,7 @@ export type PrayerId =
   | 'gloria-patri'
   | 'oratio-fatimae'
   | 'salve-regina'
+  | 'versiculum-salve'
   | 'oratio-finalis'
   | 'sub-tuum'
   | 'sancte-michael'
@@ -33,6 +34,7 @@ export type PrayerId =
   | 'salve-esposa-del-espiritu-santo'
   | 'templo-y-sagrario'
   | 'litaniae-lauretanae'
+  | 'oratio-litaniarum'
   | 'oratio-pro-papa';
 
 export type MysterySetId = 'gaudiosa' | 'luminosa' | 'dolorosa' | 'gloriosa';
@@ -70,8 +72,14 @@ export type MysteryText = {
   readonly title: string;
   /** Fruit of the mystery. Catechetical tradition, not defined doctrine: it varies by country. */
   readonly fruit: string;
-  /** Two or three lines to read before the decade. Always quoted, never written from scratch. */
-  readonly meditation?: string;
+  /**
+   * One or two lines to situate the mystery before the decade.
+   *
+   * These are written by the editor, not quoted: they carry no authority and must never be shown
+   * as if they came from the magisterium. Quoted meditations with their attribution are pending
+   * (task 003).
+   */
+  readonly intro?: string;
   /** The phrase added after the name of Jesus in each Hail Mary (DPPL 201). */
   readonly clause?: string;
 };

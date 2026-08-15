@@ -1,15 +1,18 @@
 import type { MysterySetId } from '@rosario/content';
 
-export type LiturgicalSeason = 'advent' | 'christmas' | 'lent' | 'easter' | 'ordinary';
+export type LiturgicalSeason =
+  'advent' | 'christmas' | 'lent' | 'triduum' | 'easter' | 'ordinary';
 
 export type DayOfMysteries = {
   readonly set: MysterySetId;
   /**
-   * Why this set. `weekday` is the ordinary rule of RVM 38; `season` means the liturgical time
-   * overrides it, and the app says so instead of switching in silence (DPPL 200).
+   * Why this set. `weekday` is the ordinary rule of RVM 38; `season` and `solemnity` mean the
+   * liturgical day overrides it, and the app says so instead of switching in silence.
    */
-  readonly reason: 'weekday' | 'season';
+  readonly reason: 'weekday' | 'season' | 'solemnity';
   readonly season: LiturgicalSeason;
+  /** Name of the feast when the reason is `solemnity`, so the app can explain itself. */
+  readonly feast?: string;
 };
 
 /** Easter Sunday, anonymous Gregorian algorithm. */
@@ -39,11 +42,16 @@ function addDays(date: Date, days: number): Date {
   return new Date(date.getTime() + days * 86_400_000);
 }
 
+function sameDay(a: Date, month: number, day: number): boolean {
+  return a.getUTCMonth() === month - 1 && a.getUTCDate() === day;
+}
+
 /**
  * The liturgical season of a day, in the Ordinary Form.
  *
  * Advent starts on the fourth Sunday before Christmas; Christmas time runs to the Baptism of the
- * Lord; Lent from Ash Wednesday to Holy Thursday; Easter to Pentecost.
+ * Lord; Lent from Ash Wednesday to the Mass of the Lord's Supper; the Triduum is its own thing,
+ * because Easter time starts at the Vigil, not on Holy Thursday.
  */
 export function liturgicalSeason(date: Date): LiturgicalSeason {
   const day = utcDay(date);
@@ -58,11 +66,13 @@ export function liturgicalSeason(date: Date): LiturgicalSeason {
     return 'advent';
   }
 
-  // Christmas time reaches into January: the Baptism of the Lord, the Sunday after Epiphany.
+  // Christmas time reaches into January: it ends with the Baptism of the Lord, the Sunday after
+  // Epiphany. Where Epiphany moves to the Sunday between 2 and 8 January and lands on the 7th or
+  // 8th, the Baptism is the following Monday.
   const epiphany = new Date(Date.UTC(year, 0, 6));
   const daysToSunday = (7 - epiphany.getUTCDay()) % 7;
   const baptism = addDays(epiphany, daysToSunday === 0 ? 7 : daysToSunday);
-  if (day >= new Date(Date.UTC(year, 11, 25)) || day <= baptism) {
+  if (day >= christmas || day <= baptism) {
     return 'christmas';
   }
 
@@ -73,8 +83,12 @@ export function liturgicalSeason(date: Date): LiturgicalSeason {
     return 'lent';
   }
 
+  if (day >= holyThursday && day < easter) {
+    return 'triduum';
+  }
+
   const pentecost = addDays(easter, 49);
-  if (day >= holyThursday && day <= pentecost) {
+  if (day >= easter && day <= pentecost) {
     return 'easter';
   }
 
@@ -82,10 +96,64 @@ export function liturgicalSeason(date: Date): LiturgicalSeason {
 }
 
 /**
+ * Feasts whose mysteries the custom fixes whatever the day of the week.
+ *
+ * DPPL 200 warns against applying the weekly rule rigidly, and gives the exact case: praying the
+ * sorrowful mysteries on Christmas Day because it falls on a Friday. "The liturgical character of
+ * a given day must take precedence over its place in the week."
+ */
+function solemnityOf(
+  date: Date,
+  easter: Date,
+): { set: MysterySetId; feast: string } | undefined {
+  const day = utcDay(date);
+
+  if (sameDay(day, 12, 25)) {
+    return { set: 'gaudiosa', feast: 'Navidad' };
+  }
+  if (sameDay(day, 1, 1)) {
+    return { set: 'gaudiosa', feast: 'Santa María, Madre de Dios' };
+  }
+  if (sameDay(day, 1, 6)) {
+    return { set: 'gaudiosa', feast: 'Epifanía' };
+  }
+  if (sameDay(day, 3, 25)) {
+    return { set: 'gaudiosa', feast: 'Anunciación del Señor' };
+  }
+  if (sameDay(day, 8, 15)) {
+    return { set: 'gloriosa', feast: 'Asunción de la Virgen' };
+  }
+
+  const goodFriday = addDays(easter, -2);
+  const holySaturday = addDays(easter, -1);
+  if (day.getTime() === goodFriday.getTime()) {
+    return { set: 'dolorosa', feast: 'Viernes Santo' };
+  }
+  if (day.getTime() === holySaturday.getTime()) {
+    return { set: 'dolorosa', feast: 'Sábado Santo' };
+  }
+  if (day.getTime() === addDays(easter, -3).getTime()) {
+    return { set: 'dolorosa', feast: 'Jueves Santo' };
+  }
+  if (day.getTime() === easter.getTime()) {
+    return { set: 'gloriosa', feast: 'Domingo de Pascua' };
+  }
+  if (day.getTime() === addDays(easter, 39).getTime()) {
+    return { set: 'gloriosa', feast: 'Ascensión del Señor' };
+  }
+  if (day.getTime() === addDays(easter, 49).getTime()) {
+    return { set: 'gloriosa', feast: 'Pentecostés' };
+  }
+
+  return undefined;
+}
+
+/**
  * Which mysteries today.
  *
- * The weekly rule is RVM 38. The season overrides it on Sundays, following the custom the USCCB
- * publishes and the caution of DPPL 200 against applying the weekday rule rigidly.
+ * Three layers, in order: the liturgical day (DPPL 200), the season on Sundays, and the weekly
+ * rule of RVM 38. Whatever wins, the reason travels with the answer so the app can explain it
+ * instead of switching in silence.
  */
 export function mysteriesOfDay(
   date: Date,
@@ -94,6 +162,11 @@ export function mysteriesOfDay(
   const withLuminous = options.withLuminous ?? true;
   const season = liturgicalSeason(date);
   const weekday = date.getDay();
+
+  const solemnity = solemnityOf(date, easterSunday(date.getFullYear()));
+  if (solemnity !== undefined) {
+    return { set: solemnity.set, reason: 'solemnity', season, feast: solemnity.feast };
+  }
 
   if (weekday === 0) {
     if (season === 'advent' || season === 'christmas') {

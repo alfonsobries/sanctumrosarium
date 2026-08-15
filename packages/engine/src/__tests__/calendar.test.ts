@@ -60,12 +60,31 @@ describe('mysteriesOfDay', () => {
     expect(lent.reason).toBe('season');
   });
 
-  it('does not move a weekday because of the season', () => {
-    // Christmas 2026 is a Friday. The weekday rule stands; only Sundays change.
+  it('lets the liturgical day prevail over the weekday (DPPL 200)', () => {
+    // Christmas 2026 is a Friday. Praying the sorrowful mysteries that day is the exact case the
+    // Directory on Popular Piety gives as what not to do.
     const christmas = mysteriesOfDay(day(2026, 12, 25));
-    expect(christmas.set).toBe('dolorosa');
-    expect(christmas.reason).toBe('weekday');
-    expect(christmas.season).toBe('christmas');
+    expect(christmas.set).toBe('gaudiosa');
+    expect(christmas.reason).toBe('solemnity');
+    expect(christmas.feast).toBe('Navidad');
+  });
+
+  it('prays the sorrowful mysteries through the Triduum', () => {
+    // Easter 2026 is 5 April: Good Friday is the 3rd and Holy Saturday the 4th.
+    expect(mysteriesOfDay(day(2026, 4, 3)).set).toBe('dolorosa');
+    expect(mysteriesOfDay(day(2026, 4, 4)).set).toBe('dolorosa');
+    expect(liturgicalSeason(day(2026, 4, 4))).toBe('triduum');
+  });
+
+  it('prays the glorious mysteries on Easter, the Ascension and Pentecost', () => {
+    expect(mysteriesOfDay(day(2026, 4, 5)).set).toBe('gloriosa');
+    expect(mysteriesOfDay(day(2026, 5, 14)).feast).toBe('Ascensión del Señor');
+    expect(mysteriesOfDay(day(2026, 5, 24)).feast).toBe('Pentecostés');
+  });
+
+  it('prays the joyful mysteries on Epiphany and the Annunciation', () => {
+    expect(mysteriesOfDay(day(2026, 1, 6)).set).toBe('gaudiosa');
+    expect(mysteriesOfDay(day(2026, 3, 25)).set).toBe('gaudiosa');
   });
 
   it('falls back to the pre-2002 distribution when there are no luminous mysteries', () => {

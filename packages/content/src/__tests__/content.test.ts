@@ -42,9 +42,25 @@ describe('prayers', () => {
     expect(ave?.lines[ave.responseFrom ?? 0]).toContain('Sancta Maria');
   });
 
-  it('does not mix Mexican and Spanish pieces', () => {
-    expect(findPrayer('templo-y-sagrario', 'es-ES')).toBeUndefined();
-    expect(findPrayer('oblatio', 'es-MX')).toBeUndefined();
+  it('keeps the wording of each region', () => {
+    // Both Spain and Mexico close with the three "Dios te salve, María Santísima", but Mexico
+    // expands each one ("en tus manos ponemos nuestra fe...") and Spain says the short form.
+    const mexico = findPrayer('salve-hija-de-dios-padre', 'es-MX');
+    const spain = findPrayer('salve-hija-de-dios-padre', 'es-ES');
+    expect(mexico?.lines.join(' ')).toContain('en tus manos ponemos nuestra fe');
+    expect(spain?.lines.join(' ')).not.toContain('en tus manos');
+  });
+
+  it('closes the Salve with its versicle, in every language', () => {
+    for (const locale of locales) {
+      expect(findPrayer('versiculum-salve', locale), locale).toBeDefined();
+    }
+  });
+
+  it('gives the litany its own prayer', () => {
+    for (const locale of locales) {
+      expect(findPrayer('oratio-litaniarum', locale), locale).toBeDefined();
+    }
   });
 
   it('returns every prayer of a locale', () => {

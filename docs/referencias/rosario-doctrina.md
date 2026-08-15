@@ -805,7 +805,7 @@ mexicanas se anotan.
   Fílium Eius únicum, Dóminum nostrum, qui concéptus est de Spíritu Sancto, natus ex María
   Vírgine, passus sub Póntio Piláto, crucifíxus, mórtuus, et sepúltus, descéndit ad
   ínferos, tértia die resurréxit a mórtuis, ascéndit ad caelos, sedet ad déxteram Dei
-  Patris omnipoténtis, inde ventúrus est iudicáre vivos et mórtuos. Et in Spíritum
+  Patris omnipoténtis, inde ventúrus est iudicáre vivos et mórtuos. Credo in Spíritum
   Sanctum, sanctam Ecclésiam cathólicam, sanctórum communiónem, remissiónem peccatórum,
   carnis resurrectiónem, vitam aetérnam. Amen.
 - ES: Creo en Dios, Padre todopoderoso, Creador del cielo y de la tierra. Creo en

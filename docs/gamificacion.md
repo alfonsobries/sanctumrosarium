@@ -13,10 +13,11 @@ caer en la superstición" (CIC 2111).
 ## El problema, en corto
 
 Contar oraciones es católico: el Rosario **es** un contador, la Cofradía del Rosario
-obliga a 15 decenas semanales desde el siglo XV, y la Liturgia de las Horas es un horario.
-Lo que no es católico es **cuantificar el efecto sobrenatural**, competir, y castigar la
-fragilidad. La Iglesia misma dejó de expresar las indulgencias en días y años (Pablo
-VI, 1967) porque el número hacía pensar en una contabilidad de la gracia que no existe.
+propone quince decenas semanales desde el siglo XV diciendo con esas palabras que no
+obliga bajo pecado, y la Liturgia de las Horas es un horario. Lo que no es católico es
+**cuantificar el efecto sobrenatural**, competir, y castigar la fragilidad. La Iglesia
+misma dejó de expresar las indulgencias en días y años (Pablo VI, 1967) porque el número
+hacía pensar en una contabilidad de la gracia que no existe.
 
 De ahí la regla que ordena todo lo demás: **se cuentan los actos, nunca las gracias.**
 
@@ -24,13 +25,13 @@ De ahí la regla que ordena todo lo demás: **se cuentan los actos, nunca las gr
 
 Al empezar, la app pregunta a qué te comprometes. Opciones:
 
-| Regla                     | Qué es                                       |
-| ------------------------- | -------------------------------------------- |
-| Una decena al día         | Para empezar de verdad                       |
-| Cinco decenas al día      | El Rosario, lo que se entiende por "rezarlo" |
-| Quince decenas por semana | La obligación de la Cofradía del Rosario     |
-| El Rosario completo       | Veinte misterios al día                      |
-| Sin regla                 | Rezar cuando salga, sin seguimiento          |
+| Regla                     | Qué es                                              |
+| ------------------------- | --------------------------------------------------- |
+| Una decena al día         | Para empezar de verdad                              |
+| Cinco decenas al día      | El Rosario, lo que se entiende por "rezarlo"        |
+| Quince decenas por semana | El compromiso de la Cofradía. No obliga bajo pecado |
+| El Rosario completo       | Veinte misterios al día                             |
+| Sin regla                 | Rezar cuando salga, sin seguimiento                 |
 
 Reglas de la Regla:
 
@@ -101,17 +102,20 @@ guardada). Al final se recuerda: "ofrecido por tu madre".
 
 ## 6. Recogimiento
 
-La única métrica sobre la calidad de tu oración que la app se permite, y con condiciones
-estrictas:
+**Ninguna métrica sobre la calidad de tu oración: eso no se mide.** Lo que la app puede
+registrar son hechos del uso del aparato, para que tú saques tus conclusiones, nunca la
+app.
+
+Con condiciones estrictas:
 
 - **Opt-in explícito y apagable** en cualquier momento.
 - **Privada**: no sale del dispositivo, no se comparte, no se compara.
 - **No es un puntaje.** No hay porcentaje, ni nota, ni "tu mejor rosario". Lo que se
-  muestra son hechos: "sin interrupciones", "3 veces saliste de la app", "hoy fuiste más
-  despacio que de costumbre".
-- Se mide solo lo observable: si la app quedó en primer plano, si respondiste dentro del
-  ritmo, si respetaste las pausas, cuánto duró. Con el reloj y permiso explícito,
-  frecuencia cardiaca y variabilidad, guardadas como sesión de atención plena en Salud.
+  muestra son hechos, sin verbo que juzgue: "sin interrupciones", "3 salidas de la app",
+  "38 minutos".
+- Se registra solo lo observable: si la app quedó en primer plano, cuánto duró, cuántas
+  veces se salió. Con el reloj y permiso explícito, la duración se guarda como sesión de
+  atención plena en Salud, que es lo mismo que hacen las apps de meditación y nada más.
 - Nunca se dice ni se insinúa que un rosario "valió más" que otro. Montfort ya lo dejó
   claro: hay más mérito cuando cuesta.
 

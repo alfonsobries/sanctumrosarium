@@ -109,3 +109,14 @@ Pendiente:
 - Frutos y citas bíblicas verificados contra la tabla C.3 del dossier: coinciden. Donde el
   dossier da dos frutos (uno de la USCCB y uno de la tradición hispana), se guardó el de
   la USCCB; falta el alternativo.
+
+## Corregido tras la revisión doctrinal
+
+- El campo `meditation` se llamaba así y colgaba de una fuente que decía "Rosarium
+  Virginis Mariae 20-23", pero la mayoría de esas líneas no están en RVM: eran redacción
+  propia atribuida al magisterio. Ahora el campo se llama `intro`, el tipo dice
+  explícitamente que lo escribe el editor y que no tiene autoridad, y la fuente del
+  misterio aclara qué cubre y qué no.
+- Las meditaciones citadas, con su atribución, siguen pendientes: son el trabajo real de
+  esta task.
+- La cita de Isaías que iba sin referencia ahora la lleva.

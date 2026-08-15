@@ -54,6 +54,7 @@ function prayerStep(
   optional: boolean,
   decade?: number,
   bead?: number,
+  mystery?: Mystery,
 ): Step {
   const text = findPrayer(id, locale);
   if (text === undefined) {
@@ -65,22 +66,43 @@ function prayerStep(
     optional,
     ...(decade === undefined ? {} : { decade }),
     ...(bead === undefined ? {} : { beadInDecade: bead }),
+    ...(mystery === undefined ? {} : { mystery }),
   };
 }
 
-function expand(step: FormStep, options: RosaryOptions): readonly Step[] {
+function expand(
+  step: FormStep,
+  options: RosaryOptions,
+  context?: { decade: number; mystery: Mystery },
+): readonly Step[] {
   const on = (id: PrayerId, optional?: boolean): boolean =>
     optional !== true || (options.include ?? []).includes(id);
 
   switch (step.kind) {
     case 'prayer':
       return on(step.prayer, step.optional)
-        ? [prayerStep(step.prayer, options.locale, step.optional === true)]
+        ? [
+            prayerStep(
+              step.prayer,
+              options.locale,
+              step.optional === true,
+              context?.decade,
+              undefined,
+              context?.mystery,
+            ),
+          ]
         : [];
     case 'prayer-times':
       return on(step.prayer, step.optional)
         ? Array.from({ length: step.times }, () =>
-            prayerStep(step.prayer, options.locale, step.optional === true),
+            prayerStep(
+              step.prayer,
+              options.locale,
+              step.optional === true,
+              context?.decade,
+              undefined,
+              context?.mystery,
+            ),
           )
         : [];
     case 'litany':
@@ -109,19 +131,25 @@ function decadeSteps(
     steps.push({ kind: 'silence', seconds: silence, decade: index });
   }
 
+  const context = { decade: index, mystery };
+
   for (const step of form.decade.opening) {
-    steps.push(...expand(step, options));
+    steps.push(...expand(step, options, context));
   }
 
   // What is essential and never configurable: Our Father, ten Hail Marys, Glory Be (MC 49).
-  steps.push(prayerStep('pater-noster', options.locale, false, index));
+  steps.push(
+    prayerStep('pater-noster', options.locale, false, index, undefined, mystery),
+  );
   for (let bead = 1; bead <= 10; bead += 1) {
-    steps.push(prayerStep('ave-maria', options.locale, false, index, bead));
+    steps.push(prayerStep('ave-maria', options.locale, false, index, bead, mystery));
   }
-  steps.push(prayerStep('gloria-patri', options.locale, false, index));
+  steps.push(
+    prayerStep('gloria-patri', options.locale, false, index, undefined, mystery),
+  );
 
   for (const step of form.decade.closing) {
-    steps.push(...expand(step, options));
+    steps.push(...expand(step, options, context));
   }
 
   return steps;

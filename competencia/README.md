@@ -29,7 +29,7 @@ Documentos:
 - Queja #1 de Hallow: no poder leer el texto mientras suena el audio; y
   cobros/suscripción.
 - Sensibilidad católica real contra gamificar (Freya India, Slate, escrupulosidad): sin
-  leaderboards, sin comparar minutos, rachas con gracia.
+  leaderboards, sin comparar minutos, días fieles con pausa y sin castigo.
 
 ## Pendiente
 

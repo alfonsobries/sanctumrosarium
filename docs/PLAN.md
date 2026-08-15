@@ -5,13 +5,13 @@
 
 ## Visión
 
-La mejor app del mundo para **rezar** el Rosario. No para consumir contenido espiritual,
+Una app para **rezar** el Rosario todos los días. No para consumir contenido espiritual,
 no para coleccionar minutos: para que alguien que se propone rezar el Rosario todos los
 días lo consiga, lo rece mejor cada vez, y lo entienda.
 
 Tres cosas la definen:
 
-- **Fiel a la tradición católica, al 100%.** Cada texto sale de una fuente identificable
+- **Fiel a la tradición católica.** Cada texto sale de una fuente identificable
   (magisterio, liturgia, tradición piadosa) y lo dice. Nada de amuleto, nada de promesas
   automáticas, nada de números mágicos. El dossier doctrinal es
   [`referencias/rosario-doctrina.md`](./referencias/rosario-doctrina.md) y manda sobre

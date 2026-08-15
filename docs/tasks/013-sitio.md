@@ -93,3 +93,12 @@ Hecho, para verificar que el sitio y la app comparten contenido de verdad:
 Falta todo lo demás de la spec: la guía de cómo se reza, las preguntas sobre indulgencias
 y promesas, donar, privacidad, capturas, y las URL absolutas de las etiquetas de idioma
 alternativo.
+
+## Corregido tras la revisión doctrinal
+
+- La cláusula del misterio se mostraba siempre en latín, también en las páginas en español
+  e inglés.
+- "Hoy toca" se calcula en tiempo de compilación: con el sitio estático, anuncia el
+  misterio del día en que se compiló. Queda anotado en el componente; la solución
+  (resolver la fecha en el navegador o marcar la ruta como servidor) entra al construir la
+  task de verdad.

@@ -1,5 +1,9 @@
 # Gaps, oportunidades y riesgos
 
+> Esto es análisis de mercado, no especificación. Lo que el producto hace con la
+> progresión ya está decidido en [`../docs/gamificacion.md`](../docs/gamificacion.md), y
+> esa decisión manda sobre cualquier recomendación de este documento.
+
 ## Gaps y oportunidades
 
 1. **Rosario en Apple Watch de verdad**: standalone, audio phone-free, háptica distinta
@@ -16,7 +20,7 @@
    ritmo de decena, háptica de confirmación, HRV/HR de HealthKit al finalizar; presentado
    como "recogimiento", nunca como puntuación.
 5. **Progresión sin leaderboards**: recorrido tipo Waking Up (aprender el rosario, luego
-   escritural, luego latín, luego cantado), rachas con "gracia" (pausas, sin castigo),
+   escritural, luego latín, luego cantado), días fieles, con pausa y sin castigo,
    estadísticas privadas.
 6. **Texto + audio simultáneos** (queja #1 de Hallow), voces humanas de calidad M/F,
    música baja o sin música, control de velocidad, offline total.
@@ -34,7 +38,8 @@
 
 - **Gamificar la oración**: evitar leaderboards, comparar minutos, trofeos ruidosos,
   notificaciones tipo "no pierdas tu racha". Vocabulario católico (perseverancia,
-  fidelidad, ofrecer), racha pausable, reset sin culpa; pensar en escrupulosos.
+  fidelidad, ofrecer), la vista es el mes, no la racha; con pausa y sin culpa; pensar en
+  escrupulosos.
 - **Medir foco** puede leerse como juzgar la oración; presentar como ayuda de
   recogimiento, opcional, privada, sin "score" comparativo.
 - **Voces IA / meditaciones IA** (Memorare) generan desconfianza; usar humanos o

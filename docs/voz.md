@@ -76,7 +76,7 @@ doctrinal o un error de respeto:
 
 **Una promesa tradicional**
 
-- Sí: "Las quince promesas se atribuyen a la Virgen por el beato Alano de la Roca, en el
+- Sí: "Las quince promesas se atribuyen a la Virgen por el beato Alano de la Roche, en el
   siglo XV. Son tradición piadosa, no doctrina definida por la Iglesia."
 - No: "La Virgen prometió que quien rece el Rosario no perecerá."
 

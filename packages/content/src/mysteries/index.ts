@@ -1,7 +1,13 @@
 import type { Mystery } from '../types';
 
+/**
+ * The source of the mysteries themselves: the four sets and their sense come from RVM 19-23.
+ *
+ * It does NOT cover the `intro` lines, which are the editor's, nor the clauses, which follow the
+ * pattern of the official German ones without being a quotation of any of them.
+ */
 const rvm = {
-  name: 'Rosarium Virginis Mariae 20-23 (Juan Pablo II, 2002)',
+  name: 'Rosarium Virginis Mariae 19-23 (Juan Pablo II, 2002)',
   url: 'https://www.vatican.va/content/john-paul-ii/es/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html',
 } as const;
 
@@ -22,7 +28,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La Encarnación del Hijo de Dios',
         fruit: 'Humildad',
-        meditation:
+        intro:
           'Toda la historia converge en el fiat de María: "Hágase en mí según tu palabra".',
         clause: 'a quien concebiste por obra del Espíritu Santo',
       },
@@ -48,7 +54,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La Visitación de María a su prima Isabel',
         fruit: 'Amor al prójimo',
-        meditation:
+        intro:
           'María lleva a Jesús y se pone a servir. El Magnificat nace de ese camino.',
         clause: 'a quien llevaste a Isabel',
       },
@@ -70,7 +76,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'El Nacimiento del Hijo de Dios en Belén',
         fruit: 'Pobreza de espíritu',
-        meditation: 'Dios se hace niño y no hay sitio para él en la posada.',
+        intro: 'Dios se hace niño y no hay sitio para él en la posada.',
         clause: 'a quien diste a luz en Belén',
       },
       en: {
@@ -95,7 +101,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La Presentación de Jesús en el templo',
         fruit: 'Pureza de corazón',
-        meditation: 'Simeón lo llama luz de las naciones y anuncia a María la espada.',
+        intro: 'Simeón lo llama luz de las naciones y anuncia a María la espada.',
         clause: 'a quien presentaste en el templo',
       },
       en: {
@@ -120,7 +126,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'El Niño Jesús perdido y hallado en el templo',
         fruit: 'Buscar a Jesús',
-        meditation: '"¿No sabíais que debo ocuparme de las cosas de mi Padre?"',
+        intro: '"¿No sabíais que debo ocuparme de las cosas de mi Padre?"',
         clause: 'a quien hallaste en el templo',
       },
       en: {
@@ -145,7 +151,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'El Bautismo de Jesús en el Jordán',
         fruit: 'Apertura al Espíritu Santo',
-        meditation: '"Este es mi Hijo amado, en quien me complazco".',
+        intro: '"Este es mi Hijo amado, en quien me complazco".',
         clause: 'que fue bautizado en el Jordán',
       },
       en: {
@@ -170,8 +176,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La autorrevelación de Jesús en las bodas de Caná',
         fruit: 'A Jesús por María',
-        meditation:
-          '"Haced lo que él os diga": la última palabra de María en el Evangelio.',
+        intro: '"Haced lo que él os diga": la última palabra de María en el Evangelio.',
         clause: 'que se manifestó en Caná',
       },
       en: {
@@ -196,7 +201,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'El anuncio del Reino de Dios invitando a la conversión',
         fruit: 'Conversión',
-        meditation: '"Convertíos y creed en el Evangelio".',
+        intro: '"Convertíos y creed en el Evangelio".',
         clause: 'que anunció el Reino de Dios',
       },
       en: {
@@ -221,7 +226,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La Transfiguración del Señor',
         fruit: 'Deseo de santidad',
-        meditation: '"Bueno es estarnos aquí": la gloria se asoma antes de la cruz.',
+        intro: '"Bueno es estarnos aquí": la gloria se asoma antes de la cruz.',
         clause: 'que se transfiguró en el monte',
       },
       en: {
@@ -246,7 +251,8 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La institución de la Eucaristía',
         fruit: 'Adoración',
-        meditation: 'Expresión sacramental del misterio pascual: se queda para siempre.',
+        intro:
+          'Se queda para siempre: la Eucaristía es el misterio pascual hecho sacramento.',
         clause: 'que nos dio la Eucaristía',
       },
       en: {
@@ -271,8 +277,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La oración de Jesús en el huerto',
         fruit: 'Dolor de los pecados',
-        meditation:
-          '"No se haga mi voluntad, sino la tuya": aquí se deshace el no del Edén.',
+        intro: '"No se haga mi voluntad, sino la tuya": aquí se deshace el no del Edén.',
         clause: 'que sudó sangre por nosotros',
       },
       en: {
@@ -297,7 +302,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La flagelación del Señor',
         fruit: 'Mortificación',
-        meditation: 'Cargó con nuestros dolores y por sus llagas fuimos curados.',
+        intro: 'Cargó con nuestros dolores y por sus llagas fuimos curados (Is 53,4-5).',
         clause: 'que fue azotado por nosotros',
       },
       en: {
@@ -322,7 +327,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La coronación de espinas',
         fruit: 'Fortaleza',
-        meditation: 'Ecce homo: el Rey coronado de burla.',
+        intro: 'Ecce homo: el Rey coronado de burla.',
         clause: 'que fue coronado de espinas',
       },
       en: {
@@ -347,8 +352,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'Jesús con la cruz a cuestas camino del Calvario',
         fruit: 'Paciencia',
-        meditation:
-          'Simón de Cirene carga con la cruz y las mujeres de Jerusalén lloran.',
+        intro: 'Simón de Cirene carga con la cruz y las mujeres de Jerusalén lloran.',
         clause: 'que llevó la cruz por nosotros',
       },
       en: {
@@ -373,8 +377,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La crucifixión y muerte de Jesús',
         fruit: 'Perseverancia final',
-        meditation:
-          '"Mujer, ahí tienes a tu hijo": desde la cruz nos entrega a su Madre.',
+        intro: '"Mujer, ahí tienes a tu hijo": desde la cruz nos entrega a su Madre.',
         clause: 'que fue crucificado por nosotros',
       },
       en: {
@@ -399,7 +402,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La Resurrección del Señor',
         fruit: 'Fe',
-        meditation: 'El Resucitado: todo el Rosario mira hacia aquí.',
+        intro: 'El Resucitado: todo el Rosario mira hacia aquí.',
         clause: 'que resucitó de entre los muertos',
       },
       en: { title: 'The Resurrection', fruit: 'Faith', clause: 'who rose from the dead' },
@@ -416,7 +419,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La Ascensión del Señor',
         fruit: 'Esperanza',
-        meditation: 'Sube al Padre y nos deja esperando lo mismo.',
+        intro: 'Sube al Padre y nos deja esperando lo mismo.',
         clause: 'que subió a los cielos',
       },
       en: { title: 'The Ascension', fruit: 'Hope', clause: 'who ascended into heaven' },
@@ -433,7 +436,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La venida del Espíritu Santo sobre los Apóstoles',
         fruit: 'Amor de Dios',
-        meditation: 'María está en medio de ellos, en oración.',
+        intro: 'María está en medio de ellos, en oración.',
         clause: 'que nos envió el Espíritu Santo',
       },
       en: {
@@ -458,7 +461,7 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La Asunción de María a los cielos',
         fruit: 'Buena muerte',
-        meditation: 'En ella se anticipa lo que se nos promete a todos.',
+        intro: 'En ella se anticipa lo que se nos promete a todos.',
         clause: 'que te llevó al cielo',
       },
       en: {
@@ -483,7 +486,8 @@ export const mysteries: readonly Mystery[] = [
       es: {
         title: 'La coronación de María como Reina de cielo y tierra',
         fruit: 'Confianza en María',
-        meditation: 'Reina de los ángeles y de los santos, y madre nuestra.',
+        intro:
+          'Reina de los ángeles y de los santos, y madre nuestra: el final al que mira todo el Rosario.',
         clause: 'que te coronó en el cielo',
       },
       en: {

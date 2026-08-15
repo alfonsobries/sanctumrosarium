@@ -140,3 +140,31 @@ Pendiente:
   documentada.
 - Decisión de formato (TypeScript contra JSON con esquema) resuelta de hecho a favor de
   TypeScript tipado. Si el reloj o el sitio necesitan JSON plano, se genera desde aquí.
+
+## Corregido tras la revisión doctrinal
+
+- Once oraciones en inglés citaban la página del Rosario de la USCCB, que no publica la
+  mayoría de esos textos. Ahora cada oración apunta a la página que sí la publica.
+- Faltaban en las cuatro formas el versículo que sigue a la Salve ("Ruega por nosotros,
+  Santa Madre de Dios") y la oración propia de las letanías. Ya existen en los cuatro
+  idiomas y están en su sitio.
+- La forma española no llevaba las tres "Dios te salve, María Santísima", el "Templo y
+  Sagrario" ni la oración por el Papa, y una prueba protegía activamente esa ausencia. El
+  dossier (C.2) sí se las da: se añadieron en su forma corta, distinta de la mexicana, y
+  la prueba ahora comprueba que cada región conserva su redacción.
+- La forma mexicana no abría con "Ave María Purísima" ni con el ofrecimiento.
+- Erratas de texto: el Gloria en español llevaba comas que su fuente no tiene; las
+  letanías decían "dignos de alcanzar las promesas" donde la fuente dice "dignos de las
+  promesas"; la Salve perdía sus signos de exclamación; "Virgen concebida sin la culpa del
+  pecado original" era "sin la culpa original"; las tres "Dios te salve, María Santísima"
+  mexicanas terminaban en unos puntos suspensivos que se habrían renderizado en pantalla.
+- Las cinco invocaciones del Kyrie no tenían respuesta: el pueblo repite la invocación, y
+  ahora el modelo lo dice.
+
+## Pendiente que la revisión dejó anotado
+
+- Los textos latinos van sin los acentos de pronunciación que trae el Compendio. En una
+  app que enseña a rezar en latín, ese acento es la única guía de acentuación que tiene
+  quien no sabe latín.
+- `oratio-pro-papa` solo existe en la forma española; falta en las demás, y es condición
+  de la indulgencia plenaria.

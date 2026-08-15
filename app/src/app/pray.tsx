@@ -39,6 +39,7 @@ export default function PrayScreen() {
     );
   }
 
+  // The mystery is on every step of a decade: the bead count never shows without it.
   const mystery = 'mystery' in step ? step.mystery : undefined;
 
   return (

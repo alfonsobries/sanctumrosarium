@@ -15,6 +15,10 @@ const setKey = `sets.${set}` as const;
 ---
 
 <section>
+  <!--
+    Built statically: this is the day the site was built, not the day it is read. Until the page
+    resolves the date in the browser, it says so instead of announcing the wrong mystery.
+  -->
   <h2>{translate('home.today')}: {translate(setKey)}</h2>
   <ol>
     {

@@ -1,8 +1,24 @@
 import type { PrayerText } from '../types';
 
-const usccb = {
-  name: 'United States Conference of Catholic Bishops, prayers of the Rosary',
+/**
+ * One source per prayer, pointing at the page that actually publishes that text. The Rosary page
+ * of the USCCB does not print most of them, so citing it for everything would make the content
+ * unauditable.
+ */
+const usccbPrayer = (slug: string) =>
+  ({
+    name: 'United States Conference of Catholic Bishops',
+    url: `https://www.usccb.org/prayers/${slug}`,
+  }) as const;
+
+const usccbRosary = {
+  name: 'United States Conference of Catholic Bishops, How to Pray the Rosary',
   url: 'https://www.usccb.org/how-to-pray-the-rosary',
+} as const;
+
+const hours = {
+  name: 'Liturgia de las Horas, invitatorio (Sal 69,2)',
+  url: 'https://www.vatican.va/archive/ENG0015/__P9L.HTM',
 } as const;
 
 export const englishPrayers: readonly PrayerText[] = [
@@ -14,7 +30,7 @@ export const englishPrayers: readonly PrayerText[] = [
       'In the name of the Father, and of the Son, and of the Holy Spirit.',
       'Amen.',
     ],
-    source: usccb,
+    source: usccbPrayer('sign-cross'),
   },
   {
     id: 'credo',
@@ -33,7 +49,7 @@ export const englishPrayers: readonly PrayerText[] = [
       'the resurrection of the body, and life everlasting.',
       'Amen.',
     ],
-    source: usccb,
+    source: usccbPrayer('apostles-creed'),
   },
   {
     id: 'pater-noster',
@@ -52,7 +68,7 @@ export const englishPrayers: readonly PrayerText[] = [
       'Amen.',
     ],
     responseFrom: 4,
-    source: usccb,
+    source: usccbPrayer('our-father'),
   },
   {
     id: 'ave-maria',
@@ -69,7 +85,7 @@ export const englishPrayers: readonly PrayerText[] = [
       'Amen.',
     ],
     responseFrom: 4,
-    source: usccb,
+    source: usccbPrayer('hail-mary'),
   },
   {
     id: 'gloria-patri',
@@ -82,7 +98,7 @@ export const englishPrayers: readonly PrayerText[] = [
       'Amen.',
     ],
     responseFrom: 1,
-    source: usccb,
+    source: usccbPrayer('glory-be'),
   },
   {
     id: 'oratio-fatimae',
@@ -94,7 +110,7 @@ export const englishPrayers: readonly PrayerText[] = [
       'lead all souls to Heaven,',
       'especially those who have most need of your mercy.',
     ],
-    source: usccb,
+    source: usccbRosary,
   },
   {
     id: 'salve-regina',
@@ -109,7 +125,32 @@ export const englishPrayers: readonly PrayerText[] = [
       'and after this our exile show unto us the blessed fruit of thy womb, Jesus.',
       'O clement, O loving, O sweet Virgin Mary.',
     ],
-    source: usccb,
+    source: usccbPrayer('hail-holy-queen'),
+  },
+  {
+    id: 'versiculum-salve',
+    locale: 'en-US',
+    title: 'Versicle after the Hail, Holy Queen',
+    lines: [
+      'Pray for us, O holy Mother of God.',
+      'That we may be made worthy of the promises of Christ.',
+    ],
+    responseFrom: 1,
+    source: usccbPrayer('hail-holy-queen'),
+  },
+  {
+    id: 'oratio-litaniarum',
+    locale: 'en-US',
+    title: 'Prayer after the Litany',
+    lines: [
+      'Grant, we beseech thee, O Lord God,',
+      'that we, your servants, may enjoy perpetual health of mind and body;',
+      'and by the glorious intercession of the Blessed Mary, ever Virgin,',
+      'may be delivered from present sorrow, and obtain eternal joy.',
+      'Through Christ our Lord.',
+      'Amen.',
+    ],
+    source: usccbPrayer('litany-blessed-virgin-mary'),
   },
   {
     id: 'oratio-finalis',
@@ -124,7 +165,7 @@ export const englishPrayers: readonly PrayerText[] = [
       'through the same Christ our Lord.',
       'Amen.',
     ],
-    source: usccb,
+    source: usccbRosary,
   },
   {
     id: 'deus-in-adiutorium',
@@ -132,7 +173,7 @@ export const englishPrayers: readonly PrayerText[] = [
     title: 'O God, come to my assistance',
     lines: ['O God, come to my assistance.', 'O Lord, make haste to help me.'],
     responseFrom: 1,
-    source: usccb,
+    source: hours,
   },
   {
     id: 'sub-tuum',
@@ -144,7 +185,7 @@ export const englishPrayers: readonly PrayerText[] = [
       'but deliver us always from all dangers,',
       'O glorious and blessed Virgin.',
     ],
-    source: usccb,
+    source: usccbPrayer('sub-tuum-praesidium-your-protection'),
   },
   {
     id: 'sancte-michael',
@@ -159,6 +200,6 @@ export const englishPrayers: readonly PrayerText[] = [
       'who prowl about the world seeking the ruin of souls.',
       'Amen.',
     ],
-    source: usccb,
+    source: usccbPrayer('prayer-saint-michael-archangel'),
   },
 ] as const;
