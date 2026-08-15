@@ -202,3 +202,19 @@ describe('litany of Loreto', () => {
     expect(agnus.map((line) => line.response)).toEqual(['parce', 'exaudi', 'miserere']);
   });
 });
+
+describe('sources', () => {
+  it('does not attribute regional texts to the Compendium', () => {
+    // The Spanish closing prayer we ship is the traditional Spain and Mexico form, not the one the
+    // Compendium publishes. Attributing it to the Compendium was a real bug.
+    const closing = findPrayer('oratio-finalis', 'es-MX');
+    expect(closing?.lines[0]).toContain('Unigénito');
+    expect(closing?.source.name).not.toContain('Compendio');
+  });
+
+  it('points every source at a URL', () => {
+    for (const prayer of prayers) {
+      expect(prayer.source.url, `${prayer.id} (${prayer.locale})`).toBeDefined();
+    }
+  });
+});

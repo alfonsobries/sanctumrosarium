@@ -6,7 +6,7 @@ const compendium = {
 } as const;
 
 const traditionalSpanish = {
-  name: 'Oraciones tradicionales del Rosario en español (dominicos.org)',
+  name: 'Oraciones tradicionales del Rosario en español, forma de España y México (dominicos.org)',
   url: 'https://www.dominicos.org/',
 } as const;
 
@@ -146,7 +146,7 @@ export function spanishCommonPrayers(
         'Por Jesucristo, nuestro Señor.',
         'Amén.',
       ],
-      source: compendium,
+      source: traditionalSpanish,
     },
     {
       id: 'sub-tuum',
