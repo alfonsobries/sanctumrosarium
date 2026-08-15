@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "astro": "^7.2.2",
-    "@rosario/content": "workspace:*"
+    "@rosario/content": "workspace:*",
+    "@rosario/engine": "workspace:*"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",

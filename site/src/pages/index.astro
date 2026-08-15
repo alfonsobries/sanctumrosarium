@@ -1,17 +1,18 @@
 ---
+import { mysteriesOfDay, mysteriesOfSet } from '@rosario/engine';
 
+import Base from '../layouts/Base.astro';
+import Today from '../components/Today.astro';
+import { t } from '../i18n/ui';
+
+const translate = t('es');
+const today = mysteriesOfDay(new Date());
+const mysteries = mysteriesOfSet(today.set);
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
-  </head>
-  <body>
-    <h1>Astro</h1>
-  </body>
-</html>
+<Base language="es">
+  <h1>{translate('site.title')}</h1>
+  <p class="lead">{translate('home.lead')}</p>
+
+  <Today language="es" set={today.set} mysteries={mysteries} />
+</Base>

@@ -1,0 +1,43 @@
+---
+import type { Mystery, MysterySetId } from '@rosario/content';
+
+import { t, type UiLanguage } from '../i18n/ui';
+
+type Props = {
+  language: UiLanguage;
+  set: MysterySetId;
+  mysteries: readonly Mystery[];
+};
+
+const { language, set, mysteries } = Astro.props;
+const translate = t(language);
+const setKey = `sets.${set}` as const;
+---
+
+<section>
+  <h2>{translate('home.today')}: {translate(setKey)}</h2>
+  <ol>
+    {
+      mysteries.map((mystery) => (
+        <li>
+          {mystery.text[language].title} <span class="ref">{mystery.scriptureRef}</span>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  ol {
+    padding-left: 1.2em;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  .ref {
+    color: var(--muted);
+    font-size: 0.9em;
+  }
+</style>

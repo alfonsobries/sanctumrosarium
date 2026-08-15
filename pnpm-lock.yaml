@@ -127,6 +127,9 @@ importers:
       '@rosario/content':
         specifier: workspace:*
         version: link:../packages/content
+      '@rosario/engine':
+        specifier: workspace:*
+        version: link:../packages/engine
       astro:
         specifier: ^7.2.2
         version: 7.2.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(terser@5.50.0)(yaml@2.9.0)

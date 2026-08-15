@@ -1,0 +1,18 @@
+---
+import { mysteriesOfDay, mysteriesOfSet } from '@rosario/engine';
+
+import Base from '../../layouts/Base.astro';
+import Today from '../../components/Today.astro';
+import { t } from '../../i18n/ui';
+
+const translate = t('en');
+const today = mysteriesOfDay(new Date());
+const mysteries = mysteriesOfSet(today.set);
+---
+
+<Base language="en">
+  <h1>{translate('site.title')}</h1>
+  <p class="lead">{translate('home.lead')}</p>
+
+  <Today language="en" set={today.set} mysteries={mysteries} />
+</Base>
