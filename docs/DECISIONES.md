@@ -58,6 +58,11 @@ esfera del reloj a tamaño mínimo.
 
 ## 3. Modelo económico
 
+**Decidido en parte:** dentro de la app, la propina se llama "Apoya el desarrollo", nunca
+"Donar": la guideline 3.2.2(iv) prohíbe recaudar dentro de la app para causas, y en una
+app de Rosario un botón "Donar" se lee así. Detalle en
+[`referencias/tecnica/stack.md`](./referencias/tecnica/stack.md).
+
 **Recomendación (y la inclinación actual): gratis y completa, con donativos.** Sin
 anuncios, sin paywall en el Rosario, sin funciones espirituales de pago. Propina dentro de
 la app donde las tiendas lo permitan, y donativo en el sitio.
@@ -184,4 +189,19 @@ app comparten dominio. Afecta a los identificadores de la app, que después no s
 
 ## Decidido
 
-_(Vacío por ahora. Cada decisión cerrada baja aquí con fecha y una línea de razón.)_
+**Stack de la app (agosto 2026).** Cerrado con la investigación de
+[`referencias/tecnica/`](./referencias/tecnica/): Expo SDK 57 con expo-audio, StyleSheet
+con tokens propios, expo-sqlite, i18next con el polyfill de plurales, Maestro para las
+pruebas de punta a punta. Razón: es lo que sostiene una app pequeña con diseño cuidado sin
+apostar por piezas que llevan meses en preview. Detalle en
+[`../.agents/stack.md`](../.agents/stack.md).
+
+**Cómo se sintetiza el latín (agosto 2026).** Con voz italiana y el texto corregido
+fonéticamente, porque el "latín" de los sintetizadores ya es literalmente la voz italiana.
+Para el audio de producción, voz humana. Razón y evidencia en
+[`referencias/tecnica/voces.md`](./referencias/tecnica/voces.md).
+
+**El sitio no permite rezar con la pantalla apagada (agosto 2026).** Dos fallos abiertos
+de WebKit describen exactamente ese caso y uno se reporta como fallo del 100% de las
+veces. El sitio tendrá un Rosario de texto con la pantalla mantenida encendida, y la app
+hace lo demás.

@@ -1,26 +1,36 @@
-# Referencias
+# Referencias técnicas
 
-Corpus para anclar las decisiones del producto. **Es material de consulta, no
-convenciones.**
+Lo verificado sobre la plataforma, con fecha y fuente. Sirve para dos cosas: elegir con
+datos y **saber de antemano qué puede no funcionar**.
 
-Cada afirmación aquí se leyó en su fuente o está marcada como no verificada. Lo que no
-está anclado no entra al producto.
+| Documento                                        | Qué cubre                                                                                        |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| [`apple-watch.md`](./apple-watch.md)             | Target de watchOS con Expo, audio independiente, háptica, sesiones de ejercicio, complicaciones  |
+| [`audio.md`](./audio.md)                         | Reproducción, segundo plano, formato, encadenado de clips, sincronización del texto con el audio |
+| [`voces.md`](./voces.md)                         | Síntesis de voz, latín eclesiástico, licencias y costo de locución humana                        |
+| [`stack.md`](./stack.md)                         | Monorepo, estilos, datos locales, idiomas, notificaciones, widgets, salud, pruebas, propinas     |
+| [`sitio-y-licencias.md`](./sitio-y-licencias.md) | Astro, rezar en el navegador, donativos web, licencias de contenido y accesibilidad              |
 
-| Documento                                                      | Qué contiene                                                                                                                                                                             |
-| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`rosario-doctrina.md`](./rosario-doctrina.md)                 | Magisterio, historia, estructura del rezo y variantes regionales, los veinte misterios, textos completos en latín, español e inglés, indulgencias y sus condiciones, devociones hermanas |
-| [`ripperger-y-gamificacion.md`](./ripperger-y-gamificacion.md) | Qué enseña la tradición sobre contar oraciones, y la crítica seria a las apps que gamifican la oración, con los principios que salen de ahí                                              |
-| [`tecnica/`](./tecnica/)                                       | Lo verificado sobre la plataforma: qué funciona, qué no y qué está por confirmar                                                                                                         |
+## Lo que decidió esta investigación
 
-## Cómo se usa
+- **El latín se sintetiza con voz italiana**, porque el "latín" de los sintetizadores ya
+  es eso literalmente. Y para el audio de verdad, voz humana voluntaria: un locutor
+  comercial tampoco sabe pronunciar latín litúrgico.
+- **No se reza en el navegador con la pantalla apagada.** Hay dos fallos abiertos de
+  WebKit que describen exactamente ese caso.
+- **Las marcas de tiempo del resaltado salen gratis del sintetizador**, así que no hace
+  falta alineación forzada salvo con voz humana.
+- **El monorepo necesita mucha menos configuración** de la que se creía: ya se aplicó.
+- **Nunca "Donar" en la app: "Apoya el desarrollo".** El mecanismo es legal; lo que se
+  juzga es el marco narrativo.
 
-- Antes de escribir cualquier texto litúrgico: `rosario-doctrina.md`, secciones C.1 a C.4.
-- Antes de diseñar cualquier métrica o progresión: `ripperger-y-gamificacion.md`, sección
-  2.4.
-- Antes de tocar el reloj, el audio o el stack: `tecnica/`.
+## Lo que sigue sin verificarse
 
-## Qué falta
+Cada documento termina con lo suyo. Lo que más urge, por orden:
 
-`rosario-doctrina.md` termina con su propia lista de pendientes (texto latino de
-Consueverunt, oraciones exactas de la novena de 54 días, fuente oficial portuguesa, entre
-otros). Se cierran cuando su contenido haga falta, no antes.
+1. **La latencia real entre clips de audio.** Es lo único que puede invalidar la
+   arquitectura de reproducción, y no hay ninguna cifra publicada.
+2. **Reproducir y escuchar a la vez** para el modo a dos voces: es el riesgo número uno
+   del proyecto y se prototipa el primer día.
+3. **Qué traducción bíblica se usa por idioma**, con su licencia (decisión 10).
+4. **Calidad auditiva real del latín sintetizado**: nadie escuchó nada todavía.
