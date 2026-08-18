@@ -16,13 +16,14 @@ Dos direcciones posibles:
 - **Cálida y cercana.** Color suave, formas redondeadas, sensación de casa y de rezo en
   familia. Riesgo: infantil o genérica.
 
-**Propuesta viva en el sitio.** El chrome es claro y oscuro, neutros (tinta y piedra, no
-crema). El metal del medallón cambia con el tema: pizarra en claro, peltre en oscuro. El
-SVG usa `currentColor` para poder probar otro metal cambiando `--mark`. El crema, si entra,
-es papel del rezo, no la marca.
+**Propuesta viva en el sitio.** Noche primero: fondo azul tinta (se reza de noche), texto
+marfil, y el rosa cobrizo del medallón como único acento. El modo claro es piedra fría, no
+crema. Tipografía Alegreya (títulos y oraciones), Alegreya Sans (interfaz) y Alegreya SC
+(rúbricas en versalitas), servidas desde el propio sitio. La firma visual es la corona: el
+rosario dibujado con la secuencia real del motor, cuenta por cuenta.
 
-Símbolo: el medallón (María, doce estrellas, cuentas, cruz). Falta verlo a tamaño de
-icono en la esfera del reloj.
+Símbolo: el medallón (María, doce estrellas, cuentas, cruz). Falta verlo a tamaño de icono
+en la esfera del reloj.
 
 ## 3. Modelo económico
 
@@ -158,10 +159,10 @@ Con qué cuenta de desarrollador se publica y si hay una entidad detrás. El dom
 
 ## Decidido
 
-**Nombre (agosto 2026).** SanctaMaria. Dominio: [sanctamaria.app](https://sanctamaria.app).
-Sale de la Avemaría: *Sancta Maria, Mater Dei*. Una palabra latina y mariana, sin
-"Rosary". Antes de publicar el repositorio se renombran `@rosario/content`,
-`@rosario/engine` y la carpeta del repo.
+**Nombre (agosto 2026).** SanctaMaria. Dominio:
+[sanctamaria.app](https://sanctamaria.app). Sale de la Avemaría: _Sancta Maria, Mater
+Dei_. Una palabra latina y mariana, sin "Rosary". Antes de publicar el repositorio se
+renombran `@rosario/content`, `@rosario/engine` y la carpeta del repo.
 
 **Stack de la app (agosto 2026).** Cerrado con la investigación de
 [`referencias/tecnica/`](./referencias/tecnica/): Expo SDK 57 con expo-audio, StyleSheet
