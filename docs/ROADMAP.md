@@ -6,8 +6,8 @@
 
 **Cómo leer este plan.** Las tasks están numeradas para leerse en orden y **sin huecos**.
 El número dice posición y el slug dice identidad: si el orden cambia, se renumera para
-conservar la regla. Las tasks de los bloques lejanos se escriben cuando se acercan;
-mientras tanto viven aquí como una línea.
+conservar la regla. Las 47 tienen spec. Las lejanas se reabren contra el código cuando
+llegue su turno: son specs, no ley.
 
 ## Modelo mental
 
@@ -95,12 +95,12 @@ Aplican a toda pantalla, sin que la task lo pida:
 
 ### Bloque C - Latín (fase 3)
 
-| #   | Task              | Qué es                                                         |
-| --- | ----------------- | -------------------------------------------------------------- |
-| 021 | Textos en latín   | Todas las oraciones y las letanías lauretanas completas        |
-| 022 | Audio en latín    | Pronunciación eclesiástica, voz humana                         |
-| 023 | Texto bilingüe    | Latín y lengua propia alineados línea a línea                  |
-| 024 | Aprender el latín | De escuchar a responder de memoria, con el texto que se atenúa |
+| #   | Task                                                  | Qué es                                                         |
+| --- | ----------------------------------------------------- | -------------------------------------------------------------- |
+| 021 | [Textos en latín](./tasks/021-textos-en-latin.md)     | Todas las oraciones y las letanías lauretanas completas        |
+| 022 | [Audio en latín](./tasks/022-audio-en-latin.md)       | Pronunciación eclesiástica, voz humana                         |
+| 023 | [Texto bilingüe](./tasks/023-texto-bilingue.md)       | Latín y lengua propia alineados línea a línea                  |
+| 024 | [Aprender el latín](./tasks/024-aprender-el-latin.md) | De escuchar a responder de memoria, con el texto que se atenúa |
 
 ### Bloque D - Constancia (fase 4)
 
@@ -115,47 +115,46 @@ Aplican a toda pantalla, sin que la task lo pida:
 
 ### Bloque E - El Camino (fase 5)
 
-| #   | Task                | Qué es                                                    |
-| --- | ------------------- | --------------------------------------------------------- |
-| 031 | Motor del Camino    | Las ocho etapas y su avance                               |
-| 032 | Meditar             | Lectura de la Palabra y silencio configurable             |
-| 033 | Cláusulas           | Frase del misterio tras el nombre de Jesús                |
-| 034 | Escuela del Rosario | Historia, magisterio, promesas e indulgencias, con fuente |
+| #   | Task                                                      | Qué es                                                    |
+| --- | --------------------------------------------------------- | --------------------------------------------------------- |
+| 031 | [Motor del Camino](./tasks/031-motor-del-camino.md)       | Las ocho etapas y su avance                               |
+| 032 | [Meditar](./tasks/032-meditar.md)                         | Lectura de la Palabra y silencio configurable             |
+| 033 | [Cláusulas](./tasks/033-clausulas.md)                     | Frase del misterio tras el nombre de Jesús                |
+| 034 | [Escuela del Rosario](./tasks/034-escuela-del-rosario.md) | Historia, magisterio, promesas e indulgencias, con fuente |
 
 ### Bloque F - Recogimiento (fase 6)
 
-| #   | Task                    | Qué es                                                          |
-| --- | ----------------------- | --------------------------------------------------------------- |
-| 035 | Ritmo y pausas          | Tiempos por Ave, pausas dentro de la oración, silencio          |
-| 036 | Imagen del misterio     | Arte sacro a pantalla completa, con su ficha                    |
-| 037 | Señales de recogimiento | Interrupciones y ritmo: privado, opcional, sin puntaje          |
-| 038 | Salud                   | Corazón y variabilidad desde el reloj; sesión de atención plena |
+| #   | Task                                                              | Qué es                                                          |
+| --- | ----------------------------------------------------------------- | --------------------------------------------------------------- |
+| 035 | [Ritmo y pausas](./tasks/035-ritmo-y-pausas.md)                   | Tiempos por Ave, pausas dentro de la oración, silencio          |
+| 036 | [Imagen del misterio](./tasks/036-imagen-del-misterio.md)         | Arte sacro a pantalla completa, con su ficha                    |
+| 037 | [Señales de recogimiento](./tasks/037-senales-de-recogimiento.md) | Interrupciones y ritmo: privado, opcional, sin puntaje          |
+| 038 | [Salud](./tasks/038-salud.md)                                     | Corazón y variabilidad desde el reloj; sesión de atención plena |
 
 ### Bloque G - En familia (fase 7)
 
-| #   | Task            | Qué es                                          |
-| --- | --------------- | ----------------------------------------------- |
-| 039 | A dos coros     | La app hace de guía o de respuesta, en voz alta |
-| 040 | Modo niños      | Menos texto, imágenes grandes, decena suelta    |
-| 041 | Rezo compartido | Varias personas en la misma casa                |
+| #   | Task                                              | Qué es                                          |
+| --- | ------------------------------------------------- | ----------------------------------------------- |
+| 039 | [A dos coros](./tasks/039-a-dos-coros.md)         | La app hace de guía o de respuesta, en voz alta |
+| 040 | [Modo niños](./tasks/040-modo-ninos.md)           | Menos texto, imágenes grandes, decena suelta    |
+| 041 | [Rezo compartido](./tasks/041-rezo-compartido.md) | Varias personas en la misma casa                |
 
 ### Bloque H - Después
 
-| #   | Task                      | Qué es                                                       |
-| --- | ------------------------- | ------------------------------------------------------------ |
-| 042 | Idiomas nuevos            | Italiano, portugués, francés, polaco, alemán y sus variantes |
-| 043 | Letanías                  | Lauretanas completas, rezadas y cantadas                     |
-| 044 | Novena de 54 días         | Estructura propia, con su contador                           |
-| 045 | Coronilla y Siete Dolores | Devociones hermanas, nunca mezcladas con el Rosario          |
-| 046 | Cofradía del Rosario      | Regla semanal de quince decenas e inscripción                |
-| 047 | Rezar a la vez            | Cuántos rezan ahora, sin nombres ni ranking                  |
+| #   | Task                                                                  | Qué es                                                       |
+| --- | --------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 042 | [Idiomas nuevos](./tasks/042-idiomas-nuevos.md)                       | Italiano, portugués, francés, polaco, alemán y sus variantes |
+| 043 | [Letanías](./tasks/043-letanias.md)                                   | Lauretanas completas, rezadas y cantadas                     |
+| 044 | [Novena de 54 días](./tasks/044-novena-de-54-dias.md)                 | Estructura propia, con su contador                           |
+| 045 | [Coronilla y Siete Dolores](./tasks/045-coronilla-y-siete-dolores.md) | Devociones hermanas, nunca mezcladas con el Rosario          |
+| 046 | [Cofradía del Rosario](./tasks/046-cofradia-del-rosario.md)           | Regla semanal de quince decenas e inscripción                |
+| 047 | [Rezar a la vez](./tasks/047-rezar-a-la-vez.md)                       | Cuántos rezan ahora, sin nombres ni ranking                  |
 
 ## Estado
 
-Las tasks 001 a 005 tienen una primera pasada: el contenido litúrgico en cuatro idiomas y
-cuatro formas regionales, el calendario y el motor, con 57 pruebas. La 007 tiene un
-andamio de dos pantallas que demuestra que el motor llega a la app. Cada task anota al
-final qué quedó hecho y qué falta: ninguna está cerrada.
+Las 47 tasks tienen spec. Contenido, calendario y motor están levantados, con pruebas. La
+app tiene un andamio de rezo (forma mexicana). El sitio lista los misterios. Ninguna task
+está cerrada. Criterio y orden para retomar: [`propuesta.md`](./propuesta.md).
 
 ## Principios de ejecución
 

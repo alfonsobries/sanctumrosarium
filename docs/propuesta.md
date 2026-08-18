@@ -136,8 +136,8 @@ pecado."
 
 **Analítica.** Ninguna de comportamiento. Solo errores.
 
-**Cuenta de publicación.** Abierta. Bloquea identificadores. Hay que cerrarla antes de la
-014.
+**Cuenta de publicación.** Abierta. Bloquea identificadores. Hay que cerrarla antes de
+la 014.
 
 ### Stack
 
