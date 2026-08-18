@@ -76,7 +76,10 @@ const footerNav: { name: PathName; key: UiKey }[] = [
       content={description ?? translate('site.description')}
     />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL('/icon.png', site).href} />
+    <meta property="og:image" content={new URL('/og.png', site).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:locale" content={language === 'es' ? 'es_MX' : 'en_US'} />
     <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#eceef1" media="(prefers-color-scheme: light)" />
