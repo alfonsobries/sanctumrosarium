@@ -1,8 +1,9 @@
 # Proyecto
 
-App móvil y sitio web para rezar el Santo Rosario: multiidioma (español, inglés y latín),
-con audio, Apple Watch y una progresión que ayuda a la constancia sin gamificar la
-oración. Fidelidad total a lo que la Iglesia católica enseña.
+SanctaMaria: app móvil y sitio web para rezar el Santo Rosario. Multiidioma (español,
+inglés y latín), con audio, Apple Watch y una progresión que ayuda a la constancia sin
+gamificar la oración. Fidelidad total a lo que la Iglesia católica enseña. Dominio:
+sanctamaria.app.
 
 Monorepo con pnpm:
 
@@ -32,7 +33,8 @@ Si no está ahí ni en una fuente citable, no entra.
 - Antes de implementar una task: leerla completa en `docs/tasks/` y auditar su alcance
   contra el código actual.
 - Stack y versiones: `.agents/stack.md`. Comandos: `.agents/commands.md`.
-- Lo que falta decidir (nombre, identidad, modelo económico, voces): `docs/DECISIONES.md`.
+- Lo que falta decidir (identidad, modelo económico, voces): `docs/DECISIONES.md`.
+- Para retomar el proyecto: `docs/propuesta.md` (estado, huecos, criterio y orden).
 
 ## Plan de producto
 

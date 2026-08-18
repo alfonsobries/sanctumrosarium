@@ -14,8 +14,9 @@ La ficha de la tienda es donde se decide si alguien la instala. En este nicho la
 mueren por abandono y por bugs, así que la ficha promete poco y cumple: el Rosario
 completo, gratis, sin anuncios, sin cuenta, offline.
 
-El nombre y la identidad son las decisiones 1 y 2 de
-[`../DECISIONES.md`](../DECISIONES.md), y bloquean esta task entera.
+El nombre es SanctaMaria (`sanctamaria.app`). La identidad (decisión 2 de
+[`../DECISIONES.md`](../DECISIONES.md)) y la cuenta de publicación (decisión 15) bloquean
+esta task.
 
 ## Qué construir
 

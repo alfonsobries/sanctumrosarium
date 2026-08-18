@@ -1,5 +1,10 @@
 # Nombres y branding
 
+**Elegido: SanctaMaria.** Dominio: `sanctamaria.app`. De la Avemaría: *Sancta Maria, Mater
+Dei*.
+
+El resto de este archivo es el barrido que se hizo antes de cerrar.
+
 ## Nombres ya usados (evitar)
 
 Hallow, Amen, Laudate, iRosary, iRosary Classic, Rosarium (Crown), Rosarium Pro, Rosarium
@@ -25,7 +30,7 @@ reconfirmar en registrador.
 | --- | --------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------- |
 | 1   | **Decena**      | Una decena = unidad del rosario; ES/EN/IT          | decena.app **registrado**, decena.com registrado, decena.co libre, getdecena.com libre | Corta, sonora, "reza una decena" es el CTA natural, cabe en Watch | .app tomado; en México "decena" no evoca lo religioso a primera vista |
 | 2   | **Decenas**     | Plural                                             | decenas.app libre                                                                      | Libre en .app                                                     | Menos "marca" que el singular                                         |
-| 3   | **Decenario**   | Nombre real del rosario de 10 cuentas / anillo     | decenario.app libre, .com registrado                                                   | Palabra litúrgica auténtica, ES/IT                                | Larga; poco conocida en inglés                                        |
+| 3   | **Decenario**   | Nombre real del rosario de 10 cuentas / anillo     | **decenar.io libre** (se lee "Decenario"); decenario.app por confirmar; .com tomado    | Palabra litúrgica auténtica, ES/IT; dominio que se dice entero    | Larga; poco conocida en inglés; `.io` suena a tech                    |
 | 4   | **Quindecim**   | "Quince" (15 misterios clásicos, 15 promesas)      | quindecim.app libre, .com registrado                                                   | Latín puro, único, historia detrás                                | Difícil para anglos; hay 20 misterios ahora                           |
 | 5   | **Gaudete**     | "Alegraos" (misterios gozosos, domingo Gaudete)    | gaudete.app libre, .com registrado                                                     | Alegre, latín conocido, se pronuncia bien                         | Solo evoca un misterio; ya usado por coros/parroquias                 |
 | 6   | **Salve**       | Antífona final del rosario                         | salve.app registrado, salveregina.app libre                                            | Universal, cierra el rosario                                      | salve.app tomado; "Salve" solo es genérico                            |
@@ -39,7 +44,5 @@ reconfirmar en registrador.
 | 14  | **Rosary Flow** | Rosario + flujo/foco                               | rosaryflow.app libre, .com libre                                                       | Comunica el ángulo de foco                                        | Genérico, "flow" suena secular, en ES no funciona                     |
 | 15  | **Beadwise**    | Cuentas + sabiduría                                | beadwise.app libre                                                                     | Evoca progresión/aprendizaje                                      | Sin raíz mariana; solo inglés                                         |
 
-Shortlist sugerida: **Decena/Decenas**, **Decenario**, **Gaudete**, **Quindecim**,
-**Misteria**. Todos permiten submarca latina ("Decena · Rosarium") y funcionan en el
-Watch. Descartar "Rosarium" (3 apps ya) y "Salve" (.app tomado, genérico). La decisión
-vive en `docs/DECISIONES.md`.
+Shortlist que se barajó: **Decena/Decenas**, **Decenario**, **Gaudete**, **Quindecim**,
+**Misteria**. Descartar "Rosarium" (3 apps ya) y "Salve" (.app tomado, genérico).

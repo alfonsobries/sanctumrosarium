@@ -1,11 +1,10 @@
-# El Rosario
+# SanctaMaria
 
 App móvil y sitio web para rezar el Santo Rosario: español, inglés y latín, con audio,
 Apple Watch y una progresión pensada para la constancia, no para el enganche. Fiel a lo
 que la Iglesia católica enseña.
 
-> El nombre del producto todavía no está decidido. Ver
-> [`docs/DECISIONES.md`](docs/DECISIONES.md).
+Dominio: [sanctamaria.app](https://sanctamaria.app).
 
 ## Estructura
 

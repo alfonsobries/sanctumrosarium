@@ -1,7 +1,7 @@
 # Plan de producto
 
-> El nombre del producto todavía no está decidido. Mientras tanto, los documentos hablan
-> de "la app" y "el sitio". Candidatos y criterio: [`DECISIONES.md`](./DECISIONES.md).
+SanctaMaria: app y sitio para rezar el Rosario. Dominio:
+[sanctamaria.app](https://sanctamaria.app).
 
 ## Visión
 

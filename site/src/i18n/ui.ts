@@ -8,7 +8,7 @@ export type UiLanguage = keyof typeof languages;
  */
 export const ui = {
   es: {
-    'site.title': 'El Rosario',
+    'site.title': 'SanctaMaria',
     'site.description':
       'Cómo se reza el Santo Rosario, misterio por misterio, con los textos de cada región.',
     'nav.how': 'Cómo se reza',
@@ -28,7 +28,7 @@ export const ui = {
     'sets.gloriosa': 'Gloriosos',
   },
   en: {
-    'site.title': 'The Rosary',
+    'site.title': 'SanctaMaria',
     'site.description':
       'How the Holy Rosary is prayed, mystery by mystery, with the texts of each region.',
     'nav.how': 'How to pray it',

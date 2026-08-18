@@ -4,39 +4,6 @@ Lo que falta decidir para que el proyecto avance, con opciones, recomendación y
 bloquea cada una. Cuando una se cierra, se mueve a "Decidido" al final con su fecha y su
 razón.
 
-## 1. Nombre del producto
-
-**Bloquea:** repositorio en GitHub, dominio, identificador de la app en las tiendas,
-icono, todo el copy del sitio.
-
-Los nombres ya usados y el análisis completo están en
-[`../competencia/nombres.md`](../competencia/nombres.md). El nicho está saturado de
-"Rosary / Rosario / Rosarium" con adjetivo; los nombres nuevos que funcionan son de una
-palabra, latina o mariana (Hallow, Amen, Memorare, Contemplatio, Orabimus).
-
-Shortlist, con dominios verificados por RDAP en agosto 2026 (reconfirmar en el
-registrador):
-
-| Nombre        | Por qué                                                                   | Dominio                                                           |
-| ------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| **Decena**    | La unidad real del Rosario. Corta, cabe en el reloj, funciona en ES/EN/IT | decena.app y decena.com tomados; decena.co y getdecena.com libres |
-| **Decenario** | Palabra litúrgica auténtica (el rosario de diez cuentas)                  | decenario.app libre                                               |
-| **Gaudete**   | Latín reconocible, alegre, se pronuncia bien en cualquier idioma          | gaudete.app libre                                                 |
-| **Quindecim** | Los quince misterios clásicos y las quince promesas                       | quindecim.app libre                                               |
-| **Misteria**  | Evoca los misterios sin decir "rosario"                                   | misteria.app libre                                                |
-
-**Recomendación: Decena**, con `.co` o un dominio con prefijo, o **Decenario** si se
-quiere el `.app` limpio. Es la palabra que ya usa cualquiera que reza ("me falta una
-decena"), es corta para el reloj y la complicación, y no colisiona con ninguna app del
-nicho.
-
-**Pendiente además:** verificar colisión de marca en App Store y Play, y registrar el
-dominio antes de anunciar nada.
-
-**Lo que arrastra el nombre:** los paquetes del monorepo se llaman hoy `@rosario/content`
-y `@rosario/engine`, y el repositorio vive en `Projects/Rosario/rosario`. Los tres se
-renombran al cerrar esta decisión, antes de publicar el repositorio.
-
 ## 2. Identidad visual
 
 **Bloquea:** icono, splash, sitio, láminas de tienda.
@@ -182,12 +149,18 @@ saber si una pantalla se usa, se pregunta.
 
 ## 15. Cuenta de publicación
 
-Con qué cuenta de desarrollador se publica, si hay una entidad detrás, y si el sitio y la
-app comparten dominio. Afecta a los identificadores de la app, que después no se cambian.
+Con qué cuenta de desarrollador se publica y si hay una entidad detrás. El dominio ya es
+`sanctamaria.app` y lo comparten el sitio y la app. Afecta a los identificadores
+(`app.sanctamaria` o el bundle de la cuenta), que después no se cambian.
 
 ---
 
 ## Decidido
+
+**Nombre (agosto 2026).** SanctaMaria. Dominio: [sanctamaria.app](https://sanctamaria.app).
+Sale de la Avemaría: *Sancta Maria, Mater Dei*. Una palabra latina y mariana, sin
+"Rosary". Antes de publicar el repositorio se renombran `@rosario/content`,
+`@rosario/engine` y la carpeta del repo.
 
 **Stack de la app (agosto 2026).** Cerrado con la investigación de
 [`referencias/tecnica/`](./referencias/tecnica/): Expo SDK 57 con expo-audio, StyleSheet

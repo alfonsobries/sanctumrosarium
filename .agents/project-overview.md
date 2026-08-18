@@ -2,18 +2,15 @@
 
 ## Qué es
 
-Una app para rezar el Santo Rosario, en español, inglés y latín, con audio, Apple Watch y
-una progresión pensada para la constancia, no para el enganche. Y un sitio que enseña a
-rezarlo.
+SanctaMaria: una app para rezar el Santo Rosario, en español, inglés y latín, con audio,
+Apple Watch y una progresión pensada para la constancia, no para el enganche. Y un sitio
+que enseña a rezarlo. Dominio: sanctamaria.app.
 
 ## Estado
 
-Proyecto recién creado. Existe la estructura del monorepo, la investigación (doctrina,
-competencia, técnica) y el plan completo. Todavía no hay producto: la primera task es el
-paquete de contenido.
-
-El **nombre del producto no está decidido**; los documentos hablan de "la app" y "el
-sitio". Ver `docs/DECISIONES.md`.
+Hay investigación, plan (47 tasks) y una primera capa de producto: contenido y motor
+probados, andamio de rezo en la app, sitio con misterios. Ninguna task está cerrada. El
+orden para retomar está en `docs/propuesta.md`.
 
 ## Piezas
 
