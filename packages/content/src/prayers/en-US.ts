@@ -17,8 +17,8 @@ const usccbRosary = {
 } as const;
 
 const hours = {
-  name: 'Liturgia de las Horas, invitatorio (Sal 69,2)',
-  url: 'https://www.vatican.va/archive/ENG0015/__P9L.HTM',
+  name: 'Liturgy of the Hours invitatory (Ps 70:1). RVM 37 names this opening; the words are the psalm verse, not a Catechism paragraph.',
+  url: 'https://www.vatican.va/content/john-paul-ii/en/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html',
 } as const;
 
 export const englishPrayers: readonly PrayerText[] = [
