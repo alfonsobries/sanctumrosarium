@@ -23,3 +23,6 @@ auth.json
 # logs
 logs/
 *.log
+
+# Affinity lock files
+*~lock~
