@@ -1,28 +1,5 @@
 ---
-import { mysteries } from '@rosario/content';
-
-import Base from '../layouts/Base.astro';
-import MysterySet from '../components/MysterySet.astro';
-import { t } from '../i18n/ui';
-
-const translate = t('es');
-const sets = ['gaudiosa', 'luminosa', 'dolorosa', 'gloriosa'] as const;
+import MysteriesPage from '../components/MysteriesPage.astro';
 ---
 
-<Base language="es" current="mysteries" title={translate('mysteries.title')}>
-  <header class="page-head wrap">
-    <h1>{translate('mysteries.title')}</h1>
-    <p class="lead">{translate('mysteries.lead')}</p>
-  </header>
-  <div class="wrap prose">
-    {
-      sets.map((set) => (
-        <MysterySet
-          language="es"
-          set={set}
-          mysteries={mysteries.filter((mystery) => mystery.set === set)}
-        />
-      ))
-    }
-  </div>
-</Base>
+<MysteriesPage language="es" />

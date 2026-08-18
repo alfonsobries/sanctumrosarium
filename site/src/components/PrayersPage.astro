@@ -1,0 +1,191 @@
+---
+import { findPrayer, prayersFor, type Locale, type PrayerText } from '@rosario/content';
+import { buildRosary } from '@rosario/engine';
+
+import Base from '../layouts/Base.astro';
+import PrayerLines from './PrayerLines.astro';
+import { t, type UiLanguage } from '../i18n/ui';
+
+type Props = { language: UiLanguage };
+
+const { language } = Astro.props;
+const translate = t(language);
+
+const locales: Locale[] = language === 'es' ? ['es-MX', 'es-ES'] : ['en-US'];
+const primary = locales[0] ?? 'en-US';
+
+/** The prayers in the order the Rosary reaches them, then whatever else the locale has. */
+const inRosary = buildRosary({
+  form: language === 'es' ? 'es-MX' : 'roman',
+  locale: primary,
+  set: 'gaudiosa',
+  include: [
+    'ave-maria-purissima',
+    'actus-contritionis',
+    'oblatio',
+    'oratio-fatimae',
+    'oratio-litaniarum',
+    'sancte-michael',
+    'sub-tuum',
+    'oratio-pro-papa',
+  ],
+  withLitany: true,
+}).flatMap((step) => (step.kind === 'prayer' ? [step.prayer.id] : []));
+
+const byId = new Map<string, PrayerText>();
+for (const locale of locales) {
+  for (const prayer of prayersFor(locale)) {
+    if (!byId.has(prayer.id)) {
+      byId.set(prayer.id, prayer);
+    }
+  }
+}
+const order = [...new Set([...inRosary, ...byId.keys()])];
+const prayers = order.flatMap((id) => {
+  const prayer = byId.get(id);
+  return prayer ? [{ prayer, latin: findPrayer(prayer.id, 'la') }] : [];
+});
+---
+
+<Base
+  language={language}
+  current="prayers"
+  title={translate('prayers.title')}
+  description={translate('prayers.lead')}
+>
+  <div class="wrap">
+    <header class="page-head">
+      <h1>{translate('prayers.title')}</h1>
+      <p class="lead">{translate('prayers.lead')}</p>
+      <p class="mute hint">{translate('prayers.twoVoices')}</p>
+    </header>
+  </div>
+
+  <div class="wrap">
+    <nav class="jump" aria-label={translate('prayers.title')}>
+      {prayers.map(({ prayer }) => <a href={`#${prayer.id}`}>{prayer.title}</a>)}
+    </nav>
+
+    <div class="list">
+      {
+        prayers.map(({ prayer, latin }) => (
+          <section class="entry" id={prayer.id} aria-labelledby={`${prayer.id}-title`}>
+            <div class="entry-head">
+              <h2 id={`${prayer.id}-title`}>{prayer.title}</h2>
+              {latin ? (
+                <span class="latin-name" lang="la">
+                  {latin.title}
+                </span>
+              ) : null}
+            </div>
+            <div class="texts">
+              <PrayerLines prayer={prayer} lang={language} />
+              {latin ? (
+                <div class="latin">
+                  <span class="kicker">{translate('prayers.latin')}</span>
+                  <PrayerLines prayer={latin} lang="la" />
+                </div>
+              ) : null}
+            </div>
+            <p class="source">
+              {translate('prayers.source')}:{' '}
+              {prayer.source.url ? (
+                <a href={prayer.source.url} rel="noopener">
+                  {prayer.source.name}
+                </a>
+              ) : (
+                prayer.source.name
+              )}
+              {latin && latin.source.name !== prayer.source.name ? (
+                <>
+                  {' · '}
+                  {latin.source.url ? (
+                    <a href={latin.source.url} rel="noopener">
+                      {latin.source.name}
+                    </a>
+                  ) : (
+                    latin.source.name
+                  )}
+                </>
+              ) : null}
+            </p>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</Base>
+
+<style>
+  .hint {
+    margin-top: var(--space-2);
+    font-size: 1rem;
+  }
+
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    max-width: 60rem;
+    padding-bottom: var(--space-4);
+  }
+
+  .jump a {
+    color: var(--mute);
+    text-decoration: none;
+    font-size: 0.98rem;
+  }
+
+  .jump a:hover {
+    color: var(--ink);
+  }
+
+  .list {
+    max-width: 60rem;
+  }
+
+  .entry {
+    padding-block: var(--space-4);
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 90px;
+  }
+
+  .entry-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 16px;
+    margin-bottom: var(--space-3);
+  }
+
+  .entry-head h2 {
+    font-size: 1.7rem;
+  }
+
+  .latin-name {
+    color: var(--mute);
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+
+  .texts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  .latin .kicker {
+    margin-bottom: var(--space-1);
+  }
+
+  .entry .source {
+    margin-top: var(--space-3);
+  }
+
+  @media (max-width: 800px) {
+    .texts {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

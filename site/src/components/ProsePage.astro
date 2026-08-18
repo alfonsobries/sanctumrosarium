@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import { t, type UiKey, type UiLanguage } from '../i18n/ui';
+import type { PathName } from '../i18n/paths';
+
+/** A short page of plain paragraphs: privacy, support. */
+type Props = {
+  language: UiLanguage;
+  current: PathName;
+  title: UiKey;
+  lead: UiKey;
+  paragraphs: readonly UiKey[];
+  note?: UiKey;
+};
+
+const { language, current, title, lead, paragraphs, note } = Astro.props;
+const translate = t(language);
+---
+
+<Base
+  language={language}
+  current={current}
+  title={translate(title)}
+  description={translate(lead)}
+>
+  <article class="wrap">
+    <header class="page-head">
+      <h1>{translate(title)}</h1>
+      <p class="lead">{translate(lead)}</p>
+    </header>
+    <div class="prose">
+      {paragraphs.map((key) => <p>{translate(key)}</p>)}
+      {note ? <p class="mute note">{translate(note)}</p> : null}
+    </div>
+  </article>
+</Base>
+
+<style>
+  .note {
+    margin-top: var(--space-4);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--line);
+    font-size: 1rem;
+  }
+</style>

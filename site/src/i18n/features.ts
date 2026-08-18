@@ -6,6 +6,7 @@ export type FeatureItem = {
 };
 
 export type FeatureGroup = {
+  id: string;
   title: string;
   lead: string;
   items: readonly FeatureItem[];
@@ -14,186 +15,192 @@ export type FeatureGroup = {
 export const catalog: Record<UiLanguage, readonly FeatureGroup[]> = {
   es: [
     {
-      title: 'Rezar bien',
-      lead: 'El Rosario entero, en el teléfono, sin cuenta y sin red.',
+      id: 'rezar',
+      title: 'Rezar',
+      lead: 'El Rosario entero en el teléfono, sin cuenta y sin red.',
       items: [
         {
-          title: 'Motor del Rosario',
-          body: 'La secuencia completa: lo que abre, cinco misterios, lo que cierra. Se puede dejar a medias y seguir.',
+          title: 'La secuencia completa',
+          body: 'Lo que abre, cinco misterios, lo que cierra. Se puede dejar a medias y seguir después donde ibas.',
         },
         {
-          title: 'Misterio del día',
-          body: 'Según el día y el tiempo litúrgico. Si hoy quieres otro, lo eliges.',
+          title: 'El misterio del día',
+          body: 'Según el día de la semana y el tiempo litúrgico. Si hoy quieres otro ciclo, lo eliges.',
         },
         {
-          title: 'Textos por región',
-          body: 'Español de México, español de España, inglés. Cada uno con su forma real, no una traducción.',
+          title: 'La forma de tu región',
+          body: 'Español de México, español de España, inglés de Estados Unidos. Cada una con las oraciones que abren y cierran ahí.',
         },
         {
           title: 'Los veinte misterios',
-          body: 'Título, cita, fruto, meditación breve e imagen. El fruto es tradición catequética: se dice.',
+          body: 'Título, cita bíblica, fruto, una nota breve y una imagen. El fruto es tradición catequética, y la app lo dice.',
         },
         {
           title: 'Audio guía',
-          body: 'La voz dice la primera mitad y espera. La velocidad se ajusta.',
+          body: 'La voz dice la primera mitad y espera tu respuesta. La velocidad se ajusta.',
         },
         {
-          title: 'Resaltado',
-          body: 'El texto avanza con el audio, línea a línea.',
+          title: 'Texto resaltado',
+          body: 'El texto avanza con el audio, línea a línea, y se queda en la pantalla.',
         },
         {
           title: 'Avance por tacto',
-          body: 'Un toque en cualquier parte, un desliz, o que corra solo.',
+          body: 'Un toque en cualquier parte de la pantalla, un desliz, o que corra solo con el audio.',
         },
         {
           title: 'Pantalla apagada',
-          body: 'Audio y háptica a oscuras.',
+          body: 'El audio y la háptica siguen a oscuras y con el teléfono en el bolsillo.',
         },
         {
-          title: 'Offline',
-          body: 'Textos y audio van en el aparato. Nada pide red para rezar.',
+          title: 'Sin conexión',
+          body: 'Textos y audio viven en el aparato. Rezar nunca pide red.',
         },
         {
           title: 'Oraciones opcionales',
-          body: 'Fátima, Salve, letanías, san Miguel, ofrecimiento, intención. Cada una es un ajuste.',
+          body: 'La oración de Fátima, la Salve, las letanías, san Miguel, el ofrecimiento, la intención. Cada una se enciende o se apaga.',
         },
       ],
     },
     {
-      title: 'En movimiento',
-      lead: 'Correr, caminar, manejar. El reloj basta.',
+      id: 'reloj',
+      title: 'En el reloj',
+      lead: 'Correr, caminar, manejar. El Apple Watch basta.',
       items: [
         {
-          title: 'Apple Watch',
-          body: 'El Rosario completo en el reloj, con su propia pantalla.',
+          title: 'El Rosario completo',
+          body: 'La app del reloj reza el Rosario entero, con su propia pantalla, sin el teléfono cerca.',
         },
         {
           title: 'Audio en el reloj',
-          body: 'Suena en los auriculares sin el teléfono cerca.',
+          body: 'La voz suena en los auriculares conectados al reloj.',
         },
         {
           title: 'Háptica por cuenta',
-          body: 'Un toque distinto para el Ave, el Padrenuestro y el Gloria.',
+          body: 'Un toque distinto en la muñeca para el Ave, el Padrenuestro y el Gloria. Se sabe dónde vas sin mirar.',
         },
         {
-          title: 'Corona',
-          body: 'Las cuentas se pasan girando la Digital Crown.',
+          title: 'La corona',
+          body: 'Las cuentas se pasan girando la Digital Crown, con un detente en cada una.',
         },
         {
-          title: 'Al correr',
-          body: 'Una sesión de ejercicio mantiene el reloj despierto.',
+          title: 'Al hacer ejercicio',
+          body: 'Una sesión de ejercicio mantiene el reloj despierto mientras rezas.',
         },
         {
           title: 'Complicación',
-          body: 'El misterio del día en la esfera. Empezar en un toque.',
+          body: 'El misterio del día en la esfera. Empezar es un toque.',
         },
         {
-          title: 'Pantalla de bloqueo',
-          body: 'Pausar y avanzar desde los auriculares, el bloqueo y el coche.',
+          title: 'Controles del sistema',
+          body: 'Pausar y avanzar desde los auriculares, la pantalla de bloqueo y el coche.',
         },
         {
           title: 'Widget',
-          body: 'Misterio del día en la pantalla de inicio del iPhone.',
+          body: 'El misterio del día en la pantalla de inicio del iPhone.',
         },
       ],
     },
     {
+      id: 'latin',
       title: 'Latín',
-      lead: 'Rezarlo de verdad, y aprenderlo si no se sabe.',
+      lead: 'Rezarlo, y aprenderlo si todavía no se sabe.',
       items: [
         {
-          title: 'Textos',
-          body: 'Todas las oraciones, incluidas las letanías lauretanas.',
+          title: 'Todos los textos',
+          body: 'Todas las oraciones del Rosario en latín, incluidas las letanías lauretanas.',
         },
         {
           title: 'Audio',
-          body: 'Pronunciación eclesiástica, rezada, no recitada de prisa.',
+          body: 'Pronunciación eclesiástica, rezada con calma.',
         },
         {
           title: 'Bilingüe',
-          body: 'Latín y tu idioma, alineados línea a línea.',
+          body: 'Latín y tu idioma alineados línea a línea, para seguirlo sin perderse.',
         },
         {
           title: 'Aprender',
-          body: 'De escuchar, a responder leyendo, a responder de memoria. El texto se apaga.',
+          body: 'Primero escuchas. Después respondes leyendo. Después respondes de memoria, y el texto se apaga.',
         },
         {
           title: 'Canto',
-          body: 'Salve Regina y letanías cantadas.',
+          body: 'La Salve Regina y las letanías, también cantadas.',
         },
         {
           title: 'Mezcla',
-          body: 'Unas oraciones en latín y otras en tu lengua.',
+          body: 'Unas oraciones en latín y otras en tu lengua, como prefieras.',
         },
       ],
     },
     {
+      id: 'constancia',
       title: 'Constancia',
       lead: 'Que la costumbre se sostenga, sin culpa.',
       items: [
         {
           title: 'La Regla',
-          body: 'Una norma tuya, editable, que no obliga bajo pecado.',
+          body: 'Una norma tuya: una decena, cinco, el Rosario completo o quince decenas a la semana. Se edita cuando quieras y no obliga bajo pecado.',
         },
         {
-          title: 'Calendario del mes',
-          body: 'Días fieles. Los huecos no se dramatizan. Se pueden ver los meses anteriores.',
+          title: 'El calendario del mes',
+          body: 'Los días fieles a tu Regla, y los meses anteriores. Los huecos quedan en blanco.',
         },
         {
           title: 'Pausa',
-          body: 'Enfermedad, viaje, luto. El mes no se llena de huecos ni pide explicación.',
+          body: 'Enfermedad, viaje, luto. El mes se pausa sin pedir explicaciones.',
         },
         {
           title: 'Recordatorio',
-          body: 'Uno, a tu hora. O el modelo del Ángelus.',
+          body: 'Uno al día, a la hora que elijas. O a las horas del Ángelus.',
         },
         {
           title: 'Intenciones',
-          body: 'Por quién ofreces. Historial de intenciones, no de respuestas.',
+          body: 'Por quién ofreces cada Rosario, y el historial de intenciones.',
         },
         {
           title: 'Rosas del mes',
-          body: 'Una corona visual de lo rezado. Se puede apagar.',
+          body: 'Una corona visual de lo rezado en el mes. Se puede apagar.',
         },
         {
           title: 'Por partes',
-          body: 'Una decena ahora, el resto después. Con la nota sobre la indulgencia.',
+          body: 'Una decena ahora y el resto después, con la nota sobre lo que la indulgencia pide.',
         },
       ],
     },
     {
+      id: 'camino',
       title: 'El Camino',
-      lead: 'Enseñar a rezarlo mejor, no premiar por rezar más.',
+      lead: 'Una formación por etapas para rezarlo mejor.',
       items: [
         {
           title: 'Etapas',
-          body: 'Estructura, meditar, cláusulas, responder, latín, cantar, familia, completo.',
+          body: 'La estructura, meditar, las cláusulas, responder, el latín, cantar, en familia, el Rosario completo.',
         },
         {
           title: 'Lecturas breves',
-          body: 'Qué es cada parte y por qué, con fuente.',
+          body: 'Qué es cada parte y por qué se reza así, con su fuente.',
         },
         {
           title: 'Cláusulas',
-          body: 'La frase del misterio tras el nombre de Jesús. Fijas y bíblicas.',
+          body: 'La frase del misterio que se añade tras el nombre de Jesús en cada Ave. Fijas y bíblicas.',
         },
         {
           title: 'La Palabra',
-          body: 'El pasaje antes de cada decena, con un silencio que tú mides.',
+          body: 'El pasaje del misterio antes de cada decena, y un silencio que tú mides.',
         },
         {
           title: 'Escuela del Rosario',
-          body: 'Historia, magisterio, las promesas y su estatus, las indulgencias y sus condiciones.',
+          body: 'Historia, magisterio, las quince promesas y su estatus, las indulgencias y sus condiciones.',
         },
       ],
     },
     {
+      id: 'recogimiento',
       title: 'Recogimiento',
-      lead: 'Ayudar a la atención. Es lo que cuesta.',
+      lead: 'Ayudas para la atención, que es lo que cuesta.',
       items: [
         {
           title: 'Ritmo',
-          body: 'Tiempo por Ave, pausas dentro de la oración, silencio entre decenas.',
+          body: 'El tiempo de cada Ave, las pausas dentro de la oración y el silencio entre decenas.',
         },
         {
           title: 'Imagen del misterio',
@@ -201,11 +208,11 @@ export const catalog: Record<UiLanguage, readonly FeatureGroup[]> = {
         },
         {
           title: 'Señales',
-          body: 'Interrupciones y salidas de la app: privadas, opcionales, sin puntaje.',
+          body: 'La app puede anotar interrupciones y salidas. Es privado, opcional y sin puntaje.',
         },
         {
           title: 'Corazón',
-          body: 'Desde el reloj, con permiso. Se escribe como una sesión de atención. No es un examen.',
+          body: 'Desde el reloj, con permiso, la sesión se guarda en Salud como una sesión de atención.',
         },
         {
           title: 'Antes de empezar',
@@ -214,74 +221,78 @@ export const catalog: Record<UiLanguage, readonly FeatureGroup[]> = {
       ],
     },
     {
+      id: 'familia',
       title: 'En familia',
       lead: 'En voz alta, con niños, en la misma casa.',
       items: [
         {
           title: 'A dos coros',
-          body: 'La app hace de guía o de respuesta.',
+          body: 'La app hace de guía o de respuesta, según quién lleve la voz en casa.',
         },
         {
           title: 'Niños',
           body: 'Menos texto, imágenes grandes, una decena suelta.',
         },
         {
-          title: 'Varios a la vez',
-          body: 'Un aparato o varios, en la misma casa.',
+          title: 'Varios aparatos',
+          body: 'Rezar a la vez en la misma casa con uno o varios teléfonos.',
         },
         {
-          title: 'Por la familia',
-          body: 'Intenciones que se comparten en casa, sin perfiles.',
+          title: 'Intenciones de la casa',
+          body: 'Intenciones que se comparten en familia, sin perfiles.',
         },
       ],
     },
     {
+      id: 'idiomas',
       title: 'Idiomas',
       lead: 'Cada lengua trae su forma real de rezar.',
       items: [
         {
           title: 'Ahora',
-          body: 'Español de México, español de España, inglés de Estados Unidos, latín.',
+          body: 'Español de México, español de España, inglés de Estados Unidos y latín.',
         },
         {
           title: 'Después',
-          body: 'Italiano, portugués, francés, polaco, alemán. El alemán mete el misterio dentro del Ave. El polaco reza siempre Fátima.',
+          body: 'Italiano, portugués, francés, polaco y alemán, cada uno con su forma: el alemán mete el misterio dentro del Ave y el polaco reza siempre la oración de Fátima.',
         },
       ],
     },
     {
+      id: 'devociones',
       title: 'Devociones hermanas',
-      lead: 'Cada una con su nombre y su contador. Nunca mezcladas con el Rosario.',
+      lead: 'Cada una con su nombre y su contador, aparte del Rosario.',
       items: [
         {
           title: 'Letanías',
-          body: 'Lauretanas completas, también cantadas.',
+          body: 'Las letanías lauretanas completas, rezadas o cantadas.',
         },
         {
           title: 'Novena de 54 días',
-          body: 'Tres Rosarios diarios, veintisiete de petición y veintisiete de acción de gracias.',
+          body: 'Tres Rosarios diarios: veintisiete días de petición y veintisiete de acción de gracias.',
         },
         {
-          title: 'Coronilla',
-          body: 'La de la Divina Misericordia, aparte.',
+          title: 'Coronilla de la Divina Misericordia',
+          body: 'Con sus propias cuentas y su propio audio.',
         },
         {
           title: 'Siete Dolores',
-          body: 'La corona de los dolores de María, aparte.',
+          body: 'La corona de los dolores de María, con sus siete meditaciones.',
         },
         {
           title: 'Rosario perpetuo',
-          body: 'Una hora en la cadena, sin ranking.',
+          body: 'Tu hora en la cadena, con recordatorio.',
         },
         {
-          title: 'Cofradía',
-          body: 'Enlace a la inscripción de los dominicos. Quince decenas a la semana. No obliga bajo pecado. La app no dice que ya eres cofrade.',
+          title: 'Cofradía del Rosario',
+          body: 'Enlace a la inscripción con los dominicos y una Regla de quince decenas a la semana, que no obliga bajo pecado.',
         },
       ],
     },
     {
+      id: 'a-la-vez',
       title: 'A la vez',
-      lead: 'Saber que otros rezan ahora. Nada más.',
+      lead: 'Saber que otros rezan ahora, y nada más.',
       items: [
         {
           title: 'Cuántos ahora',
@@ -293,293 +304,303 @@ export const catalog: Record<UiLanguage, readonly FeatureGroup[]> = {
         },
         {
           title: 'Sin red social',
-          body: 'Sin chat, sin perfiles, sin comparación.',
+          body: 'Sin chat, sin perfiles, sin comparación entre personas.',
         },
       ],
     },
   ],
   en: [
     {
-      title: 'Pray it well',
-      lead: 'The whole Rosary on the phone. No account. No network.',
+      id: 'pray',
+      title: 'Praying',
+      lead: 'The whole Rosary on the phone, with no account and no network.',
       items: [
         {
-          title: 'The sequence',
-          body: 'What opens, five mysteries, what closes. You can stop halfway and come back.',
+          title: 'The full sequence',
+          body: 'What opens, five mysteries, what closes. Stop halfway and pick it up later where you were.',
         },
         {
-          title: 'Mystery of the day',
-          body: 'By weekday and liturgical season. Another set if you want it.',
+          title: 'The mystery of the day',
+          body: 'By weekday and liturgical season. If you want another set today, you choose it.',
         },
         {
-          title: 'By region',
-          body: 'Mexican Spanish, Spanish of Spain, English. Real forms, not a translation.',
+          title: 'The form of your region',
+          body: 'Mexican Spanish, Spanish of Spain, American English. Each with the prayers that open and close it there.',
         },
         {
           title: 'The twenty mysteries',
-          body: 'Title, verse, fruit, a short meditation, an image. The fruit is catechetical tradition, and it says so.',
+          body: 'Title, scripture reference, fruit, a short note and an image. The fruit is catechetical tradition, and the app says so.',
         },
         {
           title: 'Guided audio',
-          body: 'The voice speaks the first half and waits. Speed is yours.',
+          body: 'The voice says the first half and waits for your answer. Speed is adjustable.',
         },
         {
-          title: 'Highlight',
-          body: 'The line moves with the voice.',
+          title: 'Highlighted text',
+          body: 'The words move with the audio, line by line, and stay on the screen.',
         },
         {
           title: 'Advance by touch',
-          body: 'A tap anywhere, a swipe, or let it run.',
+          body: 'A tap anywhere on the screen, a swipe, or let it run with the audio.',
         },
         {
           title: 'Screen off',
-          body: 'Audio and haptics in the dark.',
+          body: 'Audio and haptics keep going in the dark and with the phone in your pocket.',
         },
         {
           title: 'Offline',
-          body: 'Text and audio live on the device. Nothing needs a network in order to pray.',
+          body: 'Words and audio live on the device. Praying never asks for a network.',
         },
         {
           title: 'Optional prayers',
-          body: 'Fatima, Hail Holy Queen, litany, St. Michael, offering, intention. Each one is a setting.',
+          body: 'The Fatima prayer, the Hail Holy Queen, the litany, St. Michael, the offering, the intention. Each one turns on or off.',
         },
       ],
     },
     {
-      title: 'On the move',
-      lead: 'Running, walking, driving. The watch is enough.',
+      id: 'watch',
+      title: 'On the watch',
+      lead: 'Running, walking, driving. The Apple Watch is enough.',
       items: [
         {
-          title: 'Apple Watch',
-          body: 'A full Rosary on the watch, with its own screen.',
+          title: 'The whole Rosary',
+          body: 'The watch app prays the full Rosary, with its own screen, without the phone nearby.',
         },
         {
-          title: 'Watch audio',
-          body: 'It plays to your headphones with the phone elsewhere.',
+          title: 'Audio on the watch',
+          body: 'The voice plays through headphones connected to the watch.',
         },
         {
-          title: 'A tap per bead',
-          body: 'A different haptic for the Hail Mary, the Our Father, and the Glory Be.',
+          title: 'Haptics per bead',
+          body: 'A different tap on the wrist for the Hail Mary, the Our Father and the Glory Be. You know where you are without looking.',
         },
         {
-          title: 'Digital Crown',
-          body: 'Advance the beads by turning it.',
+          title: 'The crown',
+          body: 'Beads move by turning the Digital Crown, with a detent on each one.',
         },
         {
-          title: 'While you run',
-          body: 'A workout session keeps the watch awake.',
+          title: 'While exercising',
+          body: 'A workout session keeps the watch awake while you pray.',
         },
         {
           title: 'Complication',
-          body: "Today's mystery on the watch face. Start with one tap.",
+          body: 'The mystery of the day on the watch face. Starting is one tap.',
         },
         {
-          title: 'Lock screen',
-          body: 'Pause and skip from headphones, the lock screen, and the car.',
+          title: 'System controls',
+          body: 'Pause and advance from headphones, the lock screen and the car.',
         },
         {
           title: 'Widget',
-          body: "Today's mystery on the iPhone Home Screen.",
+          body: 'The mystery of the day on the iPhone home screen.',
         },
       ],
     },
     {
+      id: 'latin',
       title: 'Latin',
-      lead: 'Pray it in truth, and learn it if you do not know it.',
+      lead: 'Pray it, and learn it if you do not know it yet.',
       items: [
         {
-          title: 'The texts',
-          body: 'Every prayer, including the Litany of Loreto.',
+          title: 'All the texts',
+          body: 'Every prayer of the Rosary in Latin, including the Litany of Loreto.',
         },
         {
-          title: 'The audio',
-          body: 'Ecclesiastical Latin, prayed, not rushed.',
+          title: 'Audio',
+          body: 'Ecclesiastical pronunciation, prayed at a calm pace.',
         },
         {
-          title: 'Side by side',
-          body: 'Latin and your language, line by line.',
+          title: 'Bilingual',
+          body: 'Latin and your language lined up line by line, so you can follow without getting lost.',
         },
         {
           title: 'Learning',
-          body: 'Listen, then answer while reading, then answer from memory. The words fade.',
+          body: 'First you listen. Then you answer while reading. Then you answer from memory, and the words fade.',
         },
         {
           title: 'Chant',
-          body: 'Salve Regina and the litany sung.',
+          body: 'The Salve Regina and the litany, sung as well.',
         },
         {
           title: 'A mix',
-          body: 'Some prayers in Latin, some in your own tongue.',
+          body: 'Some prayers in Latin and some in your own tongue, as you prefer.',
         },
       ],
     },
     {
+      id: 'keeping',
       title: 'Keeping it',
       lead: 'A habit that holds, without blame.',
       items: [
         {
           title: 'The Rule',
-          body: 'Your own norm. You can edit it. It does not bind under sin.',
+          body: 'Your own norm: one decade, five, the full Rosary, or fifteen decades a week. Edit it whenever you like; it does not bind under sin.',
         },
         {
           title: 'The month',
-          body: 'Faithful days. Gaps are not a drama. Past months stay visible.',
+          body: 'The days you kept your Rule, and the months before. Gaps stay blank.',
         },
         {
           title: 'A pause',
-          body: 'Illness, travel, mourning. The month does not fill with holes, and it does not ask why.',
+          body: 'Illness, travel, mourning. The month pauses without asking why.',
         },
         {
           title: 'A reminder',
-          body: 'One, at your hour. Or the Angelus hours.',
+          body: 'One a day, at the hour you choose. Or at the hours of the Angelus.',
         },
         {
           title: 'Intentions',
-          body: 'For whom you offer it. A history of intentions, not of answers.',
+          body: 'For whom you offer each Rosary, and the history of intentions.',
         },
         {
           title: 'Roses of the month',
-          body: 'A visual crown of what was prayed. It can be turned off.',
+          body: 'A visual crown of what was prayed this month. It can be turned off.',
         },
         {
           title: 'In parts',
-          body: 'One decade now, the rest later. With the note on the indulgence.',
+          body: 'One decade now and the rest later, with a note on what the indulgence asks for.',
         },
       ],
     },
     {
+      id: 'way',
       title: 'The Way',
-      lead: 'Learn to pray it better. Not a prize for praying more.',
+      lead: 'Formation in stages, to pray it better.',
       items: [
         {
           title: 'Stages',
-          body: 'The shape, meditation, clauses, answering, Latin, chant, family, the whole.',
+          body: 'The shape, meditating, the clauses, answering, Latin, chant, family, the whole Rosary.',
         },
         {
           title: 'Short readings',
-          body: 'What each part is, and why, with a source.',
+          body: 'What each part is and why it is prayed that way, with its source.',
         },
         {
           title: 'Clauses',
-          body: 'The phrase of the mystery after the name of Jesus. Fixed, and biblical.',
+          body: 'The phrase of the mystery added after the name of Jesus in each Hail Mary. Fixed, and biblical.',
         },
         {
           title: 'The Word',
-          body: 'The passage before each decade, and a silence you set.',
+          body: 'The passage of the mystery before each decade, and a silence you set.',
         },
         {
-          title: 'A school of the Rosary',
-          body: 'History, the magisterium, the promises and their standing, indulgences and their conditions.',
+          title: 'School of the Rosary',
+          body: 'History, magisterium, the fifteen promises and their status, the indulgences and their conditions.',
         },
       ],
     },
     {
+      id: 'recollection',
       title: 'Recollection',
-      lead: 'Help for attention. That is the hard part.',
+      lead: 'Help for attention, which is the hard part.',
       items: [
         {
           title: 'Pace',
-          body: 'Time for each Hail Mary, pauses inside the prayer, silence between decades.',
+          body: 'The time of each Hail Mary, the pauses inside the prayer and the silence between decades.',
         },
         {
-          title: 'The image',
-          body: 'Sacred art full screen while you pray. Each work named.',
+          title: 'Image of the mystery',
+          body: 'Sacred art, full screen, while you pray. Every work with its credit.',
         },
         {
           title: 'Signals',
-          body: 'Interruptions and leaving the app: private, optional, never a score.',
+          body: 'The app can note interruptions and exits. Private, optional, and never a score.',
         },
         {
-          title: 'The heart',
-          body: 'From the watch, with permission. Written as a session of attention. Not an exam.',
+          title: 'Heart',
+          body: 'From the watch, with permission, the session is saved to Health as a mindfulness session.',
         },
         {
-          title: 'Before you start',
+          title: 'Before you begin',
           body: 'Three breaths, the Sign of the Cross, the intention.',
         },
       ],
     },
     {
-      title: 'With others',
-      lead: 'Aloud, with children, in one house.',
+      id: 'family',
+      title: 'As a family',
+      lead: 'Out loud, with children, in the same house.',
       items: [
         {
           title: 'Two choirs',
-          body: 'The app takes the lead or the response.',
+          body: 'The app leads or answers, depending on who carries the voice at home.',
         },
         {
           title: 'Children',
-          body: 'Less text, larger images, a single decade.',
+          body: 'Less text, large images, a single decade.',
         },
         {
-          title: 'More than one',
-          body: 'One device or several, in the same house.',
+          title: 'Several devices',
+          body: 'Pray together in the same house with one phone or several.',
         },
         {
-          title: 'For the family',
-          body: 'Intentions shared at home, with no profiles.',
+          title: 'Household intentions',
+          body: 'Intentions shared within the family, without profiles.',
         },
       ],
     },
     {
+      id: 'languages',
       title: 'Languages',
-      lead: 'Each language brings its real form.',
+      lead: 'Each language brings its real way of praying.',
       items: [
         {
           title: 'Now',
-          body: 'Mexican Spanish, Spanish of Spain, American English, Latin.',
+          body: 'Mexican Spanish, Spanish of Spain, American English and Latin.',
         },
         {
           title: 'Later',
-          body: 'Italian, Portuguese, French, Polish, German. German places the mystery inside the Hail Mary. Polish always says the Fatima prayer.',
+          body: 'Italian, Portuguese, French, Polish and German, each with its own form: German places the mystery inside the Hail Mary, and Polish always prays the Fatima prayer.',
         },
       ],
     },
     {
-      title: 'Kindred devotions',
-      lead: 'Each one named, each one counted apart. Never mixed into the Rosary.',
+      id: 'devotions',
+      title: 'Sister devotions',
+      lead: 'Each with its own name and its own count, apart from the Rosary.',
       items: [
         {
           title: 'Litany',
-          body: 'The Litany of Loreto in full, also sung.',
+          body: 'The full Litany of Loreto, prayed or sung.',
         },
         {
-          title: 'The 54-day novena',
-          body: 'Three Rosaries a day, twenty-seven of petition and twenty-seven of thanksgiving.',
+          title: '54-day novena',
+          body: 'Three Rosaries a day: twenty-seven days of petition and twenty-seven of thanksgiving.',
         },
         {
-          title: 'Chaplet',
-          body: 'The Divine Mercy chaplet, on its own.',
+          title: 'Divine Mercy Chaplet',
+          body: 'With its own beads and its own audio.',
         },
         {
           title: 'Seven Sorrows',
-          body: 'The crown of the Sorrows of Mary, on its own.',
+          body: 'The chaplet of the sorrows of Mary, with its seven meditations.',
         },
         {
           title: 'Perpetual Rosary',
-          body: 'An hour in the chain, with no ranking.',
+          body: 'Your hour in the chain, with a reminder.',
         },
         {
-          title: 'Confraternity',
-          body: "A link to the Dominicans' enrolment. Fifteen decades a week. It does not bind under sin. The app never says you are already a member.",
+          title: 'Rosary Confraternity',
+          body: 'A link to enrol with the Dominicans and a Rule of fifteen decades a week, which does not bind under sin.',
         },
       ],
     },
     {
+      id: 'together',
       title: 'At the same time',
-      lead: 'To know that others are praying now. Nothing else.',
+      lead: 'Knowing that others are praying now, and nothing more.',
       items: [
         {
           title: 'How many now',
-          body: 'A number. No names.',
+          body: 'A number, without names.',
         },
         {
           title: 'The same hour',
           body: 'Pray when others are praying too.',
         },
         {
-          title: 'No social layer',
-          body: 'No chat, no profiles, no comparison.',
+          title: 'No social network',
+          body: 'No chat, no profiles, no comparison between people.',
         },
       ],
     },

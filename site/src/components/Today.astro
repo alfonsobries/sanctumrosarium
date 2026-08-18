@@ -1,47 +1,162 @@
 ---
-import type { Mystery, MysterySetId } from '@rosario/content';
+import { mysteries, type MysterySetId } from '@rosario/content';
+import { mysteriesOfDay } from '@rosario/engine';
 
 import { t, type UiLanguage } from '../i18n/ui';
+import { pathFor } from '../i18n/paths';
 
-type Props = {
-  language: UiLanguage;
-  set: MysterySetId;
-  mysteries: readonly Mystery[];
-};
+/**
+ * Renders the four sets and lets the browser pick today's, so the page never announces the
+ * mystery of the day it was built. Without JavaScript it shows the build day's set.
+ */
+type Props = { language: UiLanguage };
 
-const { language, set, mysteries } = Astro.props;
+const { language } = Astro.props;
 const translate = t(language);
-const setKey = `sets.${set}` as const;
+const sets: MysterySetId[] = ['gaudiosa', 'luminosa', 'dolorosa', 'gloriosa'];
+const built = mysteriesOfDay(new Date());
 ---
 
-<section>
-  <!--
-    Built statically: this is the day the site was built, not the day it is read. Until the page
-    resolves the date in the browser, it says so instead of announcing the wrong mystery.
-  -->
-  <h2>{translate('home.today')}: {translate(setKey)}</h2>
-  <ol>
-    {
-      mysteries.map((mystery) => (
-        <li>
-          {mystery.text[language].title} <span class="ref">{mystery.scriptureRef}</span>
-        </li>
-      ))
-    }
-  </ol>
+<section class="today section" aria-labelledby="today-title" data-today>
+  <div class="wrap grid">
+    <div class="copy">
+      <span class="kicker">{translate('today.kicker')}</span>
+      {
+        sets.map((set) => (
+          <div class="head" data-set={set} hidden={set !== built.set}>
+            <h2 id={set === built.set ? 'today-title' : undefined}>
+              {translate(`setsLong.${set}`)}
+            </h2>
+            <p class="lead days">{translate(`days.${set}`)}</p>
+          </div>
+        ))
+      }
+      <p class="lead reason" data-reason hidden>
+        <span data-reason-season>{translate('today.season')}</span>
+        <span data-reason-feast>{translate('today.feast')} <em data-feast></em></span>
+      </p>
+      <p class="cta">
+        <a class="button" href={pathFor(language, 'mysteries')}
+          >{translate('today.cta')}</a
+        >
+      </p>
+    </div>
+    <div class="lists">
+      {
+        sets.map((set) => (
+          <ol class="list" data-set={set} hidden={set !== built.set}>
+            {mysteries
+              .filter((mystery) => mystery.set === set)
+              .map((mystery) => (
+                <li>
+                  <span class="title">{mystery.text[language].title}</span>
+                  <span class="ref">{mystery.scriptureRef}</span>
+                </li>
+              ))}
+          </ol>
+        ))
+      }
+    </div>
+  </div>
 </section>
 
+<script>
+  import { mysteriesOfDay } from '@rosario/engine';
+
+  const root = document.querySelector<HTMLElement>('[data-today]');
+  if (root) {
+    const today = mysteriesOfDay(new Date());
+    for (const node of root.querySelectorAll<HTMLElement>('[data-set]')) {
+      const isToday = node.dataset.set === today.set;
+      node.hidden = !isToday;
+      const heading = node.querySelector('h2');
+      if (heading) {
+        if (isToday) {
+          heading.id = 'today-title';
+        } else {
+          heading.removeAttribute('id');
+        }
+      }
+    }
+    const reason = root.querySelector<HTMLElement>('[data-reason]');
+    const season = root.querySelector<HTMLElement>('[data-reason-season]');
+    const feast = root.querySelector<HTMLElement>('[data-reason-feast]');
+    const feastName = root.querySelector<HTMLElement>('[data-feast]');
+    if (reason && season && feast && feastName) {
+      reason.hidden = today.reason === 'weekday';
+      season.hidden = today.reason !== 'season';
+      feast.hidden = today.reason !== 'solemnity';
+      feastName.textContent = today.feast ?? '';
+    }
+  }
+</script>
+
 <style>
-  ol {
-    padding-left: 1.2em;
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-5);
+    align-items: start;
   }
 
-  li {
-    margin-bottom: 6px;
+  .days {
+    margin-top: var(--space-2);
+    color: var(--mute);
+  }
+
+  .reason {
+    margin-top: var(--space-2);
+  }
+
+  .reason span[hidden] {
+    display: none;
+  }
+
+  .cta {
+    margin-top: var(--space-4);
+  }
+
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: mystery;
+    border-top: 1px solid var(--line);
+  }
+
+  .list li {
+    counter-increment: mystery;
+    display: grid;
+    grid-template-columns: 2.2rem minmax(0, 1fr) auto;
+    gap: var(--space-2);
+    align-items: baseline;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+  }
+
+  .list li::before {
+    content: counter(mystery);
+    color: var(--rose);
+    font-size: 1rem;
   }
 
   .ref {
-    color: var(--muted);
-    font-size: 0.9em;
+    color: var(--mute);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .list li {
+      font-size: 1.2rem;
+    }
   }
 </style>

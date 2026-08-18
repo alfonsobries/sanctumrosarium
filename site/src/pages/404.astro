@@ -1,11 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
+import { t } from '../i18n/ui';
+import { pathFor } from '../i18n/paths';
+
+const translate = t('es');
 ---
 
-<Base language="es" title="No está">
-  <article class="page-head wrap prose">
-    <h1>No está.</h1>
-    <p class="lead">Esa página no existe. Vuelve al inicio.</p>
-    <p><a href="/">SanctaMaria</a></p>
+<Base language="es" title={translate('notfound.title')}>
+  <article class="wrap page-head">
+    <h1>{translate('notfound.title')}</h1>
+    <p class="lead">{translate('notfound.lead')}</p>
+    <p class="cta">
+      <a class="button" href={pathFor('es', 'home')}>{translate('notfound.cta')}</a>
+    </p>
   </article>
 </Base>
+
+<style>
+  .cta {
+    margin-top: var(--space-4);
+  }
+</style>

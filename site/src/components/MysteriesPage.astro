@@ -1,0 +1,219 @@
+---
+import { mysteries, type MysterySetId } from '@rosario/content';
+
+import Base from '../layouts/Base.astro';
+import { t, type UiLanguage } from '../i18n/ui';
+
+type Props = { language: UiLanguage };
+
+const { language } = Astro.props;
+const translate = t(language);
+const sets: MysterySetId[] = ['gaudiosa', 'luminosa', 'dolorosa', 'gloriosa'];
+const source = mysteries[0]?.source;
+---
+
+<Base
+  language={language}
+  current="mysteries"
+  title={translate('mysteries.title')}
+  description={translate('mysteries.lead')}
+>
+  <div class="wrap">
+    <header class="page-head">
+      <h1>{translate('mysteries.title')}</h1>
+      <p class="lead">{translate('mysteries.lead')}</p>
+      <nav class="jump" aria-label={translate('mysteries.title')}>
+        {sets.map((set) => <a href={`#${set}`}>{translate(`sets.${set}`)}</a>)}
+      </nav>
+    </header>
+  </div>
+
+  <div class="wrap">
+    {
+      sets.map((set) => (
+        <section class="set" id={set} aria-labelledby={`${set}-title`}>
+          <div class="set-head">
+            <h2 id={`${set}-title`}>{translate(`setsLong.${set}`)}</h2>
+            <p class="days">{translate(`days.${set}`)}</p>
+          </div>
+          <ol class="mysteries">
+            {mysteries
+              .filter((mystery) => mystery.set === set)
+              .map((mystery) => {
+                const text = mystery.text[language];
+                return (
+                  <li id={mystery.id}>
+                    <div class="m-head">
+                      <h3>{text.title}</h3>
+                      <span class="ref">{mystery.scriptureRef}</span>
+                    </div>
+                    {text.intro ? <p class="intro">{text.intro}</p> : null}
+                    <dl class="meta">
+                      <div>
+                        <dt>{translate('mysteries.fruit')}</dt>
+                        <dd>{text.fruit}</dd>
+                      </div>
+                      {text.clause ? (
+                        <div>
+                          <dt>{translate('mysteries.clause')}</dt>
+                          <dd>
+                            <em>{text.clause}</em>
+                          </dd>
+                        </div>
+                      ) : null}
+                    </dl>
+                  </li>
+                );
+              })}
+          </ol>
+        </section>
+      ))
+    }
+    <p class="source foot">
+      {translate('mysteries.source')}
+      {
+        source?.url ? (
+          <>
+            {' '}
+            <a href={source.url} rel="noopener">
+              {source.name}
+            </a>
+          </>
+        ) : null
+      }
+    </p>
+  </div>
+</Base>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin-top: var(--space-3);
+  }
+
+  .jump a {
+    color: var(--mute);
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  .jump a:hover {
+    color: var(--ink);
+  }
+
+  .set {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: var(--space-5);
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 90px;
+  }
+
+  .set-head {
+    position: sticky;
+    top: 92px;
+  }
+
+  .days {
+    margin-top: var(--space-1);
+    color: var(--mute);
+  }
+
+  .mysteries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: mystery;
+    max-width: 44rem;
+  }
+
+  .mysteries li {
+    counter-increment: mystery;
+    position: relative;
+    padding: 0 0 var(--space-4) 3rem;
+  }
+
+  .mysteries li::before {
+    content: counter(mystery);
+    position: absolute;
+    left: 0;
+    top: 0.35rem;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    color: var(--rose);
+  }
+
+  .mysteries li:last-child {
+    padding-bottom: 0;
+  }
+
+  .m-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
+  }
+
+  .m-head h3 {
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+
+  .ref {
+    color: var(--mute);
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .intro {
+    margin-top: 0.4rem;
+    color: var(--ink-2);
+    font-size: 1.1rem;
+    max-width: 36rem;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 28px;
+    margin: 0.7rem 0 0;
+    font-size: 1rem;
+  }
+
+  .meta div {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+
+  .meta dt {
+    font-family: var(--font-caps);
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    color: var(--rose);
+  }
+
+  .meta dd {
+    margin: 0;
+    color: var(--ink-2);
+  }
+
+  .foot {
+    margin-top: var(--space-4);
+    max-width: 48rem;
+  }
+
+  @media (max-width: 900px) {
+    .set {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+
+    .set-head {
+      position: static;
+    }
+  }
+</style>

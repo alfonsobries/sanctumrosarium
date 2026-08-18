@@ -7,35 +7,103 @@ const { language } = Astro.props;
 const translate = t(language);
 ---
 
-<div class="theme-toggle" role="group" aria-label={translate('theme.label')}>
-  <button type="button" data-theme-set="light">{translate('theme.light')}</button>
-  <button type="button" data-theme-set="dark">{translate('theme.dark')}</button>
-</div>
+<button
+  type="button"
+  class="theme-toggle"
+  data-theme-toggle
+  data-label-light={translate('theme.toLight')}
+  data-label-dark={translate('theme.toDark')}
+  aria-label={translate('theme.toLight')}
+>
+  <svg class="sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"
+    ></circle>
+    <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <path
+        d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"
+      ></path>
+    </g>
+  </svg>
+  <svg class="moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <path
+      d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linejoin="round"></path>
+  </svg>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--mute);
+    cursor: pointer;
+    transition:
+      color 120ms ease,
+      border-color 120ms ease;
+  }
+
+  .theme-toggle:hover {
+    color: var(--ink);
+    border-color: var(--line-2);
+  }
+
+  .theme-toggle svg {
+    grid-area: 1 / 1;
+  }
+
+  .theme-toggle .sun {
+    display: none;
+  }
+
+  :global(html[data-theme='dark']) .theme-toggle .sun {
+    display: block;
+  }
+
+  :global(html[data-theme='dark']) .theme-toggle .moon {
+    display: none;
+  }
+</style>
 
 <script>
   const key = 'sanctamaria-theme';
 
-  function currentTheme(): 'light' | 'dark' {
-    const value = document.documentElement.dataset.theme;
-    return value === 'dark' ? 'dark' : 'light';
+  type Theme = 'light' | 'dark';
+
+  function current(): Theme {
+    return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
   }
 
-  function apply(theme: 'light' | 'dark'): void {
-    document.documentElement.dataset.theme = theme;
-    localStorage.setItem(key, theme);
+  function relabel(): void {
+    const next: Theme = current() === 'dark' ? 'light' : 'dark';
     for (const button of document.querySelectorAll<HTMLButtonElement>(
-      '[data-theme-set]',
+      '[data-theme-toggle]',
     )) {
-      button.setAttribute('aria-pressed', String(button.dataset.themeSet === theme));
+      const label =
+        next === 'light' ? button.dataset.labelLight : button.dataset.labelDark;
+      if (label) {
+        button.setAttribute('aria-label', label);
+      }
     }
   }
 
-  apply(currentTheme());
+  relabel();
 
-  document.querySelectorAll<HTMLButtonElement>('[data-theme-set]').forEach((button) => {
+  for (const button of document.querySelectorAll<HTMLButtonElement>(
+    '[data-theme-toggle]',
+  )) {
     button.addEventListener('click', () => {
-      const next = button.dataset.themeSet === 'dark' ? 'dark' : 'light';
-      apply(next);
+      const next: Theme = current() === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(key, next);
+      relabel();
     });
-  });
+  }
 </script>

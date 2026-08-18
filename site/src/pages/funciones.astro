@@ -1,35 +1,5 @@
 ---
-import Base from '../layouts/Base.astro';
-import { t } from '../i18n/ui';
-import { catalog } from '../i18n/features';
-
-const language = 'es' as const;
-const translate = t(language);
-const groups = catalog[language];
+import FeaturesPage from '../components/FeaturesPage.astro';
 ---
 
-<Base language={language} current="features" title={translate('features.title')}>
-  <header class="page-head wrap">
-    <h1>{translate('features.title')}</h1>
-    <p class="lead">{translate('features.lead')}</p>
-  </header>
-
-  <div class="wrap feature-groups">
-    {
-      groups.map((group) => (
-        <section class="band" style="border-top: 0; padding: 24px 0 8px;">
-          <h2>{group.title}</h2>
-          <p class="lead">{group.lead}</p>
-          <div class="feature-list">
-            {group.items.map((item) => (
-              <article class="feature-card">
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-      ))
-    }
-  </div>
-</Base>
+<FeaturesPage language="es" />

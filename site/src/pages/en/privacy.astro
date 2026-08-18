@@ -1,18 +1,11 @@
 ---
-import Base from '../../layouts/Base.astro';
-import { t } from '../../i18n/ui';
-
-const language = 'en' as const;
-const translate = t(language);
+import ProsePage from '../../components/ProsePage.astro';
 ---
 
-<Base language={language} current="privacy" title={translate('privacy.title')}>
-  <article class="page-head wrap prose">
-    <h1>{translate('privacy.title')}</h1>
-    <p class="lead">{translate('privacy.lead')}</p>
-    <p>{translate('privacy.p1')}</p>
-    <p>{translate('privacy.p2')}</p>
-    <p>{translate('privacy.p3')}</p>
-    <p>{translate('privacy.p4')}</p>
-  </article>
-</Base>
+<ProsePage
+  language="en"
+  current="privacy"
+  title="privacy.title"
+  lead="privacy.lead"
+  paragraphs={['privacy.p1', 'privacy.p2', 'privacy.p3', 'privacy.p4']}
+/>

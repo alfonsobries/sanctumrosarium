@@ -1,0 +1,334 @@
+---
+import type { MysterySetId } from '@rosario/content';
+
+import Base from '../layouts/Base.astro';
+import Corona from './Corona.astro';
+import { t, type UiKey, type UiLanguage } from '../i18n/ui';
+import { pathFor } from '../i18n/paths';
+import { formsFor, outlineOf, type OutlineEntry } from '../lib/sequence';
+
+type Props = { language: UiLanguage };
+
+const { language } = Astro.props;
+const translate = t(language);
+
+const outlines = formsFor(language).map((form) =>
+  outlineOf(form, language, {
+    announce: translate('how.order.announce'),
+    reading: translate('how.order.reading'),
+    litany: translate('how.order.litany'),
+  }),
+);
+const defaultForm = language === 'es' ? 'es-MX' : 'roman';
+const sets: MysterySetId[] = ['gaudiosa', 'luminosa', 'dolorosa', 'gloriosa'];
+
+const columns: { key: 'opening' | 'decade' | 'closing'; title: UiKey; note?: UiKey }[] = [
+  { key: 'opening', title: 'how.order.opening' },
+  { key: 'decade', title: 'how.order.decade', note: 'how.order.decadeNote' },
+  { key: 'closing', title: 'how.order.closing' },
+];
+
+const entryLabel = (entry: OutlineEntry): string =>
+  entry.times > 1
+    ? `${entry.label} (${entry.times} ${translate('how.order.times')})`
+    : entry.label;
+---
+
+<Base
+  language={language}
+  current="how"
+  title={translate('how.title')}
+  description={translate('how.lead')}
+>
+  <div class="wrap">
+    <header class="page-head">
+      <h1>{translate('how.title')}</h1>
+      <p class="lead">{translate('how.lead')}</p>
+    </header>
+  </div>
+
+  <section class="wrap intro">
+    <div class="prose">
+      <p>{translate('how.p1')}</p>
+      <p>{translate('how.p2')}</p>
+    </div>
+    <Corona language={language} variant="diagram" class="diagram" />
+  </section>
+
+  <section class="section order" aria-labelledby="order-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="order-title">{translate('how.order.title')}</h2>
+        <p class="lead">{translate('how.order.lead')}</p>
+      </div>
+
+      <fieldset class="tabs">
+        <legend class="sr-only">{translate('how.order.form')}</legend>
+        {
+          outlines.map((outline) => (
+            <>
+              <input
+                type="radio"
+                name="form"
+                id={`form-${outline.form.id}`}
+                value={outline.form.id}
+                checked={outline.form.id === defaultForm}
+              />
+              <label for={`form-${outline.form.id}`}>
+                {translate(`form.${outline.form.id}`)}
+              </label>
+            </>
+          ))
+        }
+      </fieldset>
+
+      <div class="outlines">
+        {
+          outlines.map((outline) => (
+            <div class="outline" data-form={outline.form.id}>
+              <div class="columns">
+                {columns.map((column) => (
+                  <div class="column">
+                    <h3>{translate(column.title)}</h3>
+                    {column.note ? <p class="note">{translate(column.note)}</p> : null}
+                    <ol>
+                      {outline[column.key].map((entry) => (
+                        <li
+                          class:list={[
+                            entry.kind,
+                            entry.optional ? 'is-optional' : undefined,
+                          ]}
+                        >
+                          <span>{entryLabel(entry)}</span>
+                          {entry.optional ? (
+                            <span class="opt">{translate('how.order.optional')}</span>
+                          ) : null}
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                ))}
+              </div>
+              <p class="source">
+                {outline.form.source.url ? (
+                  <a href={outline.form.source.url} rel="noopener">
+                    {outline.form.source.name}
+                  </a>
+                ) : (
+                  outline.form.source.name
+                )}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="after">
+        <a class="button" href={pathFor(language, 'prayers')}
+          >{translate('how.prayers.cta')}</a
+        >
+      </p>
+    </div>
+  </section>
+
+  <section class="section days" aria-labelledby="days-title">
+    <div class="wrap days-grid">
+      <div class="section-head">
+        <h2 id="days-title">{translate('how.days.title')}</h2>
+        <p class="lead">{translate('how.days.lead')}</p>
+      </div>
+      <table>
+        <tbody>
+          {
+            sets.map((set) => (
+              <tr>
+                <th scope="row">
+                  <a href={`${pathFor(language, 'mysteries')}#${set}`}>
+                    {translate(`setsLong.${set}`)}
+                  </a>
+                </th>
+                <td>{translate(`days.${set}`)}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="wrap">
+      <p class="source how-source">{translate('how.source')}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: var(--space-5);
+    align-items: start;
+    padding-bottom: var(--space-6);
+  }
+
+  .order fieldset.tabs {
+    margin: 0 0 var(--space-4);
+    padding: 3px;
+  }
+
+  .outlines {
+    display: grid;
+  }
+
+  .outline {
+    grid-area: 1 / 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  .order:has(#form-roman:checked) .outline[data-form='roman'],
+  .order:has(#form-es-MX:checked) .outline[data-form='es-MX'],
+  .order:has(#form-es-ES:checked) .outline[data-form='es-ES'],
+  .order:has(#form-dominican:checked) .outline[data-form='dominican'] {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    border-top: 1px solid var(--line);
+    padding-top: var(--space-3);
+  }
+
+  .column h3 {
+    font-family: var(--font-caps);
+    font-weight: 400;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+    color: var(--rose);
+  }
+
+  .note {
+    color: var(--mute);
+    font-size: 0.95rem;
+    margin-top: 0.3rem;
+  }
+
+  .column ol {
+    list-style: none;
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    counter-reset: step;
+  }
+
+  .column li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 1.6rem minmax(0, 1fr) auto;
+    gap: 0 10px;
+    align-items: baseline;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    line-height: 1.25;
+  }
+
+  .column li::before {
+    content: counter(step);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--mute);
+  }
+
+  .column li.announce,
+  .column li.reading {
+    font-style: italic;
+    color: var(--ink-2);
+  }
+
+  .column li.is-optional > span:first-of-type {
+    color: var(--mute);
+  }
+
+  .opt {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--mute);
+    letter-spacing: 0.02em;
+  }
+
+  .outline .source {
+    margin-top: var(--space-3);
+  }
+
+  .after {
+    margin-top: var(--space-4);
+  }
+
+  .days-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  .days-grid .section-head {
+    margin-bottom: 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid var(--line);
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: baseline;
+  }
+
+  th {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.3rem;
+  }
+
+  th a {
+    text-decoration: none;
+  }
+
+  th a:hover {
+    color: var(--rose);
+  }
+
+  td {
+    color: var(--ink-2);
+    text-align: right;
+  }
+
+  .how-source {
+    margin-top: var(--space-4);
+    max-width: 48rem;
+  }
+
+  @media (max-width: 900px) {
+    .intro,
+    .days-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    :global(.diagram) {
+      max-width: 360px;
+    }
+
+    .columns {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

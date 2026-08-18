@@ -1,0 +1,203 @@
+---
+import Base from '../layouts/Base.astro';
+import Corona from './Corona.astro';
+import StoreBadges from './StoreBadges.astro';
+import Today from './Today.astro';
+import TwoVoices from './TwoVoices.astro';
+import { t, type UiKey, type UiLanguage } from '../i18n/ui';
+import { pathFor } from '../i18n/paths';
+
+type Props = { language: UiLanguage };
+
+const { language } = Astro.props;
+const translate = t(language);
+const pillars: { id: string; kicker: UiKey; title: UiKey; body: UiKey }[] = [
+  {
+    id: 'watch',
+    kicker: 'pillar.watch.kicker',
+    title: 'pillar.watch.title',
+    body: 'pillar.watch.body',
+  },
+  {
+    id: 'latin',
+    kicker: 'pillar.latin.kicker',
+    title: 'pillar.latin.title',
+    body: 'pillar.latin.body',
+  },
+  {
+    id: 'rule',
+    kicker: 'pillar.rule.kicker',
+    title: 'pillar.rule.title',
+    body: 'pillar.rule.body',
+  },
+  {
+    id: 'source',
+    kicker: 'pillar.source.kicker',
+    title: 'pillar.source.title',
+    body: 'pillar.source.body',
+  },
+];
+---
+
+<Base language={language} current="home">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>{translate('hero.title')}</h1>
+        <p class="lead">{translate('hero.lead')}</p>
+        <StoreBadges language={language} class="hero-stores" />
+      </div>
+      <Corona language={language} class="hero-corona">
+        {translate('corona.caption')}
+        <span class="caption-link">
+          <a href={pathFor(language, 'how')}>{translate('corona.cta')}</a>
+        </span>
+      </Corona>
+    </div>
+  </section>
+
+  <TwoVoices language={language} />
+
+  <section class="section pillars" aria-label={translate('nav.features')}>
+    <div class="wrap pillar-grid">
+      {
+        pillars.map((pillar) => (
+          <article class="pillar" id={pillar.id}>
+            <span class="kicker">{translate(pillar.kicker)}</span>
+            <h2>{translate(pillar.title)}</h2>
+            <p>{translate(pillar.body)}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <Today language={language} />
+
+  <section class="section closing">
+    <div class="wrap closing-grid">
+      <div>
+        <h2>{translate('more.title')}</h2>
+        <p class="lead">{translate('more.body')}</p>
+        <p class="cta">
+          <a class="button" href={pathFor(language, 'features')}
+            >{translate('more.cta')}</a
+          >
+        </p>
+      </div>
+      <div>
+        <h2>{translate('strip.title')}</h2>
+        <p class="lead">{translate('strip.body')}</p>
+        <p class="cta">
+          <a class="button" href={pathFor(language, 'support')}
+            >{translate('strip.cta')}</a
+          >
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: clamp(3rem, 7vw, 6rem) var(--space-6);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: auto -10% -30% auto;
+    width: min(60vw, 720px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, var(--glow), transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  .hero-copy .lead {
+    margin-top: var(--space-3);
+    max-width: 34rem;
+  }
+
+  .hero-copy :global(.hero-stores) {
+    margin-top: var(--space-4);
+  }
+
+  :global(.hero-corona) {
+    width: min(100%, 460px);
+    justify-self: center;
+  }
+
+  .caption-link {
+    display: block;
+    margin-top: 0.3em;
+  }
+
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .pillar {
+    background: var(--bg);
+    padding: clamp(1.5rem, 3vw, 2.75rem);
+  }
+
+  .pillar h2 {
+    font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+  }
+
+  .pillar p {
+    margin-top: var(--space-2);
+    color: var(--ink-2);
+    max-width: 30rem;
+  }
+
+  .closing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .closing .lead {
+    margin-top: var(--space-2);
+    max-width: 30rem;
+  }
+
+  .cta {
+    margin-top: var(--space-3);
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid,
+    .pillar-grid,
+    .closing-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-grid {
+      gap: var(--space-4);
+    }
+
+    :global(.hero-corona) {
+      width: min(100%, 320px);
+    }
+
+    .hero-copy .lead {
+      max-width: none;
+    }
+  }
+</style>
