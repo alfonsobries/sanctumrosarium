@@ -1,0 +1,21 @@
+---
+import { t, type UiLanguage } from '../i18n/ui';
+import { stores } from '../i18n/paths';
+
+type Props = { language: UiLanguage };
+
+const { language } = Astro.props;
+const translate = t(language);
+const apple = language === 'es' ? '/badges/app-store-es.svg' : '/badges/app-store-en.svg';
+const play =
+  language === 'es' ? '/badges/google-play-es.png' : '/badges/google-play-en.png';
+---
+
+<div class="stores">
+  <a href={stores.appStore}>
+    <img class="badge-apple" src={apple} alt={translate('cta.appstore')} height="40" />
+  </a>
+  <a href={stores.playStore}>
+    <img class="badge-play" src={play} alt={translate('cta.play')} height="58" />
+  </a>
+</div>

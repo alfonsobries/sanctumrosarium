@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import { t } from '../../i18n/ui';
+
+const language = 'en' as const;
+const translate = t(language);
+---
+
+<Base language={language} current="support" title={translate('support.title')}>
+  <article class="page-head wrap prose">
+    <h1>{translate('support.title')}</h1>
+    <p class="lead">{translate('support.lead')}</p>
+    <p>{translate('support.p1')}</p>
+    <p>{translate('support.p2')}</p>
+  </article>
+</Base>

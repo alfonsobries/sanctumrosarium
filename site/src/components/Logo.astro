@@ -1,0 +1,26 @@
+---
+import mark from '../assets/logo.svg?raw';
+
+type Props = {
+  class?: string;
+  title?: string;
+};
+
+const { class: className = '', title = 'SanctaMaria' } = Astro.props;
+---
+
+<span class:list={['logo', className]} set:html={mark} role="img" aria-label={title} />
+
+<style>
+  .logo {
+    display: block;
+    color: var(--mark);
+    line-height: 0;
+  }
+
+  .logo :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

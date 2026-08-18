@@ -1,17 +1,32 @@
 ---
+import '../styles/global.css';
+
+import Logo from '../components/Logo.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import { t, type UiLanguage } from '../i18n/ui';
+import { pathFor, type PathName } from '../i18n/paths';
 
 type Props = {
   language: UiLanguage;
   title?: string;
   description?: string;
+  current?: PathName;
 };
 
-const { language, title, description } = Astro.props;
+const { language, title, description, current = 'home' } = Astro.props;
 const translate = t(language);
-const home = language === 'es' ? '/' : '/en/';
-const mysteries = language === 'es' ? '/misterios/' : '/en/mysteries/';
-const other = language === 'es' ? '/en/' : '/';
+const otherHome = language === 'es' ? 'en' : 'es';
+const other = pathFor(otherHome, current);
+const nav: {
+  name: PathName;
+  key: 'nav.app' | 'nav.features' | 'nav.how' | 'nav.mysteries' | 'nav.about';
+}[] = [
+  { name: 'home', key: 'nav.app' },
+  { name: 'features', key: 'nav.features' },
+  { name: 'how', key: 'nav.how' },
+  { name: 'mysteries', key: 'nav.mysteries' },
+  { name: 'about', key: 'nav.about' },
+];
 ---
 
 <!doctype html>
@@ -19,112 +34,110 @@ const other = language === 'es' ? '/en/' : '/';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title ?? translate('site.title')}</title>
+    <title>
+      {title ? `${title} - ${translate('site.title')}` : translate('site.title')}
+    </title>
     <meta name="description" content={description ?? translate('site.description')} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.bunny.net" />
+    <link
+      href="https://fonts.bunny.net/css?family=literata:400,400i,600,700"
+      rel="stylesheet"
+    />
     <link
       rel="alternate"
       hreflang="es"
-      href={new URL('/', Astro.site ?? Astro.url).href}
+      href={new URL(pathFor('es', current), Astro.site ?? Astro.url).href}
     />
     <link
       rel="alternate"
       hreflang="en"
-      href={new URL('/en/', Astro.site ?? Astro.url).href}
+      href={new URL(pathFor('en', current), Astro.site ?? Astro.url).href}
     />
+    <script is:inline>
+      (function () {
+        var key = 'sanctamaria-theme';
+        var stored = localStorage.getItem(key);
+        var theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
   </head>
   <body>
-    <header>
-      <a href={home} class="brand">{translate('site.title')}</a>
-      <nav>
-        <a href={mysteries}>{translate('nav.mysteries')}</a>
-        <a href={other} class="lang">{language === 'es' ? 'English' : 'Español'}</a>
-      </nav>
+    <a class="skip" href="#contenido">{translate('skip')}</a>
+    <header class="site-header">
+      <div class="wrap bar">
+        <a class="brand" href={pathFor(language, 'home')}>
+          <Logo class="brand-mark" title={translate('site.title')} />
+          <span class="brand-name">{translate('site.title')}</span>
+        </a>
+        <nav class="nav-links" aria-label="principal">
+          {
+            nav.map((item) => (
+              <a
+                href={pathFor(language, item.name)}
+                aria-current={current === item.name ? 'page' : undefined}
+              >
+                {translate(item.key)}
+              </a>
+            ))
+          }
+        </nav>
+        <details class="nav-menu">
+          <summary>{translate('nav.menu')}</summary>
+          <nav>
+            {
+              nav.map((item) => (
+                <a
+                  href={pathFor(language, item.name)}
+                  aria-current={current === item.name ? 'page' : undefined}
+                >
+                  {translate(item.key)}
+                </a>
+              ))
+            }
+          </nav>
+        </details>
+        <div class="header-tools">
+          <ThemeToggle language={language} />
+          <a class="lang-switch" href={other} hreflang={language === 'es' ? 'en' : 'es'}>
+            {language === 'es' ? 'English' : 'Español'}
+          </a>
+        </div>
+      </div>
     </header>
 
-    <main>
+    <main id="contenido">
       <slot />
     </main>
 
-    <style is:global>
-      :root {
-        --background: #fbf9f6;
-        --surface: #ffffff;
-        --text: #1a1714;
-        --muted: #6b6259;
-        --accent: #7a2e3b;
-        --border: #e5ded4;
-        color-scheme: light dark;
-      }
-
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --background: #12100e;
-          --surface: #1c1917;
-          --text: #f2ede6;
-          --muted: #a39b90;
-          --accent: #c98b96;
-          --border: #2c2724;
-        }
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        background: var(--background);
-        color: var(--text);
-        font-family: ui-serif, Georgia, 'Times New Roman', serif;
-        line-height: 1.6;
-        font-size: 18px;
-      }
-
-      header {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 24px;
-        padding: 24px 20px;
-        max-width: 720px;
-        margin: 0 auto;
-      }
-
-      nav {
-        display: flex;
-        gap: 20px;
-      }
-
-      a {
-        color: inherit;
-      }
-
-      .brand {
-        font-weight: 600;
-        text-decoration: none;
-      }
-
-      main {
-        max-width: 720px;
-        margin: 0 auto;
-        padding: 24px 20px 80px;
-      }
-
-      h1 {
-        font-size: 2rem;
-        line-height: 1.2;
-        margin: 0 0 12px;
-      }
-
-      h2 {
-        font-size: 1.3rem;
-        margin: 40px 0 12px;
-      }
-
-      p.lead {
-        color: var(--muted);
-        margin-top: 0;
-      }
-    </style>
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="cols">
+          <p>{translate('footer.mark')}</p>
+          <nav>
+            <a href={pathFor(language, 'features')}>{translate('nav.features')}</a>
+            <a href={pathFor(language, 'how')}>{translate('nav.how')}</a>
+            <a href={pathFor(language, 'about')}>{translate('nav.about')}</a>
+            <a href={pathFor(language, 'privacy')}>{translate('nav.privacy')}</a>
+            <a href={pathFor(language, 'support')}>{translate('nav.support')}</a>
+          </nav>
+        </div>
+        <p class="credits">{translate('footer.legal')}</p>
+      </div>
+    </footer>
   </body>
 </html>
+
+<style>
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+  }
+</style>

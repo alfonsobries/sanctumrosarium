@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/ui';
+
+const language = 'es' as const;
+const translate = t(language);
+---
+
+<Base language={language} current="about" title={translate('about.title')}>
+  <article class="page-head wrap prose">
+    <h1>{translate('about.title')}</h1>
+    <p class="lead">{translate('about.lead')}</p>
+    <p>{translate('about.p1')}</p>
+    <h2>{translate('about.h1')}</h2>
+    <p>{translate('about.p2')}</p>
+    <h2>{translate('about.h2')}</h2>
+    <p>{translate('about.p3')}</p>
+    <h2>{translate('about.h3')}</h2>
+    <p>{translate('about.p4')}</p>
+    <h2>{translate('about.h4')}</h2>
+    <p>{translate('about.p5')}</p>
+    <h2>{translate('about.h5')}</h2>
+    <p>{translate('about.p6')}</p>
+    <h2>{translate('about.h6')}</h2>
+    <p>{translate('about.p7')}</p>
+    <h2>{translate('about.h7')}</h2>
+    <p>{translate('about.p8')}</p>
+    <h2>{translate('about.h8')}</h2>
+    <p>{translate('about.p9')}</p>
+    <h2>{translate('about.h9')}</h2>
+    <p>{translate('about.p10')}</p>
+  </article>
+</Base>

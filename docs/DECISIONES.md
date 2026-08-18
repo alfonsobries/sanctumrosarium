@@ -16,12 +16,13 @@ Dos direcciones posibles:
 - **Cálida y cercana.** Color suave, formas redondeadas, sensación de casa y de rezo en
   familia. Riesgo: infantil o genérica.
 
-**Recomendación:** sobria como base (es una app para rezar de noche y en silencio, y el
-modo oscuro es el uso principal), con una sola nota cálida de marca. Decidir con bocetos,
-no con adjetivos.
+**Propuesta viva en el sitio.** El chrome es claro y oscuro, neutros (tinta y piedra, no
+crema). El metal del medallón cambia con el tema: pizarra en claro, peltre en oscuro. El
+SVG usa `currentColor` para poder probar otro metal cambiando `--mark`. El crema, si entra,
+es papel del rezo, no la marca.
 
-También pendiente: si hay un símbolo (cuenta, rosa, corona) y si el icono funciona en la
-esfera del reloj a tamaño mínimo.
+Símbolo: el medallón (María, doce estrellas, cuentas, cruz). Falta verlo a tamaño de
+icono en la esfera del reloj.
 
 ## 3. Modelo económico
 

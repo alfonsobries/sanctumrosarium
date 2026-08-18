@@ -1,0 +1,41 @@
+---
+import { t, type UiLanguage } from '../i18n/ui';
+
+type Props = { language: UiLanguage };
+
+const { language } = Astro.props;
+const translate = t(language);
+---
+
+<div class="theme-toggle" role="group" aria-label={translate('theme.label')}>
+  <button type="button" data-theme-set="light">{translate('theme.light')}</button>
+  <button type="button" data-theme-set="dark">{translate('theme.dark')}</button>
+</div>
+
+<script>
+  const key = 'sanctamaria-theme';
+
+  function currentTheme(): 'light' | 'dark' {
+    const value = document.documentElement.dataset.theme;
+    return value === 'dark' ? 'dark' : 'light';
+  }
+
+  function apply(theme: 'light' | 'dark'): void {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem(key, theme);
+    for (const button of document.querySelectorAll<HTMLButtonElement>(
+      '[data-theme-set]',
+    )) {
+      button.setAttribute('aria-pressed', String(button.dataset.themeSet === theme));
+    }
+  }
+
+  apply(currentTheme());
+
+  document.querySelectorAll<HTMLButtonElement>('[data-theme-set]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const next = button.dataset.themeSet === 'dark' ? 'dark' : 'light';
+      apply(next);
+    });
+  });
+</script>

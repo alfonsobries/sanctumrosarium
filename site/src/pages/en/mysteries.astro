@@ -9,20 +9,20 @@ const translate = t('en');
 const sets = ['gaudiosa', 'luminosa', 'dolorosa', 'gloriosa'] as const;
 ---
 
-<Base
-  language="en"
-  title={`${translate('mysteries.title')} - ${translate('site.title')}`}
->
-  <h1>{translate('mysteries.title')}</h1>
-  <p class="lead">{translate('mysteries.lead')}</p>
-
-  {
-    sets.map((set) => (
-      <MysterySet
-        language="en"
-        set={set}
-        mysteries={mysteries.filter((mystery) => mystery.set === set)}
-      />
-    ))
-  }
+<Base language="en" current="mysteries" title={translate('mysteries.title')}>
+  <header class="page-head wrap">
+    <h1>{translate('mysteries.title')}</h1>
+    <p class="lead">{translate('mysteries.lead')}</p>
+  </header>
+  <div class="wrap prose">
+    {
+      sets.map((set) => (
+        <MysterySet
+          language="en"
+          set={set}
+          mysteries={mysteries.filter((mystery) => mystery.set === set)}
+        />
+      ))
+    }
+  </div>
 </Base>
