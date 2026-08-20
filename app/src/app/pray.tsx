@@ -67,8 +67,12 @@ export default function PrayScreen() {
   const router = useRouter();
   // The novena opens the prayer on its own set of mysteries (task 044); everything
   // else about the session stays exactly the same.
-  const { set: setParam } = useLocalSearchParams<{ set?: string }>();
+  const { set: setParam, decades: decadesParam } = useLocalSearchParams<{
+    set?: string;
+    decades?: string;
+  }>();
   const requestedSet = NOVENA_SETS.find((candidate) => candidate === setParam);
+  const singleDecade = decadesParam === '1';
   const { prayerLocale, prayerForm, settings, systemPrayerLocale, prayerLanguage } =
     useSettings();
   const syncWidget = useCallback(() => {
@@ -97,6 +101,7 @@ export default function PrayScreen() {
           withClauses: settings.withClauses,
           withReading: settings.withReading,
           silenceSeconds: settings.silenceSeconds,
+          ...(singleDecade ? { decadeCount: 1 } : {}),
           ...latinOverrides(prayerLocale, settings.latinMixOwn, systemPrayerLocale),
         }
       : saved.options,
@@ -484,7 +489,10 @@ export default function PrayScreen() {
         )}
         {progress.decade === undefined ? null : (
           <View style={styles.beads}>
-            <BeadTrack bead={progress.beadInDecade} />
+            <BeadTrack
+              bead={progress.beadInDecade}
+              large={buildOptions.decadeCount === 1}
+            />
             <AppText variant="caption" color="muted">
               {[
                 progress.beadInDecade === undefined
@@ -616,6 +624,9 @@ function ResumeScreen({
   // Said once and with precision, never repeated day after day (task 030): praying in
   // parts is prayer; it simply does not meet that one condition.
   const [showNote] = useState(() => {
+    if (saved.options.decadeCount === 1) {
+      return false;
+    }
     if (appKv.get(INDULGENCE_NOTE_KEY) !== null) {
       return false;
     }

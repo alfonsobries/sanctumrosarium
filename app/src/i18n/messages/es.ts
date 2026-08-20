@@ -23,6 +23,7 @@ export const es = {
     todayReasonSeason: '{{season}}: la costumbre reza estos misterios.',
     todayReasonSolemnity: '{{feast}}: la costumbre reza estos misterios.',
     start: 'Empezar',
+    oneDecade: 'Una decena',
     settings: 'Ajustes',
   },
   pray: {

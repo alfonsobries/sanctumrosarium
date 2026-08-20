@@ -20,6 +20,21 @@ describe('buildRosary', () => {
     expect(countHailMarys(buildRosary(base))).toBe(53);
   });
 
+  it('prays a single decade as a complete act of that length', () => {
+    const steps = buildRosary({ ...base, decadeCount: 1 });
+    const decades = new Set(
+      steps.flatMap((step) =>
+        'decade' in step && step.decade !== undefined ? [step.decade] : [],
+      ),
+    );
+    expect(decades.size).toBe(1);
+    expect(countHailMarys(steps)).toBe(13);
+    const announce = steps.find((step) => step.kind === 'announce');
+    expect(announce?.kind === 'announce' ? announce.mystery.id : undefined).toBe(
+      'gaudiosa-1',
+    );
+  });
+
   it('keeps the essential decade whatever the options say', () => {
     const steps = buildRosary({ ...base, include: [] });
     const firstDecade = steps.filter((step) => 'decade' in step && step.decade === 0);
