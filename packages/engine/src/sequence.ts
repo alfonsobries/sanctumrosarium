@@ -4,6 +4,7 @@ import {
   mysteries,
   type FormId,
   type FormStep,
+  type Language,
   type Locale,
   type Mystery,
   type MysterySetId,
@@ -52,6 +53,28 @@ export class MissingPrayerError extends Error {
     super(`prayer ${prayer} is missing in ${locale}`);
     this.name = 'MissingPrayerError';
   }
+}
+
+function languageOf(locale: Locale): Language {
+  if (locale === 'la') {
+    return 'la';
+  }
+  return locale.startsWith('es') ? 'es' : 'en';
+}
+
+/**
+ * The clause after the name of Jesus in each Hail Mary (DPPL 201): the phrase of the
+ * mystery being meditated, appended to the line that names him. The call/response cut
+ * keeps its index, so praying in two voices is untouched.
+ */
+function withClauseAfterJesus(text: PrayerText, clause: string): PrayerText {
+  const jesus = /(Jesús|Jesus|Iesus)([.,]?)$/;
+  return {
+    ...text,
+    lines: text.lines.map((line) =>
+      jesus.test(line) ? line.replace(jesus, (_m, name) => `${name}, ${clause}.`) : line,
+    ),
+  };
 }
 
 function prayerStep(
@@ -161,17 +184,27 @@ function decadeSteps(
     ),
   );
   for (let bead = 1; bead <= 10; bead += 1) {
-    steps.push(
-      prayerStep(
-        'ave-maria',
-        options.locale,
-        false,
-        index,
-        bead,
-        mystery,
-        options.localeOverrides?.['ave-maria'],
-      ),
+    const ave = prayerStep(
+      'ave-maria',
+      options.locale,
+      false,
+      index,
+      bead,
+      mystery,
+      options.localeOverrides?.['ave-maria'],
     );
+    if (options.withClauses === true && ave.kind === 'prayer') {
+      const clause =
+        mystery.text[languageOf(ave.prayer.locale)].clause ??
+        mystery.text[languageOf(options.locale)].clause;
+      steps.push(
+        clause === undefined
+          ? ave
+          : { ...ave, prayer: withClauseAfterJesus(ave.prayer, clause) },
+      );
+    } else {
+      steps.push(ave);
+    }
   }
   steps.push(
     prayerStep(

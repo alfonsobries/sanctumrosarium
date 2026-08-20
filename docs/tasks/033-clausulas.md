@@ -46,15 +46,30 @@ Camino las enciende.
 4. Tests cubren: las veinte cláusulas, el motor las inserta, y el Ave sin cláusula no
    cambia.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **El motor inserta la cláusula** tras el nombre de Jesús en la línea que lo nombra,
+  respetando el corte de llamada y respuesta (probado). Funciona con la mezcla de idiomas:
+  la cláusula sigue a la lengua del Ave.
+- **El dato lleva su fuente**: `clausesSource` en el paquete dice que es redacción propia
+  sobre el patrón del Gotteslob y la lista de Montfort (rosa 50), y el ajuste lo repite en
+  pantalla; nada se presenta como cita del magisterio.
+- **Apagadas por defecto**, con su interruptor junto a las oraciones opcionales (ajustes
+  v10, migración probada). La etapa 3 del Camino las encenderá cuando exista (task 031).
+- Tests del motor: inserción en las diez Aves de cada decena de los cuatro grupos, Ave
+  intacta sin el ajuste, y corte de respuesta sin mover.
+- **Pendiente**: cotejar la redacción con el Gotteslob real (revisor humano), el audio del
+  Ave con cláusula (o que el guía la diga al anunciar), y la explicación en el sitio.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] Reloj - si suena o se cuenta, la cláusula no hace falta en pantalla
-- [ ] Audio - hay que grabar el Ave con cada cláusula, o decirla el guía al anunciar
-- [ ] Accesibilidad
-- [ ] Sitio - la guía explica qué es y cita DPPL 201
+- [x] Definir qué aplica
+- [x] Contenido y motor
+- [x] App
+- [x] ~~Reloj - si suena o se cuenta, la cláusula no hace falta en pantalla~~
+- [ ] Audio - pendiente: grabar el Ave por misterio o decirla al anunciar
+- [x] Accesibilidad - texto normal dentro del Ave
+- [ ] Sitio - explicación con DPPL 201, pendiente
 
 ## Fuentes
 

@@ -178,6 +178,10 @@ export const en = {
     note: 'An act of worship by itself; it can also close the Rosary from Settings.',
     settingHint: 'Closes the Rosary; an act of worship by itself.',
   },
+  clauses: {
+    title: 'Mystery clauses',
+    hint: "After the name of Jesus, the phrase of the mystery in each Hail Mary (DPPL 201). Our own wording over the German pattern and Montfort's list.",
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },

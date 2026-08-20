@@ -184,3 +184,71 @@ describe('localeOverrides', () => {
     expect(greeting?.kind === 'prayer' && greeting.prayer.locale).toBe('es-MX');
   });
 });
+
+describe('withClauses', () => {
+  const aves = (options: Parameters<typeof buildRosary>[0]) =>
+    buildRosary(options).filter(
+      (step) => step.kind === 'prayer' && step.prayer.id === 'ave-maria',
+    );
+
+  it('appends the clause of the mystery to every Hail Mary of its decade', () => {
+    const steps = aves({
+      form: 'roman',
+      locale: 'es-MX',
+      set: 'gaudiosa',
+      withClauses: true,
+    });
+    expect(steps).toHaveLength(53);
+    const decadeAves = steps.filter((step) => 'decade' in step && step.decade === 0);
+    for (const step of decadeAves) {
+      expect(
+        step.kind === 'prayer' &&
+          step.prayer.lines.some((line) =>
+            line.includes('Jesús, a quien concebiste por obra del Espíritu Santo.'),
+          ),
+      ).toBe(true);
+    }
+  });
+
+  it('keeps the plain Hail Mary without the setting', () => {
+    const plain = aves({ form: 'roman', locale: 'es-MX', set: 'gaudiosa' });
+    for (const step of plain) {
+      expect(
+        step.kind === 'prayer' &&
+          step.prayer.lines.some((line) => line.includes(', a quien')),
+      ).toBe(false);
+    }
+  });
+
+  it('keeps the call and response cut unchanged', () => {
+    const [withClause] = aves({
+      form: 'roman',
+      locale: 'la',
+      set: 'dolorosa',
+      withClauses: true,
+    }).filter((step) => 'decade' in step && step.decade === 0);
+    expect(withClause.kind === 'prayer' && withClause.prayer.responseFrom).toBe(3);
+  });
+
+  it('every mystery of every set carries its clause into the Aves', () => {
+    for (const set of ['gaudiosa', 'luminosa', 'dolorosa', 'gloriosa'] as const) {
+      const steps = buildRosary({ form: 'roman', locale: 'la', set, withClauses: true });
+      const decades = new Set(
+        steps.flatMap((step) =>
+          'decade' in step && step.decade !== undefined ? [step.decade] : [],
+        ),
+      );
+      for (const decade of decades) {
+        const ave = steps.find(
+          (step) =>
+            step.kind === 'prayer' &&
+            step.prayer.id === 'ave-maria' &&
+            step.decade === decade,
+        );
+        expect(
+          ave?.kind === 'prayer' && ave.prayer.lines.join(' ').includes('Iesus,'),
+        ).toBe(true);
+      }
+    }
+  });
+});
