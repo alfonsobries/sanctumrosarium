@@ -9,3 +9,4 @@ minimumReleaseAgeExclude:
   - '@alfonsobries/aikit'
   - '@expo/ui'
   - expo-widgets
+  - '@bacons/apple-targets'

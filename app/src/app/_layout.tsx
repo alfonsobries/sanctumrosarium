@@ -15,8 +15,11 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { mysteriesOfDay } from '@rosario/engine';
+
 import { ErrorScreen } from '@/components/ErrorScreen';
 import { appJournal } from '@/features/journal/app-journal';
+import { pushWatchContext } from '../../modules/watch-bridge';
 import { applyReminder } from '@/features/reminder/apply';
 import { syncMysteryWidget } from '@/features/widget/update-widget';
 import { initI18n } from '@/i18n';
@@ -61,6 +64,11 @@ function RootNavigator() {
 
   // The widget's timeline freezes its text when scheduled: it is redone on every start
   // and whenever the language, the Rule, or the prayer locale changes (task 019).
+  useEffect(() => {
+    const { set } = mysteriesOfDay(new Date());
+    pushWatchContext({ set, locale: prayerLanguage });
+  }, [prayerLanguage, settings.rule]);
+
   useEffect(() => {
     syncMysteryWidget({
       prayerLanguage,
