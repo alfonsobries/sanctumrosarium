@@ -2,15 +2,18 @@ import { Text, VStack } from '@expo/ui/swift-ui';
 import { font, widgetURL } from '@expo/ui/swift-ui/modifiers';
 import { createWidget, type WidgetEnvironment } from 'expo-widgets';
 
-import { WIDGET_URL, type MysteryWidgetProperties } from './timeline';
+import type { MysteryWidgetProperties } from './timeline';
 
 /**
  * The passive reminder (task 019): the mystery of the day on the Home Screen and Lock
  * Screen, never a streak, never a number. Tapping opens the prayer, ready to begin.
+ *
+ * The `'widget'` directive is required: babel stringifies this function for the native
+ * constructor. Do not close over values from this module.
  */
 const MysteryOfDay = (props: MysteryWidgetProperties, environment: WidgetEnvironment) => {
   'widget';
-  const url = widgetURL(WIDGET_URL);
+  const url = widgetURL('sanctamaria://pray');
   const titleFont = font({
     design: 'serif',
     textStyle: 'headline',
@@ -47,4 +50,4 @@ const MysteryOfDay = (props: MysteryWidgetProperties, environment: WidgetEnviron
   );
 };
 
-export const mysteryWidget = createWidget('MysteryOfDay', MysteryOfDay);
+export default createWidget('MysteryOfDay', MysteryOfDay);

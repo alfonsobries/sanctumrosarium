@@ -8,8 +8,6 @@ import { localDateOf } from '@/features/rosary/session-store';
 /** How far the app can see without being opened again. After that the last day holds. */
 export const WIDGET_DAYS_AHEAD = 60;
 
-export const WIDGET_URL = 'sanctamaria://pray';
-
 export type MysteryWidgetProperties = {
   /** Localized set name, frozen at scheduling time. */
   readonly setName: string;

@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 import type { Journal } from '@/features/journal/db';
 import type { RuleId } from '@/features/journal/rule';
 
-import { mysteryWidget } from './MysteryWidget';
+import mysteryWidget from './MysteryWidget';
 import { mysteryWidgetTimeline, widgetTodayNote } from './timeline';
 
 export function syncMysteryWidget(input: {
