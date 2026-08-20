@@ -112,7 +112,7 @@ export function spanishCommonPrayers(
         'Amén.',
       ],
       source: {
-        name: 'Petición de la Virgen en Fátima, 13 de julio de 1917. Texto español de uso común; original portugués en las Memorias de sor Lucía, 4a memoria (dossier C.4.6). El documento CDF de 2000 no publica esta oración.',
+        name: 'Petición de la Virgen en Fátima, 13 de julio de 1917. Texto español de uso común; original portugués en las Memorias de sor Lucía, 4a memoria. El documento CDF de 2000 no publica esta oración.',
         url: 'https://www.fatima.pt/',
       },
     },

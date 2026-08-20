@@ -43,15 +43,41 @@ App y sitio, del mismo paquete. En el reloj no.
 3. Un escrupuloso no sale más obligado de lo que entró.
 4. Todo el copy pasa el skill `voz` y el agente `revisor-doctrinal`.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Seis páginas en `packages/content/src/school`**, leídas por la app (Inicio > Escuela
+  del Rosario) y por el sitio (/escuela y /en/school) del mismo dato: qué es, de dónde
+  viene, el método, las promesas, las indulgencias y el rosario como objeto.
+- **Cada bloque lleva su cita visible y su género** (`magisterium` / `liturgy` /
+  `tradition` / `note`): el lector siempre sabe quién habla. Un test garantiza que ninguna
+  cita nombra un documento interno del repo, y la fuente principal va por idioma (el
+  lector inglés recibe la edición inglesa de vatican.va).
+- **Dos revisiones (crítico litúrgico y revisor doctrinal) aplicadas enteras**: citas
+  reatribuidas (compendio a MC 42/RVM 1; "costumbre loable" a RVM 33; el 150 de la rosa
+  41), las anchuras de las normas de indulgencias (una confesión para varias plenarias,
+  días antes o después, el Padrenuestro y Avemaría por el Papa), la advertencia de que una
+  grabación o el audio de la app no entran en la letra de la concesión 17, la libertad de
+  MC 55/DPPL 202, las distracciones (CIC 2729; Montfort rosas 42-43), la postura (rosa
+  45), la libre adopción de los luminosos (RVM 19), la prevalencia del día litúrgico
+  (DPPL 200) y el "qué no es" (coronilla, Siete Dolores, misterios inventados). Las citas
+  inglesas no verificadas se pasaron a discurso indirecto.
+- Los "veinte misterios" y la estructura esencial quedan en la página "Qué es"; los
+  misterios completos ya tienen su propia superficie (app y sitio).
+- **Pendiente**: una página de estructura con las formas regionales en la app (el sitio ya
+  la tiene en /como-se-reza); cotejar en vatican.va EN las citas inglesas que hoy van en
+  indirecto; y las preguntas que solo puede responder quien reza en cada región (esquema
+  semanal viejo vs. RVM 38 en gente mayor, versión española corriente de las promesas y su
+  imprimatur, formulación de indulgencias revisada por un confesor).
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] ~~Reloj - n/a: se lee~~
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad
-- [ ] Sitio - son las mismas páginas
+- [x] Definir qué aplica
+- [x] Contenido y motor - paquete `school` con sus tests
+- [x] App
+- [x] ~~Reloj - n/a: se lee~~
+- [x] ~~Audio - n/a~~
+- [x] Accesibilidad - texto plano con jerarquía de encabezados; fuentes como texto
+- [x] Sitio - son las mismas páginas, en la nav como "Escuela"
 
 ## Fuentes
 

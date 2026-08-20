@@ -319,6 +319,17 @@ export const en = {
     },
     hint: 'Announce the mystery, hear the Word, and keep a moment of quiet; a tap always moves on.',
   },
+  school: {
+    title: 'School of the Rosary',
+    intro:
+      'What the Rosary is, where it comes from, what the Church says, and what it is not. Every statement carries its source.',
+    source: 'Main source: {{name}}.',
+    kind: {
+      magisterium: 'Magisterium',
+      liturgy: 'Liturgy',
+      tradition: 'Pious tradition',
+    },
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },

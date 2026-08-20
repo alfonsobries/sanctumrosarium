@@ -3,6 +3,8 @@ export { clausesSource, mysteries } from './mysteries';
 export { forms, allForms } from './forms';
 export { prayers, findPrayer, prayersFor } from './prayers';
 export { lauretanae } from './litany';
+export { findSchoolPage, schoolPages } from './school';
+export type { SchoolBlock, SchoolPage, SchoolPageId, SchoolPageText } from './school';
 export type { Litany, LitanyGroup, LitanyLine, LitanyResponse } from './litany/types';
 export { latinLineMap } from './bilingual';
 export { validateContent } from './validate';
