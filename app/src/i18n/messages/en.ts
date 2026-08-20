@@ -205,6 +205,79 @@ export const en = {
     respond: 'You lead, the voice answers',
     hint: 'For praying aloud, with the phone at the center of the table. The part that is yours stays silent.',
   },
+  camino: {
+    title: 'The Way',
+    intro:
+      'Eight manners of praying the same Rosary. They are walked by praying, starting wherever you want.',
+    anyOrder: 'The order suggests; every stage opens whenever you choose.',
+    toggle: 'Turned off, the app stays whole and nothing is lost.',
+    timesRosaries: '{{done}} of {{target}} Rosaries',
+    timesDays: '{{done}} of {{target}} days',
+    state: {
+      notStarted: 'Not started',
+      walked: 'Walked',
+    },
+    mark: 'I prayed this way today',
+    marked: 'Counted for today.',
+    unmark: "Take back today's mark",
+    markHint: 'Only you can say this; it counts one day at a time.',
+    stages: {
+      structure: {
+        title: 'The structure',
+        teach:
+          'What the Rosary is: its parts, the mysteries, and the day each set belongs to.',
+        how: 'Pray one Rosary with the app, beginning to end.',
+        walked:
+          'You now know how to pray the whole Rosary and which mysteries belong to today.',
+      },
+      meditate: {
+        title: 'Meditating',
+        teach:
+          'Announcing the mystery, listening to it, and keeping a moment of silence before the decade (RVM 29-31).',
+        how: 'In Settings, lengthen the mystery pause and hold it before each decade.',
+        walked: 'You now know how to pause on the mystery before praying it.',
+      },
+      clauses: {
+        title: 'The clauses',
+        teach:
+          'Adding to the name of Jesus the phrase of the mystery in each Hail Mary (DPPL 201).',
+        how: 'Turn on the mystery clauses in Settings and pray a full set.',
+        walked: 'You now know how to pray the Hail Mary with the mystery inside it.',
+      },
+      respond: {
+        title: 'Answering',
+        teach:
+          'Praying in two voices: one says the first half and the other answers the second.',
+        how: 'In Settings, under Two choirs, choose to lead; pray aloud with the guide.',
+        walked: 'You now know how to lead and be answered.',
+      },
+      latin: {
+        title: 'Latin',
+        teach:
+          'The same prayers in the language of the Church, from hearing them to answering them.',
+        how: 'Switch the prayer language to Latin; the text can carry your own language under it.',
+        walked: 'You now know how to pray the Rosary in Latin.',
+      },
+      sung: {
+        title: 'Singing',
+        teach: 'The Salve and the litany are also sung.',
+        how: 'When you sing the Salve or the litany at the close of the Rosary, mark it here.',
+        walked: 'You now know how to close the Rosary singing.',
+      },
+      family: {
+        title: 'With your household',
+        teach: 'Two choirs, aloud, with the people at home.',
+        how: 'Pray with someone else, the phone at the center of the table, and mark it here.',
+        walked: 'You now know how to pray the Rosary in company.',
+      },
+      twenty: {
+        title: 'The twenty mysteries',
+        teach: 'The four sets of mysteries in a single day: the complete Rosary.',
+        how: 'Pray the four sets of mysteries in one day, in as many sessions as you need.',
+        walked: 'You now know how to pray the Rosary of the twenty mysteries.',
+      },
+    },
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },

@@ -3,6 +3,7 @@ import {
   advance,
   buildRosary,
   decadesCompleted,
+  waysOfSession,
   goBack,
   mysteriesOfDay,
   progressOf,
@@ -13,7 +14,7 @@ import {
   type Step,
 } from '@rosario/engine';
 import { useRouter } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Linking,
@@ -96,6 +97,20 @@ export default function PrayScreen() {
     [steps],
   );
 
+  // Whether the guide's voice was used at all this session, for the Way's respond stage.
+  const usedAudioRef = useRef(false);
+
+  const sessionWays = useCallback(
+    () =>
+      waysOfSession({
+        language,
+        withClauses: settings.withClauses,
+        meditativePause: settings.announcePause !== 'short',
+        answeredAloud: usedAudioRef.current && settings.choirRole === 'respond',
+      }),
+    [language, settings.withClauses, settings.announcePause, settings.choirRole],
+  );
+
   // The bead survives leaving the screen: saved on every step, cleared when finished.
   useEffect(() => {
     if (phase !== 'praying') {
@@ -111,6 +126,8 @@ export default function PrayScreen() {
           finishedAt: record.finishedAt,
           decades: record.decades,
           localDate: localDateOf(new Date(record.finishedAt)),
+          ways: sessionWays(),
+          mysterySet: buildOptions.set,
           ...(record.intention === undefined ? {} : { intention: record.intention }),
         });
       }
@@ -123,7 +140,7 @@ export default function PrayScreen() {
       options: buildOptions,
       localDate: localDateOf(new Date()),
     });
-  }, [session, buildOptions, steps, progress.finished, phase]);
+  }, [session, buildOptions, steps, progress.finished, phase, sessionWays]);
 
   const handleNext = () => {
     void playHaptic(hapticForStep(steps[progress.stepIndex + 1]), settings.haptics);
@@ -154,6 +171,10 @@ export default function PrayScreen() {
       animated: !reducedMotion,
     });
   }, [activeLine, reducedMotion]);
+  const handleListen = () => {
+    usedAudioRef.current = true;
+    audio.toggle();
+  };
   const handlePrevious = () => {
     setSession((current) => goBack(current));
   };
@@ -171,6 +192,9 @@ export default function PrayScreen() {
           finishedAt: new Date().toISOString(),
           decades: prayed,
           localDate: localDateOf(new Date(saved.state.startedAt)),
+          // A discarded session walks nothing: the Way counts finished Rosaries only.
+          // Its loose decades still count for the Rule, which measures faithfulness.
+          mysterySet: saved.options.set,
           ...(saved.state.intention === undefined
             ? {}
             : { intention: saved.state.intention }),
@@ -382,7 +406,7 @@ export default function PrayScreen() {
               <Button
                 label={audio.playing ? t('pray.pause') : t('pray.listen')}
                 variant="secondary"
-                onPress={audio.toggle}
+                onPress={handleListen}
                 accessibilityHint={t('pray.listenHint')}
               />
             </View>

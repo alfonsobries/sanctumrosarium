@@ -65,6 +65,7 @@ export default function SettingsScreen() {
     setHaptics,
     setLatinText,
     setRosesEnabled,
+    setCaminoEnabled,
     setWithLitany,
     setWithClauses,
     toggleLatinMix,
@@ -247,6 +248,17 @@ export default function SettingsScreen() {
           testID="open-intentions"
           divider={false}
           onPress={() => router.push('/intentions')}
+        />
+      </Card>
+
+      <SectionHeader title={t('camino.title')} />
+      <Card>
+        <SwitchRow
+          label={t('camino.title')}
+          description={t('camino.toggle')}
+          value={settings.caminoEnabled}
+          divider={false}
+          onValueChange={(value) => setCaminoEnabled(value)}
         />
       </Card>
 

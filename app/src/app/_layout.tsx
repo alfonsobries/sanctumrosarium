@@ -104,6 +104,21 @@ function RootNavigator() {
           }}
         />
         <Stack.Screen
+          name="camino/index"
+          options={{
+            headerShown: true,
+            title: t('camino.title'),
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        />
+        <Stack.Screen
+          name="camino/[stage]"
+          options={{
+            headerShown: true,
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        />
+        <Stack.Screen
           name="settings"
           options={{
             headerShown: true,

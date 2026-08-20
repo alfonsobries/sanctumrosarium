@@ -19,6 +19,10 @@ export type PrayedEntry = {
   readonly intention?: string;
   /** A litany is its own act of worship (DPPL 203), never added up as a Rosary. */
   readonly kind?: 'rosary' | 'litany';
+  /** How it was prayed, for the Way. Acts, never graces. */
+  readonly ways?: readonly string[];
+  /** Which set of mysteries was prayed, for the twenty-mysteries stage. */
+  readonly mysterySet?: string;
 };
 
 export type IntentionCount = {
@@ -57,6 +61,17 @@ const migrations: readonly (readonly string[])[] = [
     )`,
   ],
   [`alter table prayed add column kind text not null default 'rosary'`],
+  [
+    // Comma-delimited ways this session was prayed (',structure,latin,'), for the Way.
+    `alter table prayed add column ways text not null default ''`,
+    `create table camino_marks (
+      id integer primary key autoincrement,
+      stage text not null,
+      local_date text not null,
+      unique (stage, local_date)
+    )`,
+  ],
+  [`alter table prayed add column mystery_set text`],
 ];
 
 export function migrateJournal(db: SqlDb): void {
@@ -90,6 +105,16 @@ export type Journal = {
   readonly deleteIntention: (text: string) => void;
   /** For whom this person has prayed, and how many times. Never whether it was answered. */
   readonly intentionHistory: () => readonly IntentionCount[];
+  /** Rosaries prayed a given way. Counts acts (gamificacion.md): use walks the Way. */
+  readonly wayCount: (way: string) => number;
+  /** Days that prayed all four sets of mysteries. Each such day is one act. */
+  readonly twentyCount: () => number;
+  /** The person says they prayed a non-detectable way today (singing, family). */
+  readonly markWay: (stage: string, localDate: string) => void;
+  /** A wrong mark weighs on a scrupulous conscience: today's can always be taken back. */
+  readonly unmarkWay: (stage: string, localDate: string) => void;
+  readonly markedWay: (stage: string, localDate: string) => boolean;
+  readonly markCount: (stage: string) => number;
 };
 
 export function openJournal(db: SqlDb): Journal {
@@ -111,7 +136,7 @@ export function openJournal(db: SqlDb): Journal {
     add: (entry) => {
       // The same session recorded twice (a re-render, a resumed finish) stays one act.
       db.run(
-        'insert or ignore into prayed (started_at, finished_at, decades, local_date, intention, kind) values (?, ?, ?, ?, ?, ?)',
+        'insert or ignore into prayed (started_at, finished_at, decades, local_date, intention, kind, ways, mystery_set) values (?, ?, ?, ?, ?, ?, ?, ?)',
         [
           entry.startedAt,
           entry.finishedAt,
@@ -119,6 +144,10 @@ export function openJournal(db: SqlDb): Journal {
           entry.localDate,
           entry.intention ?? null,
           entry.kind ?? 'rosary',
+          entry.ways === undefined || entry.ways.length === 0
+            ? ''
+            : `,${entry.ways.join(',')},`,
+          entry.mysterySet ?? null,
         ] as (string | number)[],
       );
     },
@@ -181,5 +210,36 @@ export function openJournal(db: SqlDb): Journal {
       db.all<{ intention: string; times: number }>(
         'select intention, count(*) as times from prayed where intention is not null group by intention order by times desc, intention',
       ),
+    wayCount: (way) =>
+      db.all<{ times: number }>(
+        "select count(*) as times from prayed where kind = 'rosary' and ways like ?",
+        [`%,${way},%`],
+      )[0]?.times ?? 0,
+    twentyCount: () =>
+      db.all<{ times: number }>(
+        "select count(*) as times from (select local_date from prayed where kind = 'rosary' and mystery_set is not null group by local_date having count(distinct mystery_set) >= 4)",
+      )[0]?.times ?? 0,
+    markWay: (stage, localDate) => {
+      db.run('insert or ignore into camino_marks (stage, local_date) values (?, ?)', [
+        stage,
+        localDate,
+      ]);
+    },
+    unmarkWay: (stage, localDate) => {
+      db.run('delete from camino_marks where stage = ? and local_date = ?', [
+        stage,
+        localDate,
+      ]);
+    },
+    markedWay: (stage, localDate) =>
+      db.all<{ id: number }>(
+        'select id from camino_marks where stage = ? and local_date = ?',
+        [stage, localDate],
+      ).length > 0,
+    markCount: (stage) =>
+      db.all<{ times: number }>(
+        'select count(*) as times from camino_marks where stage = ?',
+        [stage],
+      )[0]?.times ?? 0,
   };
 }

@@ -205,6 +205,78 @@ export const es = {
     respond: 'Tú guías y la voz responde',
     hint: 'Para rezar en voz alta, con el teléfono en el centro de la mesa. La parte que te toca queda en silencio.',
   },
+  camino: {
+    title: 'El Camino',
+    intro:
+      'Ocho maneras de rezar el mismo Rosario. Se recorren rezando, empezando por donde quieras.',
+    anyOrder: 'El orden sugiere; cada etapa se abre cuando tú quieras.',
+    toggle: 'Apagado, la app sigue completa y nada se pierde.',
+    timesRosaries: '{{done}} de {{target}} rosarios',
+    timesDays: '{{done}} de {{target}} días',
+    state: {
+      notStarted: 'Sin empezar',
+      walked: 'Recorrida',
+    },
+    mark: 'Hoy recé así',
+    marked: 'Contado por hoy.',
+    unmark: 'Quitar la marca de hoy',
+    markHint: 'Esto solo tú puedes decirlo; cuenta un día a la vez.',
+    stages: {
+      structure: {
+        title: 'La estructura',
+        teach:
+          'Qué es el Rosario: sus partes, los misterios y el día que le toca a cada grupo.',
+        how: 'Reza un Rosario con la app, del principio al fin.',
+        walked: 'Ya sabes rezar el Rosario entero y qué misterios tocan hoy.',
+      },
+      meditate: {
+        title: 'Meditar',
+        teach:
+          'Enunciar el misterio, escucharlo y callar un momento antes de la decena (RVM 29-31).',
+        how: 'En Ajustes, alarga la pausa del misterio y sostenla antes de cada decena.',
+        walked: 'Ya sabes detenerte en el misterio antes de rezarlo.',
+      },
+      clauses: {
+        title: 'Las cláusulas',
+        teach:
+          'Añadir al nombre de Jesús la frase del misterio en cada avemaría (DPPL 201).',
+        how: 'Enciende las cláusulas del misterio en Ajustes y reza una serie completa.',
+        walked: 'Ya sabes rezar el avemaría con el misterio dentro.',
+      },
+      respond: {
+        title: 'Responder',
+        teach:
+          'Rezar a dos voces: una dice la primera mitad y la otra contesta la segunda.',
+        how: 'En Ajustes, en A dos coros, elige que tú guías; reza en voz alta con la guía.',
+        walked: 'Ya sabes llevar la voz y dejar que te respondan.',
+      },
+      latin: {
+        title: 'Latín',
+        teach:
+          'Las oraciones de siempre en la lengua de la Iglesia, de escucharlas a responderlas.',
+        how: 'Cambia el idioma del rezo a latín; el texto puede llevar tu lengua debajo.',
+        walked: 'Ya sabes rezar el Rosario en latín.',
+      },
+      sung: {
+        title: 'Cantar',
+        teach: 'La Salve y las letanías también se cantan.',
+        how: 'Cuando cantes la Salve o las letanías al cerrar el Rosario, márcalo aquí.',
+        walked: 'Ya sabes cerrar el Rosario cantando.',
+      },
+      family: {
+        title: 'En familia',
+        teach: 'A dos coros y en voz alta, con los demás en casa.',
+        how: 'Reza con alguien más, con el teléfono en el centro de la mesa, y márcalo aquí.',
+        walked: 'Ya sabes rezar el Rosario acompañado.',
+      },
+      twenty: {
+        title: 'Los veinte misterios',
+        teach: 'Los cuatro grupos de misterios en un mismo día: el Rosario completo.',
+        how: 'Reza los cuatro grupos de misterios en un día, en las sesiones que necesites.',
+        walked: 'Ya sabes rezar el Rosario de los veinte misterios.',
+      },
+    },
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },

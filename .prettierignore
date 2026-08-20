@@ -10,3 +10,4 @@ docs/referencias/**/*.txt
 AGENTS.md
 CLAUDE.md
 .agents/aikit/
+app/.expo/
