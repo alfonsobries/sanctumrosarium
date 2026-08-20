@@ -91,7 +91,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 017 | [Audio independiente en el reloj](./tasks/017-audio-en-el-reloj.md)       | Pendiente      |
 | 018 | [Háptica y sesión de ejercicio](./tasks/018-haptica-y-ejercicio.md)       | Pendiente      |
 | 019 | [Complicación y widget](./tasks/019-complicacion-y-widget.md)             | Primera pasada |
-| 020 | [Controles de bloqueo y auriculares](./tasks/020-controles-de-bloqueo.md) | Pendiente      |
+| 020 | [Controles de bloqueo y auriculares](./tasks/020-controles-de-bloqueo.md) | Primera pasada |
 
 ### Bloque C - Latín (fase 3)
 

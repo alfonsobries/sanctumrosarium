@@ -62,6 +62,47 @@ export function goToDecade(
   return { ...rest, stepIndex: index };
 }
 
+function decadeOf(step: Step | undefined): number | undefined {
+  return step !== undefined && 'decade' in step ? step.decade : undefined;
+}
+
+/**
+ * Headphones and the lock screen skip by decade, not by bead: the audio already
+ * advances the Hail Marys (task 020). Forward from the last decade lands on the
+ * closing; backward from the first lands on the opening.
+ */
+export function skipDecade(
+  state: SessionState,
+  steps: readonly Step[],
+  direction: 1 | -1,
+): SessionState {
+  const current = decadeOf(steps[state.stepIndex]);
+  if (current === undefined) {
+    if (direction === 1) {
+      return goToDecade(state, steps, 0);
+    }
+    const { finishedAt: _finishedAt, ...rest } = state;
+    return { ...rest, stepIndex: 0 };
+  }
+  const target = current + direction;
+  if (target < 0) {
+    const { finishedAt: _finishedAt, ...rest } = state;
+    return { ...rest, stepIndex: 0 };
+  }
+  const jumped = goToDecade(state, steps, target);
+  if (decadeOf(steps[jumped.stepIndex]) === target) {
+    return jumped;
+  }
+  let lastDecadeIndex = -1;
+  for (let index = 0; index < steps.length; index += 1) {
+    if (decadeOf(steps[index]) !== undefined) {
+      lastDecadeIndex = index;
+    }
+  }
+  const { finishedAt: _finishedAt, ...rest } = state;
+  return { ...rest, stepIndex: Math.min(lastDecadeIndex + 1, steps.length) };
+}
+
 export function progressOf(state: SessionState, steps: readonly Step[]): Progress {
   const index = Math.min(state.stepIndex, steps.length);
   const current = steps[index];
