@@ -151,3 +151,36 @@ describe('the mystery is never out of sight', () => {
     }
   });
 });
+
+describe('localeOverrides', () => {
+  it('prays the chosen prayers in another language, one at a time', () => {
+    const steps = buildRosary({
+      form: 'roman',
+      locale: 'la',
+      set: 'gaudiosa',
+      localeOverrides: { 'ave-maria': 'es-MX' },
+    });
+    const ave = steps.find(
+      (step) => step.kind === 'prayer' && step.prayer.id === 'ave-maria',
+    );
+    const pater = steps.find(
+      (step) => step.kind === 'prayer' && step.prayer.id === 'pater-noster',
+    );
+    expect(ave?.kind === 'prayer' && ave.prayer.locale).toBe('es-MX');
+    expect(pater?.kind === 'prayer' && pater.prayer.locale).toBe('la');
+  });
+
+  it('falls back to the base locale when the override lacks the prayer', () => {
+    const steps = buildRosary({
+      form: 'es-MX',
+      locale: 'es-MX',
+      set: 'gaudiosa',
+      include: ['ave-maria-purissima'],
+      localeOverrides: { 'ave-maria-purissima': 'en-US' },
+    });
+    const greeting = steps.find(
+      (step) => step.kind === 'prayer' && step.prayer.id === 'ave-maria-purissima',
+    );
+    expect(greeting?.kind === 'prayer' && greeting.prayer.locale).toBe('es-MX');
+  });
+});

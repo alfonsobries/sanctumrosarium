@@ -52,11 +52,23 @@ Nota corta sobre la pronunciación eclesiástica, donde se pueda consultar sin e
 3. La mezcla por oración funciona y se guarda.
 4. La interfaz sigue en el idioma del usuario cuando el rezo es en latín.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **La forma dominicana es el default del latín** (fix previo, con tests).
+- **El Rosario entero se reza en latín** con las letanías (task 043) y el texto bilingüe
+  línea a línea (task 023).
+- **Mezcla por oración**: el motor acepta `localeOverrides` (con fallback probado si la
+  oración no existe en la lengua elegida) y en Ajustes, rezando en latín, cada oración
+  fija de la forma tiene su interruptor "en tu lengua". Verificado en simulador: el Ave en
+  la lengua propia mientras el resto sigue en latín; se guarda (ajustes v9).
+- **Pendiente humano**: revisión de los textos y cláusulas por alguien que sepa latín
+  (criterio 2), y la nota de pronunciación eclesiástica va con la task 024.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
+- [x] Definir qué aplica
+- [x] Contenido y motor
+- [x] App
 - [ ] Reloj
 - [ ] ~~Audio - n/a: el audio en latín es la task 022~~
 - [ ] Accesibilidad - el lector de pantalla leerá latín como si fuera el idioma del

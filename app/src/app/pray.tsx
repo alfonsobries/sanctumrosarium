@@ -1,4 +1,4 @@
-import { findPrayer, type Locale } from '@rosario/content';
+import { findPrayer, type Locale, type PrayerId } from '@rosario/content';
 import {
   advance,
   buildRosary,
@@ -8,6 +8,7 @@ import {
   progressOf,
   recordOf,
   startSession,
+  type RosaryOptions,
   type SessionState,
   type Step,
 } from '@rosario/engine';
@@ -73,6 +74,7 @@ export default function PrayScreen() {
           set: mysteriesOfDay(new Date()).set,
           include: settings.includedPrayers,
           withLitany: settings.withLitany,
+          ...latinOverrides(prayerLocale, settings.latinMixOwn, systemPrayerLocale),
         }
       : saved.options,
   );
@@ -185,6 +187,7 @@ export default function PrayScreen() {
       set: today.set,
       include: settings.includedPrayers,
       withLitany: settings.withLitany,
+      ...latinOverrides(prayerLocale, settings.latinMixOwn, systemPrayerLocale),
     });
     setSession(startSession(new Date(), intention));
     setPhase('praying');
@@ -442,6 +445,20 @@ function IntentionScreen({
   );
 }
 
+/** Praying in Latin, the mixed prayers go in the reader's own language (task 021). */
+function latinOverrides(
+  locale: Locale,
+  mixOwn: readonly PrayerId[],
+  ownLocale: Locale,
+): Pick<RosaryOptions, 'localeOverrides'> {
+  if (locale !== 'la' || mixOwn.length === 0 || ownLocale === 'la') {
+    return {};
+  }
+  return {
+    localeOverrides: Object.fromEntries(mixOwn.map((id) => [id, ownLocale])),
+  };
+}
+
 const INDULGENCE_NOTE_KEY = 'indulgence-note-shown';
 
 function ResumeScreen({
@@ -575,8 +592,10 @@ function PrayerText({
 }) {
   // Praying in Latin, the reader's own language can run line by line underneath
   // (task 023). Nothing is translated: the texts are paired from the content package.
+  // The mixed prayers already come in the reader's language: only true Latin text
+  // pairs with a companion.
   const companion =
-    language === 'la' && latinText !== 'la'
+    step.prayer.locale === 'la' && latinText !== 'la'
       ? findPrayer(step.prayer.id, companionLocale)
       : undefined;
 
