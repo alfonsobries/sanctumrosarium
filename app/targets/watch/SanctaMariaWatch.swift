@@ -68,14 +68,8 @@ struct TodayView: View {
   }
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      Text(set.nameEs)
-        .font(.headline)
-      Text("El Rosario en el reloj.")
-        .font(.footnote)
-        .foregroundStyle(.secondary)
+    NavigationStack {
+      DecadeView(set: set)
     }
-    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-    .padding()
   }
 }
