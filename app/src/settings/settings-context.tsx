@@ -53,6 +53,9 @@ type SettingsContextValue = {
   readonly setCaminoEnabled: (value: boolean) => void;
   readonly setRecollectionEnabled: (value: boolean) => void;
   readonly setLatinLearn: (prayer: PrayerId, mode: LatinLearnMode) => void;
+  readonly setMeditation: (
+    value: Partial<Pick<Settings, 'withReading' | 'silenceSeconds'>>,
+  ) => void;
   readonly setReminder: (
     value: Partial<
       Pick<Settings, 'reminderMode' | 'reminderHour' | 'reminderMinute' | 'reminderDays'>
@@ -131,6 +134,7 @@ export function SettingsProvider({
       setRecollectionEnabled: (value) => update({ recollectionEnabled: value }),
       setLatinLearn: (prayer, mode) =>
         update({ latinLearn: { ...settings.latinLearn, [prayer]: mode } }),
+      setMeditation: (value) => update(value),
       toggleLatinMix: (prayer) =>
         update({
           latinMixOwn: settings.latinMixOwn.includes(prayer)

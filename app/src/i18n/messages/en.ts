@@ -26,6 +26,9 @@ export const en = {
     settings: 'Settings',
   },
   pray: {
+    reading: 'Reading',
+    readingNote: 'Read the passage and listen.',
+    silenceLabel: 'Silence',
     beadCount: '{{bead}} of 10',
     decadeCount: 'Decade {{decade}} of {{total}}',
     fruit: 'Fruit: {{fruit}}',
@@ -302,6 +305,19 @@ export const en = {
     },
     revealHint: 'A tap shows the text for this step.',
     yourTurn: 'Your turn.',
+  },
+  meditation: {
+    title: 'Meditating',
+    reading: 'Reading the Word',
+    readingHint:
+      'Before each decade, the reference of the passage of the mystery (RVM 30).',
+    silence: {
+      0: 'No silence',
+      10: 'Ten seconds of silence',
+      30: 'Half a minute of silence',
+      60: 'One minute of silence',
+    },
+    hint: 'Announce the mystery, hear the Word, and keep a moment of quiet; a tap always moves on.',
   },
   error: {
     screen: 'Something failed while opening this screen.',

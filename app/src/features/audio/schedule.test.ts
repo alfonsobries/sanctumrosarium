@@ -20,7 +20,13 @@ const manifest: AudioManifest = {
   },
 };
 
-const steps = buildRosary({ form: 'roman', locale: 'es-MX', set: 'gloriosa' });
+const steps = buildRosary({
+  form: 'roman',
+  locale: 'es-MX',
+  set: 'gloriosa',
+  withReading: true,
+  silenceSeconds: 10,
+});
 const ave = steps.find(
   (step) => step.kind === 'prayer' && step.prayer.id === 'ave-maria',
 );
@@ -156,6 +162,19 @@ describe('planForStep', () => {
       latinListen: ['ave-maria'],
     });
     expect(plan.kind === 'track' && plan.follow === undefined).toBe(true);
+  });
+
+  it('holds a long quiet on the reading, and the chosen seconds on the silence', () => {
+    const reading = steps.find((step) => step.kind === 'reading');
+    const silence = steps.find((step) => step.kind === 'silence');
+    expect(planForStep(reading!, manifest, defaultAudioSettings)).toEqual({
+      kind: 'silence',
+      silenceAfterMs: 20_000,
+    });
+    expect(planForStep(silence!, manifest, defaultAudioSettings)).toEqual({
+      kind: 'silence',
+      silenceAfterMs: 10_000,
+    });
   });
 
   it('keeps praying in silence when a track is missing', () => {

@@ -78,6 +78,8 @@ export default function PrayScreen() {
           include: settings.includedPrayers,
           withLitany: settings.withLitany,
           withClauses: settings.withClauses,
+          withReading: settings.withReading,
+          silenceSeconds: settings.silenceSeconds,
           ...latinOverrides(prayerLocale, settings.latinMixOwn, systemPrayerLocale),
         }
       : saved.options,
@@ -126,10 +128,20 @@ export default function PrayScreen() {
       waysOfSession({
         language,
         withClauses: settings.withClauses,
-        meditativePause: settings.announcePause !== 'short',
+        meditativePause:
+          settings.announcePause !== 'short' ||
+          settings.withReading ||
+          settings.silenceSeconds > 0,
         answeredAloud: usedAudioRef.current && settings.choirRole === 'respond',
       }),
-    [language, settings.withClauses, settings.announcePause, settings.choirRole],
+    [
+      language,
+      settings.withClauses,
+      settings.announcePause,
+      settings.choirRole,
+      settings.withReading,
+      settings.silenceSeconds,
+    ],
   );
 
   // The bead survives leaving the screen: saved on every step, cleared when finished.
@@ -272,6 +284,8 @@ export default function PrayScreen() {
       include: settings.includedPrayers,
       withLitany: settings.withLitany,
       withClauses: settings.withClauses,
+      withReading: settings.withReading,
+      silenceSeconds: settings.silenceSeconds,
       ...latinOverrides(prayerLocale, settings.latinMixOwn, systemPrayerLocale),
     });
     setSession(startSession(new Date(), intention));
@@ -419,8 +433,25 @@ export default function PrayScreen() {
               />
             ) : null}
 
-            {/* reading and silence steps arrive with tasks 032 and 035; the default
-                options never produce them. */}
+            {step.kind === 'reading' ? (
+              <>
+                <AppText variant="caption" color="muted">
+                  {t('pray.reading')}
+                </AppText>
+                <AppText variant="prayer">{step.mystery.scriptureRef}</AppText>
+                <AppText variant="caption" color="muted">
+                  {t('pray.readingNote')}
+                </AppText>
+              </>
+            ) : null}
+
+            {step.kind === 'silence' ? (
+              <View style={styles.silence}>
+                <AppText variant="caption" color="muted">
+                  {t('pray.silenceLabel')}
+                </AppText>
+              </View>
+            ) : null}
           </Pressable>
         </ScrollView>
       </GestureDetector>
@@ -884,6 +915,7 @@ const styles = StyleSheet.create({
   // The highlight never relies on colour alone: the said line also carries a line under.
   saidLine: { textDecorationLine: 'underline' },
   dimmed: { opacity: 0.35 },
+  silence: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   pairs: { gap: spacing.md },
   pair: { gap: spacing.xs },
   bottom: { gap: spacing.md, paddingTop: spacing.sm },
