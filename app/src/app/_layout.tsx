@@ -112,6 +112,14 @@ function RootNavigator() {
           }}
         />
         <Stack.Screen
+          name="novena"
+          options={{
+            headerShown: true,
+            title: t('novena.title'),
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        />
+        <Stack.Screen
           name="confraternity"
           options={{
             headerShown: true,

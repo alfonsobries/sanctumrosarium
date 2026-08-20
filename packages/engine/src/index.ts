@@ -7,6 +7,8 @@ export type {
   SessionShape,
 } from './camino';
 export { easterSunday, liturgicalSeason, mysteriesOfDay } from './calendar';
+export { NOVENA_DAYS, novenaDay } from './novena';
+export type { NovenaDay, NovenaPhase, NovenaSet } from './novena';
 export type { DayOfMysteries, LiturgicalSeason } from './calendar';
 export {
   buildRosary,

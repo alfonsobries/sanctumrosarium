@@ -13,7 +13,7 @@ import {
   type SessionState,
   type Step,
 } from '@rosario/engine';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -59,9 +59,15 @@ import { nightBlack, radius, spacing, touchTarget } from '@/theme/tokens';
 import { useTheme } from '@/theme/use-theme';
 import { fonts, typeScale } from '@/theme/typography';
 
+const NOVENA_SETS = ['gaudiosa', 'dolorosa', 'gloriosa'] as const;
+
 export default function PrayScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  // The novena opens the prayer on its own set of mysteries (task 044); everything
+  // else about the session stays exactly the same.
+  const { set: setParam } = useLocalSearchParams<{ set?: string }>();
+  const requestedSet = NOVENA_SETS.find((candidate) => candidate === setParam);
   const { prayerLocale, prayerForm, settings, systemPrayerLocale } = useSettings();
 
   const [saved] = useState<SavedSession | undefined>(() => loadSession(appKv));
@@ -74,7 +80,7 @@ export default function PrayScreen() {
       ? {
           form: prayerForm,
           locale: prayerLocale,
-          set: mysteriesOfDay(new Date()).set,
+          set: requestedSet ?? mysteriesOfDay(new Date()).set,
           include: settings.includedPrayers,
           withLitany: settings.withLitany,
           withClauses: settings.withClauses,
@@ -280,7 +286,7 @@ export default function PrayScreen() {
     setBuildOptions({
       form: prayerForm,
       locale: prayerLocale,
-      set: today.set,
+      set: requestedSet ?? today.set,
       include: settings.includedPrayers,
       withLitany: settings.withLitany,
       withClauses: settings.withClauses,

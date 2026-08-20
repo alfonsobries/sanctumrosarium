@@ -347,6 +347,32 @@ export const en = {
     enrollNote: 'Also at dominicos.org (Spain) and dominicos.mx (Mexico).',
     source: 'Source: rosarycenter.org, Confraternity of the Most Holy Rosary.',
   },
+  novena: {
+    title: '54-day novena',
+    lead: 'The Pompeii novena: fifty-four Rosaries, one a day.',
+    what: 'Twenty-seven days in petition and twenty-seven in thanksgiving, cycling joyful, sorrowful and glorious mysteries. The luminous are not part of the original scheme: whoever wants them prays them apart.',
+    status:
+      'An approved private devotion. The indulgence is that of the Rosary, not one of its own.',
+    start: 'Begin it today',
+    day: 'Day {{day}} of {{total}}',
+    phase: {
+      petition: 'In petition',
+      thanksgiving: 'In thanksgiving',
+    },
+    gridLabel: '{{phase}}: {{done}} of 27 days',
+    continuous:
+      'You pick up where you were: the next box is still there. The custom is to pray it on consecutive days.',
+    pray: 'Pray the Rosary of the day',
+    mark: 'Count the one from today',
+    unmark: "Take back today's mark",
+    markedToday: 'Counted for today.',
+    ownPrayers:
+      "Each Rosary is offered with the novena's own prayer, in petition or in thanksgiving. The app does not carry those prayers: they are prayed from a prayer book.",
+    resume: 'Pick it up at day {{day}}',
+    close: 'Close it',
+    leave: 'Leave the novena',
+    done: 'Fifty-four days. The novena stands offered.',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },

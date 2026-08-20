@@ -279,3 +279,63 @@ describe('the Way in the journal', () => {
     expect(journal.markCount('family')).toBe(0);
   });
 });
+
+describe('the 54-day novena in the journal', () => {
+  it('walks box by box and a gap never resets it', () => {
+    const journal = openJournal(testDb());
+    expect(journal.activeNovena()).toBeUndefined();
+    journal.startNovena('2026-08-01');
+    const run = journal.activeNovena();
+    expect(run).toBeDefined();
+    journal.markNovenaDay(run!.id, 1, '2026-08-01');
+    // Days pass without praying; the next mark simply fills the next box.
+    journal.markNovenaDay(run!.id, 2, '2026-08-05');
+    expect(journal.novenaDaysDone(run!.id)).toBe(2);
+  });
+
+  it('a mark can be taken back and a run can be left without drama', () => {
+    const journal = openJournal(testDb());
+    journal.startNovena('2026-08-01');
+    const run = journal.activeNovena()!;
+    journal.markNovenaDay(run.id, 1, '2026-08-01');
+    journal.unmarkNovenaDay(run.id, 1);
+    expect(journal.novenaDaysDone(run.id)).toBe(0);
+    journal.endNovena(run.id, '2026-08-02');
+    expect(journal.activeNovena()).toBeUndefined();
+  });
+
+  it('marking the same box twice keeps one', () => {
+    const journal = openJournal(testDb());
+    journal.startNovena('2026-08-01');
+    const run = journal.activeNovena()!;
+    journal.markNovenaDay(run.id, 3, '2026-08-03');
+    journal.markNovenaDay(run.id, 3, '2026-08-04');
+    expect(journal.novenaDaysDone(run.id)).toBe(1);
+  });
+});
+
+describe('novena marks count days, not taps', () => {
+  it('accepts one box per local day', () => {
+    const journal = openJournal(testDb());
+    journal.startNovena('2026-08-01');
+    const run = journal.activeNovena()!;
+    journal.markNovenaDay(run.id, 1, '2026-08-01');
+    journal.markNovenaDay(run.id, 2, '2026-08-01');
+    expect(journal.novenaDaysDone(run.id)).toBe(1);
+    expect(journal.novenaMarkedOn(run.id, '2026-08-01')).toBe(true);
+    journal.markNovenaDay(run.id, 2, '2026-08-02');
+    expect(journal.novenaDaysDone(run.id)).toBe(2);
+  });
+
+  it('a left run stays history and can be picked up again', () => {
+    const journal = openJournal(testDb());
+    journal.startNovena('2026-08-01');
+    const run = journal.activeNovena()!;
+    journal.markNovenaDay(run.id, 1, '2026-08-01');
+    journal.endNovena(run.id, '2026-08-02');
+    const past = journal.lastEndedNovena();
+    expect(past?.daysDone).toBe(1);
+    journal.reopenNovena(past!.id);
+    expect(journal.activeNovena()?.id).toBe(past!.id);
+  });
+});

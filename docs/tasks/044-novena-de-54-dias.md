@@ -47,15 +47,36 @@ continua, no que se "rompió la novena".
 - Qué hacer si alguien quiere incluir luminosos. Recomendación: no en este esquema. Que
   rece el Rosario luminoso aparte.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **El recorrido**: 54 casillas en dos mitades (petición y acción de gracias), rotando
+  gozosos, dolorosos y gloriosos; el ciclo vive en el motor con sus tests (27 = 3 x 9,
+  nunca luminosos). "Rezar el Rosario de hoy" abre el rezo con los misterios del ciclo,
+  aunque el día de la semana pida otros.
+- **Contador propio en el diario** (tablas `novena_runs` y `novena_days`, migración v7):
+  la casilla se llena al rezar desde aquí o al marcar "Contar el de hoy" si se rezó por
+  fuera. La última marca se puede quitar. El Rosario de ese día sigue contando para la
+  Regla, y la novena no toca rosas ni fidelidad.
+- **Huecos sin drama**: faltar días no reinicia nada; la siguiente casilla espera y la
+  pantalla lo dice ("se retoma donde ibas"). "Dejar la novena" cierra el recorrido sin
+  pregunta ni reproche.
+- **Las oraciones propias quedan pendientes con razón**: la spec pedía transcribirlas de
+  rosarycenter.org o EWTN y ninguna de las dos las publica hoy; las versiones en otros
+  sitios difieren entre sí y no hay fuente española verificada. Sin fuente citable no
+  entran (regla del proyecto): se reza el Rosario de siempre, ofrecido en petición o en
+  gracias.
+- Los luminosos: fuera del esquema, como recomienda la spec; el copy lo dice y ofrece
+  rezarlos aparte.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] ~~Reloj - n/a: el recorrido se mira en el teléfono~~
-- [ ] Audio - usa el audio del Rosario
-- [ ] Accesibilidad
-- [ ] Sitio - una página con origen (Pompeya, 1884) y sin garantías
+- [x] Definir qué aplica
+- [x] Contenido y motor - ciclo en el motor con tests
+- [x] App
+- [x] ~~Reloj - n/a: el recorrido se mira en el teléfono~~
+- [ ] Audio - n/a mientras las oraciones propias no tengan fuente
+- [x] Accesibilidad - la cuadrícula anuncia su avance en texto; botones estándar
+- [ ] Sitio - mención en la escuela cuando las oraciones tengan fuente
 
 ## Fuentes
 

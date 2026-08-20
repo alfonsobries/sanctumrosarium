@@ -72,6 +72,19 @@ const migrations: readonly (readonly string[])[] = [
     )`,
   ],
   [`alter table prayed add column mystery_set text`],
+  [
+    `create table novena_runs (
+      id integer primary key autoincrement,
+      started_date text not null,
+      ended_date text
+    )`,
+    `create table novena_days (
+      run_id integer not null,
+      day integer not null,
+      local_date text not null,
+      unique (run_id, day)
+    )`,
+  ],
 ];
 
 export function migrateJournal(db: SqlDb): void {
@@ -115,6 +128,21 @@ export type Journal = {
   readonly unmarkWay: (stage: string, localDate: string) => void;
   readonly markedWay: (stage: string, localDate: string) => boolean;
   readonly markCount: (stage: string) => number;
+  /** The 54-day novena: one run at a time, walked box by box, never reset by a gap. */
+  readonly activeNovena: () => { id: number; startedDate: string } | undefined;
+  /** The most recent run that was ended, so a left novena stays history, not debt. */
+  readonly lastEndedNovena: () =>
+    { id: number; startedDate: string; daysDone: number } | undefined;
+  readonly startNovena: (localDate: string) => void;
+  /** Reopens a left run: the boxes were never lost. */
+  readonly reopenNovena: (runId: number) => void;
+  readonly novenaDaysDone: (runId: number) => number;
+  /** One box per local day: the label says days, so the count is days. */
+  readonly markNovenaDay: (runId: number, day: number, localDate: string) => void;
+  readonly novenaMarkedOn: (runId: number, localDate: string) => boolean;
+  readonly unmarkNovenaDay: (runId: number, day: number) => void;
+  /** Ends the run, finished or left. Nothing is deleted and nothing scolds. */
+  readonly endNovena: (runId: number, localDate: string) => void;
 };
 
 export function openJournal(db: SqlDb): Journal {
@@ -241,5 +269,55 @@ export function openJournal(db: SqlDb): Journal {
         'select count(*) as times from camino_marks where stage = ?',
         [stage],
       )[0]?.times ?? 0,
+    activeNovena: () => {
+      const row = db.all<{ id: number; started_date: string }>(
+        'select id, started_date from novena_runs where ended_date is null order by id desc limit 1',
+      )[0];
+      return row === undefined
+        ? undefined
+        : { id: row.id, startedDate: row.started_date };
+    },
+    startNovena: (localDate) => {
+      db.run('insert into novena_runs (started_date) values (?)', [localDate]);
+    },
+    novenaDaysDone: (runId) =>
+      db.all<{ times: number }>(
+        'select count(*) as times from novena_days where run_id = ?',
+        [runId],
+      )[0]?.times ?? 0,
+    markNovenaDay: (runId, day, localDate) => {
+      db.run(
+        'insert or ignore into novena_days (run_id, day, local_date) select ?, ?, ? where not exists (select 1 from novena_days where run_id = ? and local_date = ?)',
+        [runId, day, localDate, runId, localDate],
+      );
+    },
+    novenaMarkedOn: (runId, localDate) =>
+      db.all<{ day: number }>(
+        'select day from novena_days where run_id = ? and local_date = ?',
+        [runId, localDate],
+      ).length > 0,
+    lastEndedNovena: () => {
+      const row = db.all<{ id: number; started_date: string }>(
+        'select id, started_date from novena_runs where ended_date is not null order by id desc limit 1',
+      )[0];
+      if (row === undefined) {
+        return undefined;
+      }
+      const daysDone =
+        db.all<{ times: number }>(
+          'select count(*) as times from novena_days where run_id = ?',
+          [row.id],
+        )[0]?.times ?? 0;
+      return { id: row.id, startedDate: row.started_date, daysDone };
+    },
+    reopenNovena: (runId) => {
+      db.run('update novena_runs set ended_date = null where id = ?', [runId]);
+    },
+    unmarkNovenaDay: (runId, day) => {
+      db.run('delete from novena_days where run_id = ? and day = ?', [runId, day]);
+    },
+    endNovena: (runId, localDate) => {
+      db.run('update novena_runs set ended_date = ? where id = ?', [localDate, runId]);
+    },
   };
 }
