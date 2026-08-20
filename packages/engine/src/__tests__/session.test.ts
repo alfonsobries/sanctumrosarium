@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { buildRosary } from '../sequence';
 import {
   advance,
+  decadesCompleted,
   goBack,
   goToDecade,
   progressOf,
@@ -73,5 +74,38 @@ describe('session', () => {
     const restored = JSON.parse(JSON.stringify(state)) as typeof state;
     expect(progressOf(restored, steps)).toEqual(progressOf(state, steps));
     expect(restored.version).toBe(1);
+  });
+});
+
+describe('decadesCompleted', () => {
+  const steps = buildRosary({ form: 'roman', locale: 'es-MX', set: 'gaudiosa' });
+  const lastOfDecade = (decade: number) => {
+    let last = -1;
+    for (const [index, step] of steps.entries()) {
+      if ('decade' in step && step.decade === decade) {
+        last = index;
+      }
+    }
+    return last;
+  };
+
+  it('counts nothing before the first decade closes', () => {
+    const state = { ...startSession(new Date()), stepIndex: lastOfDecade(0) };
+    expect(decadesCompleted(state, steps)).toBe(0);
+  });
+
+  it('counts a decade the moment its last step is behind', () => {
+    const state = { ...startSession(new Date()), stepIndex: lastOfDecade(0) + 1 };
+    expect(decadesCompleted(state, steps)).toBe(1);
+  });
+
+  it('counts loose decades wherever the cursor stands', () => {
+    const state = { ...startSession(new Date()), stepIndex: lastOfDecade(2) + 1 };
+    expect(decadesCompleted(state, steps)).toBe(3);
+  });
+
+  it('counts all five at the end', () => {
+    const state = { ...startSession(new Date()), stepIndex: steps.length };
+    expect(decadesCompleted(state, steps)).toBe(5);
   });
 });

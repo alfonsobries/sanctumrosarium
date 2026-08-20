@@ -88,6 +88,27 @@ export function progressOf(state: SessionState, steps: readonly Step[]): Progres
   };
 }
 
+/**
+ * Decades fully prayed so far: every step of the decade is behind the cursor. Praying
+ * in parts is traditional (Montfort recommends splitting the day); the loose decades
+ * still count for the Rule, which measures faithfulness, not continuity.
+ */
+export function decadesCompleted(state: SessionState, steps: readonly Step[]): number {
+  const lastIndexOfDecade = new Map<number, number>();
+  for (const [index, step] of steps.entries()) {
+    if ('decade' in step && step.decade !== undefined) {
+      lastIndexOfDecade.set(step.decade, index);
+    }
+  }
+  let completed = 0;
+  for (const lastIndex of lastIndexOfDecade.values()) {
+    if (lastIndex < state.stepIndex) {
+      completed += 1;
+    }
+  }
+  return completed;
+}
+
 /** What goes in the diary once the Rosary is over. Acts, never graces. */
 export type PrayedRecord = {
   readonly startedAt: string;

@@ -9,6 +9,7 @@ export {
 export type { RosaryOptions, Step } from './sequence';
 export {
   advance,
+  decadesCompleted,
   goBack,
   goToDecade,
   progressOf,

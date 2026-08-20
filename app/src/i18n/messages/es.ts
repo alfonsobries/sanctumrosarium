@@ -42,6 +42,9 @@ export const es = {
     resumeOtherDay: 'Quedó a medias otro día.',
     resume: 'Retomar',
     startOver: 'Empezar de nuevo',
+    partsNote:
+      'La indulgencia plenaria pide cinco decenas seguidas, con las demás condiciones. Rezar por partes es oración igual, y cuenta para tu Regla.',
+    partsNoteLink: 'La explicación completa, en sanctamaria.app/preguntas',
     doneDecades: 'Cinco decenas.',
     duration_one: '{{count}} minuto',
     duration_many: '{{count}} minutos',

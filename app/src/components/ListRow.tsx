@@ -55,7 +55,12 @@ export function ListRow({
           </AppText>
         )}
         {selected === true ? (
-          <AppText variant="body" color="accent" importantForAccessibility="no">
+          <AppText
+            variant="body"
+            color="accent"
+            importantForAccessibility="no"
+            accessibilityElementsHidden
+          >
             ●
           </AppText>
         ) : null}

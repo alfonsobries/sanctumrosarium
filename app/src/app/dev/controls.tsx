@@ -16,8 +16,9 @@ import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, touchTarget } from '@/theme/tokens';
 import { useTheme } from '@/theme/use-theme';
+import { fonts, typeScale } from '@/theme/typography';
 
 export default function DevControlsScreen() {
   const colors = useTheme();
@@ -35,7 +36,7 @@ export default function DevControlsScreen() {
         <Switch
           value={enabled}
           onValueChange={setEnabled}
-          trackColor={{ true: colors.accentSoft }}
+          trackColor={{ false: colors.border, true: colors.accentSoft }}
           thumbColor={enabled ? colors.accent : undefined}
         />
       </Card>
@@ -110,12 +111,14 @@ const styles = StyleSheet.create({
   },
   rowLabel: { flex: 1 },
   column: { gap: spacing.sm },
+  // No lineHeight on TextInput: it mis-positions the text vertically on iOS.
   input: {
     borderWidth: 1,
     borderRadius: radius.md,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
-    fontSize: 17,
-    minHeight: 48,
+    fontFamily: fonts.sans,
+    fontSize: typeScale.body.fontSize,
+    minHeight: touchTarget,
   },
 });
