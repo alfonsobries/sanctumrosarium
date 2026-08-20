@@ -42,15 +42,26 @@ Si hay otra sesión de ejercicio en curso, no se roba.
 3. En un iPhone sin reloj no aparece ninguna cifra cardiaca.
 4. La pantalla pasa las cinco preguntas de `docs/gamificacion.md`.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- Ajuste apagado por defecto. El permiso se pide al encenderlo, nunca a mitad del rezo.
+  Sin permiso el Rosario no cambia.
+- Lo que se escribe en Salud es solo la duración, como sesión de atención plena
+  (`mindfulSession`). No hay pulso en el iPhone. Android (Health Connect) queda fuera: la
+  spec lo marca experimental.
+- Corazón y variabilidad desde el reloj, y la sesión de ejercicio que mantiene el
+  always-on: siguiente pasada (018).
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] ~~Contenido y motor - n/a~~
-- [ ] App - el permiso y el ajuste
-- [ ] Reloj
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] ~~Contenido y motor - n/a~~
+- [x] App - el permiso y el ajuste
+- [ ] Reloj - pulso y sesión de ejercicio (bloque del reloj / 018)
+- [x] ~~Audio - n/a~~
+- [x] Accesibilidad - el ajuste es un interruptor con descripción; el rezo no depende de
+      él
+- [x] ~~Sitio - n/a~~
 
 ## Fuentes
 

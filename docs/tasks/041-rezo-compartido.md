@@ -45,15 +45,23 @@ Una intención que ven todos los que rezan en ese aparato esa noche. Se borra. N
 - Varios aparatos en la misma casa: ¿vale la pena? Recomendación: no en la primera pasada
   de esta task. Un aparato es el producto.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- Un aparato es el producto: el modo a dos coros (039) y una intención de la casa que vive
+  en ese teléfono hasta el día local siguiente. No hay perfiles ni lista de quién rezó.
+- Varios aparatos en la misma red: fuera, como recomienda la spec.
+- El sitio dice cómo se reza en casa, y que a la hora del Ángelus mucha gente reza, sin
+  contar a nadie.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] ~~Reloj - n/a: configurar varios no cabe~~
-- [ ] Audio
-- [ ] Accesibilidad
-- [ ] Sitio - la guía de rezar en familia
+- [x] Definir qué aplica
+- [x] ~~Contenido y motor - n/a: no cambia lo que se reza~~
+- [x] App
+- [x] ~~Reloj - n/a: configurar varios no cabe~~
+- [x] Audio - el de a dos coros, ya existente
+- [x] Accesibilidad - interruptor y campo de texto estándar
+- [x] Sitio - la guía de rezar en familia
 
 ## Fuentes
 

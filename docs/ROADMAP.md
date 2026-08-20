@@ -78,7 +78,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 009 | [Resaltado sincronizado](./tasks/009-resaltado-sincronizado.md)               | Primera pasada |
 | 010 | [Rezar a pantalla apagada](./tasks/010-rezar-a-pantalla-apagada.md)           | Primera pasada |
 | 011 | [Ajustes del rezo](./tasks/011-ajustes-del-rezo.md)                           | Primera pasada |
-| 012 | [Accesibilidad](./tasks/012-accesibilidad.md)                                 | En curso       |
+| 012 | [Accesibilidad](./tasks/012-accesibilidad.md)                                 | Primera pasada |
 | 013 | [Sitio](./tasks/013-sitio.md)                                                 | Primera pasada |
 | 014 | [Listo para las tiendas](./tasks/014-listo-para-las-tiendas.md)               | Primera pasada |
 
@@ -118,7 +118,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | #   | Task                                                      | Qué es                                                    | Estado         |
 | --- | --------------------------------------------------------- | --------------------------------------------------------- | -------------- |
 | 031 | [Motor del Camino](./tasks/031-motor-del-camino.md)       | Las ocho etapas y su avance                               | Primera pasada |
-| 032 | [Meditar](./tasks/032-meditar.md)                         | Lectura de la Palabra y silencio configurable             | Pendiente      |
+| 032 | [Meditar](./tasks/032-meditar.md)                         | Lectura de la Palabra y silencio configurable             | Primera pasada |
 | 033 | [Cláusulas](./tasks/033-clausulas.md)                     | Frase del misterio tras el nombre de Jesús                | Primera pasada |
 | 034 | [Escuela del Rosario](./tasks/034-escuela-del-rosario.md) | Historia, magisterio, promesas e indulgencias, con fuente | Primera pasada |
 
@@ -127,9 +127,9 @@ Aplican a toda pantalla, sin que la task lo pida:
 | #   | Task                                                              | Qué es                                                          | Estado         |
 | --- | ----------------------------------------------------------------- | --------------------------------------------------------------- | -------------- |
 | 035 | [Ritmo y pausas](./tasks/035-ritmo-y-pausas.md)                   | Tiempos por Ave, pausas dentro de la oración, silencio          | Primera pasada |
-| 036 | [Imagen del misterio](./tasks/036-imagen-del-misterio.md)         | Arte sacro a pantalla completa, con su ficha                    | Pendiente      |
+| 036 | [Imagen del misterio](./tasks/036-imagen-del-misterio.md)         | Arte sacro a pantalla completa, con su ficha                    | Primera pasada |
 | 037 | [Señales de recogimiento](./tasks/037-senales-de-recogimiento.md) | Interrupciones y ritmo: privado, opcional, sin puntaje          | Primera pasada |
-| 038 | [Salud](./tasks/038-salud.md)                                     | Corazón y variabilidad desde el reloj; sesión de atención plena | Pendiente      |
+| 038 | [Salud](./tasks/038-salud.md)                                     | Corazón y variabilidad desde el reloj; sesión de atención plena | Primera pasada |
 
 ### Bloque G - En familia (fase 7)
 
@@ -137,7 +137,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | --- | ------------------------------------------------- | ----------------------------------------------- | -------------- |
 | 039 | [A dos coros](./tasks/039-a-dos-coros.md)         | La app hace de guía o de respuesta, en voz alta | Primera pasada |
 | 040 | [Modo niños](./tasks/040-modo-ninos.md)           | Menos texto, imágenes grandes, decena suelta    | Primera pasada |
-| 041 | [Rezo compartido](./tasks/041-rezo-compartido.md) | Varias personas en la misma casa                | Pendiente      |
+| 041 | [Rezo compartido](./tasks/041-rezo-compartido.md) | Varias personas en la misma casa                | Primera pasada |
 
 ### Bloque H - Después
 
@@ -145,9 +145,9 @@ Aplican a toda pantalla, sin que la task lo pida:
 | --- | --------------------------------------------------------------------- | ------------------------------------------------------------ | -------------- |
 | 042 | [Idiomas nuevos](./tasks/042-idiomas-nuevos.md)                       | Italiano, portugués, francés, polaco, alemán y sus variantes | Pendiente      |
 | 043 | [Letanías](./tasks/043-letanias.md)                                   | Lauretanas completas, rezadas y cantadas                     | Primera pasada |
-| 044 | [Novena de 54 días](./tasks/044-novena-de-54-dias.md)                 | Estructura propia, con su contador                           | Pendiente      |
+| 044 | [Novena de 54 días](./tasks/044-novena-de-54-dias.md)                 | Estructura propia, con su contador                           | Primera pasada |
 | 045 | [Coronilla y Siete Dolores](./tasks/045-coronilla-y-siete-dolores.md) | Devociones hermanas, nunca mezcladas con el Rosario          | Primera pasada |
-| 046 | [Cofradía del Rosario](./tasks/046-cofradia-del-rosario.md)           | Regla semanal de quince decenas e inscripción                | Pendiente      |
+| 046 | [Cofradía del Rosario](./tasks/046-cofradia-del-rosario.md)           | Regla semanal de quince decenas e inscripción                | Primera pasada |
 | 047 | [Rezar a la vez](./tasks/047-rezar-a-la-vez.md)                       | Cuántos rezan ahora, sin nombres ni ranking                  | Pendiente      |
 
 ## Estado

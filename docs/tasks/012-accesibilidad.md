@@ -78,8 +78,9 @@ Hecho en código, pendiente la revisión en aparato real que cierra la task:
   A/AA en las once páginas principales (incluidas /escuela y /en/school), en claro y en
   oscuro (20-VIII-2026).
 
-Queda para el cierre: recorrido completo con VoiceOver y TalkBack en aparato, y el
-recorrido sin manos (depende de la task 020).
+El recorrido sin manos ya tiene camino en código (task 020: bloqueo y auriculares). Queda
+el cierre en aparato real: un Rosario entero con VoiceOver y otro con TalkBack, y anotar
+aquí la fecha y el aparato.
 
 ## Ciclo completo
 
