@@ -7,6 +7,7 @@ import { AppText } from './AppText';
 
 type ListRowProperties = {
   label: string;
+  testID?: string;
   /** Secondary text on the right edge. */
   value?: string;
   /** Renders a selection mark and announces it to the screen reader. */
@@ -18,6 +19,7 @@ type ListRowProperties = {
 
 export function ListRow({
   label,
+  testID,
   value,
   selected,
   onPress,
@@ -27,6 +29,7 @@ export function ListRow({
 
   return (
     <Pressable
+      testID={testID}
       accessibilityRole={onPress === undefined ? undefined : 'button'}
       accessibilityState={selected === undefined ? undefined : { selected }}
       disabled={onPress === undefined}

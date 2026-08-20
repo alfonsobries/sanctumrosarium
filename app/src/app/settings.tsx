@@ -1,4 +1,5 @@
 import { findPrayer, forms } from '@rosario/content';
+import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { Card } from '@/components/Card';
@@ -49,6 +50,7 @@ const prayerLabels: Record<PrayerLocaleSetting, string> = {
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
   const {
     settings,
     prayerLocale,
@@ -167,6 +169,16 @@ export default function SettingsScreen() {
           </AppText>
         </>
       ) : null}
+
+      <SectionHeader title={t('rule.title')} />
+      <Card>
+        <ListRow
+          label={t(`rule.names.${settings.rule}`)}
+          testID="open-rule"
+          divider={false}
+          onPress={() => router.push('/rule')}
+        />
+      </Card>
 
       <SectionHeader title={t('settingsHaptics.title')} />
       <Card>

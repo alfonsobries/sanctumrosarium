@@ -104,6 +104,28 @@ export const es = {
     own: 'Solo tu lengua',
     hint: 'Las dos lenguas van línea a línea; nada se traduce: son los textos oficiales emparejados.',
   },
+  rule: {
+    title: 'Regla',
+    names: {
+      none: 'Sin regla',
+      'daily-decade': 'Una decena al día',
+      'daily-rosary': 'Cinco decenas al día',
+      'weekly-fifteen': 'Quince decenas por semana',
+      'full-rosary': 'Los veinte misterios',
+    },
+    lines: {
+      none: 'Rezar cuando salga. La app no lleva la cuenta.',
+      'daily-decade': 'Una decena, todos los días.',
+      'daily-rosary': 'El Rosario de cada día.',
+      'weekly-fifteen': 'Al modo de la Cofradía del Rosario.',
+      'full-rosary': 'Gozosos, luminosos, dolorosos y gloriosos, cada día.',
+    },
+    confraternity:
+      'La Cofradía del Santísimo Rosario (Orden de Predicadores) pide a sus miembros procurar las quince decenas cada semana. Con sus palabras: no obliga bajo pecado. Elegirla aquí no te inscribe.',
+    footer: 'La Regla es tuya: se baja o se quita aquí mismo, cuando quieras.',
+    progressDay: '{{done}} de {{target}} decenas hoy.',
+    progressWeek: '{{done}} de {{target}} decenas esta semana.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },

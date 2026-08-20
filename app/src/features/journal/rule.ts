@@ -8,11 +8,7 @@ import type { Journal } from './db';
  * decades and days - never graces.
  */
 export type RuleId =
-  | 'none'
-  | 'daily-decade'
-  | 'daily-rosary'
-  | 'weekly-fifteen'
-  | 'full-rosary';
+  'none' | 'daily-decade' | 'daily-rosary' | 'weekly-fifteen' | 'full-rosary';
 
 export type RuleProgress = {
   readonly decades: number;
@@ -20,13 +16,15 @@ export type RuleProgress = {
   readonly period: 'day' | 'week';
 };
 
-const targets: Record<Exclude<RuleId, 'none'>, { target: number; period: 'day' | 'week' }> =
-  {
-    'daily-decade': { target: 1, period: 'day' },
-    'daily-rosary': { target: 5, period: 'day' },
-    'weekly-fifteen': { target: 15, period: 'week' },
-    'full-rosary': { target: 20, period: 'day' },
-  };
+const targets: Record<
+  Exclude<RuleId, 'none'>,
+  { target: number; period: 'day' | 'week' }
+> = {
+  'daily-decade': { target: 1, period: 'day' },
+  'daily-rosary': { target: 5, period: 'day' },
+  'weekly-fifteen': { target: 15, period: 'week' },
+  'full-rosary': { target: 20, period: 'day' },
+};
 
 /** Monday of the week of a date, as a local date string. The Confraternity week. */
 function mondayOf(now: Date): Date {
