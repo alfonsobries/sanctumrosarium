@@ -49,15 +49,41 @@ Rosario.
 - Si la detección de voz por energía entra aquí o espera. Recomendación: espera. Tiempo y
   tacto bastan para aprender.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Tres modos por oración** en "Aprender el latín" (Ajustes, sección de latín): escuchar
+  las dos mitades, responder leyendo (el default de siempre) y responder de memoria.
+  Guardado por oración (v15 `latinLearn`); ausente significa leer.
+- **Escuchar** manda en el audio: la guía dice las dos mitades seguidas, con el resaltado
+  siguiendo la segunda. Los otros dos modos no tocan el audio, así que el papel de la 039
+  (tú guías / la voz responde) sigue valiendo tal cual.
+- **De memoria** atenúa la mitad de la respuesta (y su lengua compañera) y pone encima la
+  línea "Respondes tú, de memoria.": esa línea es la señal que no depende de la vista y la
+  lee el lector de pantalla. Un toque en Siguiente avanza igual.
+- La lista solo ofrece oraciones con corte de llamada/respuesta y audio en latín; las que
+  se dicen enteras no tienen qué aprender por mitades.
+- **Quedarse en blanco tiene salida sin salir del rezo**: en modo de memoria, el primer
+  toque sobre el paso muestra el texto y solo el siguiente avanza; el botón Siguiente
+  avanza siempre con un toque (criterio 2). No se registra cuántas veces se mostró:
+  contarlo sería una nota. (El toque no vive en la propia marca: un Pressable anidado en
+  el área de avance no recibe el toque en este árbol.)
+- Sin estado de "dominada", sin conteo, sin subir el modo solo: cambiarlo es siempre un
+  acto de la persona y no reinicia la sesión.
+- **Mientras la voz en latín sea provisional, la pantalla lo dice**: se aprende de oído, y
+  ese oído merece saber que la pronunciación aún no está garantizada (misma condición de
+  publicación que la 022).
+- **Pendiente**: detección de voz por energía (se queda esperando, como recomienda la
+  spec) y la página corta del sitio (con la 034).
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] ~~Reloj - n/a: aprender se lee, y en el reloj no se lee~~
-- [ ] Audio - usa las pistas de la 022
-- [ ] Accesibilidad - atenuar no es la única señal de que toca responder
-- [ ] Sitio - una página corta de cómo se aprende
+- [x] Definir qué aplica
+- [x] Contenido y motor - n/a: el estado vive en ajustes, el corte ya estaba
+- [x] App
+- [x] ~~Reloj - n/a: aprender se lee, y en el reloj no se lee~~
+- [x] Audio - usa las pistas de la 022
+- [x] Accesibilidad - la línea "Respondes tú, de memoria." acompaña al atenuado
+- [ ] Sitio - una página corta de cómo se aprende (con la 034)
 
 ## Fuentes
 

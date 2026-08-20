@@ -136,6 +136,28 @@ describe('planForStep', () => {
     }
   });
 
+  it('listen mode says both halves and keeps the floor', () => {
+    const latin: AudioManifest = { ...manifest, locale: 'la' };
+    const plan = planForStep(ave!, latin, {
+      ...defaultAudioSettings,
+      latinListen: ['ave-maria'],
+    });
+    expect(plan.kind).toBe('track');
+    if (plan.kind === 'track') {
+      expect(plan.file).toBe('ave-maria.leader.mp3');
+      expect(plan.follow?.file).toBe('ave-maria.response.mp3');
+      expect(8000 + 6000 + plan.silenceAfterMs).toBeGreaterThanOrEqual(12_000);
+    }
+  });
+
+  it('listen mode only applies to a Latin manifest', () => {
+    const plan = planForStep(ave!, manifest, {
+      ...defaultAudioSettings,
+      latinListen: ['ave-maria'],
+    });
+    expect(plan.kind === 'track' && plan.follow === undefined).toBe(true);
+  });
+
   it('keeps praying in silence when a track is missing', () => {
     const empty: AudioManifest = { ...manifest, tracks: {} };
     const plan = planForStep(ave!, empty, defaultAudioSettings);

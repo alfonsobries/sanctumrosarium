@@ -287,6 +287,21 @@ export const es = {
     exits_one: 'La app pasó a segundo plano 1 vez.',
     exits_other: 'La app pasó a segundo plano {{count}} veces.',
   },
+  latinLearn: {
+    title: 'Aprender el latín',
+    settingsHint: 'De escuchar a responder de memoria, oración por oración.',
+    intro: 'Tres modos por oración. Tú eliges; la app no los sube sola.',
+    hint: 'Cambiar de modo no pierde el sitio en el rezo.',
+    provisional:
+      'La voz en latín es provisional, sintetizada mientras llega una grabación humana: la pronunciación todavía no está garantizada.',
+    modes: {
+      listen: 'Escuchar las dos mitades',
+      read: 'Responder leyendo',
+      memory: 'Responder de memoria',
+    },
+    revealHint: 'Un toque muestra el texto de este paso.',
+    yourTurn: 'Respondes tú.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },

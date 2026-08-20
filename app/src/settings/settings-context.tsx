@@ -19,6 +19,7 @@ import {
   saveSettings,
   type AppearanceSetting,
   type ChoirRoleSetting,
+  type LatinLearnMode,
   type HapticsSetting,
   type InterfaceLanguageSetting,
   type LatinTextSetting,
@@ -51,6 +52,7 @@ type SettingsContextValue = {
   readonly setChoirRole: (value: ChoirRoleSetting) => void;
   readonly setCaminoEnabled: (value: boolean) => void;
   readonly setRecollectionEnabled: (value: boolean) => void;
+  readonly setLatinLearn: (prayer: PrayerId, mode: LatinLearnMode) => void;
   readonly setReminder: (
     value: Partial<
       Pick<Settings, 'reminderMode' | 'reminderHour' | 'reminderMinute' | 'reminderDays'>
@@ -127,6 +129,8 @@ export function SettingsProvider({
       setChoirRole: (value) => update({ choirRole: value }),
       setCaminoEnabled: (value) => update({ caminoEnabled: value }),
       setRecollectionEnabled: (value) => update({ recollectionEnabled: value }),
+      setLatinLearn: (prayer, mode) =>
+        update({ latinLearn: { ...settings.latinLearn, [prayer]: mode } }),
       toggleLatinMix: (prayer) =>
         update({
           latinMixOwn: settings.latinMixOwn.includes(prayer)

@@ -6,8 +6,9 @@ import type { AudioManifest, LineMark } from './types';
 
 /**
  * What the guide does on one step: hold the silence for the part that is yours, say its
- * own, and hold again while you close. The app never prays your half (task 008): a half
- * that is not played only donates its duration to size the silence.
+ * own, and hold again while you close. The guide only prays your half when the listen
+ * mode of learning Latin asks for both (task 024); otherwise an unplayed half donates
+ * its duration to size the silence (task 008).
  */
 export type StepAudioPlan =
   | {
@@ -19,6 +20,12 @@ export type StepAudioPlan =
       readonly lines?: readonly LineMark[];
       /** Lines the played half skips: the highlight lands on the right line of the full text. */
       readonly lineOffset?: number;
+      /** Second half said right after the first: the listen mode of learning Latin. */
+      readonly follow?: {
+        readonly file: string;
+        readonly lines?: readonly LineMark[];
+        readonly lineOffset?: number;
+      };
     }
   | { readonly kind: 'silence'; readonly silenceAfterMs: number };
 
@@ -31,6 +38,9 @@ export type AudioSettings = {
   readonly announceMs: number;
   /** Who leads the two choirs: the app calls and you answer, or the reverse (Rosa 46). */
   readonly choirRole: 'guide' | 'respond';
+  /** Learning Latin, the prayers whose two halves the guide says in full (task 024).
+      Only read on a Latin manifest; reading and memory keep the normal halves. */
+  readonly latinListen?: readonly string[];
 };
 
 export const defaultAudioSettings: AudioSettings = {
@@ -60,6 +70,32 @@ export function planForStep(
       return { kind: 'silence', silenceAfterMs: GAP_MS };
     }
     const response = track.response;
+    if (
+      manifest.locale === 'la' &&
+      response !== undefined &&
+      settings.latinListen?.includes(step.prayer.id) === true
+    ) {
+      // Listening to learn: the guide says both halves; nobody is waited on.
+      const spoken = Math.round(
+        (track.leader.durationMs + response.durationMs) / settings.rate,
+      );
+      const after =
+        step.prayer.id === 'ave-maria' ? Math.max(GAP_MS, AVE_FLOOR_MS - spoken) : GAP_MS;
+      return {
+        kind: 'track',
+        file: track.leader.file,
+        silenceBeforeMs: 0,
+        silenceAfterMs: after,
+        ...(track.leader.lines === undefined ? {} : { lines: track.leader.lines }),
+        follow: {
+          file: response.file,
+          ...(response.lines === undefined ? {} : { lines: response.lines }),
+          ...(step.prayer.responseFrom === undefined
+            ? {}
+            : { lineOffset: step.prayer.responseFrom }),
+        },
+      };
+    }
     if (settings.choirRole === 'respond' && response !== undefined) {
       // You call: silence sized to the leader half, then the app answers.
       const call = Math.round(
@@ -126,5 +162,8 @@ export function audioSettingsOf(settings: Settings): AudioSettings {
           ? 8000
           : 4000,
     choirRole: settings.choirRole,
+    latinListen: Object.entries(settings.latinLearn)
+      .filter(([, mode]) => mode === 'listen')
+      .map(([prayer]) => prayer),
   };
 }

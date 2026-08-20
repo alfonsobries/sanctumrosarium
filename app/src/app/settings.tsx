@@ -229,6 +229,19 @@ export default function SettingsScreen() {
           <AppText variant="caption" color="muted" style={styles.hint}>
             {t('settingsLatin.mixHint')}
           </AppText>
+
+          <SectionHeader title={t('latinLearn.title')} />
+          <Card>
+            <ListRow
+              label={t('latinLearn.title')}
+              testID="open-latin-learn"
+              divider={false}
+              onPress={() => router.push('/latin')}
+            />
+          </Card>
+          <AppText variant="caption" color="muted" style={styles.hint}>
+            {t('latinLearn.settingsHint')}
+          </AppText>
         </>
       ) : null}
 

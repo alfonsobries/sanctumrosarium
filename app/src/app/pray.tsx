@@ -14,7 +14,7 @@ import {
   type Step,
 } from '@rosario/engine';
 import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   AppState,
@@ -209,6 +209,24 @@ export default function PrayScreen() {
     usedAudioRef.current = true;
     audio.toggle();
   };
+  // Answering from memory, the first tap on the step shows the dimmed text and only
+  // the next one advances: whoever goes blank mid-prayer has a way out that never
+  // leaves the screen (task 024). Nothing is recorded.
+  const [revealedFor, setRevealedFor] = useState<Step | null>(null);
+  const memoryStep =
+    step !== undefined &&
+    step.kind === 'prayer' &&
+    step.prayer.locale === 'la' &&
+    step.prayer.responseFrom !== undefined &&
+    settings.latinLearn[step.prayer.id] === 'memory';
+  const revealed = revealedFor === step;
+  const handleStepAreaPress = () => {
+    if (memoryStep && !revealed) {
+      setRevealedFor(step ?? null);
+      return;
+    }
+    handleNext();
+  };
   useEffect(() => {
     audioPlayingRef.current = audio.playing;
   }, [audio.playing]);
@@ -358,7 +376,7 @@ export default function PrayScreen() {
           <Pressable
             accessibilityHint={t('pray.advanceHint')}
             style={[styles.grow, styles.stepArea]}
-            onPress={handleNext}
+            onPress={handleStepAreaPress}
             onLongPress={() => setInTheDark(true)}
             delayLongPress={600}
           >
@@ -369,6 +387,7 @@ export default function PrayScreen() {
                 latinText={settings.latinText}
                 companionLocale={systemPrayerLocale}
                 activeLine={audio.activeLine}
+                memory={memoryStep && !revealed}
               />
             ) : null}
 
@@ -661,13 +680,18 @@ function PrayerText({
   latinText,
   companionLocale,
   activeLine,
+  memory,
 }: {
   step: Extract<Step, { kind: 'prayer' }>;
   language: ReturnType<typeof languageForLocale>;
   latinText: 'both' | 'la' | 'own';
   companionLocale: Locale;
   activeLine: number | undefined;
+  memory: boolean;
 }) {
+  // Answering from memory, the response half dims; the caption above it is the signal
+  // that does not depend on sight and says how to see the text (task 024).
+  const memoryFrom = memory ? step.prayer.responseFrom : undefined;
   // Praying in Latin, the reader's own language can run line by line underneath
   // (task 023). Nothing is translated: the texts are paired from the content package.
   // The mixed prayers already come in the reader's language: only true Latin text
@@ -678,6 +702,7 @@ function PrayerText({
       : undefined;
 
   if (companion !== undefined && latinText === 'own') {
+    const ownDimFrom = memory ? companion.responseFrom : undefined;
     return (
       <>
         <AppText variant="caption" color="muted">
@@ -685,9 +710,17 @@ function PrayerText({
         </AppText>
         <View style={styles.lines}>
           {companion.lines.map((line, index) => (
-            <AppText key={`${index}-${line}`} variant="prayer">
-              {line}
-            </AppText>
+            <Fragment key={`${index}-${line}`}>
+              {index === ownDimFrom ? <MemoryTurnMark /> : null}
+              <AppText
+                variant="prayer"
+                style={
+                  ownDimFrom !== undefined && index >= ownDimFrom ? styles.dimmed : null
+                }
+              >
+                {line}
+              </AppText>
+            </Fragment>
           ))}
         </View>
       </>
@@ -708,14 +741,29 @@ function PrayerText({
         </AppText>
         <View style={styles.pairs}>
           {pairs.map((pair, index) => (
-            <View key={`${index}-${pair.latin}`} style={styles.pair}>
-              <AppText variant="prayer">{pair.latin}</AppText>
-              {pair.own.map((line) => (
-                <AppText key={line} variant="bodySerif" color="muted">
-                  {line}
+            <Fragment key={`${index}-${pair.latin}`}>
+              {index === memoryFrom ? <MemoryTurnMark /> : null}
+              <View style={styles.pair}>
+                <AppText
+                  variant="prayer"
+                  style={memoryFrom !== undefined && index >= memoryFrom && styles.dimmed}
+                >
+                  {pair.latin}
                 </AppText>
-              ))}
-            </View>
+                {pair.own.map((line) => (
+                  <AppText
+                    key={line}
+                    variant="bodySerif"
+                    color="muted"
+                    style={
+                      memoryFrom !== undefined && index >= memoryFrom && styles.dimmed
+                    }
+                  >
+                    {line}
+                  </AppText>
+                ))}
+              </View>
+            </Fragment>
           ))}
         </View>
       </>
@@ -729,19 +777,42 @@ function PrayerText({
       </AppText>
       <View style={styles.lines}>
         {step.prayer.lines.map((line, index) => (
-          <AppText
-            key={`${index}-${line}`}
-            variant="prayer"
-            color={activeLine === undefined || activeLine === index ? 'text' : 'muted'}
-            style={activeLine === index && styles.saidLine}
-          >
-            {line}
-          </AppText>
+          <Fragment key={`${index}-${line}`}>
+            {index === memoryFrom ? <MemoryTurnMark /> : null}
+            <AppText
+              variant="prayer"
+              color={activeLine === undefined || activeLine === index ? 'text' : 'muted'}
+              style={[
+                activeLine === index ? styles.saidLine : null,
+                memoryFrom !== undefined && index >= memoryFrom ? styles.dimmed : null,
+              ]}
+            >
+              {line}
+            </AppText>
+          </Fragment>
         ))}
       </View>
     </>
   );
 }
+
+function MemoryTurnMark() {
+  const { t } = useTranslation();
+  return (
+    <View style={memoryStyles.mark}>
+      <AppText variant="caption" color="muted">
+        {t('latinLearn.yourTurn')}
+      </AppText>
+      <AppText variant="caption" color="muted">
+        {t('latinLearn.revealHint')}
+      </AppText>
+    </View>
+  );
+}
+
+const memoryStyles = StyleSheet.create({
+  mark: { minHeight: touchTarget, justifyContent: 'center', gap: 2 },
+});
 
 function DarkScreen({
   mysteryTitle,
@@ -812,6 +883,7 @@ const styles = StyleSheet.create({
   lines: { gap: spacing.xs },
   // The highlight never relies on colour alone: the said line also carries a line under.
   saidLine: { textDecorationLine: 'underline' },
+  dimmed: { opacity: 0.35 },
   pairs: { gap: spacing.md },
   pair: { gap: spacing.xs },
   bottom: { gap: spacing.md, paddingTop: spacing.sm },
