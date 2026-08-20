@@ -13,7 +13,14 @@ import {
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PixelRatio, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  PixelRatio,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
 import { useKeepAwake } from 'expo-keep-awake';
 import { StatusBar } from 'expo-status-bar';
 import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -41,7 +48,8 @@ import { languageForLocale } from '@/settings/resolve-locale';
 import { useSettings } from '@/settings/settings-context';
 import { appKv } from '@/storage/app-kv';
 import { leaveToHome } from '@/features/rosary/leave';
-import { nightBlack, spacing, touchTarget } from '@/theme/tokens';
+import { nightBlack, radius, spacing, touchTarget } from '@/theme/tokens';
+import { useTheme } from '@/theme/use-theme';
 
 export default function PrayScreen() {
   const { t } = useTranslation();
@@ -49,8 +57,8 @@ export default function PrayScreen() {
   const { prayerLocale, prayerForm, settings, systemPrayerLocale } = useSettings();
 
   const [saved] = useState<SavedSession | undefined>(() => loadSession(appKv));
-  const [resumeChoice, setResumeChoice] = useState<'pending' | 'made'>(
-    saved === undefined ? 'made' : 'pending',
+  const [phase, setPhase] = useState<'resume-pending' | 'intention' | 'praying'>(
+    saved === undefined ? 'intention' : 'resume-pending',
   );
   const [inTheDark, setInTheDark] = useState(false);
   const [buildOptions, setBuildOptions] = useState(() =>
@@ -81,7 +89,7 @@ export default function PrayScreen() {
 
   // The bead survives leaving the screen: saved on every step, cleared when finished.
   useEffect(() => {
-    if (resumeChoice !== 'made') {
+    if (phase !== 'praying') {
       return;
     }
     if (progress.finished) {
@@ -94,6 +102,7 @@ export default function PrayScreen() {
           finishedAt: record.finishedAt,
           decades: record.decades,
           localDate: localDateOf(new Date(record.finishedAt)),
+          ...(record.intention === undefined ? {} : { intention: record.intention }),
         });
       }
       clearSession(appKv);
@@ -105,7 +114,7 @@ export default function PrayScreen() {
       options: buildOptions,
       localDate: localDateOf(new Date()),
     });
-  }, [session, buildOptions, steps, progress.finished, resumeChoice]);
+  }, [session, buildOptions, steps, progress.finished, phase]);
 
   const handleNext = () => {
     void playHaptic(hapticForStep(steps[progress.stepIndex + 1]), settings.haptics);
@@ -138,10 +147,16 @@ export default function PrayScreen() {
     setSession((current) => goBack(current));
   };
   const handleResume = () => {
-    setResumeChoice('made');
+    setPhase('praying');
   };
   const handleStartOver = () => {
     clearSession(appKv);
+    setPhase('intention');
+  };
+  const handleBegin = (intention: string | undefined) => {
+    if (intention !== undefined) {
+      appJournal.saveIntention(intention);
+    }
     const today = mysteriesOfDay(new Date());
     setBuildOptions({
       form: prayerForm,
@@ -149,8 +164,8 @@ export default function PrayScreen() {
       set: today.set,
       include: settings.includedPrayers,
     });
-    setSession(startSession(new Date()));
-    setResumeChoice('made');
+    setSession(startSession(new Date(), intention));
+    setPhase('praying');
   };
 
   const fling = useMemo(
@@ -163,10 +178,14 @@ export default function PrayScreen() {
     [steps],
   );
 
-  if (resumeChoice === 'pending' && saved !== undefined) {
+  if (phase === 'resume-pending' && saved !== undefined) {
     return (
       <ResumeScreen saved={saved} onResume={handleResume} onStartOver={handleStartOver} />
     );
+  }
+
+  if (phase === 'intention') {
+    return <IntentionScreen onBegin={handleBegin} />;
   }
 
   if (step === undefined) {
@@ -281,6 +300,11 @@ export default function PrayScreen() {
       </GestureDetector>
 
       <View style={styles.bottom}>
+        {session.intention === undefined ? null : (
+          <AppText variant="caption" color="muted" style={styles.intention}>
+            {t('intentions.during', { who: session.intention })}
+          </AppText>
+        )}
         {progress.decade === undefined ? null : (
           <View style={styles.beads}>
             <BeadTrack bead={progress.beadInDecade} />
@@ -323,6 +347,60 @@ export default function PrayScreen() {
           <View style={styles.control}>
             <Button label={t('pray.next')} onPress={handleNext} />
           </View>
+        </View>
+      </View>
+    </Screen>
+  );
+}
+
+function IntentionScreen({
+  onBegin,
+}: {
+  onBegin: (intention: string | undefined) => void;
+}) {
+  const { t } = useTranslation();
+  const colors = useTheme();
+  const [text, setText] = useState('');
+  const [savedIntentions] = useState(() => appJournal.savedIntentions().slice(0, 5));
+
+  return (
+    <Screen center>
+      <View style={styles.resume}>
+        <AppText variant="title" accessibilityRole="header">
+          {t('intentions.question')}
+        </AppText>
+        <TextInput
+          value={text}
+          onChangeText={setText}
+          placeholder={t('intentions.placeholder')}
+          placeholderTextColor={colors.textMuted}
+          style={[
+            styles.intentionInput,
+            { color: colors.text, borderColor: colors.borderStrong },
+          ]}
+        />
+        {savedIntentions.map((intention) => (
+          <Pressable
+            key={intention}
+            accessibilityRole="button"
+            onPress={() => setText(text === intention ? '' : intention)}
+            style={({ pressed }) => [
+              styles.savedIntention,
+              { borderColor: colors.border },
+              text === intention && { borderColor: colors.accentSoft },
+              pressed && styles.pressed,
+            ]}
+          >
+            <AppText variant="caption" color={text === intention ? 'text' : 'muted'}>
+              {intention}
+            </AppText>
+          </Pressable>
+        ))}
+        <View style={styles.resumeActions}>
+          <Button
+            label={t('home.start')}
+            onPress={() => onBegin(text.trim() === '' ? undefined : text.trim())}
+          />
         </View>
       </View>
     </Screen>
@@ -397,6 +475,11 @@ function FinishedScreen({
         <AppText variant="bodySerif" color="secondary">
           {t('pray.doneDecades')}
         </AppText>
+        {session.intention === undefined ? null : (
+          <AppText variant="bodySerif" color="secondary">
+            {t('intentions.offeredFor', { who: session.intention })}
+          </AppText>
+        )}
         {minutes === undefined ? null : (
           <AppText variant="caption" color="muted">
             {t('pray.duration', { count: minutes })}
@@ -568,9 +651,26 @@ const styles = StyleSheet.create({
   pairs: { gap: spacing.md },
   pair: { gap: 2 },
   bottom: { gap: spacing.md, paddingTop: spacing.sm },
+  intention: { textAlign: 'center', fontStyle: 'italic' },
   beads: { alignItems: 'center', gap: spacing.sm },
   controls: { flexDirection: 'row', gap: spacing.md },
   control: { flex: 1 },
   resume: { gap: spacing.md },
+  intentionInput: {
+    borderWidth: 1,
+    borderRadius: radius.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    fontSize: 17,
+    minHeight: touchTarget,
+  },
+  savedIntention: {
+    borderWidth: 1,
+    borderRadius: radius.full,
+    paddingHorizontal: spacing.md,
+    minHeight: touchTarget - 8,
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+  },
   resumeActions: { gap: spacing.sm, marginTop: spacing.lg },
 });

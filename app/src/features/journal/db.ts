@@ -15,6 +15,13 @@ export type PrayedEntry = {
   readonly decades: number;
   /** The local calendar day of the person praying: an 11pm Rosary belongs to that day. */
   readonly localDate: string;
+  /** Who this Rosary was offered for. The most intimate thing the app stores: local only. */
+  readonly intention?: string;
+};
+
+export type IntentionCount = {
+  readonly intention: string;
+  readonly times: number;
 };
 
 /**
@@ -38,6 +45,13 @@ const migrations: readonly (readonly string[])[] = [
       id integer primary key autoincrement,
       started_date text not null,
       ended_date text
+    )`,
+  ],
+  [
+    `alter table prayed add column intention text`,
+    `create table intentions (
+      id integer primary key autoincrement,
+      text text not null unique
     )`,
   ],
 ];
@@ -67,6 +81,12 @@ export type Journal = {
   readonly isPaused: (localDate: string) => boolean;
   /** The local date of the first thing ever recorded, for the history view. */
   readonly firstDate: () => string | undefined;
+  /** Saved intentions for quick reuse. Deleting one never touches the journal. */
+  readonly saveIntention: (text: string) => void;
+  readonly savedIntentions: () => readonly string[];
+  readonly deleteIntention: (text: string) => void;
+  /** For whom this person has prayed, and how many times. Never whether it was answered. */
+  readonly intentionHistory: () => readonly IntentionCount[];
 };
 
 export function openJournal(db: SqlDb): Journal {
@@ -76,18 +96,26 @@ export function openJournal(db: SqlDb): Journal {
     finished_at: string;
     decades: number;
     local_date: string;
+    intention?: string | null;
   }): PrayedEntry => ({
     startedAt: row.started_at,
     finishedAt: row.finished_at,
     decades: row.decades,
     localDate: row.local_date,
+    ...(row.intention == null ? {} : { intention: row.intention }),
   });
   return {
     add: (entry) => {
       // The same session recorded twice (a re-render, a resumed finish) stays one act.
       db.run(
-        'insert or ignore into prayed (started_at, finished_at, decades, local_date) values (?, ?, ?, ?)',
-        [entry.startedAt, entry.finishedAt, entry.decades, entry.localDate],
+        'insert or ignore into prayed (started_at, finished_at, decades, local_date, intention) values (?, ?, ?, ?, ?)',
+        [
+          entry.startedAt,
+          entry.finishedAt,
+          entry.decades,
+          entry.localDate,
+          entry.intention ?? null,
+        ] as (string | number)[],
       );
     },
     between: (fromDate, toDate) =>
@@ -98,7 +126,7 @@ export function openJournal(db: SqlDb): Journal {
           decades: number;
           local_date: string;
         }>(
-          'select started_at, finished_at, decades, local_date from prayed where local_date >= ? and local_date <= ? order by local_date',
+          'select started_at, finished_at, decades, local_date, intention from prayed where local_date >= ? and local_date <= ? order by local_date',
           [fromDate, toDate],
         )
         .map(rowToEntry),
@@ -110,7 +138,7 @@ export function openJournal(db: SqlDb): Journal {
           decades: number;
           local_date: string;
         }>(
-          'select started_at, finished_at, decades, local_date from prayed order by local_date',
+          'select started_at, finished_at, decades, local_date, intention from prayed order by local_date',
         )
         .map(rowToEntry),
     startPause: (localDate) => {
@@ -135,5 +163,19 @@ export function openJournal(db: SqlDb): Journal {
       db.all<{ local_date: string }>(
         'select local_date from prayed order by local_date limit 1',
       )[0]?.local_date,
+    saveIntention: (text) => {
+      db.run('insert or ignore into intentions (text) values (?)', [text]);
+    },
+    savedIntentions: () =>
+      db
+        .all<{ text: string }>('select text from intentions order by id desc')
+        .map((row) => row.text),
+    deleteIntention: (text) => {
+      db.run('delete from intentions where text = ?', [text]);
+    },
+    intentionHistory: () =>
+      db.all<{ intention: string; times: number }>(
+        'select intention, count(*) as times from prayed where intention is not null group by intention order by times desc, intention',
+      ),
   };
 }
