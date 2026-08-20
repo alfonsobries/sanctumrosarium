@@ -40,7 +40,10 @@ describe('planForStep', () => {
   });
 
   it('stretches the response silence when the rate slows down', () => {
-    const plan = planForStep(ave!, manifest, { rate: 0.8, responseFactor: 1.25 });
+    const plan = planForStep(ave!, manifest, {
+      ...defaultAudioSettings,
+      rate: 0.8,
+    });
     expect(plan).toEqual({
       kind: 'track',
       file: 'ave-maria.leader.mp3',
@@ -57,9 +60,34 @@ describe('planForStep', () => {
     });
   });
 
-  it('holds a contemplative pause on the announcement', () => {
-    const plan = planForStep(announce!, manifest, defaultAudioSettings);
-    expect(plan.kind).toBe('silence');
+  it('holds a contemplative pause on the announcement, as configured', () => {
+    const plan = planForStep(announce!, manifest, {
+      ...defaultAudioSettings,
+      announceMs: 8000,
+    });
+    expect(plan).toEqual({ kind: 'silence', silenceAfterMs: 8000 });
+  });
+
+  it('an automatic Hail Mary never goes under the floor', () => {
+    const quick: AudioManifest = {
+      ...manifest,
+      tracks: {
+        'ave-maria': {
+          leader: { file: 'ave-maria.leader.mp3', durationMs: 3000 },
+          response: { file: 'ave-maria.response.mp3', durationMs: 2000 },
+        },
+      },
+    };
+    const plan = planForStep(ave!, quick, defaultAudioSettings);
+    expect(plan.kind).toBe('track');
+    if (plan.kind === 'track') {
+      expect(3000 + plan.silenceAfterMs).toBeGreaterThanOrEqual(12_000);
+    }
+  });
+
+  it('the automatic mode never skips the response silence', () => {
+    const plan = planForStep(ave!, manifest, { ...defaultAudioSettings, rate: 0.85 });
+    expect(plan.kind === 'track' && plan.silenceAfterMs > 0).toBe(true);
   });
 
   it('keeps praying in silence when a track is missing', () => {

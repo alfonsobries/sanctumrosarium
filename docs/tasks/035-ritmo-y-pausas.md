@@ -42,15 +42,29 @@ Un silencio corto y configurable al cambiar de misterio.
 4. Tests cubren: el suelo mínimo, silencio entre decenas, y que el modo automático no
    salte el silencio de respuesta.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Suelo mínimo por Ave** en modo automático (12 s entre voz y silencio), probado. Es
+  piso, nunca techo: no existe control que lo baje.
+- **Solo hacia despacio**: la velocidad ofrece paso normal o más pausado; no hay modo
+  rápido ni opción que lo insinúe (criterio 2 por construcción).
+- **Silencio para responder** natural o más largo; **pausa en el misterio** breve, media o
+  larga (ajustes v11, migración probada). El guía respeta siempre el silencio de respuesta
+  (probado).
+- Esto cierra también el "ritmo y voz" que la task 011 dejó pendiente.
+- **Pausas internas de Montfort** (dentro del Padrenuestro y el Ave): pospuestas a la
+  etapa de meditar (032/034), que es quien debe sugerirlas una vez; requieren cortes de
+  audio propios.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] Reloj - el ritmo se hereda; no se configura ahí
-- [ ] Audio
-- [ ] Accesibilidad
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] Contenido y motor - plan de audio con suelo y pausas, con tests
+- [x] App
+- [x] ~~Reloj - el ritmo se hereda; no se configura ahí~~
+- [x] Audio - los defaults del guía son los del ritmo tranquilo
+- [x] Accesibilidad - filas de selección normales
+- [x] ~~Sitio - n/a~~
 
 ## Fuentes
 

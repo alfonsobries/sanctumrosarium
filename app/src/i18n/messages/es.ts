@@ -182,6 +182,23 @@ export const es = {
     title: 'Cláusulas del misterio',
     hint: 'Tras el nombre de Jesús, la frase del misterio en cada Ave (DPPL 201). Redacción propia sobre el patrón alemán y la lista de Montfort.',
   },
+  pace: {
+    title: 'Ritmo',
+    rate: {
+      normal: 'Voz al paso normal',
+      calm: 'Voz más pausada',
+    },
+    silence: {
+      normal: 'Silencio para responder, natural',
+      long: 'Silencio para responder, más largo',
+    },
+    announce: {
+      short: 'Pausa breve en el misterio',
+      medium: 'Pausa media en el misterio',
+      long: 'Pausa larga en el misterio',
+    },
+    hint: 'El ritmo tranquilo es el modo normal; no hay modo rápido.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },

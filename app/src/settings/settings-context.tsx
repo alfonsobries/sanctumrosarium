@@ -44,6 +44,9 @@ type SettingsContextValue = {
   readonly setWithLitany: (value: boolean) => void;
   readonly toggleLatinMix: (prayer: PrayerId) => void;
   readonly setWithClauses: (value: boolean) => void;
+  readonly setPace: (
+    value: Partial<Pick<Settings, 'audioPace' | 'responseSilence' | 'announcePause'>>,
+  ) => void;
   readonly setReminder: (
     value: Partial<
       Pick<Settings, 'reminderMode' | 'reminderHour' | 'reminderMinute' | 'reminderDays'>
@@ -116,6 +119,7 @@ export function SettingsProvider({
       setRosesEnabled: (rosesEnabled) => update({ rosesEnabled }),
       setWithLitany: (withLitany) => update({ withLitany }),
       setWithClauses: (withClauses) => update({ withClauses }),
+      setPace: (value) => update(value),
       toggleLatinMix: (prayer) =>
         update({
           latinMixOwn: settings.latinMixOwn.includes(prayer)

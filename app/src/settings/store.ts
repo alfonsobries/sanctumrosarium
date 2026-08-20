@@ -16,9 +16,12 @@ export type PrayerFormSetting = 'auto' | FormId;
 export type HapticsSetting = 'off' | 'gentle' | 'strong';
 export type LatinTextSetting = 'both' | 'la' | 'own';
 export type ReminderMode = 'off' | 'hour' | 'angelus';
+export type AudioPaceSetting = 'calm' | 'normal';
+export type ResponseSilenceSetting = 'normal' | 'long';
+export type AnnouncePauseSetting = 'short' | 'medium' | 'long';
 
 export type Settings = {
-  readonly version: 10;
+  readonly version: 11;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -51,10 +54,14 @@ export type Settings = {
   readonly latinMixOwn: readonly PrayerId[];
   /** The clause of the mystery after the name of Jesus in each Hail Mary (DPPL 201). */
   readonly withClauses: boolean;
+  /** The guide's pace: normal or slower. There is no fast mode (MC 47, RVM 12). */
+  readonly audioPace: AudioPaceSetting;
+  readonly responseSilence: ResponseSilenceSetting;
+  readonly announcePause: AnnouncePauseSetting;
 };
 
 export const defaultSettings: Settings = {
-  version: 10,
+  version: 11,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -71,6 +78,9 @@ export const defaultSettings: Settings = {
   withLitany: false,
   latinMixOwn: [],
   withClauses: false,
+  audioPace: 'normal',
+  responseSilence: 'normal',
+  announcePause: 'short',
 };
 
 const SETTINGS_KEY = 'settings';
@@ -101,6 +111,13 @@ const migrations: Record<
   7: (stored) => ({ withLitany: false, ...stored, version: 8 }),
   8: (stored) => ({ latinMixOwn: [], ...stored, version: 9 }),
   9: (stored) => ({ withClauses: false, ...stored, version: 10 }),
+  10: (stored) => ({
+    audioPace: 'normal',
+    responseSilence: 'normal',
+    announcePause: 'short',
+    ...stored,
+    version: 11,
+  }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -138,6 +155,9 @@ const knownPrayerIds: ReadonlySet<string> = new Set(prayers.map((prayer) => pray
 const hapticsOptions: readonly HapticsSetting[] = ['off', 'gentle', 'strong'];
 const latinTextOptions: readonly LatinTextSetting[] = ['both', 'la', 'own'];
 const reminderModes: readonly ReminderMode[] = ['off', 'hour', 'angelus'];
+const audioPaces: readonly AudioPaceSetting[] = ['calm', 'normal'];
+const responseSilences: readonly ResponseSilenceSetting[] = ['normal', 'long'];
+const announcePauses: readonly AnnouncePauseSetting[] = ['short', 'medium', 'long'];
 const ruleOptions: readonly RuleId[] = [
   'none',
   'daily-decade',
@@ -149,7 +169,7 @@ const ruleOptions: readonly RuleId[] = [
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 10,
+    version: 11,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -211,6 +231,15 @@ function sanitize(stored: Record<string, unknown>): Settings {
       typeof stored.withClauses === 'boolean'
         ? stored.withClauses
         : defaultSettings.withClauses,
+    audioPace: isOneOf(stored.audioPace, audioPaces)
+      ? stored.audioPace
+      : defaultSettings.audioPace,
+    responseSilence: isOneOf(stored.responseSilence, responseSilences)
+      ? stored.responseSilence
+      : defaultSettings.responseSilence,
+    announcePause: isOneOf(stored.announcePause, announcePauses)
+      ? stored.announcePause
+      : defaultSettings.announcePause,
   };
 }
 

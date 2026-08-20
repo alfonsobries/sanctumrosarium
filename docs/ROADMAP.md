@@ -126,7 +126,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 
 | #   | Task                                                              | Qué es                                                          |
 | --- | ----------------------------------------------------------------- | --------------------------------------------------------------- |
-| 035 | [Ritmo y pausas](./tasks/035-ritmo-y-pausas.md)                   | Tiempos por Ave, pausas dentro de la oración, silencio          |
+| 035 | [Ritmo y pausas](./tasks/035-ritmo-y-pausas.md)                   | Primera pasada                                                  |
 | 036 | [Imagen del misterio](./tasks/036-imagen-del-misterio.md)         | Arte sacro a pantalla completa, con su ficha                    |
 | 037 | [Señales de recogimiento](./tasks/037-senales-de-recogimiento.md) | Interrupciones y ritmo: privado, opcional, sin puntaje          |
 | 038 | [Salud](./tasks/038-salud.md)                                     | Corazón y variabilidad desde el reloj; sesión de atención plena |
