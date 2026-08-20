@@ -55,6 +55,10 @@ export const en = {
     prayerLanguage: 'Prayer language',
     prayerLanguageHint:
       'It can differ from the app language: the app in English, the prayers in Latin.',
+    prayerForm: 'Form of the Rosary',
+    prayerFormHint:
+      'Choosing a form arranges the optional prayers at once; each one can be adjusted afterwards. What is essential never changes: mystery, Our Father, ten Hail Marys, Glory Be.',
+    optionalPrayers: 'Optional prayers',
     system: 'Match the system',
     light: 'Light',
     dark: 'Dark',
@@ -64,6 +68,24 @@ export const en = {
     prayerEsES: 'Español (España)',
     prayerEnUS: 'English',
     prayerLa: 'Latin',
+  },
+  forms: {
+    auto: 'Follow the prayer language',
+    roman: 'Roman form',
+    'es-MX': 'Mexican form',
+    'es-ES': 'Spanish form',
+    dominican: 'Dominican form',
+  },
+  optional: {
+    'oratio-fatimae':
+      'After each decade; it comes from the 1917 Fátima apparitions and is not an essential part.',
+    'ave-maria-purissima': 'Hispanic custom greeting closing the decade.',
+    'actus-contritionis': 'Act of contrition at the start, as preparation.',
+    oblatio: 'Offering of the Rosary at the start.',
+    'oratio-litaniarum': 'The prayer that follows the litany.',
+    'oratio-pro-papa':
+      "For the Pope's intentions; one of the conditions of the plenary indulgence.",
+    'sub-tuum': 'Ancient Marian antiphon; Leo XIII added it at the end in October.',
   },
   error: {
     screen: 'Something failed while opening this screen.',

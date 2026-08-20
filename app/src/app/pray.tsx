@@ -37,7 +37,7 @@ import { spacing, touchTarget } from '@/theme/tokens';
 export default function PrayScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { prayerLocale, prayerForm } = useSettings();
+  const { prayerLocale, prayerForm, settings } = useSettings();
 
   const [saved] = useState<SavedSession | undefined>(() => loadSession(appKv));
   const [resumeChoice, setResumeChoice] = useState<'pending' | 'made'>(
@@ -45,7 +45,12 @@ export default function PrayScreen() {
   );
   const [buildOptions, setBuildOptions] = useState(() =>
     saved === undefined
-      ? { form: prayerForm, locale: prayerLocale, set: mysteriesOfDay(new Date()).set }
+      ? {
+          form: prayerForm,
+          locale: prayerLocale,
+          set: mysteriesOfDay(new Date()).set,
+          include: settings.includedPrayers,
+        }
       : saved.options,
   );
   const [session, setSession] = useState<SessionState>(() =>
@@ -100,7 +105,12 @@ export default function PrayScreen() {
   const handleStartOver = () => {
     clearSession(appKv);
     const today = mysteriesOfDay(new Date());
-    setBuildOptions({ form: prayerForm, locale: prayerLocale, set: today.set });
+    setBuildOptions({
+      form: prayerForm,
+      locale: prayerLocale,
+      set: today.set,
+      include: settings.includedPrayers,
+    });
     setSession(startSession(new Date()));
     setResumeChoice('made');
   };

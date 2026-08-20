@@ -62,12 +62,32 @@ se puede tocar lo que sea.
 6. Tests cubren: cada interruptor, los presets, y una prueba que verifica que lo esencial
    nunca desaparece.
 
+## Decisiones tomadas
+
+- **Modelo**: ajustes v2 con migración probada (v1 → v2). `prayerForm: 'auto' | forma` e
+  `includedPrayers` (lista de encendidas). 'auto' sigue al idioma del rezo.
+- **Solo formas rezables**: la lista ofrece las formas cuyos textos existen en el idioma
+  del rezo; una forma elegida que el idioma no puede rezar cae a 'auto', nunca a una
+  secuencia rota.
+- **Preset**: elegir forma enciende de golpe sus opcionales (la costumbre regional es la
+  razón de que estén en la forma); cada una se ajusta después.
+- **Los interruptores salen de la forma**: la lista de opcionales se deriva de los pasos
+  `optional` de la forma activa, no de una lista cableada.
+- **Oración tras las letanías**: su interruptor se esconde hasta que exista la letanía
+  (task 043); ofrecerla sola no tiene sentido litúrgico.
+- **Ritmo y voz** (velocidad, silencio, música): pospuestos; los defaults viven en
+  `defaultAudioSettings` y el control de usuario llega cuando la voz deje de ser andamio.
+- **Cambiar ajustes no toca la sesión en curso**: el rezo congela sus opciones al empezar
+  y las nuevas aplican al siguiente rosario.
+- Verificado con Maestro: encender Fátima inserta la oración tras la decena.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] ~~Contenido y motor - n/a: el motor ya acepta los ajustes~~
-- [ ] App
-- [ ] Reloj - el reloj hereda los ajustes del teléfono (task 015)
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad - los interruptores se operan y se entienden con lector de pantalla
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] ~~Contenido y motor - n/a: el motor ya acepta los ajustes~~
+- [x] App
+- [ ] Reloj - el reloj hereda los ajustes del teléfono (task 015, pendiente)
+- [x] ~~Audio - n/a~~
+- [ ] Accesibilidad - filas-interruptor con rol, estado y hint; recorrido con VoiceOver en
+      aparato pendiente
+- [x] ~~Sitio - n/a~~

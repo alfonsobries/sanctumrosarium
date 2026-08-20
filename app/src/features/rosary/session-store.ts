@@ -1,4 +1,4 @@
-import type { FormId, Locale, MysterySetId } from '@rosario/content';
+import type { FormId, Locale, MysterySetId, PrayerId } from '@rosario/content';
 import type { SessionState } from '@rosario/engine';
 
 import type { KvDriver } from '@/storage/kv';
@@ -15,6 +15,7 @@ export type SavedSession = {
     readonly form: FormId;
     readonly locale: Locale;
     readonly set: MysterySetId;
+    readonly include?: readonly PrayerId[];
   };
   /** Local date of the person praying (conventions: a Rosary at 11pm belongs to that day). */
   readonly localDate: string;
