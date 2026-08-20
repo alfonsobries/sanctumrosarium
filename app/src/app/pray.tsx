@@ -5,6 +5,7 @@ import {
   goBack,
   mysteriesOfDay,
   progressOf,
+  recordOf,
   startSession,
   type SessionState,
   type Step,
@@ -22,6 +23,7 @@ import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
 import { audioPacks } from '@/features/audio/packs.generated';
+import { appJournal } from '@/features/journal/app-journal';
 import { useAudioGuide } from '@/features/audio/use-audio-guide';
 import { pairLatinLines } from '@/features/rosary/bilingual';
 import { hapticForStep } from '@/features/rosary/haptic-patterns';
@@ -83,6 +85,17 @@ export default function PrayScreen() {
       return;
     }
     if (progress.finished) {
+      // The finished Rosary becomes one entry in the journal: an act counted, local,
+      // recorded once (the insert ignores a repeated session).
+      const record = recordOf(session, steps);
+      if (record !== undefined) {
+        appJournal.add({
+          startedAt: record.startedAt,
+          finishedAt: record.finishedAt,
+          decades: record.decades,
+          localDate: localDateOf(new Date(record.finishedAt)),
+        });
+      }
       clearSession(appKv);
       return;
     }
@@ -92,7 +105,7 @@ export default function PrayScreen() {
       options: buildOptions,
       localDate: localDateOf(new Date()),
     });
-  }, [session, buildOptions, progress.finished, resumeChoice]);
+  }, [session, buildOptions, steps, progress.finished, resumeChoice]);
 
   const handleNext = () => {
     void playHaptic(hapticForStep(steps[progress.stepIndex + 1]), settings.haptics);

@@ -104,6 +104,28 @@ export const en = {
     own: 'Your language only',
     hint: 'The two languages run line by line; nothing is translated: the official texts are simply paired.',
   },
+  rule: {
+    title: 'Rule',
+    names: {
+      none: 'No rule',
+      'daily-decade': 'One decade a day',
+      'daily-rosary': 'Five decades a day',
+      'weekly-fifteen': 'Fifteen decades a week',
+      'full-rosary': 'The twenty mysteries',
+    },
+    lines: {
+      none: 'Pray whenever you pray. The app keeps no count.',
+      'daily-decade': 'One decade, every day.',
+      'daily-rosary': 'The daily Rosary.',
+      'weekly-fifteen': 'The way the Confraternity of the Rosary does it.',
+      'full-rosary': 'Joyful, luminous, sorrowful and glorious, every day.',
+    },
+    confraternity:
+      'The Confraternity of the Most Holy Rosary (Order of Preachers) asks its members to strive to pray the fifteen decades each week. In its own words, it does not bind under sin. Choosing it here does not enroll you.',
+    footer: 'The Rule is yours: lower it or remove it right here, whenever you want.',
+    progressDay: '{{done}} of {{target}} decades today.',
+    progressWeek: '{{done}} of {{target}} decades this week.',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },

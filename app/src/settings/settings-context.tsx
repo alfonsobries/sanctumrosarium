@@ -5,6 +5,7 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 import { setLanguage } from '@/i18n';
 import type { KvDriver } from '@/storage/kv';
 
+import type { RuleId } from '@/features/journal/rule';
 import { effectiveForm, optionalPrayersOf } from '@/features/rosary/forms';
 import { forms } from '@rosario/content';
 
@@ -38,6 +39,7 @@ type SettingsContextValue = {
   readonly toggleIncludedPrayer: (prayer: PrayerId) => void;
   readonly setHaptics: (value: HapticsSetting) => void;
   readonly setLatinText: (value: LatinTextSetting) => void;
+  readonly setRule: (value: RuleId) => void;
   /** The prayer locale the device would choose on its own: the companion language when
       praying in Latin. */
   readonly systemPrayerLocale: Locale;
@@ -100,6 +102,7 @@ export function SettingsProvider({
         }),
       setHaptics: (haptics) => update({ haptics }),
       setLatinText: (latinText) => update({ latinText }),
+      setRule: (rule) => update({ rule }),
       systemPrayerLocale: resolvePrayerLocale('system', deviceLocales()),
       toggleIncludedPrayer: (prayer) =>
         update({

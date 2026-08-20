@@ -13,11 +13,12 @@ caer en la superstición" (CIC 2111).
 ## El problema, en corto
 
 Contar oraciones es católico: el Rosario **es** un contador, la Cofradía del Rosario
-propone quince decenas semanales desde el siglo XV diciendo con esas palabras que no
-obliga bajo pecado, y la Liturgia de las Horas es un horario. Lo que no es católico es
-**cuantificar el efecto sobrenatural**, competir, y castigar la fragilidad. La Iglesia
-misma dejó de expresar las indulgencias en días y años (Pablo VI, 1967) porque el número
-hacía pensar en una contabilidad de la gracia que no existe.
+(asociación con más de quinientos años) pide a sus miembros procurar quince decenas
+semanales diciendo con esas palabras que no obliga bajo pecado, y la Liturgia de las Horas
+es un horario. Lo que no es católico es **cuantificar el efecto sobrenatural**, competir,
+y castigar la fragilidad. La Iglesia misma dejó de expresar las indulgencias en días y
+años (Pablo VI, 1967) porque el número hacía pensar en una contabilidad de la gracia que
+no existe.
 
 De ahí la regla que ordena todo lo demás: **se cuentan los actos, nunca las gracias.**
 
@@ -25,13 +26,13 @@ De ahí la regla que ordena todo lo demás: **se cuentan los actos, nunca las gr
 
 Al empezar, la app pregunta a qué te comprometes. Opciones:
 
-| Regla                     | Qué es                                              |
-| ------------------------- | --------------------------------------------------- |
-| Una decena al día         | Para empezar de verdad                              |
-| Cinco decenas al día      | El Rosario, lo que se entiende por "rezarlo"        |
-| Quince decenas por semana | El compromiso de la Cofradía. No obliga bajo pecado |
-| El Rosario completo       | Veinte misterios al día                             |
-| Sin regla                 | Rezar cuando salga, sin seguimiento                 |
+| Regla                     | Qué es                                        |
+| ------------------------- | --------------------------------------------- |
+| Una decena al día         | Una decena, todos los días                    |
+| Cinco decenas al día      | El Rosario de cada día                        |
+| Quince decenas por semana | Al modo de la Cofradía. No obliga bajo pecado |
+| Los veinte misterios      | Los cuatro grupos de misterios, cada día      |
+| Sin regla                 | Rezar cuando salga; la app no lleva la cuenta |
 
 Reglas de la Regla:
 
@@ -64,16 +65,16 @@ La progresión de verdad no es acumular, es aprender a rezar mejor. Ocho etapas,
 con contenido real; se avanza recorriéndolas, no ganando puntos, y se puede saltar a la
 que quieras.
 
-| #   | Etapa               | Qué enseña                                                                                |
-| --- | ------------------- | ----------------------------------------------------------------------------------------- |
-| 1   | La estructura       | Qué es el Rosario, sus partes, los misterios y el día que toca                            |
-| 2   | Meditar             | Enunciar el misterio, escuchar la Palabra, callar un momento (RVM 29-31)                  |
-| 3   | Las cláusulas       | Añadir al nombre de Jesús la frase del misterio, como se hace en Alemania y pide DPPL 201 |
-| 4   | Responder           | Rezar a dos voces: la app dice la primera mitad, tú la segunda                            |
-| 5   | Latín               | Oración por oración, de escuchar a responder de memoria                                   |
-| 6   | Cantar              | Salve Regina y letanías cantadas                                                          |
-| 7   | En familia          | A dos coros, en voz alta, con los niños                                                   |
-| 8   | El Rosario completo | Veinte misterios, la Cofradía, el Rosario perpetuo                                        |
+| #   | Etapa                | Qué enseña                                                                                |
+| --- | -------------------- | ----------------------------------------------------------------------------------------- |
+| 1   | La estructura        | Qué es el Rosario, sus partes, los misterios y el día que toca                            |
+| 2   | Meditar              | Enunciar el misterio, escuchar la Palabra, callar un momento (RVM 29-31)                  |
+| 3   | Las cláusulas        | Añadir al nombre de Jesús la frase del misterio, como se hace en Alemania y pide DPPL 201 |
+| 4   | Responder            | Rezar a dos voces: la app dice la primera mitad, tú la segunda                            |
+| 5   | Latín                | Oración por oración, de escuchar a responder de memoria                                   |
+| 6   | Cantar               | Salve Regina y letanías cantadas                                                          |
+| 7   | En familia           | A dos coros, en voz alta, con los niños                                                   |
+| 8   | Los veinte misterios | Veinte misterios, la Cofradía, el Rosario perpetuo                                        |
 
 Cada etapa se completa rezando de esa forma unas cuantas veces, no aprobando un examen. Al
 completarla no hay confeti: hay una frase de lo que ahora sabes hacer, y la puerta a la

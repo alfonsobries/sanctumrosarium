@@ -106,7 +106,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 
 | #   | Task                                                  | Qué es                                                  |
 | --- | ----------------------------------------------------- | ------------------------------------------------------- |
-| 025 | [La Regla](./tasks/025-la-regla.md)                   | Norma personal editable que no obliga bajo pecado       |
+| 025 | [La Regla](./tasks/025-la-regla.md)                   | Primera pasada                                          |
 | 026 | [Fidelidad del mes](./tasks/026-fidelidad-del-mes.md) | Calendario de días fieles, huecos sin drama, modo pausa |
 | 027 | [Recordatorio](./tasks/027-recordatorio.md)           | Uno, a tu hora, o el modelo del Ángelus                 |
 | 028 | [Intenciones](./tasks/028-intenciones.md)             | Por quién ofreces, con historial                        |

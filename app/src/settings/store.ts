@@ -6,6 +6,7 @@ import {
   type PrayerId,
 } from '@rosario/content';
 
+import type { RuleId } from '@/features/journal/rule';
 import type { KvDriver } from '@/storage/kv';
 
 export type AppearanceSetting = 'system' | 'light' | 'dark';
@@ -16,7 +17,7 @@ export type HapticsSetting = 'off' | 'gentle' | 'strong';
 export type LatinTextSetting = 'both' | 'la' | 'own';
 
 export type Settings = {
-  readonly version: 4;
+  readonly version: 5;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -31,10 +32,12 @@ export type Settings = {
   /** What the screen shows when praying in Latin: both languages, Latin alone, or the
       reader's own language. Both is the default for whoever is still learning. */
   readonly latinText: LatinTextSetting;
+  /** The Rule: what this person commits to. Chosen by them; the app never raises it. */
+  readonly rule: RuleId;
 };
 
 export const defaultSettings: Settings = {
-  version: 4,
+  version: 5,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -42,6 +45,7 @@ export const defaultSettings: Settings = {
   includedPrayers: [],
   haptics: 'gentle',
   latinText: 'both',
+  rule: 'none',
 };
 
 const SETTINGS_KEY = 'settings';
@@ -58,6 +62,8 @@ const migrations: Record<
   1: (stored) => ({ ...stored, version: 2, prayerForm: 'auto', includedPrayers: [] }),
   2: (stored) => ({ ...stored, version: 3, haptics: 'gentle' }),
   3: (stored) => ({ ...stored, version: 4, latinText: 'both' }),
+  // Defaults go first: if the stored data already carries a rule, migration keeps it.
+  4: (stored) => ({ rule: 'none', ...stored, version: 5 }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -94,11 +100,18 @@ const prayerForms: readonly PrayerFormSetting[] = [
 const knownPrayerIds: ReadonlySet<string> = new Set(prayers.map((prayer) => prayer.id));
 const hapticsOptions: readonly HapticsSetting[] = ['off', 'gentle', 'strong'];
 const latinTextOptions: readonly LatinTextSetting[] = ['both', 'la', 'own'];
+const ruleOptions: readonly RuleId[] = [
+  'none',
+  'daily-decade',
+  'daily-rosary',
+  'weekly-fifteen',
+  'full-rosary',
+];
 
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 4,
+    version: 5,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -122,6 +135,7 @@ function sanitize(stored: Record<string, unknown>): Settings {
     latinText: isOneOf(stored.latinText, latinTextOptions)
       ? stored.latinText
       : defaultSettings.latinText,
+    rule: isOneOf(stored.rule, ruleOptions) ? stored.rule : defaultSettings.rule,
   };
 }
 

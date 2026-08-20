@@ -16,7 +16,11 @@ function testDb(): SqlDb {
   };
 }
 
-const entry = (localDate: string, decades: number, startedAt = `${localDate}T20:00:00`) => ({
+const entry = (
+  localDate: string,
+  decades: number,
+  startedAt = `${localDate}T20:00:00`,
+) => ({
   startedAt,
   finishedAt: `${localDate}T20:25:00`,
   decades,

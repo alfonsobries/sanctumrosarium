@@ -12,7 +12,7 @@ describe('loadSettings', () => {
   it('round-trips what was saved', () => {
     const driver = createMemoryDriver();
     saveSettings(driver, {
-      version: 4,
+      version: 5,
       appearance: 'dark',
       interfaceLanguage: 'es',
       prayerLocale: 'la',
@@ -20,9 +20,10 @@ describe('loadSettings', () => {
       includedPrayers: ['oratio-fatimae'],
       haptics: 'strong',
       latinText: 'la',
+      rule: 'weekly-fifteen',
     });
     expect(loadSettings(driver)).toEqual({
-      version: 4,
+      version: 5,
       appearance: 'dark',
       interfaceLanguage: 'es',
       prayerLocale: 'la',
@@ -30,6 +31,7 @@ describe('loadSettings', () => {
       includedPrayers: ['oratio-fatimae'],
       haptics: 'strong',
       latinText: 'la',
+      rule: 'weekly-fifteen',
     });
   });
 
@@ -54,7 +56,7 @@ describe('loadSettings', () => {
       }),
     });
     expect(loadSettings(driver)).toEqual({
-      version: 4,
+      version: 5,
       appearance: 'dark',
       interfaceLanguage: 'en',
       prayerLocale: 'en-US',
@@ -62,13 +64,21 @@ describe('loadSettings', () => {
       includedPrayers: [],
       haptics: 'gentle',
       latinText: 'both',
+      rule: 'none',
     });
+  });
+
+  it('a migration never touches the rule someone chose', () => {
+    const driver = createMemoryDriver({
+      settings: JSON.stringify({ version: 4, rule: 'daily-decade' }),
+    });
+    expect(loadSettings(driver).rule).toBe('daily-decade');
   });
 
   it('drops unknown prayers from the included list', () => {
     const driver = createMemoryDriver({
       settings: JSON.stringify({
-        version: 4,
+        version: 5,
         includedPrayers: ['oratio-fatimae', 'not-a-prayer'],
       }),
     });
