@@ -43,15 +43,32 @@ devoción aparte.
 4. Tests cubren: orden de 2020, devoción aparte, y que el cierre del Rosario no duplica el
    registro.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Devoción propia**: entrada "Letanías lauretanas" desde el inicio, con su registro en
+  el diario como acto aparte (`kind: 'litany'`, migración v4). Las vistas del Rosario
+  (Regla, fidelidad, rosas) solo ven rosarios; probado que una letanía no suma como
+  rosario.
+- **Al final del Rosario**: interruptor en Ajustes (v8) que enciende el paso `litany` del
+  motor; el interruptor de la oración tras las letanías solo aparece con la letanía
+  encendida. Cerrar el Rosario con letanías no la registra dos veces (el paso es parte del
+  rosario, no un acto aparte).
+- **Rezando en latín**, cada invocación lleva su lengua compañera debajo, con las
+  respuestas en cursiva; los datos ya venían alineados por invocación.
+- El orden con las adiciones de 1980, 1995 y 2020 lo garantiza el paquete de contenido con
+  su test.
+- **Pendiente con razón**: audio hablado y cantado (paquetes propios, cuando la voz deje
+  de ser andamio), y la página del sitio que las distinga (con la escuela, 034).
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] Reloj - se pueden rezar solas si ya hay audio
-- [ ] Audio
-- [ ] Accesibilidad
-- [ ] Sitio - una página que las distingue del Rosario (DPPL 203)
+- [x] Definir qué aplica
+- [x] Contenido y motor - contenido ya existía; el diario distingue el acto
+- [x] App
+- [ ] Reloj - cuando haya audio (task 017)
+- [ ] Audio - pendiente con la voz definitiva
+- [x] Accesibilidad - texto corrido con roles normales; recorrido en aparato pendiente
+- [ ] Sitio - página propia con la 034
 
 ## Fuentes
 

@@ -16,6 +16,7 @@ export type SavedSession = {
     readonly locale: Locale;
     readonly set: MysterySetId;
     readonly include?: readonly PrayerId[];
+    readonly withLitany?: boolean;
   };
   /** Local date of the person praying (conventions: a Rosary at 11pm belongs to that day). */
   readonly localDate: string;

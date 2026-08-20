@@ -170,6 +170,11 @@ export const en = {
     empty: 'Each rosary of the month sets a rose.',
     toggle: 'The crown of the month; it can be turned off and the app stays whole.',
   },
+  litany: {
+    title: 'Litany of Loreto',
+    note: 'An act of worship by itself; it can also close the Rosary from Settings.',
+    settingHint: 'Closes the Rosary; an act of worship by itself.',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },

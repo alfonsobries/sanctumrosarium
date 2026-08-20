@@ -34,6 +34,7 @@ import { Screen } from '@/components/Screen';
 import { audioPacks } from '@/features/audio/packs.generated';
 import { appJournal } from '@/features/journal/app-journal';
 import { useAudioGuide } from '@/features/audio/use-audio-guide';
+import { LitanyView } from '@/features/rosary/LitanyView';
 import { pairLatinLines } from '@/features/rosary/bilingual';
 import { hapticForStep } from '@/features/rosary/haptic-patterns';
 import { playHaptic } from '@/features/rosary/haptics';
@@ -71,6 +72,7 @@ export default function PrayScreen() {
           locale: prayerLocale,
           set: mysteriesOfDay(new Date()).set,
           include: settings.includedPrayers,
+          withLitany: settings.withLitany,
         }
       : saved.options,
   );
@@ -182,6 +184,7 @@ export default function PrayScreen() {
       locale: prayerLocale,
       set: today.set,
       include: settings.includedPrayers,
+      withLitany: settings.withLitany,
     });
     setSession(startSession(new Date(), intention));
     setPhase('praying');
@@ -312,8 +315,21 @@ export default function PrayScreen() {
               </>
             ) : null}
 
-            {/* reading, silence and litany steps arrive with tasks 032, 035 and 043;
-                the default options never produce them. */}
+            {step.kind === 'litany' ? (
+              <LitanyView
+                language={language}
+                companion={
+                  language === 'la' && settings.latinText === 'both'
+                    ? languageForLocale(systemPrayerLocale) === 'la'
+                      ? undefined
+                      : (languageForLocale(systemPrayerLocale) as 'es' | 'en')
+                    : undefined
+                }
+              />
+            ) : null}
+
+            {/* reading and silence steps arrive with tasks 032 and 035; the default
+                options never produce them. */}
           </Pressable>
         </ScrollView>
       </GestureDetector>

@@ -170,6 +170,11 @@ export const es = {
     empty: 'Cada rosario del mes pone una rosa.',
     toggle: 'La corona del mes; se puede apagar y la app queda igual de completa.',
   },
+  litany: {
+    title: 'Letanías lauretanas',
+    note: 'Un acto de culto por sí mismas; también pueden cerrar el rosario desde Ajustes.',
+    settingHint: 'Cierran el rosario; son un acto de culto por sí mismas.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },

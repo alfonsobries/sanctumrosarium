@@ -41,6 +41,7 @@ type SettingsContextValue = {
   readonly setLatinText: (value: LatinTextSetting) => void;
   readonly setRule: (value: RuleId) => void;
   readonly setRosesEnabled: (value: boolean) => void;
+  readonly setWithLitany: (value: boolean) => void;
   readonly setReminder: (
     value: Partial<
       Pick<Settings, 'reminderMode' | 'reminderHour' | 'reminderMinute' | 'reminderDays'>
@@ -111,6 +112,7 @@ export function SettingsProvider({
       setRule: (rule) => update({ rule }),
       setReminder: (value) => update(value),
       setRosesEnabled: (rosesEnabled) => update({ rosesEnabled }),
+      setWithLitany: (withLitany) => update({ withLitany }),
       systemPrayerLocale: resolvePrayerLocale('system', deviceLocales()),
       toggleIncludedPrayer: (prayer) =>
         update({

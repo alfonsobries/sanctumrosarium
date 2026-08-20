@@ -109,6 +109,22 @@ describe('journal', () => {
   });
 });
 
+describe('litany as its own act', () => {
+  it('never adds up as a Rosary', () => {
+    const journal = openJournal(testDb());
+    journal.add(entry('2026-08-03', 5));
+    journal.add({
+      ...entry('2026-08-03', 0, '2026-08-03T21:00:00'),
+      kind: 'litany',
+    });
+    // The Rosary views only see rosaries.
+    expect(journal.all()).toHaveLength(1);
+    expect(journal.between('2026-08-01', '2026-08-31')).toHaveLength(1);
+    const progress = ruleProgress('daily-rosary', journal, new Date(2026, 7, 3, 22));
+    expect(progress?.decades).toBe(5);
+  });
+});
+
 describe('monthFidelity', () => {
   const now = new Date(2026, 7, 10, 22, 0);
 

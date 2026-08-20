@@ -109,6 +109,13 @@ export default function HomeScreen() {
       )}
 
       <Button label={t('home.start')} onPress={() => router.push('/pray')} />
+      <View style={styles.litanyLink}>
+        <Button
+          label={t('litany.title')}
+          variant="ghost"
+          onPress={() => router.push('/litany')}
+        />
+      </View>
 
       {__DEV__ ? (
         <View style={styles.devLink}>
@@ -130,6 +137,7 @@ const styles = StyleSheet.create({
   today: { gap: spacing.md, marginTop: spacing.xl, marginBottom: spacing.xxl },
   mysteries: { gap: spacing.sm, marginTop: spacing.md },
   devLink: { marginTop: spacing.sm },
+  litanyLink: { marginTop: spacing.xs },
   ruleLine: {
     marginBottom: spacing.md,
     minHeight: touchTarget / 2,

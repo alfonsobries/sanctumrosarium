@@ -17,6 +17,8 @@ export type PrayedEntry = {
   readonly localDate: string;
   /** Who this Rosary was offered for. The most intimate thing the app stores: local only. */
   readonly intention?: string;
+  /** A litany is its own act of worship (DPPL 203), never added up as a Rosary. */
+  readonly kind?: 'rosary' | 'litany';
 };
 
 export type IntentionCount = {
@@ -54,6 +56,7 @@ const migrations: readonly (readonly string[])[] = [
       text text not null unique
     )`,
   ],
+  [`alter table prayed add column kind text not null default 'rosary'`],
 ];
 
 export function migrateJournal(db: SqlDb): void {
@@ -108,13 +111,14 @@ export function openJournal(db: SqlDb): Journal {
     add: (entry) => {
       // The same session recorded twice (a re-render, a resumed finish) stays one act.
       db.run(
-        'insert or ignore into prayed (started_at, finished_at, decades, local_date, intention) values (?, ?, ?, ?, ?)',
+        'insert or ignore into prayed (started_at, finished_at, decades, local_date, intention, kind) values (?, ?, ?, ?, ?, ?)',
         [
           entry.startedAt,
           entry.finishedAt,
           entry.decades,
           entry.localDate,
           entry.intention ?? null,
+          entry.kind ?? 'rosary',
         ] as (string | number)[],
       );
     },
@@ -126,7 +130,7 @@ export function openJournal(db: SqlDb): Journal {
           decades: number;
           local_date: string;
         }>(
-          'select started_at, finished_at, decades, local_date, intention from prayed where local_date >= ? and local_date <= ? order by local_date',
+          "select started_at, finished_at, decades, local_date, intention from prayed where kind = 'rosary' and local_date >= ? and local_date <= ? order by local_date",
           [fromDate, toDate],
         )
         .map(rowToEntry),
@@ -138,7 +142,7 @@ export function openJournal(db: SqlDb): Journal {
           decades: number;
           local_date: string;
         }>(
-          'select started_at, finished_at, decades, local_date, intention from prayed order by local_date',
+          "select started_at, finished_at, decades, local_date, intention from prayed where kind = 'rosary' order by local_date",
         )
         .map(rowToEntry),
     startPause: (localDate) => {
