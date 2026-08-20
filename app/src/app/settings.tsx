@@ -59,6 +59,7 @@ export default function SettingsScreen() {
     setPrayerForm,
     toggleIncludedPrayer,
     setHaptics,
+    setLatinText,
   } = useSettings();
 
   const availableForms = formsForLocale(prayerLocale);
@@ -146,6 +147,26 @@ export default function SettingsScreen() {
           />
         ))}
       </Card>
+
+      {prayerLocale === 'la' ? (
+        <>
+          <SectionHeader title={t('settingsLatin.title')} />
+          <Card>
+            {(['both', 'la', 'own'] as const).map((option, index) => (
+              <ListRow
+                key={option}
+                label={t(`settingsLatin.${option}`)}
+                selected={settings.latinText === option}
+                divider={index < 2}
+                onPress={() => setLatinText(option)}
+              />
+            ))}
+          </Card>
+          <AppText variant="caption" color="muted" style={styles.hint}>
+            {t('settingsLatin.hint')}
+          </AppText>
+        </>
+      ) : null}
 
       <SectionHeader title={t('settingsHaptics.title')} />
       <Card>

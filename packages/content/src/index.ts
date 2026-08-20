@@ -4,5 +4,6 @@ export { forms, allForms } from './forms';
 export { prayers, findPrayer, prayersFor } from './prayers';
 export { lauretanae } from './litany';
 export type { Litany, LitanyGroup, LitanyLine, LitanyResponse } from './litany/types';
+export { latinLineMap } from './bilingual';
 export { validateContent } from './validate';
 export type { ValidationIssue } from './validate';

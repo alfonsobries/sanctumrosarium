@@ -1,3 +1,4 @@
+import { findPrayer, type Locale } from '@rosario/content';
 import {
   advance,
   buildRosary,
@@ -6,6 +7,7 @@ import {
   progressOf,
   startSession,
   type SessionState,
+  type Step,
 } from '@rosario/engine';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -21,6 +23,7 @@ import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
 import { audioPacks } from '@/features/audio/packs.generated';
 import { useAudioGuide } from '@/features/audio/use-audio-guide';
+import { pairLatinLines } from '@/features/rosary/bilingual';
 import { hapticForStep } from '@/features/rosary/haptic-patterns';
 import { playHaptic } from '@/features/rosary/haptics';
 import { BeadTrack } from '@/features/rosary/BeadTrack';
@@ -41,7 +44,7 @@ import { nightBlack, spacing, touchTarget } from '@/theme/tokens';
 export default function PrayScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { prayerLocale, prayerForm, settings } = useSettings();
+  const { prayerLocale, prayerForm, settings, systemPrayerLocale } = useSettings();
 
   const [saved] = useState<SavedSession | undefined>(() => loadSession(appKv));
   const [resumeChoice, setResumeChoice] = useState<'pending' | 'made'>(
@@ -234,27 +237,13 @@ export default function PrayScreen() {
             delayLongPress={600}
           >
             {step.kind === 'prayer' ? (
-              <>
-                <AppText variant="caption" color="muted">
-                  {step.prayer.title}
-                </AppText>
-                <View style={styles.lines}>
-                  {step.prayer.lines.map((line, index) => (
-                    <AppText
-                      key={`${index}-${line}`}
-                      variant="prayer"
-                      color={
-                        audio.activeLine === undefined || audio.activeLine === index
-                          ? 'text'
-                          : 'muted'
-                      }
-                      style={audio.activeLine === index && styles.saidLine}
-                    >
-                      {line}
-                    </AppText>
-                  ))}
-                </View>
-              </>
+              <PrayerText
+                step={step}
+                language={language}
+                latinText={settings.latinText}
+                companionLocale={systemPrayerLocale}
+                activeLine={audio.activeLine}
+              />
             ) : null}
 
             {/* The announce step does not repeat the title: the header already
@@ -408,6 +397,92 @@ function FinishedScreen({
   );
 }
 
+function PrayerText({
+  step,
+  language,
+  latinText,
+  companionLocale,
+  activeLine,
+}: {
+  step: Extract<Step, { kind: 'prayer' }>;
+  language: ReturnType<typeof languageForLocale>;
+  latinText: 'both' | 'la' | 'own';
+  companionLocale: Locale;
+  activeLine: number | undefined;
+}) {
+  // Praying in Latin, the reader's own language can run line by line underneath
+  // (task 023). Nothing is translated: the texts are paired from the content package.
+  const companion =
+    language === 'la' && latinText !== 'la'
+      ? findPrayer(step.prayer.id, companionLocale)
+      : undefined;
+
+  if (companion !== undefined && latinText === 'own') {
+    return (
+      <>
+        <AppText variant="caption" color="muted">
+          {companion.title}
+        </AppText>
+        <View style={styles.lines}>
+          {companion.lines.map((line, index) => (
+            <AppText key={`${index}-${line}`} variant="prayer">
+              {line}
+            </AppText>
+          ))}
+        </View>
+      </>
+    );
+  }
+
+  if (companion !== undefined) {
+    const ownLanguage = languageForLocale(companionLocale);
+    const pairs = pairLatinLines(
+      step.prayer,
+      companion,
+      ownLanguage === 'la' ? 'en' : ownLanguage,
+    );
+    return (
+      <>
+        <AppText variant="caption" color="muted">
+          {step.prayer.title}
+        </AppText>
+        <View style={styles.pairs}>
+          {pairs.map((pair, index) => (
+            <View key={`${index}-${pair.latin}`} style={styles.pair}>
+              <AppText variant="prayer">{pair.latin}</AppText>
+              {pair.own.map((line) => (
+                <AppText key={line} variant="bodySerif" color="muted">
+                  {line}
+                </AppText>
+              ))}
+            </View>
+          ))}
+        </View>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <AppText variant="caption" color="muted">
+        {step.prayer.title}
+      </AppText>
+      <View style={styles.lines}>
+        {step.prayer.lines.map((line, index) => (
+          <AppText
+            key={`${index}-${line}`}
+            variant="prayer"
+            color={activeLine === undefined || activeLine === index ? 'text' : 'muted'}
+            style={activeLine === index && styles.saidLine}
+          >
+            {line}
+          </AppText>
+        ))}
+      </View>
+    </>
+  );
+}
+
 function DarkScreen({
   mysteryTitle,
   count,
@@ -477,6 +552,8 @@ const styles = StyleSheet.create({
   lines: { gap: spacing.xs },
   // The highlight never relies on colour alone: the said line also carries a line under.
   saidLine: { textDecorationLine: 'underline' },
+  pairs: { gap: spacing.md },
+  pair: { gap: 2 },
   bottom: { gap: spacing.md, paddingTop: spacing.sm },
   beads: { alignItems: 'center', gap: spacing.sm },
   controls: { flexDirection: 'row', gap: spacing.md },

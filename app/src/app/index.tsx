@@ -28,6 +28,7 @@ export default function HomeScreen() {
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={t('home.settings')}
+          testID="open-settings"
           hitSlop={8}
           onPress={() => router.push('/settings')}
           style={({ pressed }) => [styles.settingsLink, pressed && styles.pressed]}

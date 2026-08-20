@@ -19,6 +19,7 @@ import {
   type AppearanceSetting,
   type HapticsSetting,
   type InterfaceLanguageSetting,
+  type LatinTextSetting,
   type PrayerFormSetting,
   type PrayerLocaleSetting,
   type Settings,
@@ -36,6 +37,10 @@ type SettingsContextValue = {
   readonly setPrayerForm: (value: PrayerFormSetting) => void;
   readonly toggleIncludedPrayer: (prayer: PrayerId) => void;
   readonly setHaptics: (value: HapticsSetting) => void;
+  readonly setLatinText: (value: LatinTextSetting) => void;
+  /** The prayer locale the device would choose on its own: the companion language when
+      praying in Latin. */
+  readonly systemPrayerLocale: Locale;
 };
 
 const SettingsContext = createContext<SettingsContextValue | null>(null);
@@ -94,6 +99,8 @@ export function SettingsProvider({
           includedPrayers: value === 'auto' ? [] : optionalPrayersOf(forms[value]),
         }),
       setHaptics: (haptics) => update({ haptics }),
+      setLatinText: (latinText) => update({ latinText }),
+      systemPrayerLocale: resolvePrayerLocale('system', deviceLocales()),
       toggleIncludedPrayer: (prayer) =>
         update({
           includedPrayers: settings.includedPrayers.includes(prayer)
