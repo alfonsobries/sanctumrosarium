@@ -9,7 +9,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
@@ -34,8 +34,8 @@ export default function PrayScreen() {
   if (step === undefined) {
     const set = mysteriesOfDay(new Date()).set;
     return (
-      <Screen scroll={false}>
-        <View style={styles.center}>
+      <Screen>
+        <View style={[styles.grow, styles.center]}>
           <AppText variant="display" accessibilityRole="header">
             {t(`sets.${set}`)}
           </AppText>
@@ -53,12 +53,14 @@ export default function PrayScreen() {
 
   return (
     <Screen scroll={false}>
-      <Pressable
-        accessibilityHint={t('pray.advanceHint')}
-        style={styles.flex}
-        onPress={() => setSession(advance(session, steps, new Date()))}
-      >
-        <View style={styles.center}>
+      {/* The step scrolls: at the largest system font size a prayer no longer fits on
+          one screen, and cut text is worse than scrolling. A tap still advances. */}
+      <ScrollView style={styles.flex} contentContainerStyle={styles.grow}>
+        <Pressable
+          accessibilityHint={t('pray.advanceHint')}
+          style={[styles.grow, styles.center]}
+          onPress={() => setSession(advance(session, steps, new Date()))}
+        >
           {mystery === undefined ? null : (
             <AppText variant="overline" color="muted">
               {mystery.text[prayerLanguage].title.toUpperCase()}
@@ -89,8 +91,8 @@ export default function PrayScreen() {
               })}
             </AppText>
           )}
-        </View>
-      </Pressable>
+        </Pressable>
+      </ScrollView>
 
       <Pressable
         accessibilityRole="button"
@@ -110,7 +112,8 @@ export default function PrayScreen() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  center: { flex: 1, justifyContent: 'center', gap: spacing.md },
+  grow: { flexGrow: 1 },
+  center: { justifyContent: 'center', gap: spacing.md, paddingVertical: spacing.md },
   lines: { gap: spacing.xs },
   back: {
     minHeight: touchTarget,
