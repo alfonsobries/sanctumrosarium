@@ -41,9 +41,10 @@ enum MysterySet: String {
   }
 }
 
-final class WatchSession: NSObject, WCSessionDelegate {
+final class WatchSession: NSObject, ObservableObject, WCSessionDelegate {
   static let shared = WatchSession()
-  private(set) var setFromPhone: MysterySet?
+  @Published var setFromPhone: MysterySet?
+  @Published var titlesFromPhone: [String] = []
 
   func activate() {
     guard WCSession.isSupported() else {
@@ -53,23 +54,40 @@ final class WatchSession: NSObject, WCSessionDelegate {
     WCSession.default.activate()
   }
 
-  func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {}
+  func session(
+    _ session: WCSession,
+    activationDidCompleteWith activationState: WCSessionActivationState,
+    error: Error?
+  ) {
+    apply(session.receivedApplicationContext)
+  }
 
   func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
-    if let raw = applicationContext["set"] as? String, let set = MysterySet(rawValue: raw) {
+    DispatchQueue.main.async {
+      self.apply(applicationContext)
+    }
+  }
+
+  func apply(_ context: [String: Any]) {
+    if let raw = context["set"] as? String, let set = MysterySet(rawValue: raw) {
       setFromPhone = set
+    }
+    if let joined = context["titles"] as? String {
+      titlesFromPhone = joined.split(separator: "|").map(String.init)
     }
   }
 }
 
 struct TodayView: View {
+  @ObservedObject private var session = WatchSession.shared
+
   private var set: MysterySet {
-    WatchSession.shared.setFromPhone ?? MysterySet.ofWeekday(Date())
+    session.setFromPhone ?? MysterySet.ofWeekday(Date())
   }
 
   var body: some View {
     NavigationStack {
-      DecadeView(set: set)
+      DecadeView(set: set, titles: session.titlesFromPhone)
     }
   }
 }
