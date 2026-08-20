@@ -26,6 +26,9 @@ export const es = {
     settings: 'Ajustes',
   },
   pray: {
+    reading: 'Lectura',
+    readingNote: 'Lee el pasaje y escucha.',
+    silenceLabel: 'Silencio',
     beadCount: '{{bead}} de 10',
     decadeCount: 'Decena {{decade}} de {{total}}',
     fruit: 'Fruto: {{fruit}}',
@@ -301,6 +304,18 @@ export const es = {
     },
     revealHint: 'Un toque muestra el texto de este paso.',
     yourTurn: 'Respondes tú.',
+  },
+  meditation: {
+    title: 'Meditar',
+    reading: 'Leer la Palabra',
+    readingHint: 'Antes de cada decena, la cita del pasaje del misterio (RVM 30).',
+    silence: {
+      0: 'Sin silencio',
+      10: 'Diez segundos de silencio',
+      30: 'Medio minuto de silencio',
+      60: 'Un minuto de silencio',
+    },
+    hint: 'Enunciar el misterio, escuchar la Palabra y callar un momento; un toque siempre sigue.',
   },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',

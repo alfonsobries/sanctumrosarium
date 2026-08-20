@@ -23,7 +23,7 @@ export type ChoirRoleSetting = 'guide' | 'respond';
 export type LatinLearnMode = 'listen' | 'read' | 'memory';
 
 export type Settings = {
-  readonly version: 15;
+  readonly version: 16;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -72,10 +72,14 @@ export type Settings = {
       answer from memory with the text dimmed. Chosen by the person; the app never
       raises it (task 024). Absent means answering while reading. */
   readonly latinLearn: Readonly<Partial<Record<PrayerId, LatinLearnMode>>>;
+  /** Read the scripture reference after announcing the mystery (RVM 30). */
+  readonly withReading: boolean;
+  /** Seconds of silence before the decade (RVM 31). Zero is a valid choice. */
+  readonly silenceSeconds: number;
 };
 
 export const defaultSettings: Settings = {
-  version: 15,
+  version: 16,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -99,6 +103,8 @@ export const defaultSettings: Settings = {
   caminoEnabled: true,
   recollectionEnabled: false,
   latinLearn: {},
+  withReading: false,
+  silenceSeconds: 0,
 };
 
 const SETTINGS_KEY = 'settings';
@@ -140,6 +146,7 @@ const migrations: Record<
   12: (stored) => ({ caminoEnabled: true, ...stored, version: 13 }),
   13: (stored) => ({ recollectionEnabled: false, ...stored, version: 14 }),
   14: (stored) => ({ latinLearn: {}, ...stored, version: 15 }),
+  15: (stored) => ({ withReading: false, silenceSeconds: 0, ...stored, version: 16 }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -182,6 +189,8 @@ const responseSilences: readonly ResponseSilenceSetting[] = ['normal', 'long'];
 const announcePauses: readonly AnnouncePauseSetting[] = ['short', 'medium', 'long'];
 const choirRoles: readonly ChoirRoleSetting[] = ['guide', 'respond'];
 const latinLearnModes: readonly LatinLearnMode[] = ['listen', 'read', 'memory'];
+/** Short by design: a pause to hear the Word, not a fifteen-minute meditation. */
+export const silenceOptions: readonly number[] = [0, 10, 30, 60];
 
 function sanitizeLatinLearn(
   stored: unknown,
@@ -208,7 +217,7 @@ const ruleOptions: readonly RuleId[] = [
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 15,
+    version: 16,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -291,6 +300,13 @@ function sanitize(stored: Record<string, unknown>): Settings {
         ? stored.recollectionEnabled
         : defaultSettings.recollectionEnabled,
     latinLearn: sanitizeLatinLearn(stored.latinLearn),
+    withReading:
+      typeof stored.withReading === 'boolean'
+        ? stored.withReading
+        : defaultSettings.withReading,
+    silenceSeconds: silenceOptions.includes(stored.silenceSeconds as number)
+      ? (stored.silenceSeconds as number)
+      : defaultSettings.silenceSeconds,
   };
 }
 

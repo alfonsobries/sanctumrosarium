@@ -59,6 +59,9 @@ const GAP_MS = 1200;
  */
 export const AVE_FLOOR_MS = 12_000;
 
+/** Quiet the guide holds on a reading step, enough to open the passage and hear it. */
+export const READING_MS = 20_000;
+
 export function planForStep(
   step: Step,
   manifest: AudioManifest,
@@ -146,7 +149,12 @@ export function planForStep(
   if (step.kind === 'silence') {
     return { kind: 'silence', silenceAfterMs: step.seconds * 1000 };
   }
-  // reading and litany get their audio with tasks 032 and 043.
+  if (step.kind === 'reading') {
+    // No voice reads the passage while the translation licence is open (decision 10):
+    // the guide holds enough quiet to read the reference in one's own Bible.
+    return { kind: 'silence', silenceAfterMs: READING_MS };
+  }
+  // The litany gets its audio with task 043.
   return { kind: 'silence', silenceAfterMs: GAP_MS };
 }
 

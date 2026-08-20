@@ -12,6 +12,7 @@ import { ReminderSection } from '@/features/reminder/ReminderSection';
 import { formsForLocale, optionalPrayersOf } from '@/features/rosary/forms';
 import type { PrayerId } from '@rosario/content';
 import { useSettings } from '@/settings/settings-context';
+import { silenceOptions } from '@/settings/store';
 import type {
   AppearanceSetting,
   InterfaceLanguageSetting,
@@ -72,6 +73,7 @@ export default function SettingsScreen() {
     toggleLatinMix,
     setPace,
     setChoirRole,
+    setMeditation,
   } = useSettings();
 
   // The prayers of the current form that can be mixed while praying in Latin:
@@ -195,6 +197,31 @@ export default function SettingsScreen() {
           onValueChange={(value) => setWithClauses(value)}
         />
       </Card>
+
+      <SectionHeader title={t('meditation.title')} />
+      <Card>
+        <SwitchRow
+          label={t('meditation.reading')}
+          description={t('meditation.readingHint')}
+          value={settings.withReading}
+          divider={false}
+          onValueChange={(value) => setMeditation({ withReading: value })}
+        />
+      </Card>
+      <Card style={styles.paceCard}>
+        {silenceOptions.map((option, index) => (
+          <ListRow
+            key={option}
+            label={t(`meditation.silence.${option}`)}
+            selected={settings.silenceSeconds === option}
+            divider={index < silenceOptions.length - 1}
+            onPress={() => setMeditation({ silenceSeconds: option })}
+          />
+        ))}
+      </Card>
+      <AppText variant="caption" color="muted" style={styles.hint}>
+        {t('meditation.hint')}
+      </AppText>
 
       {prayerLocale === 'la' ? (
         <>

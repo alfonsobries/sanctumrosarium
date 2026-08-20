@@ -47,15 +47,36 @@ Camino: es un ajuste del rezo.
 - Traducción bíblica por idioma (decisión 10). Esta task no cierra la decisión: la
   consume.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Sección "Meditar" en Ajustes** (v16): leer la Palabra antes de la decena y el silencio
+  en 0, 10, 30 o 60 segundos. El motor ya traía ambos pasos con sus tests; el orden es el
+  de RVM: anuncio, lectura, silencio.
+- **Apagado por defecto, a diferencia de la spec** ("valor por defecto unos diez
+  segundos"): encender un silencio que el usuario no pidió contradice la regla de que la
+  app no sube nada sola, y cambiaría el rezo de quien ya usa la app. El primer valor al
+  encenderlo son los diez segundos de la spec.
+- **La lectura muestra la cita, no el pasaje** (decisión 10 abierta): "Mt 3,13-17" con
+  "Lee el pasaje y escucha." No existe siquiera campo de texto del pasaje en el contenido:
+  no hay forma de inventarlo (criterio 2 por construcción).
+- El silencio no bloquea: el paso avanza con un toque como cualquier otro, y con la voz el
+  silencio dura exactamente lo elegido. En la lectura, la guía sostiene veinte segundos de
+  quietud (`READING_MS`) porque no hay voz que lea el pasaje todavía.
+- **La etapa Meditar del Camino** cuenta la sesión cuando hubo lectura, silencio o pausa
+  larga del misterio: cualquier freno deliberado del método.
+- **Pendiente**: el pasaje impreso y su voz cuando la decisión 10 cierre; el reloj
+  (silencio y anuncio sí, lectura larga no, con el bloque del reloj); la guía del método
+  en el sitio (034).
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] Reloj - el silencio y el anuncio sí; la lectura larga no
-- [ ] Audio - si hay voz, lee el pasaje o deja el silencio
-- [ ] Accesibilidad
-- [ ] Sitio - la guía del método cita RVM 29-31
+- [x] Definir qué aplica
+- [x] Contenido y motor - ya existían los pasos; la cita viene del contenido
+- [x] App
+- [ ] Reloj - el silencio y el anuncio sí; la lectura larga no (bloque del reloj)
+- [ ] Audio - cuando la decisión 10 permita leer el pasaje con voz
+- [x] Accesibilidad - pasos con texto plano; el silencio anuncia su etiqueta
+- [ ] Sitio - la guía del método cita RVM 29-31 (con la 034)
 
 ## Fuentes
 
