@@ -70,14 +70,34 @@ terceros.
   navegador no sostiene bien el audio en segundo plano y la promesa se rompería. Revisarlo
   con lo que diga [`../referencias/tecnica/`](../referencias/tecnica/).
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- El sitio quedó construido con inicio, cómo se reza, oraciones, misterios, funciones,
+  cómo está hecha, privacidad, apoyar y 404, en español e inglés, leyendo el paquete de
+  contenido.
+- **Preguntas**: página nueva con las indulgencias y sus condiciones reales, el estatus de
+  las quince promesas y por qué la app no promete nada. Escrita contra el dossier
+  doctrinal, revisada por el revisor doctrinal (3 bloqueantes corregidos: margen de las
+  tres condiciones, "a modo de sufragio", y sacramentales que disponen sin conferir).
+- **El texto de las quince promesas no se reproduce todavía**: la versión española citable
+  completa llega con la escuela del Rosario (task 034).
+- **Una página por misterio**: pospuesta; la página de misterios ya lleva título, cita,
+  fruto, intro y cláusula por ancla. Las páginas individuales tendrán sentido con las
+  meditaciones citadas (032) y el arte (036).
+- **Capturas reales en el inicio**: pendientes para cuando la identidad visual de la app
+  esté cerrada (task 014).
+- **Donativos**: la página existe; el método espera la decisión 3.
+- Verificado: sin scripts ni assets de terceros (fuentes autoalojadas con fontsource); los
+  únicos enlaces externos son citas (vatican.va y similares).
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] ~~Contenido y motor - n/a: los consume~~
-- [ ] ~~App - n/a~~
-- [ ] ~~Reloj - n/a~~
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad
+- [x] Definir qué aplica
+- [x] ~~Contenido y motor - n/a: los consume~~
+- [x] ~~App - n/a~~
+- [x] ~~Reloj - n/a~~
+- [x] ~~Audio - n/a~~
+- [ ] Accesibilidad - revisión formal con la task 012
 - [ ] Sitio
 
 ## Primera pasada (agosto 2026)

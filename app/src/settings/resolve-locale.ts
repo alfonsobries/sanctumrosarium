@@ -54,12 +54,17 @@ export function resolvePrayerLocale(
 }
 
 /**
- * Which regional form frames the Rosary for a prayer locale. Choosing a form by hand is
- * task 011; until then the region decides.
+ * Which regional form frames the Rosary when none is chosen by hand (task 011). The
+ * region decides; Latin defaults to the Dominican form, its historical home (task 021).
  */
-export function formForPrayerLocale(locale: Locale): 'roman' | 'es-MX' | 'es-ES' {
+export function formForPrayerLocale(
+  locale: Locale,
+): 'roman' | 'es-MX' | 'es-ES' | 'dominican' {
   if (locale === 'es-MX' || locale === 'es-ES') {
     return locale;
+  }
+  if (locale === 'la') {
+    return 'dominican';
   }
   return 'roman';
 }
