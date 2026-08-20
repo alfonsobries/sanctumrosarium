@@ -42,9 +42,7 @@ const splash = {
 
 /** The mark alone: same canvas, background dropped, recolored. */
 function markOnly(color) {
-  return source
-    .replace(/<rect[^>]*\/>/, '')
-    .replaceAll(gold, color);
+  return source.replace(/<rect[^>]*\/>/, '').replaceAll(gold, color);
 }
 
 async function write(pipeline, file) {
@@ -54,7 +52,10 @@ async function write(pipeline, file) {
 
 /** Trims the transparent canvas down to the mark, then fits it in a box. */
 async function renderMark(color, box) {
-  const trimmed = await sharp(Buffer.from(markOnly(color))).trim().png().toBuffer();
+  const trimmed = await sharp(Buffer.from(markOnly(color)))
+    .trim()
+    .png()
+    .toBuffer();
   return sharp(trimmed)
     .resize({ width: box, height: box, fit: 'inside' })
     .png()
@@ -63,7 +64,12 @@ async function renderMark(color, box) {
 
 function transparentCanvas() {
   return sharp({
-    create: { width: SIZE, height: SIZE, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
+    create: {
+      width: SIZE,
+      height: SIZE,
+      channels: 4,
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    },
   });
 }
 
@@ -91,7 +97,10 @@ await write(
 );
 
 // Splash: the mark alone on transparency; the plugin paints each backdrop.
-await writeOnTransparent(await renderMark(splash.light.mark, 820), 'splash-icon-light.png');
+await writeOnTransparent(
+  await renderMark(splash.light.mark, 820),
+  'splash-icon-light.png',
+);
 await writeOnTransparent(await renderMark(splash.dark.mark, 820), 'splash-icon-dark.png');
 
 // Web favicon.

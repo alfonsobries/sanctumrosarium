@@ -52,5 +52,5 @@
 - **Sacramental físico**: no posicionarse como sustituto del rosario de cuentas; el
   Watch/háptica se vende como "cuando no lo traes".
 - **Politización**: mantener neutralidad y foco devocional.
-- **Marca**: SanctaMaria, dominio `sanctamaria.app`. Revisar colisiones en App Store
-  antes de publicar.
+- **Marca**: SanctaMaria, dominio `sanctamaria.app`. Revisar colisiones en App Store antes
+  de publicar.
