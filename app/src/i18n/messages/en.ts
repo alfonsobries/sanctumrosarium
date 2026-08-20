@@ -101,6 +101,9 @@ export const en = {
     hint: 'One touch per bead; the Our Father and the Glory Be feel different.',
   },
   settingsLatin: {
+    mixTitle: 'In your language, prayer by prayer',
+    mixHint:
+      'Turn on the ones you want to pray in your language while you learn; the rest stays in Latin.',
     title: 'Latin prayer text',
     both: 'Latin and your language',
     la: 'Latin only',

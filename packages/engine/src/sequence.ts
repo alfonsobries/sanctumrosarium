@@ -26,6 +26,12 @@ export type RosaryOptions = {
   readonly withClauses?: boolean;
   /** Twenty mysteries in one sitting instead of five decades. */
   readonly fullRosary?: boolean;
+  /**
+   * Pray some prayers in another language (task 021): whoever is learning Latin mixes
+   * one prayer at a time. A prayer missing in the override locale falls back to the
+   * base locale, never to an error.
+   */
+  readonly localeOverrides?: Readonly<Partial<Record<PrayerId, Locale>>>;
 };
 
 export type Step =
@@ -55,8 +61,11 @@ function prayerStep(
   decade?: number,
   bead?: number,
   mystery?: Mystery,
+  override?: Locale,
 ): Step {
-  const text = findPrayer(id, locale);
+  const text =
+    (override === undefined ? undefined : findPrayer(id, override)) ??
+    findPrayer(id, locale);
   if (text === undefined) {
     throw new MissingPrayerError(id, locale);
   }
@@ -89,6 +98,7 @@ function expand(
               context?.decade,
               undefined,
               context?.mystery,
+              options.localeOverrides?.[step.prayer],
             ),
           ]
         : [];
@@ -102,6 +112,7 @@ function expand(
               context?.decade,
               undefined,
               context?.mystery,
+              options.localeOverrides?.[step.prayer],
             ),
           )
         : [];
@@ -139,13 +150,39 @@ function decadeSteps(
 
   // What is essential and never configurable: Our Father, ten Hail Marys, Glory Be (MC 49).
   steps.push(
-    prayerStep('pater-noster', options.locale, false, index, undefined, mystery),
+    prayerStep(
+      'pater-noster',
+      options.locale,
+      false,
+      index,
+      undefined,
+      mystery,
+      options.localeOverrides?.['pater-noster'],
+    ),
   );
   for (let bead = 1; bead <= 10; bead += 1) {
-    steps.push(prayerStep('ave-maria', options.locale, false, index, bead, mystery));
+    steps.push(
+      prayerStep(
+        'ave-maria',
+        options.locale,
+        false,
+        index,
+        bead,
+        mystery,
+        options.localeOverrides?.['ave-maria'],
+      ),
+    );
   }
   steps.push(
-    prayerStep('gloria-patri', options.locale, false, index, undefined, mystery),
+    prayerStep(
+      'gloria-patri',
+      options.locale,
+      false,
+      index,
+      undefined,
+      mystery,
+      options.localeOverrides?.['gloria-patri'],
+    ),
   );
 
   for (const step of form.decade.closing) {

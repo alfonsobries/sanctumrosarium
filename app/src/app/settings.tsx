@@ -10,6 +10,7 @@ import { SwitchRow } from '@/components/SwitchRow';
 import { AppText } from '@/components/AppText';
 import { ReminderSection } from '@/features/reminder/ReminderSection';
 import { formsForLocale, optionalPrayersOf } from '@/features/rosary/forms';
+import type { PrayerId } from '@rosario/content';
 import { useSettings } from '@/settings/settings-context';
 import type {
   AppearanceSetting,
@@ -65,7 +66,33 @@ export default function SettingsScreen() {
     setLatinText,
     setRosesEnabled,
     setWithLitany,
+    toggleLatinMix,
   } = useSettings();
+
+  // The prayers of the current form that can be mixed while praying in Latin:
+  // essentials first, then the fixed prayers of the frame.
+  const mixablePrayers: readonly PrayerId[] =
+    prayerLocale === 'la'
+      ? [
+          'pater-noster',
+          'ave-maria',
+          'gloria-patri',
+          ...new Set(
+            [
+              ...forms[prayerForm].opening,
+              ...forms[prayerForm].decade.opening,
+              ...forms[prayerForm].decade.closing,
+              ...forms[prayerForm].closing,
+            ].flatMap((step) =>
+              (step.kind === 'prayer' || step.kind === 'prayer-times') &&
+              step.optional !== true &&
+              !['pater-noster', 'ave-maria', 'gloria-patri'].includes(step.prayer)
+                ? [step.prayer]
+                : [],
+            ),
+          ),
+        ]
+      : [];
 
   const availableForms = formsForLocale(prayerLocale);
   // The prayer after the litany only makes sense when the litany itself is on.
@@ -174,6 +201,22 @@ export default function SettingsScreen() {
           </Card>
           <AppText variant="caption" color="muted" style={styles.hint}>
             {t('settingsLatin.hint')}
+          </AppText>
+
+          <SectionHeader title={t('settingsLatin.mixTitle')} />
+          <Card>
+            {mixablePrayers.map((prayer, index) => (
+              <SwitchRow
+                key={prayer}
+                label={findPrayer(prayer, 'la')?.title ?? prayer}
+                value={settings.latinMixOwn.includes(prayer)}
+                divider={index < mixablePrayers.length - 1}
+                onValueChange={() => toggleLatinMix(prayer)}
+              />
+            ))}
+          </Card>
+          <AppText variant="caption" color="muted" style={styles.hint}>
+            {t('settingsLatin.mixHint')}
           </AppText>
         </>
       ) : null}

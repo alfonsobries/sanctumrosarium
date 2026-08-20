@@ -97,7 +97,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 
 | #   | Task                                                  | Qué es                                                         |
 | --- | ----------------------------------------------------- | -------------------------------------------------------------- |
-| 021 | [Textos en latín](./tasks/021-textos-en-latin.md)     | Todas las oraciones y las letanías lauretanas completas        |
+| 021 | [Textos en latín](./tasks/021-textos-en-latin.md)     | Primera pasada                                                 |
 | 022 | [Audio en latín](./tasks/022-audio-en-latin.md)       | Pronunciación eclesiástica, voz humana                         |
 | 023 | [Texto bilingüe](./tasks/023-texto-bilingue.md)       | Latín y lengua propia alineados línea a línea                  |
 | 024 | [Aprender el latín](./tasks/024-aprender-el-latin.md) | De escuchar a responder de memoria, con el texto que se atenúa |

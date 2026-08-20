@@ -18,7 +18,7 @@ export type LatinTextSetting = 'both' | 'la' | 'own';
 export type ReminderMode = 'off' | 'hour' | 'angelus';
 
 export type Settings = {
-  readonly version: 8;
+  readonly version: 9;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -46,10 +46,13 @@ export type Settings = {
   readonly rosesEnabled: boolean;
   /** Close the Rosary with the Litany of Loreto. An act of worship by itself (DPPL 203). */
   readonly withLitany: boolean;
+  /** Praying in Latin, these prayers go in the reader's own language: whoever is
+      learning mixes one prayer at a time (task 021). */
+  readonly latinMixOwn: readonly PrayerId[];
 };
 
 export const defaultSettings: Settings = {
-  version: 8,
+  version: 9,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -64,6 +67,7 @@ export const defaultSettings: Settings = {
   reminderDays: [0, 1, 2, 3, 4, 5, 6],
   rosesEnabled: true,
   withLitany: false,
+  latinMixOwn: [],
 };
 
 const SETTINGS_KEY = 'settings';
@@ -92,6 +96,7 @@ const migrations: Record<
   }),
   6: (stored) => ({ rosesEnabled: true, ...stored, version: 7 }),
   7: (stored) => ({ withLitany: false, ...stored, version: 8 }),
+  8: (stored) => ({ latinMixOwn: [], ...stored, version: 9 }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -140,7 +145,7 @@ const ruleOptions: readonly RuleId[] = [
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 8,
+    version: 9,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -193,6 +198,11 @@ function sanitize(stored: Record<string, unknown>): Settings {
       typeof stored.withLitany === 'boolean'
         ? stored.withLitany
         : defaultSettings.withLitany,
+    latinMixOwn: Array.isArray(stored.latinMixOwn)
+      ? (stored.latinMixOwn.filter(
+          (id): id is PrayerId => typeof id === 'string' && knownPrayerIds.has(id),
+        ) as readonly PrayerId[])
+      : defaultSettings.latinMixOwn,
   };
 }
 

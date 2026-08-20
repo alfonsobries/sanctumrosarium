@@ -101,6 +101,9 @@ export const es = {
     hint: 'Un toque por cuenta; el Padrenuestro y el Gloria se sienten distinto.',
   },
   settingsLatin: {
+    mixTitle: 'En tu lengua, oración por oración',
+    mixHint:
+      'Enciende las que quieras rezar en tu lengua mientras aprendes; el resto sigue en latín.',
     title: 'Texto del rezo en latín',
     both: 'Latín y tu lengua',
     la: 'Solo latín',
