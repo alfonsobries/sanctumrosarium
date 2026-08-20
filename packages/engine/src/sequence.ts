@@ -28,6 +28,11 @@ export type RosaryOptions = {
   /** Twenty mysteries in one sitting instead of five decades. */
   readonly fullRosary?: boolean;
   /**
+   * How many decades to pray from the chosen set, in order. A single decade is a
+   * complete act of that length (task 040), not a broken Rosary.
+   */
+  readonly decadeCount?: number;
+  /**
    * Pray some prayers in another language (task 021): whoever is learning Latin mixes
    * one prayer at a time. A prayer missing in the override locale falls back to the
    * base locale, never to an error.
@@ -256,7 +261,9 @@ export function buildRosary(options: RosaryOptions): readonly Step[] {
   for (const formStep of form.opening) {
     if (formStep.kind === 'decades') {
       for (const set of sets) {
-        for (const mystery of mysteriesOfSet(set)) {
+        const mysteries = mysteriesOfSet(set);
+        const limit = options.decadeCount ?? mysteries.length;
+        for (const mystery of mysteries.slice(0, limit)) {
           steps.push(...decadeSteps(mystery, decade, options, form));
           decade += 1;
         }

@@ -40,17 +40,33 @@ Aparece en la pantalla del coche con lo mínimo: qué misterio, y pausa.
 3. Los controles de auriculares funcionan con el teléfono en el bolsillo.
 4. En el coche, la información se lee de un vistazo y no invita a mirar.
 
-## Decisiones abiertas
+## Decisiones tomadas (primera pasada, agosto 2026)
 
-- Qué hace "siguiente": pasar de cuenta o de decena. Recomendación: de decena, que es lo
-  que sirve manejando; la cuenta avanza sola con el audio.
+- **"Siguiente" salta de decena**, no de cuenta: el audio ya avanza las Avemarías. La
+  cuenta atrás desde la primera decena vuelve al inicio; adelante desde la quinta, al
+  cierre. El motor lo hace (`skipDecade`).
+- **Now Playing nativo de expo-audio** (`setActiveForLockScreen`,
+  `interruptionMode: doNotMix`). El recorte de Android a los tres minutos sin esto está
+  documentado en `docs/referencias/tecnica/audio.md`. La barra de progreso del clip se
+  oculta (`isLiveStream`): no invita a mirar ni a buscar en una Avemaría.
+- Play/pausa en bloqueo y auriculares van por expo-audio. El doble toque (pista
+  siguiente/anterior) no lo cubre expo-audio: un módulo local iOS
+  (`modules/lock-screen-remote`) registra `nextTrackCommand` / `previousTrackCommand`. En
+  Android esa pista siguiente sigue pendiente: Media3 lo posee expo-audio.
+- **CarPlay / Android Auto como app propia, no.** expo-audio no los cubre y
+  react-native-track-player pasó a licencia comercial. El Now Playing del sistema sí
+  aparece en el coche: misterio, oración, pausa. Una app CarPlay queda fuera de esta
+  pasada.
+- La carátula del misterio espera a la task 036. Hasta entonces, sin imagen: el texto
+  basta.
 
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] ~~Contenido y motor - n/a~~
-- [ ] App
-- [ ] ~~Reloj - n/a: el reloj tiene sus propios controles~~
-- [ ] Audio
-- [ ] Accesibilidad - es la vía principal de uso sin manos
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] Contenido y motor - `skipDecade`
+- [x] App - Now Playing y salto de decena
+- [x] ~~Reloj - n/a: el reloj tiene sus propios controles~~
+- [x] Audio - el mismo guía, ahora con bloqueo
+- [x] Accesibilidad - es la vía principal de uso sin manos (play/pausa y salto de decena
+      sin mirar)
+- [x] ~~Sitio - n/a~~

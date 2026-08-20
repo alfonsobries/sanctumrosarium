@@ -213,6 +213,20 @@ export const ui = {
       'Dentro de la app, donde las tiendas lo permiten, el botón se llama «Apoya el desarrollo». Aquí, en el sitio, el donativo va directo.',
     'support.soon': 'El donativo desde el sitio todavía se está preparando.',
 
+    'chaplet.title': 'Coronilla de la Divina Misericordia',
+    'chaplet.lead':
+      'Se reza en las cuentas del rosario, con oraciones distintas. No es el Rosario.',
+    'chaplet.p1':
+      'En las cuentas grandes: «Padre Eterno, te ofrezco…». En las diez pequeñas: «Por su dolorosa Pasión…». Al final: «Santo Dios…». El texto completo está en el diario de santa Faustina (1935); este sitio no lo transcribe.',
+    'chaplet.p2':
+      'No cuenta como Rosario: no llena la Regla ni las rosas del mes. La indulgencia del Rosario es del Rosario. Una indulgencia de 2002 se menciona en el dossier, sin el decreto: no se describe más.',
+    'sorrows.title': 'Corona de los Siete Dolores',
+    'sorrows.lead': 'Otra corona mariana, distinta del Rosario.',
+    'sorrows.p1':
+      'Siete veces un Padrenuestro y siete Avemarías, meditando los dolores de María, y tres Avemarías al final por sus lágrimas. El Directorio (n. 202) la cuenta entre las otras coronas marianas, también aprobadas.',
+    'sorrows.p2':
+      'No son cinco decenas de diez. Los dolores no se enumeran aquí: la fuente del dossier no los lista. Servitas, siglo XIII.',
+
     'notfound.title': 'No está',
     'notfound.lead': 'Esa página no existe.',
     'notfound.cta': 'Ir al inicio',
@@ -427,6 +441,20 @@ export const ui = {
     'support.p2':
       'Inside the app, where the stores allow it, the button is called "Support the work". Here on the site, a gift goes directly.',
     'support.soon': 'Giving from the site is still being set up.',
+
+    'chaplet.title': 'Chaplet of Divine Mercy',
+    'chaplet.lead':
+      'It is prayed on the beads of a rosary, with different prayers. It is not the Rosary.',
+    'chaplet.p1':
+      'On the large beads: "Eternal Father, I offer you...". On the ten small ones: "For the sake of His sorrowful Passion...". At the end: "Holy God...". The full text is in St Faustina\'s diary (1935); this site does not transcribe it.',
+    'chaplet.p2':
+      "It does not count as a Rosary: it does not fill the Rule or the month's roses. The indulgence of the Rosary belongs to the Rosary. A 2002 indulgence is mentioned in the dossier, without the decree: it is not described further.",
+    'sorrows.title': 'Crown of the Seven Sorrows',
+    'sorrows.lead': 'Another Marian crown, distinct from the Rosary.',
+    'sorrows.p1':
+      "Seven times an Our Father and seven Hail Marys, meditating on Mary's sorrows, and three Hail Marys at the end for her tears. The Directory (n. 202) counts it among the other Marian crowns, also approved.",
+    'sorrows.p2':
+      'These are not five decades of ten. The sorrows are not listed here: the dossier source does not enumerate them. Servites, thirteenth century.',
 
     'notfound.title': 'Not here',
     'notfound.lead': 'That page does not exist.',

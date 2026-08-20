@@ -80,7 +80,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 011 | [Ajustes del rezo](./tasks/011-ajustes-del-rezo.md)                           | Primera pasada |
 | 012 | [Accesibilidad](./tasks/012-accesibilidad.md)                                 | En curso       |
 | 013 | [Sitio](./tasks/013-sitio.md)                                                 | Primera pasada |
-| 014 | [Listo para las tiendas](./tasks/014-listo-para-las-tiendas.md)               | Pendiente      |
+| 014 | [Listo para las tiendas](./tasks/014-listo-para-las-tiendas.md)               | Primera pasada |
 
 ### Bloque B - Rezar en movimiento (fase 2)
 
@@ -91,7 +91,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 017 | [Audio independiente en el reloj](./tasks/017-audio-en-el-reloj.md)       | Pendiente      |
 | 018 | [Háptica y sesión de ejercicio](./tasks/018-haptica-y-ejercicio.md)       | Pendiente      |
 | 019 | [Complicación y widget](./tasks/019-complicacion-y-widget.md)             | Primera pasada |
-| 020 | [Controles de bloqueo y auriculares](./tasks/020-controles-de-bloqueo.md) | Pendiente      |
+| 020 | [Controles de bloqueo y auriculares](./tasks/020-controles-de-bloqueo.md) | Primera pasada |
 
 ### Bloque C - Latín (fase 3)
 
@@ -136,7 +136,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | #   | Task                                              | Qué es                                          | Estado         |
 | --- | ------------------------------------------------- | ----------------------------------------------- | -------------- |
 | 039 | [A dos coros](./tasks/039-a-dos-coros.md)         | La app hace de guía o de respuesta, en voz alta | Primera pasada |
-| 040 | [Modo niños](./tasks/040-modo-ninos.md)           | Menos texto, imágenes grandes, decena suelta    | Pendiente      |
+| 040 | [Modo niños](./tasks/040-modo-ninos.md)           | Menos texto, imágenes grandes, decena suelta    | Primera pasada |
 | 041 | [Rezo compartido](./tasks/041-rezo-compartido.md) | Varias personas en la misma casa                | Pendiente      |
 
 ### Bloque H - Después
@@ -146,7 +146,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 042 | [Idiomas nuevos](./tasks/042-idiomas-nuevos.md)                       | Italiano, portugués, francés, polaco, alemán y sus variantes | Pendiente      |
 | 043 | [Letanías](./tasks/043-letanias.md)                                   | Lauretanas completas, rezadas y cantadas                     | Primera pasada |
 | 044 | [Novena de 54 días](./tasks/044-novena-de-54-dias.md)                 | Estructura propia, con su contador                           | Pendiente      |
-| 045 | [Coronilla y Siete Dolores](./tasks/045-coronilla-y-siete-dolores.md) | Devociones hermanas, nunca mezcladas con el Rosario          | Pendiente      |
+| 045 | [Coronilla y Siete Dolores](./tasks/045-coronilla-y-siete-dolores.md) | Devociones hermanas, nunca mezcladas con el Rosario          | Primera pasada |
 | 046 | [Cofradía del Rosario](./tasks/046-cofradia-del-rosario.md)           | Regla semanal de quince decenas e inscripción                | Pendiente      |
 | 047 | [Rezar a la vez](./tasks/047-rezar-a-la-vez.md)                       | Cuántos rezan ahora, sin nombres ni ranking                  | Pendiente      |
 

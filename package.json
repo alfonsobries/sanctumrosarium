@@ -33,6 +33,7 @@
     "format:md": "prettier --write \"**/*.md\"",
     "postinstall": "aikit update",
     "audio:generate": "tsx scripts/generate-rosary-audio.ts",
+    "store:screenshots": "bash scripts/store-screenshots.sh",
     "watch:check": "bash scripts/check-watch-version.sh"
   },
   "devDependencies": {

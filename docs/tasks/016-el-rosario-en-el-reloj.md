@@ -58,8 +58,8 @@ Todo lo anterior funciona con el teléfono apagado o lejos.
 
 ## Decisiones tomadas (primera pasada, agosto 2026)
 
-- Una decena en el reloj: misterio a la vista, corona digital con detente (0 = Padrenuestro,
-  1-10 = Ave). El texto del Ave no cabe y no se muestra.
+- Una decena en el reloj: misterio a la vista, corona digital con detente (0 =
+  Padrenuestro, 1-10 = Ave). El texto del Ave no cabe y no se muestra.
 - Cinco decenas, sesión a medias, pantalla always-on, ida al diario y verificación en
   reloj real quedan para la siguiente pasada. Audio 017, háptica 018.
 

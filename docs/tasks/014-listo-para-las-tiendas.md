@@ -54,12 +54,23 @@ Compilar y subir con un comando documentado, y notas de versión escritas.
 4. La declaración de privacidad dice la verdad: no se recoge nada.
 5. La app pasa revisión sin observaciones de contenido.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- Iconos y splash ya salen de `pnpm icons:generate`. El nombre corto es SanctaMaria.
+- La ficha vive en `docs/store/listing-es.md` y `listing-en.md`. No promete gracia ni
+  llama a la app "la mejor".
+- Las láminas se regeneran con `pnpm store:screenshots` (Maestro). No se commitean.
+- Privacidad: el sitio ya la dice; Ajustes abre esa página.
+- **No se sube todavía.** La cuenta de publicación (decisión 15) y el cierre de la
+  identidad (decisión 2) siguen abiertos. Los comandos `pnpm ios:release` /
+  `android:release` ya existen.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] ~~Contenido y motor - n/a~~
-- [ ] App
-- [ ] Reloj - si el reloj ya existe, entra en la misma entrega
-- [ ] ~~Audio - n/a~~
-- [ ] ~~Accesibilidad - n/a: se cerró en la 012~~
-- [ ] Sitio - los enlaces a las tiendas y las capturas del sitio se actualizan aquí
+- [x] Definir qué aplica
+- [x] ~~Contenido y motor - n/a~~
+- [x] App - ficha, privacidad, comando de láminas
+- [ ] Reloj - si el reloj ya existe, entra en las láminas
+- [x] ~~Audio - n/a~~
+- [x] ~~Accesibilidad - n/a: se cerró en la 012~~
+- [x] Sitio - privacidad ya publicada; los enlaces de tienda esperan al envío

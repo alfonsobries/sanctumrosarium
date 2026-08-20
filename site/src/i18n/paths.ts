@@ -12,6 +12,8 @@ export const paths = {
     about: '/como-esta-hecha/',
     privacy: '/privacidad/',
     support: '/apoya/',
+    chaplet: '/coronilla/',
+    sorrows: '/siete-dolores/',
   },
   en: {
     home: '/en/',
@@ -24,6 +26,8 @@ export const paths = {
     about: '/en/how-it-is-made/',
     privacy: '/en/privacy/',
     support: '/en/support/',
+    chaplet: '/en/chaplet/',
+    sorrows: '/en/seven-sorrows/',
   },
 } as const;
 

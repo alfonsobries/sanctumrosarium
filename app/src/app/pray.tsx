@@ -5,6 +5,7 @@ import {
   decadesCompleted,
   waysOfSession,
   goBack,
+  skipDecade,
   mysteriesOfDay,
   progressOf,
   recordOf,
@@ -34,6 +35,7 @@ import { useReducedMotion } from 'react-native-reanimated';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
+import { lockScreenOf } from '@/features/audio/lock-screen';
 import { audioPacks } from '@/features/audio/packs.generated';
 import { audioSettingsOf } from '@/features/audio/schedule';
 import { appJournal } from '@/features/journal/app-journal';
@@ -67,8 +69,12 @@ export default function PrayScreen() {
   const router = useRouter();
   // The novena opens the prayer on its own set of mysteries (task 044); everything
   // else about the session stays exactly the same.
-  const { set: setParam } = useLocalSearchParams<{ set?: string }>();
+  const { set: setParam, decades: decadesParam } = useLocalSearchParams<{
+    set?: string;
+    decades?: string;
+  }>();
   const requestedSet = NOVENA_SETS.find((candidate) => candidate === setParam);
+  const singleDecade = decadesParam === '1';
   const { prayerLocale, prayerForm, settings, systemPrayerLocale, prayerLanguage } =
     useSettings();
   const syncWidget = useCallback(() => {
@@ -97,6 +103,7 @@ export default function PrayScreen() {
           withClauses: settings.withClauses,
           withReading: settings.withReading,
           silenceSeconds: settings.silenceSeconds,
+          ...(singleDecade ? { decadeCount: 1 } : {}),
           ...latinOverrides(prayerLocale, settings.latinMixOwn, systemPrayerLocale),
         }
       : saved.options,
@@ -211,12 +218,24 @@ export default function PrayScreen() {
     void playHaptic(hapticForStep(steps[progress.stepIndex + 1]), settings.haptics);
     setSession((current) => advance(current, steps, new Date()));
   };
+  const handleSkipDecade = useCallback(
+    (direction: 1 | -1) => {
+      setSession((current) => skipDecade(current, steps, direction));
+    },
+    [steps],
+  );
+  const lockScreen = useMemo(
+    () => lockScreenOf(step, buildOptions.set, language, t(`sets.${buildOptions.set}`)),
+    [step, buildOptions.set, language, t],
+  );
   const paceSettings = useMemo(() => audioSettingsOf(settings), [settings]);
   const audio = useAudioGuide({
     steps,
     stepIndex: progress.stepIndex,
     pack: audioPacks[buildOptions.locale],
     settings: paceSettings,
+    lockScreen,
+    onSkipDecade: handleSkipDecade,
     onAdvance: handleNext,
   });
 
@@ -484,7 +503,10 @@ export default function PrayScreen() {
         )}
         {progress.decade === undefined ? null : (
           <View style={styles.beads}>
-            <BeadTrack bead={progress.beadInDecade} />
+            <BeadTrack
+              bead={progress.beadInDecade}
+              large={buildOptions.decadeCount === 1}
+            />
             <AppText variant="caption" color="muted">
               {[
                 progress.beadInDecade === undefined
@@ -616,6 +638,9 @@ function ResumeScreen({
   // Said once and with precision, never repeated day after day (task 030): praying in
   // parts is prayer; it simply does not meet that one condition.
   const [showNote] = useState(() => {
+    if (saved.options.decadeCount === 1) {
+      return false;
+    }
     if (appKv.get(INDULGENCE_NOTE_KEY) !== null) {
       return false;
     }

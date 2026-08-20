@@ -142,6 +142,22 @@ function RootNavigator() {
           }}
         />
         <Stack.Screen
+          name="chaplet"
+          options={{
+            headerShown: true,
+            title: t('chaplet.title'),
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        />
+        <Stack.Screen
+          name="sorrows"
+          options={{
+            headerShown: true,
+            title: t('seven-sorrows.title'),
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        />
+        <Stack.Screen
           name="confraternity"
           options={{
             headerShown: true,

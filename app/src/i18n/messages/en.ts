@@ -23,6 +23,7 @@ export const en = {
     todayReasonSeason: '{{season}}: custom prays these mysteries.',
     todayReasonSolemnity: '{{feast}}: custom prays these mysteries.',
     start: 'Begin',
+    oneDecade: 'One decade',
     settings: 'Settings',
   },
   pray: {
@@ -77,6 +78,7 @@ export const en = {
     prayerEsES: 'Español (España)',
     prayerEnUS: 'English',
     prayerLa: 'Latin',
+    privacy: 'Privacy',
   },
   forms: {
     auto: 'Follow the prayer language',
@@ -372,6 +374,36 @@ export const en = {
     close: 'Close it',
     leave: 'Leave the novena',
     done: 'Fifty-four days. The novena stands offered.',
+  },
+  chaplet: {
+    title: 'Chaplet of Divine Mercy',
+    lead: 'It is prayed on the beads of a rosary, with different prayers. It is not the Rosary.',
+    structure:
+      'On the large beads: "Eternal Father, I offer you…". On the ten small ones: "For the sake of His sorrowful Passion…". At the end: "Holy God…".',
+    texts:
+      "The full text is in St Faustina's diary. The app does not carry it: it is prayed from the diary or a prayer book.",
+    notRosary:
+      "It does not count for the Rule or for the month's roses. The indulgence of the Rosary belongs to the Rosary.",
+    mark: "Count today's",
+    unmark: "Take back today's mark",
+    markedToday: 'Counted for today.',
+    source:
+      'St Faustina, 1935. The dossier describes it in C.6. The 2002 indulgence is not spelled out here: the decree is not at hand.',
+  },
+  'seven-sorrows': {
+    title: 'Crown of the Seven Sorrows',
+    lead: 'Another Marian crown, distinct from the Rosary.',
+    structure:
+      "Seven times an Our Father and seven Hail Marys, meditating on Mary's sorrows, and three Hail Marys at the end for her tears.",
+    texts:
+      'The app does not list the sorrows, and adds no Glory Be or aspiration the source does not give. The Our Father and Hail Mary are those of the Rosary; the rest, from a Servite prayer book.',
+    notRosary:
+      "These are not five decades of ten. It does not count for the Rule or for the month's roses.",
+    mark: "Count today's",
+    unmark: "Take back today's mark",
+    markedToday: 'Counted for today.',
+    source:
+      'Servites, thirteenth century. The Directory (n. 202) counts it among the other Marian crowns, also approved.',
   },
   widget: {
     prayedToday: 'Prayed today.',

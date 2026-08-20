@@ -39,15 +39,24 @@ aparece aquí: sobra y asusta.
 3. La decena queda en el diario como decena, no como Rosario incompleto.
 4. El copy pasa el skill `voz`.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- No se llama "modo niños" en pantalla: es **Una decena** / **One decade**. El mismo
+  Rosario, más corto. El misterio es el primero del grupo de hoy.
+- El motor acepta `decadeCount: 1`. El diario cuenta una decena terminada, no un Rosario a
+  medias. La nota de la indulgencia no aparece.
+- Las cuentas se agrandan. El audio usa el ritmo que ya esté puesto (calma, si se eligió).
+- El reloj, cuando exista, reza también una decena suelta (015-016).
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] Reloj - una decena suelta es un caso principal
-- [ ] Audio - más lento si hay ajuste de velocidad
-- [ ] Accesibilidad
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] Contenido y motor - `decadeCount`
+- [x] App
+- [ ] Reloj - una decena suelta es un caso principal (bloque del reloj)
+- [x] Audio - el ritmo existente, sin modo rápido
+- [x] Accesibilidad - la cuenta se oye en el caption; las cuentas son decorativas
+- [x] ~~Sitio - n/a~~
 
 ## Fuentes
 
