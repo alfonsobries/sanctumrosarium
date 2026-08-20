@@ -65,16 +65,25 @@ versiones coinciden antes de subir.
 6. Está documentado en la task qué versión del plugin se usa y qué parche hace falta, si
    lo hay.
 
-## Decisiones abiertas
+## Decisiones tomadas (primera pasada, agosto 2026)
 
-- Si el reloj sincroniza también por iCloud, para no depender del emparejamiento.
+- Plugin `@bacons/apple-targets@5.0.0`. Target `app/targets/watch/` tipo `watch`. El
+  README avisa que el tipo watch no está tan probado. Issues a vigilar: #175 (wiring en
+  prebuild), #147 (CFBundleVersion).
+- Puente propio: `modules/watch-bridge` con `WCSession.updateApplicationContext` (llega
+  dormido). No `react-native-watch-connectivity` (issue #134 de compilación).
+- El reloj muestra el grupo de misterios: el que manda el teléfono, o la regla semanal de
+  RVM 38 si el teléfono no ha hablado. Las excepciones litúrgicas completas y el rezo con
+  cuentas son las tasks 016-018.
+- `scripts/check-watch-version.sh` compara versiones. `pnpm app:ios` / prebuild generan el
+  target.
 
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] ~~Contenido y motor - n/a: los reutiliza~~
-- [ ] App - el lado del teléfono del puente
-- [ ] Reloj
-- [ ] ~~Audio - n/a: task 017~~
-- [ ] ~~Accesibilidad - n/a: sin interfaz todavía~~
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] ~~Contenido y motor - n/a: los reutiliza~~
+- [x] App - puente WCSession
+- [x] Reloj - target que sobrevive a prebuild
+- [x] ~~Audio - n/a: task 017~~
+- [x] ~~Accesibilidad - n/a: sin interfaz de rezo todavía~~
+- [x] ~~Sitio - n/a~~
