@@ -32,7 +32,8 @@
     "check": "pnpm lint && pnpm typecheck && pnpm test",
     "format:md": "prettier --write \"**/*.md\"",
     "postinstall": "aikit update",
-    "audio:generate": "tsx scripts/generate-rosary-audio.ts"
+    "audio:generate": "tsx scripts/generate-rosary-audio.ts",
+    "store:screenshots": "bash scripts/store-screenshots.sh"
   },
   "devDependencies": {
     "@alfonsobries/aikit": "^0.10.0",

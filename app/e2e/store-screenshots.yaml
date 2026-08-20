@@ -1,0 +1,36 @@
+# Regenerates store screenshots. Run with a booted simulator:
+#   maestro test app/e2e/store-screenshots.yaml
+appId: app.sanctamaria
+---
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible: '.*(Begin|Empezar).*'
+    timeout: 30000
+- takeScreenshot: store-home
+- tapOn: '.*(Begin|Empezar).*'
+- extendedWaitUntil:
+    visible: '.*(offer this Rosary|Resume|ofrecer|Retomar).*'
+    timeout: 15000
+- runFlow:
+    when:
+      visible: 'Start over'
+    commands:
+      - tapOn: 'Start over'
+- runFlow:
+    when:
+      visible: 'Empezar de nuevo'
+    commands:
+      - tapOn: 'Empezar de nuevo'
+- takeScreenshot: store-intention
+- tapOn: '.*(Begin|Empezar)$'
+- extendedWaitUntil:
+    visible: '.*(Next|Siguiente).*'
+    timeout: 15000
+- takeScreenshot: store-pray
+- tapOn: '.*(Leave|Salir).*'
+- tapOn: 'Settings'
+- extendedWaitUntil:
+    visible: '.*(Appearance|Apariencia).*'
+    timeout: 10000
+- takeScreenshot: store-settings
