@@ -3,7 +3,10 @@ appId: app.sanctamaria
 ---
 - stopApp
 - launchApp
-- openLink: sanctamaria:///pray
+- extendedWaitUntil:
+    visible: "Begin"
+    timeout: 30000
+- tapOn: "Begin"
 - runFlow:
     when:
       visible: 'Start over'
@@ -16,7 +19,10 @@ appId: app.sanctamaria
 - assertVisible: 'Decade 1 of 5'
 - tapOn: 'Leave'
 - assertVisible: 'Settings'
-- openLink: sanctamaria:///pray
+- extendedWaitUntil:
+    visible: "Begin"
+    timeout: 30000
+- tapOn: "Begin"
 - assertVisible: 'Resume'
 - tapOn: 'Resume'
 - assertVisible: 'Decade 1 of 5'

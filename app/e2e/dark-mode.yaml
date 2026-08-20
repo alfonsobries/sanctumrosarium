@@ -2,7 +2,10 @@ appId: app.sanctamaria
 ---
 - stopApp
 - launchApp
-- openLink: sanctamaria:///pray
+- extendedWaitUntil:
+    visible: "Begin"
+    timeout: 30000
+- tapOn: "Begin"
 - runFlow:
     when:
       visible: 'Start over'
