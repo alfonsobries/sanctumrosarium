@@ -18,7 +18,9 @@
       },
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true,
-        "UIBackgroundModes": ["audio"]
+        "UIBackgroundModes": [
+          "audio"
+        ]
       }
     },
     "android": {
@@ -29,7 +31,13 @@
         "monochromeImage": "./assets/icons/android-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": true
+      "predictiveBackGestureEnabled": true,
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+      ]
     },
     "web": {
       "output": "static",
@@ -58,6 +66,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "owner": "vexilo",
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a406fb06-bad2-4936-b512-5839d711a86c"
+      }
     }
   }
 }
