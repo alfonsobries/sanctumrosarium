@@ -9,9 +9,9 @@ import {
 } from '@rosario/engine';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { PixelRatio, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
 
 import { AppText } from '@/components/AppText';
@@ -96,6 +96,22 @@ export default function PrayScreen() {
     pack: audioPacks[buildOptions.locale],
     onAdvance: handleNext,
   });
+
+  // The current line stays in view while the guide says it, without stealing the
+  // scroll: a hand on the screen pauses the following for a few seconds.
+  const scrollRef = useRef<ScrollView | null>(null);
+  const draggedAtRef = useRef(0);
+  const activeLine = audio.activeLine;
+  useEffect(() => {
+    if (activeLine === undefined || Date.now() - draggedAtRef.current < 5000) {
+      return;
+    }
+    const lineHeight = 34 * Math.min(PixelRatio.getFontScale(), 1.6) + spacing.xs;
+    scrollRef.current?.scrollTo({
+      y: Math.max(0, activeLine * lineHeight - 80),
+      animated: true,
+    });
+  }, [activeLine]);
   const handlePrevious = () => {
     setSession((current) => goBack(current));
   };
@@ -175,7 +191,14 @@ export default function PrayScreen() {
       )}
 
       <GestureDetector gesture={fling}>
-        <ScrollView style={styles.flex} contentContainerStyle={styles.grow}>
+        <ScrollView
+          ref={scrollRef}
+          style={styles.flex}
+          contentContainerStyle={styles.grow}
+          onScrollBeginDrag={() => {
+            draggedAtRef.current = Date.now();
+          }}
+        >
           <Pressable
             accessibilityHint={t('pray.advanceHint')}
             style={[styles.grow, styles.stepArea]}
@@ -187,8 +210,16 @@ export default function PrayScreen() {
                   {step.prayer.title}
                 </AppText>
                 <View style={styles.lines}>
-                  {step.prayer.lines.map((line) => (
-                    <AppText key={line} variant="prayer">
+                  {step.prayer.lines.map((line, index) => (
+                    <AppText
+                      key={`${index}-${line}`}
+                      variant="prayer"
+                      color={
+                        audio.activeLine === undefined || audio.activeLine === index
+                          ? 'text'
+                          : 'muted'
+                      }
+                    >
                       {line}
                     </AppText>
                   ))}

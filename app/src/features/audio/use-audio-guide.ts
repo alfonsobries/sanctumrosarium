@@ -2,6 +2,7 @@ import type { Step } from '@rosario/engine';
 import { createAudioPlayer, setAudioModeAsync, type AudioPlayer } from 'expo-audio';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { activeLineAt } from './highlight';
 import { defaultAudioSettings, planForStep } from './schedule';
 import type { AudioPack } from './types';
 
@@ -16,6 +17,8 @@ type UseAudioGuideOptions = {
 type AudioGuide = {
   readonly available: boolean;
   readonly playing: boolean;
+  /** Line of the current prayer being said, when the track carries marks. */
+  readonly activeLine: number | undefined;
   readonly toggle: () => void;
 };
 
@@ -31,6 +34,10 @@ export function useAudioGuide({
   onAdvance,
 }: UseAudioGuideOptions): AudioGuide {
   const [playing, setPlaying] = useState(false);
+  const [spokenLine, setSpokenLine] = useState<{
+    step: number;
+    line: number | undefined;
+  } | null>(null);
   const playerRef = useRef<AudioPlayer | null>(null);
   const onAdvanceRef = useRef(onAdvance);
 
@@ -61,7 +68,16 @@ export function useAudioGuide({
     } else {
       const player = playerRef.current ?? createAudioPlayer();
       playerRef.current = player;
+      const lines = plan.kind === 'track' ? plan.lines : undefined;
       subscription = player.addListener('playbackStatusUpdate', (status) => {
+        if (lines !== undefined) {
+          const line = activeLineAt(lines, status.currentTime * 1000);
+          setSpokenLine((current) =>
+            current?.step === stepIndex && current.line === line
+              ? current
+              : { step: stepIndex, line },
+          );
+        }
         if (status.didJustFinish) {
           subscription?.remove();
           subscription = null;
@@ -102,5 +118,13 @@ export function useAudioGuide({
     });
   }, []);
 
-  return { available: pack !== undefined, playing, toggle };
+  return {
+    available: pack !== undefined,
+    playing,
+    activeLine:
+      playing && spokenLine !== null && spokenLine.step === stepIndex
+        ? spokenLine.line
+        : undefined,
+    toggle,
+  };
 }
