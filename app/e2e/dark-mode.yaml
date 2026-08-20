@@ -6,11 +6,25 @@ appId: app.sanctamaria
     visible: 'Begin'
     timeout: 30000
 - tapOn: 'Begin'
+- extendedWaitUntil:
+    visible: '.*(offer this Rosary|Resume).*'
+    timeout: 15000
 - runFlow:
     when:
       visible: 'Start over'
     commands:
       - tapOn: 'Start over'
+      - extendedWaitUntil:
+          visible: '.*offer this Rosary.*'
+          timeout: 8000
+- runFlow:
+    when:
+      visible: '.*offer this Rosary.*'
+    commands:
+      - tapOn: 'Begin'
+- extendedWaitUntil:
+    visible: 'Next'
+    timeout: 15000
 - extendedWaitUntil:
     visible: 'Next'
     timeout: 20000
