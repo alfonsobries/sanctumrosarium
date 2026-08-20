@@ -3,9 +3,9 @@ appId: app.sanctamaria
 - stopApp
 - launchApp
 - extendedWaitUntil:
-    visible: "Begin"
+    visible: 'Begin'
     timeout: 30000
-- tapOn: "Begin"
+- tapOn: 'Begin'
 - runFlow:
     when:
       visible: 'Start over'
