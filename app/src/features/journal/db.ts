@@ -33,6 +33,13 @@ const migrations: readonly (readonly string[])[] = [
     )`,
     `create index prayed_local_date on prayed (local_date)`,
   ],
+  [
+    `create table pauses (
+      id integer primary key autoincrement,
+      started_date text not null,
+      ended_date text
+    )`,
+  ],
 ];
 
 export function migrateJournal(db: SqlDb): void {
@@ -53,6 +60,13 @@ export type Journal = {
   readonly add: (entry: PrayedEntry) => void;
   readonly between: (fromDate: string, toDate: string) => readonly PrayedEntry[];
   readonly all: () => readonly PrayedEntry[];
+  /** Pause mode: illness, travel, grief. Paused days leave no gap. */
+  readonly startPause: (localDate: string) => void;
+  readonly endPause: (localDate: string) => void;
+  readonly pauseActive: () => boolean;
+  readonly isPaused: (localDate: string) => boolean;
+  /** The local date of the first thing ever recorded, for the history view. */
+  readonly firstDate: () => string | undefined;
 };
 
 export function openJournal(db: SqlDb): Journal {
@@ -99,5 +113,27 @@ export function openJournal(db: SqlDb): Journal {
           'select started_at, finished_at, decades, local_date from prayed order by local_date',
         )
         .map(rowToEntry),
+    startPause: (localDate) => {
+      const open = db.all<{ id: number }>(
+        'select id from pauses where ended_date is null',
+      );
+      if (open.length === 0) {
+        db.run('insert into pauses (started_date) values (?)', [localDate]);
+      }
+    },
+    endPause: (localDate) => {
+      db.run('update pauses set ended_date = ? where ended_date is null', [localDate]);
+    },
+    pauseActive: () =>
+      db.all<{ id: number }>('select id from pauses where ended_date is null').length > 0,
+    isPaused: (localDate) =>
+      db.all<{ id: number }>(
+        'select id from pauses where started_date <= ? and (ended_date is null or ended_date >= ?)',
+        [localDate, localDate],
+      ).length > 0,
+    firstDate: () =>
+      db.all<{ local_date: string }>(
+        'select local_date from prayed order by local_date limit 1',
+      )[0]?.local_date,
   };
 }

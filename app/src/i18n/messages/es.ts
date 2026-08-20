@@ -126,6 +126,15 @@ export const es = {
     progressDay: '{{done}} de {{target}} decenas hoy.',
     progressWeek: '{{done}} de {{target}} decenas esta semana.',
   },
+  fidelity: {
+    title: 'Fidelidad',
+    pause: 'En pausa',
+    pauseHint:
+      'Enfermedad, viaje, luto: los días en pausa no dejan hueco y no piden explicación.',
+    daysLine: '{{done}} de {{total}} días',
+    weeksLine: '{{done}} de {{total}} semanas',
+    noRule: 'La fidelidad acompaña a una Regla; elige una si quieres verla aquí.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },
