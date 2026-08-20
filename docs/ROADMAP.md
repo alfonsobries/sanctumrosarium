@@ -79,7 +79,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 010 | [Rezar a pantalla apagada](./tasks/010-rezar-a-pantalla-apagada.md)           | Primera pasada |
 | 011 | [Ajustes del rezo](./tasks/011-ajustes-del-rezo.md)                           | Primera pasada |
 | 012 | [Accesibilidad](./tasks/012-accesibilidad.md)                                 | Pendiente      |
-| 013 | [Sitio](./tasks/013-sitio.md)                                                 | Pendiente      |
+| 013 | [Sitio](./tasks/013-sitio.md)                                                 | Primera pasada |
 | 014 | [Listo para las tiendas](./tasks/014-listo-para-las-tiendas.md)               | Pendiente      |
 
 ### Bloque B - Rezar en movimiento (fase 2)
