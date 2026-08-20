@@ -1,5 +1,6 @@
 {
   "private": true,
+  "packageManager": "pnpm@11.18.0",
   "scripts": {
     "app": "pnpm --filter app start",
     "app:ios": "pnpm --filter app ios",
