@@ -132,6 +132,13 @@ export default function HomeScreen() {
           onPress={() => router.push('/school')}
         />
       </View>
+      <View style={styles.litanyLink}>
+        <Button
+          label={t('novena.title')}
+          variant="ghost"
+          onPress={() => router.push('/novena')}
+        />
+      </View>
 
       {__DEV__ ? (
         <View style={styles.devLink}>

@@ -269,7 +269,7 @@ export const catalog: Record<UiLanguage, readonly FeatureGroup[]> = {
         },
         {
           title: 'Novena de 54 días',
-          body: 'Tres Rosarios diarios: veintisiete días de petición y veintisiete de acción de gracias.',
+          body: 'Un Rosario al día durante cincuenta y cuatro días: veintisiete en petición y veintisiete en acción de gracias.',
         },
         {
           title: 'Coronilla de la Divina Misericordia',
@@ -565,7 +565,7 @@ export const catalog: Record<UiLanguage, readonly FeatureGroup[]> = {
         },
         {
           title: '54-day novena',
-          body: 'Three Rosaries a day: twenty-seven days of petition and twenty-seven of thanksgiving.',
+          body: 'One Rosary a day for fifty-four days: twenty-seven in petition and twenty-seven in thanksgiving.',
         },
         {
           title: 'Divine Mercy Chaplet',

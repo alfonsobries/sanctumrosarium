@@ -345,6 +345,31 @@ export const es = {
     enrollNote: 'También en dominicos.org (España) y dominicos.mx (México).',
     source: 'Fuente: rosarycenter.org, Cofradía del Santísimo Rosario.',
   },
+  novena: {
+    title: 'Novena de 54 días',
+    lead: 'La novena de Pompeya: cincuenta y cuatro rosarios, uno por día.',
+    what: 'Veintisiete días en petición y veintisiete en acción de gracias, rotando misterios gozosos, dolorosos y gloriosos. Los luminosos no forman parte del esquema original: quien quiera rezarlos, los reza aparte.',
+    status: 'Devoción privada aprobada. La indulgencia es la del Rosario, no una propia.',
+    start: 'Empezarla hoy',
+    day: 'Día {{day}} de {{total}}',
+    phase: {
+      petition: 'En petición',
+      thanksgiving: 'En acción de gracias',
+    },
+    gridLabel: '{{phase}}: {{done}} de 27 días',
+    continuous:
+      'Se retoma donde ibas: la siguiente casilla sigue ahí. La costumbre es rezarla en días seguidos.',
+    pray: 'Rezar el Rosario de hoy',
+    mark: 'Contar el de hoy',
+    unmark: 'Quitar la marca de hoy',
+    markedToday: 'Contado por hoy.',
+    ownPrayers:
+      'Cada Rosario se ofrece con la oración propia de la novena, en petición o en acción de gracias. La app no trae esas oraciones: se rezan del devocionario.',
+    resume: 'Retomarla en el día {{day}}',
+    close: 'Cerrarla',
+    leave: 'Dejar la novena',
+    done: 'Cincuenta y cuatro días. La novena queda ofrecida.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },
