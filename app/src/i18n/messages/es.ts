@@ -97,6 +97,13 @@ export const es = {
     strong: 'Fuerte',
     hint: 'Un toque por cuenta; el Padrenuestro y el Gloria se sienten distinto.',
   },
+  settingsLatin: {
+    title: 'Texto del rezo en latín',
+    both: 'Latín y tu lengua',
+    la: 'Solo latín',
+    own: 'Solo tu lengua',
+    hint: 'Las dos lenguas van línea a línea; nada se traduce: son los textos oficiales emparejados.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },

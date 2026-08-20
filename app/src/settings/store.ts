@@ -13,9 +13,10 @@ export type InterfaceLanguageSetting = 'system' | 'es' | 'en';
 export type PrayerLocaleSetting = 'system' | Locale;
 export type PrayerFormSetting = 'auto' | FormId;
 export type HapticsSetting = 'off' | 'gentle' | 'strong';
+export type LatinTextSetting = 'both' | 'la' | 'own';
 
 export type Settings = {
-  readonly version: 3;
+  readonly version: 4;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -27,16 +28,20 @@ export type Settings = {
   readonly includedPrayers: readonly PrayerId[];
   /** The fingers' count: one touch per bead, distinct for Our Father and Glory Be. */
   readonly haptics: HapticsSetting;
+  /** What the screen shows when praying in Latin: both languages, Latin alone, or the
+      reader's own language. Both is the default for whoever is still learning. */
+  readonly latinText: LatinTextSetting;
 };
 
 export const defaultSettings: Settings = {
-  version: 3,
+  version: 4,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
   prayerForm: 'auto',
   includedPrayers: [],
   haptics: 'gentle',
+  latinText: 'both',
 };
 
 const SETTINGS_KEY = 'settings';
@@ -52,6 +57,7 @@ const migrations: Record<
   0: (stored) => ({ ...stored, version: 1 }),
   1: (stored) => ({ ...stored, version: 2, prayerForm: 'auto', includedPrayers: [] }),
   2: (stored) => ({ ...stored, version: 3, haptics: 'gentle' }),
+  3: (stored) => ({ ...stored, version: 4, latinText: 'both' }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -87,11 +93,12 @@ const prayerForms: readonly PrayerFormSetting[] = [
 ];
 const knownPrayerIds: ReadonlySet<string> = new Set(prayers.map((prayer) => prayer.id));
 const hapticsOptions: readonly HapticsSetting[] = ['off', 'gentle', 'strong'];
+const latinTextOptions: readonly LatinTextSetting[] = ['both', 'la', 'own'];
 
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 3,
+    version: 4,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -112,6 +119,9 @@ function sanitize(stored: Record<string, unknown>): Settings {
     haptics: isOneOf(stored.haptics, hapticsOptions)
       ? stored.haptics
       : defaultSettings.haptics,
+    latinText: isOneOf(stored.latinText, latinTextOptions)
+      ? stored.latinText
+      : defaultSettings.latinText,
   };
 }
 

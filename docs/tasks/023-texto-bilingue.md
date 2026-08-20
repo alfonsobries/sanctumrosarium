@@ -42,15 +42,33 @@ Las invocaciones también se alinean. Son el caso más largo y el que más se ne
 4. Tests cubren: cada oración esencial tiene el mismo número de líneas en latín y en la
    lengua propia, o un mapa explícito cuando no.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Alineación por mapa, no recortando líneas**: los cortes existentes se respetan (el
+  audio ya está generado contra ellos) y `latinLineMap` en el paquete de contenido dice
+  qué línea responde a cuál en las siete oraciones donde el corte difiere. Un test
+  verifica que toda oración latina alinea con es-MX, es-ES y en-US, con mapa monótono o
+  cuentas iguales.
+- **La lengua compañera es la del sistema**, no la elegida para rezar: quien reza en latín
+  ve su propia lengua debajo.
+- **Tres modos**: latín y tu lengua (default), solo latín, solo tu lengua. La sección solo
+  aparece en Ajustes cuando el rezo está en latín. El ajuste se lee en vivo: cambiarlo no
+  toca la sesión.
+- **Letanías**: llegan con la task 043; su alineación usará el mismo mapa.
+- **Ejemplo alineado en el sitio**: queda con la task 024 (aprender el latín).
+- La revisión por alguien que sabe latín (criterio 2 de la task 021) sigue pendiente y es
+  humana.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor - solo si hay que rehacer un corte de líneas
-- [ ] App
-- [ ] ~~Reloj - n/a: en el reloj no se lee~~
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad - el lector anuncia una lengua por vez, no las dos a la vez
-- [ ] Sitio - la guía del latín muestra un ejemplo alineado
+- [x] Definir qué aplica
+- [x] Contenido y motor - mapa de alineación con test; ningún texto tocado
+- [x] App
+- [x] ~~Reloj - n/a: en el reloj no se lee~~
+- [x] ~~Audio - n/a~~
+- [ ] Accesibilidad - el lector anuncia una lengua por vez; verificación en aparato
+      pendiente
+- [ ] Sitio - el ejemplo alineado va con la task 024
 
 ## Fuentes
 

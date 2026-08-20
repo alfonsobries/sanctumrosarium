@@ -97,6 +97,13 @@ export const en = {
     strong: 'Strong',
     hint: 'One touch per bead; the Our Father and the Glory Be feel different.',
   },
+  settingsLatin: {
+    title: 'Latin prayer text',
+    both: 'Latin and your language',
+    la: 'Latin only',
+    own: 'Your language only',
+    hint: 'The two languages run line by line; nothing is translated: the official texts are simply paired.',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },
