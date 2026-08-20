@@ -80,7 +80,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 011 | [Ajustes del rezo](./tasks/011-ajustes-del-rezo.md)                           | Primera pasada |
 | 012 | [Accesibilidad](./tasks/012-accesibilidad.md)                                 | En curso       |
 | 013 | [Sitio](./tasks/013-sitio.md)                                                 | Primera pasada |
-| 014 | [Listo para las tiendas](./tasks/014-listo-para-las-tiendas.md)               | Pendiente      |
+| 014 | [Listo para las tiendas](./tasks/014-listo-para-las-tiendas.md)               | Primera pasada |
 
 ### Bloque B - Rezar en movimiento (fase 2)
 

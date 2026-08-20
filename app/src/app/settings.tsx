@@ -1,16 +1,16 @@
-import { findPrayer, forms } from '@rosario/content';
+import { findPrayer, forms, type PrayerId } from '@rosario/content';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { Linking, StyleSheet } from 'react-native';
 
+import { AppText } from '@/components/AppText';
 import { Card } from '@/components/Card';
 import { ListRow } from '@/components/ListRow';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { SwitchRow } from '@/components/SwitchRow';
-import { AppText } from '@/components/AppText';
 import { ReminderSection } from '@/features/reminder/ReminderSection';
 import { formsForLocale, optionalPrayersOf } from '@/features/rosary/forms';
-import type { PrayerId } from '@rosario/content';
 import { useSettings } from '@/settings/settings-context';
 import { silenceOptions } from '@/settings/store';
 import type {
@@ -19,7 +19,6 @@ import type {
   PrayerLocaleSetting,
 } from '@/settings/store';
 import { spacing } from '@/theme/tokens';
-import { StyleSheet } from 'react-native';
 
 const appearanceOptions: readonly AppearanceSetting[] = ['system', 'light', 'dark'];
 const appLanguageOptions: readonly InterfaceLanguageSetting[] = ['system', 'es', 'en'];
@@ -58,6 +57,7 @@ export default function SettingsScreen() {
     settings,
     prayerLocale,
     prayerForm,
+    interfaceLanguage,
     setAppearance,
     setInterfaceLanguage,
     setPrayerLocale,
@@ -404,6 +404,21 @@ export default function SettingsScreen() {
       </AppText>
 
       <ReminderSection />
+
+      <SectionHeader title={t('settings.privacy')} />
+      <Card>
+        <ListRow
+          label={t('settings.privacy')}
+          divider={false}
+          onPress={() =>
+            void Linking.openURL(
+              interfaceLanguage === 'en'
+                ? 'https://sanctamaria.app/en/privacy/'
+                : 'https://sanctamaria.app/privacidad/',
+            )
+          }
+        />
+      </Card>
     </Screen>
   );
 }

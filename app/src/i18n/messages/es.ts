@@ -77,6 +77,7 @@ export const es = {
     prayerEsES: 'Español (España)',
     prayerEnUS: 'English',
     prayerLa: 'Latín',
+    privacy: 'Privacidad',
   },
   forms: {
     auto: 'Según el idioma del rezo',
