@@ -104,6 +104,14 @@ function RootNavigator() {
           }}
         />
         <Stack.Screen
+          name="latin"
+          options={{
+            headerShown: true,
+            title: t('latinLearn.title'),
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        />
+        <Stack.Screen
           name="camino/index"
           options={{
             headerShown: true,

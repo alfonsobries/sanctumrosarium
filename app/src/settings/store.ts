@@ -20,9 +20,10 @@ export type AudioPaceSetting = 'calm' | 'normal';
 export type ResponseSilenceSetting = 'normal' | 'long';
 export type AnnouncePauseSetting = 'short' | 'medium' | 'long';
 export type ChoirRoleSetting = 'guide' | 'respond';
+export type LatinLearnMode = 'listen' | 'read' | 'memory';
 
 export type Settings = {
-  readonly version: 14;
+  readonly version: 15;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -67,10 +68,14 @@ export type Settings = {
   /** Facts of the device after a session (duration, times out of the app). Never a
       grade: prayer is not measured (gamificacion.md 6). Off by default. */
   readonly recollectionEnabled: boolean;
+  /** Per prayer, how the Latin is being learned: hear both halves, answer reading, or
+      answer from memory with the text dimmed. Chosen by the person; the app never
+      raises it (task 024). Absent means answering while reading. */
+  readonly latinLearn: Readonly<Partial<Record<PrayerId, LatinLearnMode>>>;
 };
 
 export const defaultSettings: Settings = {
-  version: 14,
+  version: 15,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -93,6 +98,7 @@ export const defaultSettings: Settings = {
   choirRole: 'guide',
   caminoEnabled: true,
   recollectionEnabled: false,
+  latinLearn: {},
 };
 
 const SETTINGS_KEY = 'settings';
@@ -133,6 +139,7 @@ const migrations: Record<
   11: (stored) => ({ choirRole: 'guide', ...stored, version: 12 }),
   12: (stored) => ({ caminoEnabled: true, ...stored, version: 13 }),
   13: (stored) => ({ recollectionEnabled: false, ...stored, version: 14 }),
+  14: (stored) => ({ latinLearn: {}, ...stored, version: 15 }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -174,6 +181,22 @@ const audioPaces: readonly AudioPaceSetting[] = ['calm', 'normal'];
 const responseSilences: readonly ResponseSilenceSetting[] = ['normal', 'long'];
 const announcePauses: readonly AnnouncePauseSetting[] = ['short', 'medium', 'long'];
 const choirRoles: readonly ChoirRoleSetting[] = ['guide', 'respond'];
+const latinLearnModes: readonly LatinLearnMode[] = ['listen', 'read', 'memory'];
+
+function sanitizeLatinLearn(
+  stored: unknown,
+): Readonly<Partial<Record<PrayerId, LatinLearnMode>>> {
+  if (typeof stored !== 'object' || stored === null) {
+    return {};
+  }
+  const result: Partial<Record<PrayerId, LatinLearnMode>> = {};
+  for (const [prayer, mode] of Object.entries(stored)) {
+    if (knownPrayerIds.has(prayer) && isOneOf(mode, latinLearnModes)) {
+      result[prayer as PrayerId] = mode;
+    }
+  }
+  return result;
+}
 const ruleOptions: readonly RuleId[] = [
   'none',
   'daily-decade',
@@ -185,7 +208,7 @@ const ruleOptions: readonly RuleId[] = [
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 14,
+    version: 15,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -267,6 +290,7 @@ function sanitize(stored: Record<string, unknown>): Settings {
       typeof stored.recollectionEnabled === 'boolean'
         ? stored.recollectionEnabled
         : defaultSettings.recollectionEnabled,
+    latinLearn: sanitizeLatinLearn(stored.latinLearn),
   };
 }
 

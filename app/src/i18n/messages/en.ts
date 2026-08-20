@@ -288,6 +288,21 @@ export const en = {
     exits_one: 'The app went to the background 1 time.',
     exits_other: 'The app went to the background {{count}} times.',
   },
+  latinLearn: {
+    title: 'Learning the Latin',
+    settingsHint: 'From hearing it to answering from memory, prayer by prayer.',
+    intro: 'Three modes per prayer. You choose; the app never raises them on its own.',
+    hint: 'Changing modes never loses your place in the prayer.',
+    provisional:
+      'The Latin voice is provisional, synthesized while a human recording arrives: the pronunciation is not yet guaranteed.',
+    modes: {
+      listen: 'Hear both halves',
+      read: 'Answer reading',
+      memory: 'Answer from memory',
+    },
+    revealHint: 'A tap shows the text for this step.',
+    yourTurn: 'Your turn.',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },

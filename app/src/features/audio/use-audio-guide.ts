@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { activeLineAt } from './highlight';
 import { defaultAudioSettings, planForStep, type AudioSettings } from './schedule';
-import type { AudioPack } from './types';
+import type { AudioPack, LineMark } from './types';
 
 type UseAudioGuideOptions = {
   readonly steps: readonly Step[];
@@ -71,12 +71,15 @@ export function useAudioGuide({
     } else {
       const player = playerRef.current ?? createAudioPlayer();
       playerRef.current = player;
-      const { lines } = plan;
-      const lineOffset = plan.lineOffset ?? 0;
+      let half: { lines?: readonly LineMark[]; lineOffset: number; last: boolean } = {
+        ...(plan.lines === undefined ? {} : { lines: plan.lines }),
+        lineOffset: plan.lineOffset ?? 0,
+        last: plan.follow === undefined,
+      };
       subscription = player.addListener('playbackStatusUpdate', (status) => {
-        if (lines !== undefined) {
-          const line = activeLineAt(lines, status.currentTime * 1000);
-          const shown = line === undefined ? undefined : line + lineOffset;
+        if (half.lines !== undefined) {
+          const line = activeLineAt(half.lines, status.currentTime * 1000);
+          const shown = line === undefined ? undefined : line + half.lineOffset;
           setSpokenLine((current) =>
             current?.step === stepIndex && current.line === shown
               ? current
@@ -84,9 +87,27 @@ export function useAudioGuide({
           );
         }
         if (status.didJustFinish) {
-          subscription?.remove();
-          subscription = null;
-          scheduleAdvance();
+          if (half.last || plan.follow === undefined) {
+            subscription?.remove();
+            subscription = null;
+            scheduleAdvance();
+            return;
+          }
+          const followSource = pack.sources[plan.follow.file];
+          if (followSource === undefined) {
+            subscription?.remove();
+            subscription = null;
+            scheduleAdvance();
+            return;
+          }
+          half = {
+            ...(plan.follow.lines === undefined ? {} : { lines: plan.follow.lines }),
+            lineOffset: plan.follow.lineOffset ?? 0,
+            last: true,
+          };
+          player.replace(followSource);
+          player.setPlaybackRate(settings.rate, 'high');
+          player.play();
         }
       });
       const startPlayback = () => {
