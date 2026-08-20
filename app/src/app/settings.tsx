@@ -58,6 +58,7 @@ export default function SettingsScreen() {
     setPrayerLocale,
     setPrayerForm,
     toggleIncludedPrayer,
+    setHaptics,
   } = useSettings();
 
   const availableForms = formsForLocale(prayerLocale);
@@ -145,6 +146,22 @@ export default function SettingsScreen() {
           />
         ))}
       </Card>
+
+      <SectionHeader title={t('settingsHaptics.title')} />
+      <Card>
+        {(['off', 'gentle', 'strong'] as const).map((option, index) => (
+          <ListRow
+            key={option}
+            label={t(`settingsHaptics.${option}`)}
+            selected={settings.haptics === option}
+            divider={index < 2}
+            onPress={() => setHaptics(option)}
+          />
+        ))}
+      </Card>
+      <AppText variant="caption" color="muted" style={styles.hint}>
+        {t('settingsHaptics.hint')}
+      </AppText>
     </Screen>
   );
 }

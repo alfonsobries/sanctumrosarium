@@ -7,11 +7,12 @@ import {
   startSession,
   type SessionState,
 } from '@rosario/engine';
-import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PixelRatio, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useKeepAwake } from 'expo-keep-awake';
+import { StatusBar } from 'expo-status-bar';
 import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
 
 import { AppText } from '@/components/AppText';
@@ -19,6 +20,8 @@ import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
 import { audioPacks } from '@/features/audio/packs.generated';
 import { useAudioGuide } from '@/features/audio/use-audio-guide';
+import { hapticForStep } from '@/features/rosary/haptic-patterns';
+import { playHaptic } from '@/features/rosary/haptics';
 import { BeadTrack } from '@/features/rosary/BeadTrack';
 import {
   clearSession,
@@ -32,7 +35,7 @@ import { languageForLocale } from '@/settings/resolve-locale';
 import { useSettings } from '@/settings/settings-context';
 import { appKv } from '@/storage/app-kv';
 import { leaveToHome } from '@/features/rosary/leave';
-import { spacing, touchTarget } from '@/theme/tokens';
+import { nightBlack, spacing, touchTarget } from '@/theme/tokens';
 
 export default function PrayScreen() {
   const { t } = useTranslation();
@@ -43,6 +46,7 @@ export default function PrayScreen() {
   const [resumeChoice, setResumeChoice] = useState<'pending' | 'made'>(
     saved === undefined ? 'made' : 'pending',
   );
+  const [inTheDark, setInTheDark] = useState(false);
   const [buildOptions, setBuildOptions] = useState(() =>
     saved === undefined
       ? {
@@ -87,7 +91,7 @@ export default function PrayScreen() {
   }, [session, buildOptions, progress.finished, resumeChoice]);
 
   const handleNext = () => {
-    void Haptics.selectionAsync();
+    void playHaptic(hapticForStep(steps[progress.stepIndex + 1]), settings.haptics);
     setSession((current) => advance(current, steps, new Date()));
   };
   const audio = useAudioGuide({
@@ -153,6 +157,23 @@ export default function PrayScreen() {
 
   const mystery = 'mystery' in step ? step.mystery : undefined;
 
+  if (inTheDark) {
+    return (
+      <GestureDetector gesture={fling}>
+        <DarkScreen
+          mysteryTitle={mystery?.text[language].title}
+          count={
+            progress.beadInDecade === undefined
+              ? undefined
+              : t('pray.beadCount', { bead: progress.beadInDecade })
+          }
+          onAdvance={handleNext}
+          onExit={() => setInTheDark(false)}
+        />
+      </GestureDetector>
+    );
+  }
+
   return (
     <Screen scroll={false}>
       <View style={styles.topBar}>
@@ -168,14 +189,18 @@ export default function PrayScreen() {
             {t('pray.leave')}
           </AppText>
         </Pressable>
-        {progress.decade === undefined ? null : (
-          <AppText variant="caption" color="muted">
-            {t('pray.decadeCount', {
-              decade: progress.decade + 1,
-              total: totalDecades,
-            })}
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('pray.dark')}
+          accessibilityHint={t('pray.darkEnterHint')}
+          hitSlop={12}
+          onPress={() => setInTheDark(true)}
+          style={({ pressed }) => [styles.leave, pressed && styles.pressed]}
+        >
+          <AppText variant="label" color="muted">
+            {t('pray.dark')}
           </AppText>
-        )}
+        </Pressable>
       </View>
 
       {/* The mystery never leaves the screen while its decade is prayed. */}
@@ -203,6 +228,8 @@ export default function PrayScreen() {
             accessibilityHint={t('pray.advanceHint')}
             style={[styles.grow, styles.stepArea]}
             onPress={handleNext}
+            onLongPress={() => setInTheDark(true)}
+            delayLongPress={600}
           >
             {step.kind === 'prayer' ? (
               <>
@@ -252,11 +279,21 @@ export default function PrayScreen() {
         {progress.decade === undefined ? null : (
           <View style={styles.beads}>
             <BeadTrack bead={progress.beadInDecade} />
-            {progress.beadInDecade === undefined ? null : (
-              <AppText variant="caption" color="muted">
-                {t('pray.beadCount', { bead: progress.beadInDecade })}
-              </AppText>
-            )}
+            <AppText variant="caption" color="muted">
+              {[
+                progress.beadInDecade === undefined
+                  ? undefined
+                  : t('pray.beadCount', { bead: progress.beadInDecade }),
+                progress.decade === undefined
+                  ? undefined
+                  : t('pray.decadeCount', {
+                      decade: progress.decade + 1,
+                      total: totalDecades,
+                    }),
+              ]
+                .filter((part) => part !== undefined)
+                .join(' · ')}
+            </AppText>
           </View>
         )}
         <View style={styles.controls}>
@@ -367,6 +404,60 @@ function FinishedScreen({
     </Screen>
   );
 }
+
+function DarkScreen({
+  mysteryTitle,
+  count,
+  onAdvance,
+  onExit,
+}: {
+  mysteryTitle: string | undefined;
+  count: string | undefined;
+  onAdvance: () => void;
+  onExit: () => void;
+}) {
+  const { t } = useTranslation();
+  useKeepAwake();
+
+  return (
+    <Pressable
+      accessibilityHint={t('pray.advanceHint')}
+      onPress={onAdvance}
+      onLongPress={onExit}
+      delayLongPress={600}
+      style={darkStyles.fill}
+    >
+      <StatusBar hidden />
+      <View style={darkStyles.center}>
+        {mysteryTitle === undefined ? null : (
+          <AppText variant="heading" color="muted" style={darkStyles.dim}>
+            {mysteryTitle}
+          </AppText>
+        )}
+        {count === undefined ? null : (
+          <AppText variant="caption" color="muted" style={darkStyles.dim}>
+            {count}
+          </AppText>
+        )}
+      </View>
+      <AppText variant="caption" color="muted" style={[darkStyles.dim, darkStyles.hint]}>
+        {t('pray.darkExitHint')}
+      </AppText>
+    </Pressable>
+  );
+}
+
+const darkStyles = StyleSheet.create({
+  fill: { flex: 1, backgroundColor: nightBlack },
+  center: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.md,
+  },
+  dim: { opacity: 0.55 },
+  hint: { textAlign: 'center', marginBottom: spacing.xxl },
+});
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },

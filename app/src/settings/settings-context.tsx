@@ -17,6 +17,7 @@ import {
 import {
   saveSettings,
   type AppearanceSetting,
+  type HapticsSetting,
   type InterfaceLanguageSetting,
   type PrayerFormSetting,
   type PrayerLocaleSetting,
@@ -34,6 +35,7 @@ type SettingsContextValue = {
   readonly setPrayerLocale: (value: PrayerLocaleSetting) => void;
   readonly setPrayerForm: (value: PrayerFormSetting) => void;
   readonly toggleIncludedPrayer: (prayer: PrayerId) => void;
+  readonly setHaptics: (value: HapticsSetting) => void;
 };
 
 const SettingsContext = createContext<SettingsContextValue | null>(null);
@@ -91,6 +93,7 @@ export function SettingsProvider({
           prayerForm: value,
           includedPrayers: value === 'auto' ? [] : optionalPrayersOf(forms[value]),
         }),
+      setHaptics: (haptics) => update({ haptics }),
       toggleIncludedPrayer: (prayer) =>
         update({
           includedPrayers: settings.includedPrayers.includes(prayer)

@@ -61,6 +61,9 @@ export const palettes: Record<'light' | 'dark', ThemeColors> = {
   },
 };
 
+/** True black for the in-the-dark praying mode: on OLED those pixels are off. */
+export const nightBlack = '#000000';
+
 /** 4-point spacing scale. Layout never hardcodes a gap. */
 export const spacing = {
   xs: 4,

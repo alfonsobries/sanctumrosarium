@@ -12,9 +12,10 @@ export type AppearanceSetting = 'system' | 'light' | 'dark';
 export type InterfaceLanguageSetting = 'system' | 'es' | 'en';
 export type PrayerLocaleSetting = 'system' | Locale;
 export type PrayerFormSetting = 'auto' | FormId;
+export type HapticsSetting = 'off' | 'gentle' | 'strong';
 
 export type Settings = {
-  readonly version: 2;
+  readonly version: 3;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -24,15 +25,18 @@ export type Settings = {
   readonly prayerForm: PrayerFormSetting;
   /** Optional prayers turned on. What is essential is never here: the engine always prays it. */
   readonly includedPrayers: readonly PrayerId[];
+  /** The fingers' count: one touch per bead, distinct for Our Father and Glory Be. */
+  readonly haptics: HapticsSetting;
 };
 
 export const defaultSettings: Settings = {
-  version: 2,
+  version: 3,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
   prayerForm: 'auto',
   includedPrayers: [],
+  haptics: 'gentle',
 };
 
 const SETTINGS_KEY = 'settings';
@@ -47,6 +51,7 @@ const migrations: Record<
 > = {
   0: (stored) => ({ ...stored, version: 1 }),
   1: (stored) => ({ ...stored, version: 2, prayerForm: 'auto', includedPrayers: [] }),
+  2: (stored) => ({ ...stored, version: 3, haptics: 'gentle' }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -81,11 +86,12 @@ const prayerForms: readonly PrayerFormSetting[] = [
   ...(Object.keys(forms) as FormId[]),
 ];
 const knownPrayerIds: ReadonlySet<string> = new Set(prayers.map((prayer) => prayer.id));
+const hapticsOptions: readonly HapticsSetting[] = ['off', 'gentle', 'strong'];
 
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 2,
+    version: 3,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -103,6 +109,9 @@ function sanitize(stored: Record<string, unknown>): Settings {
           (id): id is PrayerId => typeof id === 'string' && knownPrayerIds.has(id),
         ) as readonly PrayerId[])
       : defaultSettings.includedPrayers,
+    haptics: isOneOf(stored.haptics, hapticsOptions)
+      ? stored.haptics
+      : defaultSettings.haptics,
   };
 }
 

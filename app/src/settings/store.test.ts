@@ -12,20 +12,22 @@ describe('loadSettings', () => {
   it('round-trips what was saved', () => {
     const driver = createMemoryDriver();
     saveSettings(driver, {
-      version: 2,
+      version: 3,
       appearance: 'dark',
       interfaceLanguage: 'es',
       prayerLocale: 'la',
       prayerForm: 'dominican',
       includedPrayers: ['oratio-fatimae'],
+      haptics: 'strong',
     });
     expect(loadSettings(driver)).toEqual({
-      version: 2,
+      version: 3,
       appearance: 'dark',
       interfaceLanguage: 'es',
       prayerLocale: 'la',
       prayerForm: 'dominican',
       includedPrayers: ['oratio-fatimae'],
+      haptics: 'strong',
     });
   });
 
@@ -40,7 +42,7 @@ describe('loadSettings', () => {
     });
   });
 
-  it('migrates version 1 settings to version 2 with sober defaults', () => {
+  it('migrates version 1 settings through every version with sober defaults', () => {
     const driver = createMemoryDriver({
       settings: JSON.stringify({
         version: 1,
@@ -50,19 +52,20 @@ describe('loadSettings', () => {
       }),
     });
     expect(loadSettings(driver)).toEqual({
-      version: 2,
+      version: 3,
       appearance: 'dark',
       interfaceLanguage: 'en',
       prayerLocale: 'en-US',
       prayerForm: 'auto',
       includedPrayers: [],
+      haptics: 'gentle',
     });
   });
 
   it('drops unknown prayers from the included list', () => {
     const driver = createMemoryDriver({
       settings: JSON.stringify({
-        version: 2,
+        version: 3,
         includedPrayers: ['oratio-fatimae', 'not-a-prayer'],
       }),
     });
