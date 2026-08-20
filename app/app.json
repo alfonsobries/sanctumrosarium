@@ -17,7 +17,8 @@
         "tinted": "./assets/icons/ios-tinted.png"
       },
       "infoPlist": {
-        "CFBundleAllowMixedLocalizations": true
+        "CFBundleAllowMixedLocalizations": true,
+        "UIBackgroundModes": ["audio"]
       }
     },
     "android": {
@@ -50,7 +51,8 @@
           }
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-audio"
     ],
     "experiments": {
       "typedRoutes": true,

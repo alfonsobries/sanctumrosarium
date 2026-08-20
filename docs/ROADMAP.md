@@ -74,7 +74,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 005 | [Motor del Rosario](./tasks/005-motor-del-rosario.md)                         | Primera pasada |
 | 006 | [Base de la app](./tasks/006-base-de-la-app.md)                               | Primera pasada |
 | 007 | [Pantalla de rezo](./tasks/007-pantalla-de-rezo.md)                           | Primera pasada |
-| 008 | [Audio del Rosario](./tasks/008-audio-del-rosario.md)                         | Pendiente      |
+| 008 | [Audio del Rosario](./tasks/008-audio-del-rosario.md)                         | Primera pasada |
 | 009 | [Resaltado sincronizado](./tasks/009-resaltado-sincronizado.md)               | Pendiente      |
 | 010 | [Rezar a pantalla apagada](./tasks/010-rezar-a-pantalla-apagada.md)           | Pendiente      |
 | 011 | [Ajustes del rezo](./tasks/011-ajustes-del-rezo.md)                           | Pendiente      |

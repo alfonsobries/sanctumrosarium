@@ -71,6 +71,10 @@ servicio mínimo y anónimo cuando llegue, sin cuentas.
 interno de desarrollo, nunca en producción sin decirlo. Pendiente: quién graba, y si se
 puede pedir a un sacerdote o seminarista el latín.
 
+**Estado (agosto 2026):** la app trae un andamio sintetizado (ElevenLabs: camila es-MX,
+sarah en-US) generado con `pnpm audio:generate`, marcado `provisional: true` en cada
+manifiesto. Sirve para desarrollar el sistema; no se publica.
+
 ## 6. Alcance del latín en la primera versión
 
 ¿El latín entra en la versión 1 como idioma completo, o llega en la fase 3? Es el mayor

@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "locale": "es-MX",
+  "voice": "camila",
+  "provisional": true,
+  "tracks": {
+    "signum-crucis": {
+      "leader": {
+        "file": "signum-crucis.leader.mp3",
+        "durationMs": 4087
+      }
+    },
+    "credo": {
+      "leader": {
+        "file": "credo.leader.mp3",
+        "durationMs": 42771
+      }
+    },
+    "pater-noster": {
+      "leader": {
+        "file": "pater-noster.leader.mp3",
+        "durationMs": 9567
+      },
+      "response": {
+        "file": "pater-noster.response.mp3",
+        "durationMs": 12074
+      }
+    },
+    "ave-maria": {
+      "leader": {
+        "file": "ave-maria.leader.mp3",
+        "durationMs": 10774
+      },
+      "response": {
+        "file": "ave-maria.response.mp3",
+        "durationMs": 8406
+      }
+    },
+    "gloria-patri": {
+      "leader": {
+        "file": "gloria-patri.leader.mp3",
+        "durationMs": 2694
+      },
+      "response": {
+        "file": "gloria-patri.response.mp3",
+        "durationMs": 4783
+      }
+    },
+    "oratio-fatimae": {
+      "leader": {
+        "file": "oratio-fatimae.leader.mp3",
+        "durationMs": 11796
+      }
+    },
+    "salve-regina": {
+      "leader": {
+        "file": "salve-regina.leader.mp3",
+        "durationMs": 29629
+      }
+    },
+    "versiculum-salve": {
+      "leader": {
+        "file": "versiculum-salve.leader.mp3",
+        "durationMs": 2368
+      },
+      "response": {
+        "file": "versiculum-salve.response.mp3",
+        "durationMs": 4737
+      }
+    },
+    "oratio-litaniarum": {
+      "leader": {
+        "file": "oratio-litaniarum.leader.mp3",
+        "durationMs": 19830
+      }
+    },
+    "oratio-finalis": {
+      "leader": {
+        "file": "oratio-finalis.leader.mp3",
+        "durationMs": 20387
+      }
+    },
+    "sub-tuum": {
+      "leader": {
+        "file": "sub-tuum.leader.mp3",
+        "durationMs": 13607
+      }
+    },
+    "actus-contritionis": {
+      "leader": {
+        "file": "actus-contritionis.leader.mp3",
+        "durationMs": 26796
+      }
+    },
+    "deus-in-adiutorium": {
+      "leader": {
+        "file": "deus-in-adiutorium.leader.mp3",
+        "durationMs": 1858
+      },
+      "response": {
+        "file": "deus-in-adiutorium.response.mp3",
+        "durationMs": 1950
+      }
+    },
+    "per-signum-crucis": {
+      "leader": {
+        "file": "per-signum-crucis.leader.mp3",
+        "durationMs": 9938
+      }
+    },
+    "iaculatoria-mariae": {
+      "leader": {
+        "file": "iaculatoria-mariae.leader.mp3",
+        "durationMs": 7338
+      }
+    },
+    "salve-hija-de-dios-padre": {
+      "leader": {
+        "file": "salve-hija-de-dios-padre.leader.mp3",
+        "durationMs": 10077
+      }
+    },
+    "salve-madre-de-dios-hijo": {
+      "leader": {
+        "file": "salve-madre-de-dios-hijo.leader.mp3",
+        "durationMs": 9845
+      }
+    },
+    "salve-esposa-del-espiritu-santo": {
+      "leader": {
+        "file": "salve-esposa-del-espiritu-santo.leader.mp3",
+        "durationMs": 10495
+      }
+    },
+    "templo-y-sagrario": {
+      "leader": {
+        "file": "templo-y-sagrario.leader.mp3",
+        "durationMs": 7245
+      }
+    },
+    "ave-maria-purissima": {
+      "leader": {
+        "file": "ave-maria-purissima.leader.mp3",
+        "durationMs": 1440
+      },
+      "response": {
+        "file": "ave-maria-purissima.response.mp3",
+        "durationMs": 1300
+      }
+    },
+    "oblatio": {
+      "leader": {
+        "file": "oblatio.leader.mp3",
+        "durationMs": 10170
+      }
+    },
+    "sancte-michael": {
+      "leader": {
+        "file": "sancte-michael.leader.mp3",
+        "durationMs": 22152
+      }
+    }
+  }
+}

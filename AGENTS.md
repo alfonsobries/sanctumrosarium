@@ -266,6 +266,19 @@ usuarios, y dónde están los huecos.
 - `pnpm app` - servidor de desarrollo de Expo
 - `pnpm app:ios` / `pnpm app:android` - compilar y correr en dispositivo o simulador
 - `pnpm app:check` - tipos, lint y formato de la app
+- `pnpm app:test` - pruebas de la app (vitest)
+
+### Builds e instalación
+
+- `pnpm ios:build` / `pnpm android:build` - dev client local (EAS local) → `app/build/`
+- `pnpm ios:install` / `pnpm android:install` - instala ese build en el aparato por USB
+- `pnpm ios:release` / `pnpm android:release` - build de tienda local + envío (`:build` y
+  `:submit` por separado)
+
+### Herramientas
+
+- `pnpm icons:generate` - regenera todos los iconos y splash desde `assets/icon.svg`
+- `pnpm dark` / `pnpm light` - cambia la apariencia del simulador/emulador corriendo
 
 ### Sitio
 
