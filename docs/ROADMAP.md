@@ -144,7 +144,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | #   | Task                                                                  | Qué es                                                       |
 | --- | --------------------------------------------------------------------- | ------------------------------------------------------------ |
 | 042 | [Idiomas nuevos](./tasks/042-idiomas-nuevos.md)                       | Italiano, portugués, francés, polaco, alemán y sus variantes |
-| 043 | [Letanías](./tasks/043-letanias.md)                                   | Lauretanas completas, rezadas y cantadas                     |
+| 043 | [Letanías](./tasks/043-letanias.md)                                   | Primera pasada                                               |
 | 044 | [Novena de 54 días](./tasks/044-novena-de-54-dias.md)                 | Estructura propia, con su contador                           |
 | 045 | [Coronilla y Siete Dolores](./tasks/045-coronilla-y-siete-dolores.md) | Devociones hermanas, nunca mezcladas con el Rosario          |
 | 046 | [Cofradía del Rosario](./tasks/046-cofradia-del-rosario.md)           | Regla semanal de quince decenas e inscripción                |

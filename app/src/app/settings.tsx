@@ -64,13 +64,13 @@ export default function SettingsScreen() {
     setHaptics,
     setLatinText,
     setRosesEnabled,
+    setWithLitany,
   } = useSettings();
 
   const availableForms = formsForLocale(prayerLocale);
-  // The prayer after the litany waits for the litany itself (task 043): offering it
-  // alone would insert it without the litany it answers to.
+  // The prayer after the litany only makes sense when the litany itself is on.
   const optionalPrayers = optionalPrayersOf(forms[prayerForm]).filter(
-    (prayer) => prayer !== 'oratio-litaniarum',
+    (prayer) => prayer !== 'oratio-litaniarum' || settings.withLitany,
   );
 
   return (
@@ -146,10 +146,16 @@ export default function SettingsScreen() {
             label={findPrayer(prayer, prayerLocale)?.title ?? prayer}
             description={t(`optional.${prayer}`)}
             value={settings.includedPrayers.includes(prayer)}
-            divider={index < optionalPrayers.length - 1}
             onValueChange={() => toggleIncludedPrayer(prayer)}
           />
         ))}
+        <SwitchRow
+          label={t('litany.title')}
+          description={t('litany.settingHint')}
+          value={settings.withLitany}
+          divider={false}
+          onValueChange={(value) => setWithLitany(value)}
+        />
       </Card>
 
       {prayerLocale === 'la' ? (

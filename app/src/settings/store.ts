@@ -18,7 +18,7 @@ export type LatinTextSetting = 'both' | 'la' | 'own';
 export type ReminderMode = 'off' | 'hour' | 'angelus';
 
 export type Settings = {
-  readonly version: 7;
+  readonly version: 8;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -44,10 +44,12 @@ export type Settings = {
   /** The month's crown of roses: visual inventory, never accumulated power. Off is a
       first-class state: the app stays whole without it. */
   readonly rosesEnabled: boolean;
+  /** Close the Rosary with the Litany of Loreto. An act of worship by itself (DPPL 203). */
+  readonly withLitany: boolean;
 };
 
 export const defaultSettings: Settings = {
-  version: 7,
+  version: 8,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -61,6 +63,7 @@ export const defaultSettings: Settings = {
   reminderMinute: 0,
   reminderDays: [0, 1, 2, 3, 4, 5, 6],
   rosesEnabled: true,
+  withLitany: false,
 };
 
 const SETTINGS_KEY = 'settings';
@@ -88,6 +91,7 @@ const migrations: Record<
     version: 6,
   }),
   6: (stored) => ({ rosesEnabled: true, ...stored, version: 7 }),
+  7: (stored) => ({ withLitany: false, ...stored, version: 8 }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -136,7 +140,7 @@ const ruleOptions: readonly RuleId[] = [
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 7,
+    version: 8,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -185,6 +189,10 @@ function sanitize(stored: Record<string, unknown>): Settings {
       typeof stored.rosesEnabled === 'boolean'
         ? stored.rosesEnabled
         : defaultSettings.rosesEnabled,
+    withLitany:
+      typeof stored.withLitany === 'boolean'
+        ? stored.withLitany
+        : defaultSettings.withLitany,
   };
 }
 
