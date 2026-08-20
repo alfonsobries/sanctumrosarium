@@ -42,15 +42,29 @@ Quince (o veinte, si el usuario incluye luminosos) decenas en la semana. Huecos 
 3. Fallar unos días no expulsa ni castiga.
 4. La pantalla pasa las cinco preguntas de `docs/gamificacion.md`.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Pantalla propia "La Cofradía del Rosario"**, enlazada desde la Regla cuando se elige
+  "Al modo de la Cofradía": qué es, que su compromiso no obliga bajo pecado (en la misma
+  pantalla, criterio 1), los luminosos como Rosario extra sin declaración oficial, los
+  beneficios descritos con sus palabras y con las condiciones habituales, y las reglas de
+  inscripción (personal, sin difuntos, no católicos admisibles).
+- **La app no inscribe a nadie ni llama cofrade a nadie**: botón "Inscribirse con los
+  dominicos" que abre rosarycenter.org, con nota de dominicos.org y dominicos.mx.
+- El contador semanal es el de la Regla de quince decenas que ya existía (025); fallar
+  días no expulsa (la fidelidad ya trata los huecos sin drama, 026).
+- **Pendiente**: el avance de la semana en el reloj (bloque del reloj) y documentar un
+  convento local si el dev quiere otro destino de inscripción.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] Reloj - el avance de la semana, no la inscripción
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad
-- [ ] Sitio - la misma explicación y el mismo enlace
+- [x] Definir qué aplica
+- [x] Contenido y motor - n/a: el texto es de la pantalla, citado a rosarycenter.org
+- [x] App
+- [ ] Reloj - el avance de la semana, no la inscripción (bloque del reloj)
+- [x] ~~Audio - n/a~~
+- [x] Accesibilidad - texto plano y un enlace externo con etiqueta clara
+- [x] ~~Sitio - n/a en esta pasada~~
 
 ## Fuentes
 

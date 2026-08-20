@@ -328,6 +328,23 @@ export const es = {
       tradition: 'Tradición piadosa',
     },
   },
+  confraternity: {
+    title: 'La Cofradía del Rosario',
+    lead: 'Más de quinientos años de rezar el Rosario juntos, con un compromiso que la propia Cofradía dice que no obliga bajo pecado.',
+    blocks: {
+      what: 'La Cofradía del Santísimo Rosario es una asociación de la Orden de Predicadores. El compromiso de cada cofrade: procurar los quince misterios del Rosario cada semana, repartidos como quiera. Sin cuotas y sin reuniones; y con sus palabras, este compromiso no obliga bajo pecado.',
+      luminous:
+        'La Cofradía anima a añadir los misterios luminosos como un Rosario semanal de más, aunque no ha recibido declaración oficial que los incorpore al compromiso.',
+      benefits:
+        'Los beneficios los describe ella misma: la participación en las oraciones, misas y obras de toda la Orden y de los cofrades vivos y difuntos, y las indulgencias que la Iglesia concede a la Cofradía en sus fiestas, con las condiciones habituales.',
+      enrollment:
+        'La inscripción es personal: hace falta edad para entender el compromiso, no se inscribe a difuntos, y un no católico puede ser admitido (respuesta del Promotor General del Rosario, 2019). Se hace con los dominicos, en línea o en cualquier convento. La app no inscribe a nadie.',
+      rule: 'Si eliges la Regla "Al modo de la Cofradía", la app cuenta tus quince decenas de la semana. Fallar unos días no expulsa de nada.',
+    },
+    enroll: 'Inscribirse con los dominicos',
+    enrollNote: 'También en dominicos.org (España) y dominicos.mx (México).',
+    source: 'Fuente: rosarycenter.org, Cofradía del Santísimo Rosario.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },
