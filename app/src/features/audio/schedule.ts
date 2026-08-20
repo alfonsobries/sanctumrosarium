@@ -1,6 +1,6 @@
 import type { Step } from '@rosario/engine';
 
-import type { AudioManifest } from './types';
+import type { AudioManifest, LineMark } from './types';
 
 /**
  * What the guide does on one step: say its track and then hold the silence where the
@@ -8,7 +8,12 @@ import type { AudioManifest } from './types';
  * plays, the response half only donates its duration to size the silence.
  */
 export type StepAudioPlan =
-  | { readonly kind: 'track'; readonly file: string; readonly silenceAfterMs: number }
+  | {
+      readonly kind: 'track';
+      readonly file: string;
+      readonly silenceAfterMs: number;
+      readonly lines?: readonly LineMark[];
+    }
   | { readonly kind: 'silence'; readonly silenceAfterMs: number };
 
 export type AudioSettings = {
@@ -40,7 +45,12 @@ export function planForStep(
       response === undefined
         ? GAP_MS
         : Math.round((response.durationMs * settings.responseFactor) / settings.rate);
-    return { kind: 'track', file: track.leader.file, silenceAfterMs: silence };
+    return {
+      kind: 'track',
+      file: track.leader.file,
+      silenceAfterMs: silence,
+      ...(track.leader.lines === undefined ? {} : { lines: track.leader.lines }),
+    };
   }
   if (step.kind === 'announce') {
     return { kind: 'silence', silenceAfterMs: ANNOUNCE_MS };

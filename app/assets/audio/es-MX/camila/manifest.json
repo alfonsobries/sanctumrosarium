@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "locale": "es-MX",
   "voice": "camila",
   "provisional": true,
@@ -7,157 +7,693 @@
     "signum-crucis": {
       "leader": {
         "file": "signum-crucis.leader.mp3",
-        "durationMs": 4087
+        "durationMs": 4133,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 3379
+          },
+          {
+            "startMs": 3495,
+            "endMs": 4133
+          }
+        ]
       }
     },
     "credo": {
       "leader": {
         "file": "credo.leader.mp3",
-        "durationMs": 42771
+        "durationMs": 43096,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 4667
+          },
+          {
+            "startMs": 5108,
+            "endMs": 8661
+          },
+          {
+            "startMs": 8940,
+            "endMs": 12376
+          },
+          {
+            "startMs": 12655,
+            "endMs": 14501
+          },
+          {
+            "startMs": 14536,
+            "endMs": 17531
+          },
+          {
+            "startMs": 17775,
+            "endMs": 19876
+          },
+          {
+            "startMs": 19911,
+            "endMs": 21327
+          },
+          {
+            "startMs": 21606,
+            "endMs": 24381
+          },
+          {
+            "startMs": 24625,
+            "endMs": 25832
+          },
+          {
+            "startMs": 25913,
+            "endMs": 29803
+          },
+          {
+            "startMs": 29849,
+            "endMs": 32995
+          },
+          {
+            "startMs": 33239,
+            "endMs": 34783
+          },
+          {
+            "startMs": 34818,
+            "endMs": 36223
+          },
+          {
+            "startMs": 36258,
+            "endMs": 37755
+          },
+          {
+            "startMs": 37906,
+            "endMs": 39172
+          },
+          {
+            "startMs": 39195,
+            "endMs": 40623
+          },
+          {
+            "startMs": 40669,
+            "endMs": 41772
+          },
+          {
+            "startMs": 42283,
+            "endMs": 43096
+          }
+        ]
       }
     },
     "pater-noster": {
       "leader": {
         "file": "pater-noster.leader.mp3",
-        "durationMs": 9567
+        "durationMs": 9288,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2229
+          },
+          {
+            "startMs": 2264,
+            "endMs": 4063
+          },
+          {
+            "startMs": 4389,
+            "endMs": 5898
+          },
+          {
+            "startMs": 6107,
+            "endMs": 9288
+          }
+        ]
       },
       "response": {
         "file": "pater-noster.response.mp3",
-        "durationMs": 12074
+        "durationMs": 13189,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2310
+          },
+          {
+            "startMs": 2694,
+            "endMs": 4319
+          },
+          {
+            "startMs": 4389,
+            "endMs": 7732
+          },
+          {
+            "startMs": 8115,
+            "endMs": 10356
+          },
+          {
+            "startMs": 10565,
+            "endMs": 12109
+          },
+          {
+            "startMs": 12353,
+            "endMs": 13189
+          }
+        ]
       }
     },
     "ave-maria": {
       "leader": {
         "file": "ave-maria.leader.mp3",
-        "durationMs": 10774
+        "durationMs": 10077,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2821
+          },
+          {
+            "startMs": 3065,
+            "endMs": 4342
+          },
+          {
+            "startMs": 4586,
+            "endMs": 7024
+          },
+          {
+            "startMs": 7233,
+            "endMs": 10077
+          }
+        ]
       },
       "response": {
         "file": "ave-maria.response.mp3",
-        "durationMs": 8406
+        "durationMs": 7663,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2136
+          },
+          {
+            "startMs": 2380,
+            "endMs": 4168
+          },
+          {
+            "startMs": 4261,
+            "endMs": 6687
+          },
+          {
+            "startMs": 6861,
+            "endMs": 7663
+          }
+        ]
       }
     },
     "gloria-patri": {
       "leader": {
         "file": "gloria-patri.leader.mp3",
-        "durationMs": 2694
+        "durationMs": 2786,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2786
+          }
+        ]
       },
       "response": {
         "file": "gloria-patri.response.mp3",
-        "durationMs": 4783
+        "durationMs": 4690,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2241
+          },
+          {
+            "startMs": 2276,
+            "endMs": 3750
+          },
+          {
+            "startMs": 3959,
+            "endMs": 4690
+          }
+        ]
       }
     },
     "oratio-fatimae": {
       "leader": {
         "file": "oratio-fatimae.leader.mp3",
-        "durationMs": 11796
+        "durationMs": 11099,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2682
+          },
+          {
+            "startMs": 2961,
+            "endMs": 4679
+          },
+          {
+            "startMs": 4702,
+            "endMs": 6908
+          },
+          {
+            "startMs": 7152,
+            "endMs": 10333
+          },
+          {
+            "startMs": 10379,
+            "endMs": 11099
+          }
+        ]
       }
     },
     "salve-regina": {
       "leader": {
         "file": "salve-regina.leader.mp3",
-        "durationMs": 29629
+        "durationMs": 30232,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 3228
+          },
+          {
+            "startMs": 3437,
+            "endMs": 7361
+          },
+          {
+            "startMs": 7570,
+            "endMs": 10449
+          },
+          {
+            "startMs": 10693,
+            "endMs": 14698
+          },
+          {
+            "startMs": 14779,
+            "endMs": 17450
+          },
+          {
+            "startMs": 17473,
+            "endMs": 20538
+          },
+          {
+            "startMs": 20816,
+            "endMs": 22477
+          },
+          {
+            "startMs": 22651,
+            "endMs": 26052
+          },
+          {
+            "startMs": 26203,
+            "endMs": 30232
+          }
+        ]
       }
     },
     "versiculum-salve": {
       "leader": {
         "file": "versiculum-salve.leader.mp3",
-        "durationMs": 2368
+        "durationMs": 2508,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2508
+          }
+        ]
       },
       "response": {
         "file": "versiculum-salve.response.mp3",
-        "durationMs": 4737
+        "durationMs": 4737,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 4737
+          }
+        ]
       }
     },
     "oratio-litaniarum": {
       "leader": {
         "file": "oratio-litaniarum.leader.mp3",
-        "durationMs": 19830
+        "durationMs": 19133,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 3448
+          },
+          {
+            "startMs": 3727,
+            "endMs": 7001
+          },
+          {
+            "startMs": 7024,
+            "endMs": 11366
+          },
+          {
+            "startMs": 11645,
+            "endMs": 14396
+          },
+          {
+            "startMs": 14443,
+            "endMs": 16591
+          },
+          {
+            "startMs": 16800,
+            "endMs": 18216
+          },
+          {
+            "startMs": 18460,
+            "endMs": 19133
+          }
+        ]
       }
     },
     "oratio-finalis": {
       "leader": {
         "file": "oratio-finalis.leader.mp3",
-        "durationMs": 20387
+        "durationMs": 19876,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 3785
+          },
+          {
+            "startMs": 3994,
+            "endMs": 6525
+          },
+          {
+            "startMs": 6769,
+            "endMs": 8440
+          },
+          {
+            "startMs": 8684,
+            "endMs": 13839
+          },
+          {
+            "startMs": 14118,
+            "endMs": 17380
+          },
+          {
+            "startMs": 17415,
+            "endMs": 19168
+          },
+          {
+            "startMs": 19203,
+            "endMs": 19876
+          }
+        ]
       }
     },
     "sub-tuum": {
       "leader": {
         "file": "sub-tuum.leader.mp3",
-        "durationMs": 13607
+        "durationMs": 13560,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 3773
+          },
+          {
+            "startMs": 4052,
+            "endMs": 7814
+          },
+          {
+            "startMs": 8022,
+            "endMs": 11134
+          },
+          {
+            "startMs": 11413,
+            "endMs": 13560
+          }
+        ]
       }
     },
     "actus-contritionis": {
       "leader": {
         "file": "actus-contritionis.leader.mp3",
-        "durationMs": 26796
+        "durationMs": 27446,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 3437
+          },
+          {
+            "startMs": 3646,
+            "endMs": 5770
+          },
+          {
+            "startMs": 6014,
+            "endMs": 8754
+          },
+          {
+            "startMs": 8777,
+            "endMs": 11238
+          },
+          {
+            "startMs": 11482,
+            "endMs": 14292
+          },
+          {
+            "startMs": 14571,
+            "endMs": 18367
+          },
+          {
+            "startMs": 18425,
+            "endMs": 20492
+          },
+          {
+            "startMs": 20526,
+            "endMs": 22883
+          },
+          {
+            "startMs": 22930,
+            "endMs": 26355
+          },
+          {
+            "startMs": 26680,
+            "endMs": 27446
+          }
+        ]
       }
     },
     "deus-in-adiutorium": {
       "leader": {
         "file": "deus-in-adiutorium.leader.mp3",
-        "durationMs": 1858
+        "durationMs": 1672,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 1672
+          }
+        ]
       },
       "response": {
         "file": "deus-in-adiutorium.response.mp3",
-        "durationMs": 1950
+        "durationMs": 2322,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2322
+          }
+        ]
       }
     },
     "per-signum-crucis": {
       "leader": {
         "file": "per-signum-crucis.leader.mp3",
-        "durationMs": 9938
+        "durationMs": 11285,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2055
+          },
+          {
+            "startMs": 2299,
+            "endMs": 5968
+          },
+          {
+            "startMs": 6211,
+            "endMs": 10228
+          },
+          {
+            "startMs": 10472,
+            "endMs": 11285
+          }
+        ]
       }
     },
     "iaculatoria-mariae": {
       "leader": {
         "file": "iaculatoria-mariae.leader.mp3",
-        "durationMs": 7338
+        "durationMs": 6409,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 3262
+          },
+          {
+            "startMs": 3286,
+            "endMs": 6409
+          }
+        ]
       }
     },
     "salve-hija-de-dios-padre": {
       "leader": {
         "file": "salve-hija-de-dios-padre.leader.mp3",
-        "durationMs": 10077
+        "durationMs": 10542,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 4156
+          },
+          {
+            "startMs": 4400,
+            "endMs": 6513
+          },
+          {
+            "startMs": 6757,
+            "endMs": 10542
+          }
+        ]
       }
     },
     "salve-madre-de-dios-hijo": {
       "leader": {
         "file": "salve-madre-de-dios-hijo.leader.mp3",
-        "durationMs": 9845
+        "durationMs": 9892,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 4087
+          },
+          {
+            "startMs": 4296,
+            "endMs": 6014
+          },
+          {
+            "startMs": 6188,
+            "endMs": 9892
+          }
+        ]
       }
     },
     "salve-esposa-del-espiritu-santo": {
       "leader": {
         "file": "salve-esposa-del-espiritu-santo.leader.mp3",
-        "durationMs": 10495
+        "durationMs": 10077,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 4447
+          },
+          {
+            "startMs": 4470,
+            "endMs": 6467
+          },
+          {
+            "startMs": 6641,
+            "endMs": 10077
+          }
+        ]
       }
     },
     "templo-y-sagrario": {
       "leader": {
         "file": "templo-y-sagrario.leader.mp3",
-        "durationMs": 7245
+        "durationMs": 7059,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2009
+          },
+          {
+            "startMs": 2043,
+            "endMs": 4272
+          },
+          {
+            "startMs": 4516,
+            "endMs": 7059
+          }
+        ]
       }
     },
     "ave-maria-purissima": {
       "leader": {
         "file": "ave-maria-purissima.leader.mp3",
-        "durationMs": 1440
+        "durationMs": 1393,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 1393
+          }
+        ]
       },
       "response": {
         "file": "ave-maria-purissima.response.mp3",
-        "durationMs": 1300
+        "durationMs": 1347,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 1347
+          }
+        ]
       }
     },
     "oblatio": {
       "leader": {
         "file": "oblatio.leader.mp3",
-        "durationMs": 10170
+        "durationMs": 10542,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2299
+          },
+          {
+            "startMs": 2345,
+            "endMs": 4714
+          },
+          {
+            "startMs": 4992,
+            "endMs": 6745
+          },
+          {
+            "startMs": 6769,
+            "endMs": 10542
+          }
+        ]
       }
     },
     "sancte-michael": {
       "leader": {
         "file": "sancte-michael.leader.mp3",
-        "durationMs": 22152
+        "durationMs": 23452,
+        "lines": [
+          {
+            "startMs": 0,
+            "endMs": 2984
+          },
+          {
+            "startMs": 3425,
+            "endMs": 7721
+          },
+          {
+            "startMs": 8162,
+            "endMs": 10844
+          },
+          {
+            "startMs": 10879,
+            "endMs": 13502
+          },
+          {
+            "startMs": 13781,
+            "endMs": 15871
+          },
+          {
+            "startMs": 16149,
+            "endMs": 18820
+          },
+          {
+            "startMs": 18889,
+            "endMs": 22523
+          },
+          {
+            "startMs": 22639,
+            "endMs": 23452
+          }
+        ]
       }
     }
   }

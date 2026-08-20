@@ -61,3 +61,32 @@ Al cambiar la velocidad de reproducción, el resaltado sigue cuadrando.
 - [ ] Accesibilidad - el resaltado no interfiere con el lector de pantalla ni depende solo
       del color
 - [ ] ~~Sitio - n/a~~
+
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Marcas por línea**, no por palabra todavía: la alineación viene del proveedor de la
+  voz (carácter a carácter) y se reduce a inicio/fin de cada línea. Palabra a palabra
+  queda para cuando la voz sea definitiva.
+- **Formato**: las marcas viven en el manifiesto del paquete de audio
+  (`lines: [{startMs, endMs}]` por mitad), versionado junto al audio. Sin marcas, el texto
+  se muestra sin resaltado (probado).
+- **Resaltado**: la línea que suena en color pleno y el resto atenuado; sin animación.
+  Nunca se adelanta: nada se ilumina antes de que suene y entre líneas se sostiene la
+  anterior.
+- **Velocidad**: las marcas están en tiempo de pista, así que otra velocidad no necesita
+  corrección (la posición avanza en ese mismo reloj).
+- **Desplazamiento**: la línea activa se mantiene a la vista; si la persona mueve el
+  scroll, la app deja de seguirla unos segundos.
+- **Revisión a oído de las oraciones cortas**: pendiente, junto con la decisión de voz (el
+  andamio sintetizado se revisará al grabar la voz real).
+
+## Ciclo completo
+
+- [x] Definir qué aplica
+- [x] ~~Contenido y motor - n/a~~
+- [x] App
+- [x] ~~Reloj - n/a~~
+- [x] Audio - marcas generadas con el paquete andamio
+- [ ] Accesibilidad - el resaltado es solo visual y no cambia el orden de lectura;
+      verificación con VoiceOver en aparato pendiente
+- [x] ~~Sitio - n/a~~
