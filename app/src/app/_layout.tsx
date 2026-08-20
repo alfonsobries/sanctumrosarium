@@ -18,7 +18,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ErrorScreen } from '@/components/ErrorScreen';
 import { initI18n } from '@/i18n';
 import { resolveInterfaceLanguage } from '@/settings/resolve-locale';
-import { SettingsProvider } from '@/settings/settings-context';
+import { applyReminder } from '@/features/reminder/apply';
+import { SettingsProvider, useSettings } from '@/settings/settings-context';
 import { loadSettings } from '@/settings/store';
 import { appKv } from '@/storage/app-kv';
 import { navigationTheme } from '@/theme/navigation-theme';
@@ -47,6 +48,14 @@ export function ErrorBoundary({ retry }: { retry: () => Promise<void> }) {
 function RootNavigator() {
   const { scheme } = useAppTheme();
   const { t } = useTranslation();
+  const { settings } = useSettings();
+
+  // Keeps the scheduled notices in step with the settings and the language, without
+  // ever asking for permission on its own: that only happens when the person enables
+  // the reminder.
+  useEffect(() => {
+    void applyReminder(settings, t('reminder.body'), { requestPermission: false });
+  }, [settings, t]);
 
   return (
     <ThemeProvider value={navigationTheme(scheme)}>

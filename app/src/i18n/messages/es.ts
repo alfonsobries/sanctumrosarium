@@ -135,6 +135,16 @@ export const es = {
     weeksLine: '{{done}} de {{total}} semanas',
     noRule: 'La fidelidad acompaña a una Regla; elige una si quieres verla aquí.',
   },
+  reminder: {
+    title: 'Recordatorio',
+    off: 'Apagado',
+    hour: 'A una hora',
+    angelus: 'Ángelus (6, 12 y 18)',
+    body: 'Es la hora del Rosario.',
+    hint: 'Un aviso al día, con el texto más plano posible. Nada más.',
+    denied: 'La app no tiene permiso de avisos; se activa en los ajustes del sistema.',
+    open: 'Abrir ajustes del sistema',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },

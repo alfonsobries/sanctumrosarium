@@ -15,9 +15,10 @@ export type PrayerLocaleSetting = 'system' | Locale;
 export type PrayerFormSetting = 'auto' | FormId;
 export type HapticsSetting = 'off' | 'gentle' | 'strong';
 export type LatinTextSetting = 'both' | 'la' | 'own';
+export type ReminderMode = 'off' | 'hour' | 'angelus';
 
 export type Settings = {
-  readonly version: 5;
+  readonly version: 6;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -34,10 +35,16 @@ export type Settings = {
   readonly latinText: LatinTextSetting;
   /** The Rule: what this person commits to. Chosen by them; the app never raises it. */
   readonly rule: RuleId;
+  /** One plain reminder a day, or the three Angelus hours. Never more. */
+  readonly reminderMode: ReminderMode;
+  readonly reminderHour: number;
+  readonly reminderMinute: number;
+  /** Days of the week that remind, 0 = Sunday. */
+  readonly reminderDays: readonly number[];
 };
 
 export const defaultSettings: Settings = {
-  version: 5,
+  version: 6,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -46,6 +53,10 @@ export const defaultSettings: Settings = {
   haptics: 'gentle',
   latinText: 'both',
   rule: 'none',
+  reminderMode: 'off',
+  reminderHour: 8,
+  reminderMinute: 0,
+  reminderDays: [0, 1, 2, 3, 4, 5, 6],
 };
 
 const SETTINGS_KEY = 'settings';
@@ -64,6 +75,14 @@ const migrations: Record<
   3: (stored) => ({ ...stored, version: 4, latinText: 'both' }),
   // Defaults go first: if the stored data already carries a rule, migration keeps it.
   4: (stored) => ({ rule: 'none', ...stored, version: 5 }),
+  5: (stored) => ({
+    reminderMode: 'off',
+    reminderHour: 8,
+    reminderMinute: 0,
+    reminderDays: [0, 1, 2, 3, 4, 5, 6],
+    ...stored,
+    version: 6,
+  }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -100,6 +119,7 @@ const prayerForms: readonly PrayerFormSetting[] = [
 const knownPrayerIds: ReadonlySet<string> = new Set(prayers.map((prayer) => prayer.id));
 const hapticsOptions: readonly HapticsSetting[] = ['off', 'gentle', 'strong'];
 const latinTextOptions: readonly LatinTextSetting[] = ['both', 'la', 'own'];
+const reminderModes: readonly ReminderMode[] = ['off', 'hour', 'angelus'];
 const ruleOptions: readonly RuleId[] = [
   'none',
   'daily-decade',
@@ -111,7 +131,7 @@ const ruleOptions: readonly RuleId[] = [
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 5,
+    version: 6,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -136,6 +156,26 @@ function sanitize(stored: Record<string, unknown>): Settings {
       ? stored.latinText
       : defaultSettings.latinText,
     rule: isOneOf(stored.rule, ruleOptions) ? stored.rule : defaultSettings.rule,
+    reminderMode: isOneOf(stored.reminderMode, reminderModes)
+      ? stored.reminderMode
+      : defaultSettings.reminderMode,
+    reminderHour:
+      typeof stored.reminderHour === 'number' &&
+      stored.reminderHour >= 0 &&
+      stored.reminderHour <= 23
+        ? Math.floor(stored.reminderHour)
+        : defaultSettings.reminderHour,
+    reminderMinute:
+      typeof stored.reminderMinute === 'number' &&
+      stored.reminderMinute >= 0 &&
+      stored.reminderMinute <= 59
+        ? Math.floor(stored.reminderMinute)
+        : defaultSettings.reminderMinute,
+    reminderDays: Array.isArray(stored.reminderDays)
+      ? stored.reminderDays.filter(
+          (day): day is number => typeof day === 'number' && day >= 0 && day <= 6,
+        )
+      : defaultSettings.reminderDays,
   };
 }
 

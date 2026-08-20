@@ -134,6 +134,17 @@ export const en = {
     weeksLine: '{{done}} of {{total}} weeks',
     noRule: 'Faithfulness goes with a Rule; choose one if you want to see it here.',
   },
+  reminder: {
+    title: 'Reminder',
+    off: 'Off',
+    hour: 'At an hour',
+    angelus: 'Angelus (6, 12 and 18)',
+    body: 'It is the hour of the Rosary.',
+    hint: 'One notice a day, with the plainest possible text. Nothing else.',
+    denied:
+      'The app has no notification permission; it is granted in the system settings.',
+    open: 'Open system settings',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },
