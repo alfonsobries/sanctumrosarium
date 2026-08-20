@@ -60,11 +60,28 @@ El rezo se puede llevar entero desde los controles de auriculares y la pantalla 
 6. La revisión se hizo en un dispositivo real, no en el simulador, y quedó anotada en la
    task.
 
+## Avance (agosto 2026)
+
+Hecho en código, pendiente la revisión en aparato real que cierra la task:
+
+- Contraste AA verificado con test automático para cada par de la paleta, claro y oscuro.
+- Tipografía: contenido escala al máximo del sistema; el chrome capa como las barras del
+  sistema; la oración capa en 1.6x para leerse sin scroll (decisión en task 007).
+- El resaltado sincronizado no depende solo del color: la línea que suena además se
+  subraya.
+- "Reducir movimiento": el desplazamiento automático del texto deja de animarse.
+- Objetivos táctiles de 48 en botones y filas; avanzar es toda la pantalla.
+- Roles, labels, estados y hints puestos en botones, filas, interruptores y el área de
+  rezo.
+
+Queda para el cierre: recorrido completo con VoiceOver y TalkBack en aparato, revisión del
+sitio con herramienta, y el recorrido sin manos (depende de la task 020).
+
 ## Ciclo completo
 
 - [ ] Definir qué aplica
 - [ ] ~~Contenido y motor - n/a~~
-- [ ] App
+- [ ] App - código listo; revisión en aparato pendiente
 - [ ] Reloj - el reloj también se revisa con lector de pantalla
 - [ ] ~~Audio - n/a~~
 - [ ] Accesibilidad

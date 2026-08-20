@@ -14,6 +14,7 @@ import { PixelRatio, Pressable, ScrollView, StyleSheet, View } from 'react-nativ
 import { useKeepAwake } from 'expo-keep-awake';
 import { StatusBar } from 'expo-status-bar';
 import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { useReducedMotion } from 'react-native-reanimated';
 
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
@@ -105,6 +106,7 @@ export default function PrayScreen() {
   // scroll: a hand on the screen pauses the following for a few seconds.
   const scrollRef = useRef<ScrollView | null>(null);
   const draggedAtRef = useRef(0);
+  const reducedMotion = useReducedMotion();
   const activeLine = audio.activeLine;
   useEffect(() => {
     if (activeLine === undefined || Date.now() - draggedAtRef.current < 5000) {
@@ -113,9 +115,9 @@ export default function PrayScreen() {
     const lineHeight = 34 * Math.min(PixelRatio.getFontScale(), 1.6) + spacing.xs;
     scrollRef.current?.scrollTo({
       y: Math.max(0, activeLine * lineHeight - 80),
-      animated: true,
+      animated: !reducedMotion,
     });
-  }, [activeLine]);
+  }, [activeLine, reducedMotion]);
   const handlePrevious = () => {
     setSession((current) => goBack(current));
   };
@@ -246,6 +248,7 @@ export default function PrayScreen() {
                           ? 'text'
                           : 'muted'
                       }
+                      style={audio.activeLine === index && styles.saidLine}
                     >
                       {line}
                     </AppText>
@@ -472,6 +475,8 @@ const styles = StyleSheet.create({
   mysteryHeader: { gap: spacing.xs, marginTop: spacing.sm },
   stepArea: { justifyContent: 'center', gap: spacing.md, paddingVertical: spacing.md },
   lines: { gap: spacing.xs },
+  // The highlight never relies on colour alone: the said line also carries a line under.
+  saidLine: { textDecorationLine: 'underline' },
   bottom: { gap: spacing.md, paddingTop: spacing.sm },
   beads: { alignItems: 'center', gap: spacing.sm },
   controls: { flexDirection: 'row', gap: spacing.md },
