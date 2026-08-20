@@ -112,6 +112,14 @@ function RootNavigator() {
           }}
         />
         <Stack.Screen
+          name="confraternity"
+          options={{
+            headerShown: true,
+            title: t('confraternity.title'),
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        />
+        <Stack.Screen
           name="school/index"
           options={{
             headerShown: true,

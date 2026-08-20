@@ -1,7 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { AppText } from '@/components/AppText';
+import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { ListRow } from '@/components/ListRow';
 import { Screen } from '@/components/Screen';
@@ -25,6 +27,7 @@ const options: readonly RuleId[] = [
 export default function RuleScreen() {
   const { t } = useTranslation();
   const { settings, setRule } = useSettings();
+  const router = useRouter();
 
   return (
     <Screen edges={['bottom', 'left', 'right']}>
@@ -43,9 +46,18 @@ export default function RuleScreen() {
         {t(`rule.lines.${settings.rule}`)}
       </AppText>
       {settings.rule === 'weekly-fifteen' ? (
-        <AppText variant="caption" color="muted" style={styles.line}>
-          {t('rule.confraternity')}
-        </AppText>
+        <>
+          <AppText variant="caption" color="muted" style={styles.line}>
+            {t('rule.confraternity')}
+          </AppText>
+          <View style={styles.confraternityLink}>
+            <Button
+              label={t('confraternity.title')}
+              variant="ghost"
+              onPress={() => router.push('/confraternity')}
+            />
+          </View>
+        </>
       ) : null}
       <AppText variant="caption" color="muted" style={styles.line}>
         {t('rule.footer')}
@@ -57,4 +69,5 @@ export default function RuleScreen() {
 const styles = StyleSheet.create({
   card: { marginTop: spacing.md },
   line: { marginTop: spacing.md, paddingHorizontal: spacing.xs },
+  confraternityLink: { marginTop: spacing.sm },
 });

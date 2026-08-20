@@ -330,6 +330,23 @@ export const en = {
       tradition: 'Pious tradition',
     },
   },
+  confraternity: {
+    title: 'The Rosary Confraternity',
+    lead: 'More than five hundred years of praying the Rosary together, with a commitment the Confraternity itself says does not bind under sin.',
+    blocks: {
+      what: 'The Confraternity of the Most Holy Rosary is an association of the Order of Preachers. The commitment of each member: striving to pray the fifteen mysteries of the Rosary each week, spread out as they wish. No dues and no meetings; and in its own words, this commitment does not bind under sin.',
+      luminous:
+        'The Confraternity encourages adding the luminous mysteries as one more weekly Rosary, though it has received no official statement incorporating them into the commitment.',
+      benefits:
+        'The benefits are described by the Confraternity itself: a share in the prayers, Masses and works of the whole Order and of its members, living and dead, and the indulgences the Church grants the Confraternity on its feasts, under the usual conditions.',
+      enrollment:
+        'Enrollment is personal: it takes enough age to understand the commitment, the dead are not enrolled, and a non-Catholic may be admitted (reply of the Promoter General of the Rosary, 2019). It is done with the Dominicans, online or at any priory. The app enrolls no one.',
+      rule: 'If you choose the Rule "The way the Confraternity does it", the app counts your fifteen decades of the week. Missing some days expels you from nothing.',
+    },
+    enroll: 'Enroll with the Dominicans',
+    enrollNote: 'Also at dominicos.org (Spain) and dominicos.mx (Mexico).',
+    source: 'Source: rosarycenter.org, Confraternity of the Most Holy Rosary.',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },
