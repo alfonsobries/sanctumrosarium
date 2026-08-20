@@ -12,7 +12,7 @@ describe('loadSettings', () => {
   it('round-trips what was saved', () => {
     const driver = createMemoryDriver();
     saveSettings(driver, {
-      version: 6,
+      version: 7,
       appearance: 'dark',
       interfaceLanguage: 'es',
       prayerLocale: 'la',
@@ -25,9 +25,10 @@ describe('loadSettings', () => {
       reminderHour: 8,
       reminderMinute: 0,
       reminderDays: [1, 2, 3],
+      rosesEnabled: false,
     });
     expect(loadSettings(driver)).toEqual({
-      version: 6,
+      version: 7,
       appearance: 'dark',
       interfaceLanguage: 'es',
       prayerLocale: 'la',
@@ -40,6 +41,7 @@ describe('loadSettings', () => {
       reminderHour: 8,
       reminderMinute: 0,
       reminderDays: [1, 2, 3],
+      rosesEnabled: false,
     });
   });
 
@@ -64,7 +66,7 @@ describe('loadSettings', () => {
       }),
     });
     expect(loadSettings(driver)).toEqual({
-      version: 6,
+      version: 7,
       appearance: 'dark',
       interfaceLanguage: 'en',
       prayerLocale: 'en-US',
@@ -77,6 +79,7 @@ describe('loadSettings', () => {
       reminderHour: 8,
       reminderMinute: 0,
       reminderDays: [0, 1, 2, 3, 4, 5, 6],
+      rosesEnabled: true,
     });
   });
 
@@ -90,7 +93,7 @@ describe('loadSettings', () => {
   it('drops unknown prayers from the included list', () => {
     const driver = createMemoryDriver({
       settings: JSON.stringify({
-        version: 6,
+        version: 7,
         includedPrayers: ['oratio-fatimae', 'not-a-prayer'],
       }),
     });

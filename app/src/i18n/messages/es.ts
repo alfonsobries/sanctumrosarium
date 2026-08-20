@@ -159,6 +159,14 @@ export const es = {
     delete: 'Borrar',
     empty: 'Todavía nada. La intención se escribe al empezar el rosario.',
   },
+  roses: {
+    title: 'Rosas del mes',
+    count_one: '{{count}} rosario',
+    count_many: '{{count}} rosarios',
+    count_other: '{{count}} rosarios',
+    empty: 'Cada rosario del mes pone una rosa.',
+    toggle: 'La corona del mes; se puede apagar y la app queda igual de completa.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },

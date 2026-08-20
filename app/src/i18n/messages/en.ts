@@ -159,6 +159,14 @@ export const en = {
     delete: 'Delete',
     empty: 'Nothing yet. The intention is written when the Rosary begins.',
   },
+  roses: {
+    title: 'Roses of the month',
+    count_one: '{{count}} rosary',
+    count_many: '{{count}} rosaries',
+    count_other: '{{count}} rosaries',
+    empty: 'Each rosary of the month sets a rose.',
+    toggle: 'The crown of the month; it can be turned off and the app stays whole.',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },

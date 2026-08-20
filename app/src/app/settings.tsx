@@ -63,6 +63,7 @@ export default function SettingsScreen() {
     toggleIncludedPrayer,
     setHaptics,
     setLatinText,
+    setRosesEnabled,
   } = useSettings();
 
   const availableForms = formsForLocale(prayerLocale);
@@ -189,6 +190,25 @@ export default function SettingsScreen() {
           divider={false}
           onPress={() => router.push('/intentions')}
         />
+      </Card>
+
+      <SectionHeader title={t('roses.title')} />
+      <Card>
+        <SwitchRow
+          label={t('roses.title')}
+          description={t('roses.toggle')}
+          value={settings.rosesEnabled}
+          divider={settings.rosesEnabled}
+          onValueChange={(value) => setRosesEnabled(value)}
+        />
+        {settings.rosesEnabled ? (
+          <ListRow
+            label={t('roses.title')}
+            testID="open-roses"
+            divider={false}
+            onPress={() => router.push('/roses')}
+          />
+        ) : null}
       </Card>
 
       <SectionHeader title={t('settingsHaptics.title')} />

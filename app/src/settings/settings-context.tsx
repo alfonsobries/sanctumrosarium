@@ -40,6 +40,7 @@ type SettingsContextValue = {
   readonly setHaptics: (value: HapticsSetting) => void;
   readonly setLatinText: (value: LatinTextSetting) => void;
   readonly setRule: (value: RuleId) => void;
+  readonly setRosesEnabled: (value: boolean) => void;
   readonly setReminder: (
     value: Partial<
       Pick<Settings, 'reminderMode' | 'reminderHour' | 'reminderMinute' | 'reminderDays'>
@@ -109,6 +110,7 @@ export function SettingsProvider({
       setLatinText: (latinText) => update({ latinText }),
       setRule: (rule) => update({ rule }),
       setReminder: (value) => update(value),
+      setRosesEnabled: (rosesEnabled) => update({ rosesEnabled }),
       systemPrayerLocale: resolvePrayerLocale('system', deviceLocales()),
       toggleIncludedPrayer: (prayer) =>
         update({
