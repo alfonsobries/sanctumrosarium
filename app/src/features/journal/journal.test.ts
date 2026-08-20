@@ -72,6 +72,29 @@ describe('journal', () => {
     expect(journal.pauseActive()).toBe(false);
   });
 
+  it('keeps the intention with the act, and counts times without answers', () => {
+    const journal = openJournal(testDb());
+    journal.add({ ...entry('2026-08-03', 5), intention: 'tu madre' });
+    journal.add({
+      ...entry('2026-08-04', 5, '2026-08-04T20:00:00'),
+      intention: 'tu madre',
+    });
+    journal.add(entry('2026-08-05', 5, '2026-08-05T20:00:00'));
+    expect(journal.intentionHistory()).toEqual([{ intention: 'tu madre', times: 2 }]);
+    expect(journal.all()[0].intention).toBe('tu madre');
+  });
+
+  it('saved intentions reuse and delete without touching the journal', () => {
+    const journal = openJournal(testDb());
+    journal.add({ ...entry('2026-08-03', 5), intention: 'los difuntos' });
+    journal.saveIntention('los difuntos');
+    journal.saveIntention('los difuntos');
+    expect(journal.savedIntentions()).toEqual(['los difuntos']);
+    journal.deleteIntention('los difuntos');
+    expect(journal.savedIntentions()).toEqual([]);
+    expect(journal.intentionHistory()).toEqual([{ intention: 'los difuntos', times: 1 }]);
+  });
+
   it('pauses leave no gap and end without questions', () => {
     const journal = openJournal(testDb());
     expect(journal.pauseActive()).toBe(false);

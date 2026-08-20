@@ -109,7 +109,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 025 | [La Regla](./tasks/025-la-regla.md)                   | Primera pasada                                      |
 | 026 | [Fidelidad del mes](./tasks/026-fidelidad-del-mes.md) | Primera pasada                                      |
 | 027 | [Recordatorio](./tasks/027-recordatorio.md)           | Primera pasada                                      |
-| 028 | [Intenciones](./tasks/028-intenciones.md)             | Por quién ofreces, con historial                    |
+| 028 | [Intenciones](./tasks/028-intenciones.md)             | Primera pasada                                      |
 | 029 | [Rosas del mes](./tasks/029-rosas-del-mes.md)         | Corona visual de lo rezado, apagable                |
 | 030 | [Rezar por partes](./tasks/030-rezar-por-partes.md)   | Guardar y retomar, con la nota sobre la indulgencia |
 

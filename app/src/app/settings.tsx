@@ -181,6 +181,16 @@ export default function SettingsScreen() {
         />
       </Card>
 
+      <SectionHeader title={t('intentions.title')} />
+      <Card>
+        <ListRow
+          label={t('intentions.history')}
+          testID="open-intentions"
+          divider={false}
+          onPress={() => router.push('/intentions')}
+        />
+      </Card>
+
       <SectionHeader title={t('settingsHaptics.title')} />
       <Card>
         {(['off', 'gentle', 'strong'] as const).map((option, index) => (
