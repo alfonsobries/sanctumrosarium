@@ -33,6 +33,7 @@ import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
 import { audioPacks } from '@/features/audio/packs.generated';
+import { audioSettingsOf } from '@/features/audio/schedule';
 import { appJournal } from '@/features/journal/app-journal';
 import { useAudioGuide } from '@/features/audio/use-audio-guide';
 import { LitanyView } from '@/features/rosary/LitanyView';
@@ -128,10 +129,12 @@ export default function PrayScreen() {
     void playHaptic(hapticForStep(steps[progress.stepIndex + 1]), settings.haptics);
     setSession((current) => advance(current, steps, new Date()));
   };
+  const paceSettings = useMemo(() => audioSettingsOf(settings), [settings]);
   const audio = useAudioGuide({
     steps,
     stepIndex: progress.stepIndex,
     pack: audioPacks[buildOptions.locale],
+    settings: paceSettings,
     onAdvance: handleNext,
   });
 

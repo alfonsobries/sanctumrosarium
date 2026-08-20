@@ -3,13 +3,14 @@ import { createAudioPlayer, setAudioModeAsync, type AudioPlayer } from 'expo-aud
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { activeLineAt } from './highlight';
-import { defaultAudioSettings, planForStep } from './schedule';
+import { defaultAudioSettings, planForStep, type AudioSettings } from './schedule';
 import type { AudioPack } from './types';
 
 type UseAudioGuideOptions = {
   readonly steps: readonly Step[];
   readonly stepIndex: number;
   readonly pack: AudioPack | undefined;
+  readonly settings?: AudioSettings;
   /** Called when the guide finishes a step and its response silence. */
   readonly onAdvance: () => void;
 };
@@ -31,6 +32,7 @@ export function useAudioGuide({
   steps,
   stepIndex,
   pack,
+  settings = defaultAudioSettings,
   onAdvance,
 }: UseAudioGuideOptions): AudioGuide {
   const [playing, setPlaying] = useState(false);
@@ -54,7 +56,7 @@ export function useAudioGuide({
       return;
     }
 
-    const plan = planForStep(step, pack.manifest, defaultAudioSettings);
+    const plan = planForStep(step, pack.manifest, settings);
     const source = plan.kind === 'track' ? pack.sources[plan.file] : undefined;
     let timer: ReturnType<typeof setTimeout> | null = null;
     let subscription: { remove: () => void } | null = null;
@@ -85,6 +87,7 @@ export function useAudioGuide({
         }
       });
       player.replace(source);
+      player.setPlaybackRate(settings.rate, 'high');
       player.play();
     }
 
@@ -95,7 +98,7 @@ export function useAudioGuide({
       subscription?.remove();
       playerRef.current?.pause();
     };
-  }, [playing, stepIndex, steps, pack]);
+  }, [playing, stepIndex, steps, pack, settings]);
 
   useEffect(
     () => () => {

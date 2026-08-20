@@ -182,6 +182,23 @@ export const en = {
     title: 'Mystery clauses',
     hint: "After the name of Jesus, the phrase of the mystery in each Hail Mary (DPPL 201). Our own wording over the German pattern and Montfort's list.",
   },
+  pace: {
+    title: 'Pace',
+    rate: {
+      normal: 'Voice at a normal pace',
+      calm: 'Voice more unhurried',
+    },
+    silence: {
+      normal: 'Response silence, natural',
+      long: 'Response silence, longer',
+    },
+    announce: {
+      short: 'Brief pause on the mystery',
+      medium: 'Medium pause on the mystery',
+      long: 'Long pause on the mystery',
+    },
+    hint: 'The tranquil pace is the normal mode; there is no fast mode.',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },

@@ -68,6 +68,7 @@ export default function SettingsScreen() {
     setWithLitany,
     setWithClauses,
     toggleLatinMix,
+    setPace,
   } = useSettings();
 
   // The prayers of the current form that can be mixed while praying in Latin:
@@ -283,11 +284,50 @@ export default function SettingsScreen() {
         {t('settingsHaptics.hint')}
       </AppText>
 
+      <SectionHeader title={t('pace.title')} />
+      <Card>
+        {(['normal', 'calm'] as const).map((option, index) => (
+          <ListRow
+            key={option}
+            label={t(`pace.rate.${option}`)}
+            selected={settings.audioPace === option}
+            divider={index < 1}
+            onPress={() => setPace({ audioPace: option })}
+          />
+        ))}
+      </Card>
+      <Card style={styles.paceCard}>
+        {(['normal', 'long'] as const).map((option, index) => (
+          <ListRow
+            key={option}
+            label={t(`pace.silence.${option}`)}
+            selected={settings.responseSilence === option}
+            divider={index < 1}
+            onPress={() => setPace({ responseSilence: option })}
+          />
+        ))}
+      </Card>
+      <Card style={styles.paceCard}>
+        {(['short', 'medium', 'long'] as const).map((option, index) => (
+          <ListRow
+            key={option}
+            label={t(`pace.announce.${option}`)}
+            selected={settings.announcePause === option}
+            divider={index < 2}
+            onPress={() => setPace({ announcePause: option })}
+          />
+        ))}
+      </Card>
+      <AppText variant="caption" color="muted" style={styles.hint}>
+        {t('pace.hint')}
+      </AppText>
+
       <ReminderSection />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  paceCard: { marginTop: spacing.sm },
   hint: { marginTop: spacing.sm, paddingHorizontal: spacing.xs },
 });
