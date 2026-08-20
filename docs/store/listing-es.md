@@ -18,9 +18,12 @@ El Rosario completo. Texto y audio a la vez. Sin cuenta, sin anuncios, sin conex
 
 SanctaMaria es para rezar el Santo Rosario.
 
-Texto y audio a la vez, con el hueco para responder. Español de México, de España, inglés y latín. El misterio del día según el calendario, las formas romana, mexicana, española y dominicana.
+Texto y audio a la vez, con el hueco para responder. Español de México, de España, inglés
+y latín. El misterio del día según el calendario, las formas romana, mexicana, española y
+dominicana.
 
-Lo que rezas no sale del teléfono. No hay cuenta, no hay anuncios, no hay racha que se pierda.
+Lo que rezas no sale del teléfono. No hay cuenta, no hay anuncios, no hay racha que se
+pierda.
 
 Gratis.
 

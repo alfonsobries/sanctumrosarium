@@ -18,7 +18,9 @@ The full Rosary. Text and audio together. No account, no ads, no connection need
 
 SanctaMaria is for praying the Holy Rosary.
 
-Text and audio at once, with room to answer. Mexican Spanish, Spanish from Spain, English and Latin. The mystery of the day from the calendar, and the Roman, Mexican, Spanish and Dominican forms.
+Text and audio at once, with room to answer. Mexican Spanish, Spanish from Spain, English
+and Latin. The mystery of the day from the calendar, and the Roman, Mexican, Spanish and
+Dominican forms.
 
 What you pray does not leave the phone. No account, no ads, no streak to break.
 

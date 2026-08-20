@@ -25,7 +25,8 @@
 
 - `pnpm icons:generate` - regenera todos los iconos y splash desde `assets/icon.svg`
 - `pnpm audio:generate` - regenera los paquetes de audio (voz andamio) con sus marcas
-- `pnpm store:screenshots` - regenera las láminas de tienda (Maestro, simulador o emulador)
+- `pnpm store:screenshots` - regenera las láminas de tienda (Maestro, simulador o
+  emulador)
 - `pnpm dark` / `pnpm light` - cambia la apariencia del simulador/emulador corriendo
 
 ## E2E
