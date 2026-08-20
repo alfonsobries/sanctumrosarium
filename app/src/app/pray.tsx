@@ -53,6 +53,7 @@ import {
 } from '@/features/rosary/session-store';
 import { languageForLocale } from '@/settings/resolve-locale';
 import { useSettings } from '@/settings/settings-context';
+import { syncMysteryWidget } from '@/features/widget/update-widget';
 import { appKv } from '@/storage/app-kv';
 import { leaveToHome } from '@/features/rosary/leave';
 import { nightBlack, radius, spacing, touchTarget } from '@/theme/tokens';
@@ -68,7 +69,17 @@ export default function PrayScreen() {
   // else about the session stays exactly the same.
   const { set: setParam } = useLocalSearchParams<{ set?: string }>();
   const requestedSet = NOVENA_SETS.find((candidate) => candidate === setParam);
-  const { prayerLocale, prayerForm, settings, systemPrayerLocale } = useSettings();
+  const { prayerLocale, prayerForm, settings, systemPrayerLocale, prayerLanguage } =
+    useSettings();
+  const syncWidget = useCallback(() => {
+    syncMysteryWidget({
+      prayerLanguage,
+      rule: settings.rule,
+      journal: appJournal,
+      setName: (set) => t(`sets.${set}`),
+      prayedTodayLabel: t('widget.prayedToday'),
+    });
+  }, [prayerLanguage, settings.rule, t]);
 
   const [saved] = useState<SavedSession | undefined>(() => loadSession(appKv));
   const [phase, setPhase] = useState<'resume-pending' | 'intention' | 'praying'>(
@@ -169,6 +180,7 @@ export default function PrayScreen() {
           mysterySet: buildOptions.set,
           ...(record.intention === undefined ? {} : { intention: record.intention }),
         });
+        syncWidget();
       }
       setFinishedExits(
         settings.recollectionEnabled && !resumedRef.current
@@ -192,6 +204,7 @@ export default function PrayScreen() {
     phase,
     sessionWays,
     settings.recollectionEnabled,
+    syncWidget,
   ]);
 
   const handleNext = () => {
@@ -273,6 +286,7 @@ export default function PrayScreen() {
             ? {}
             : { intention: saved.state.intention }),
         });
+        syncWidget();
       }
     }
     clearSession(appKv);

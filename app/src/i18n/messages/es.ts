@@ -370,6 +370,9 @@ export const es = {
     leave: 'Dejar la novena',
     done: 'Cincuenta y cuatro días. La novena queda ofrecida.',
   },
+  widget: {
+    prayedToday: 'Hoy ya rezaste.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },

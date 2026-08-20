@@ -16,9 +16,11 @@ import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { ErrorScreen } from '@/components/ErrorScreen';
+import { appJournal } from '@/features/journal/app-journal';
+import { applyReminder } from '@/features/reminder/apply';
+import { syncMysteryWidget } from '@/features/widget/update-widget';
 import { initI18n } from '@/i18n';
 import { resolveInterfaceLanguage } from '@/settings/resolve-locale';
-import { applyReminder } from '@/features/reminder/apply';
 import { SettingsProvider, useSettings } from '@/settings/settings-context';
 import { loadSettings } from '@/settings/store';
 import { appKv } from '@/storage/app-kv';
@@ -48,7 +50,7 @@ export function ErrorBoundary({ retry }: { retry: () => Promise<void> }) {
 function RootNavigator() {
   const { scheme } = useAppTheme();
   const { t } = useTranslation();
-  const { settings } = useSettings();
+  const { settings, interfaceLanguage, prayerLanguage } = useSettings();
 
   // Keeps the scheduled notices in step with the settings and the language, without
   // ever asking for permission on its own: that only happens when the person enables
@@ -56,6 +58,18 @@ function RootNavigator() {
   useEffect(() => {
     void applyReminder(settings, t('reminder.body'), { requestPermission: false });
   }, [settings, t]);
+
+  // The widget's timeline freezes its text when scheduled: it is redone on every start
+  // and whenever the language, the Rule, or the prayer locale changes (task 019).
+  useEffect(() => {
+    syncMysteryWidget({
+      prayerLanguage,
+      rule: settings.rule,
+      journal: appJournal,
+      setName: (set) => t(`sets.${set}`),
+      prayedTodayLabel: t('widget.prayedToday'),
+    });
+  }, [interfaceLanguage, prayerLanguage, settings.rule, t]);
 
   return (
     <ThemeProvider value={navigationTheme(scheme)}>
