@@ -221,13 +221,13 @@ describe('withClauses', () => {
   });
 
   it('keeps the call and response cut unchanged', () => {
-    const [withClause] = aves({
+    const first = aves({
       form: 'roman',
       locale: 'la',
       set: 'dolorosa',
       withClauses: true,
-    }).filter((step) => 'decade' in step && step.decade === 0);
-    expect(withClause.kind === 'prayer' && withClause.prayer.responseFrom).toBe(3);
+    }).filter((step) => 'decade' in step && step.decade === 0)[0];
+    expect(first?.kind === 'prayer' ? first.prayer.responseFrom : undefined).toBe(3);
   });
 
   it('every mystery of every set carries its clause into the Aves', () => {
