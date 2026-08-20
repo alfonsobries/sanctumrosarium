@@ -22,6 +22,7 @@ export {
   decadesCompleted,
   goBack,
   goToDecade,
+  skipDecade,
   progressOf,
   recordOf,
   startSession,

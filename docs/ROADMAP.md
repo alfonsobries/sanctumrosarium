@@ -84,14 +84,14 @@ Aplican a toda pantalla, sin que la task lo pida:
 
 ### Bloque B - Rezar en movimiento (fase 2)
 
-| #   | Task                                                                      | Estado    |
-| --- | ------------------------------------------------------------------------- | --------- |
-| 015 | [Target del reloj y puente](./tasks/015-target-del-reloj-y-puente.md)     | Pendiente |
-| 016 | [El Rosario en el reloj](./tasks/016-el-rosario-en-el-reloj.md)           | Pendiente |
-| 017 | [Audio independiente en el reloj](./tasks/017-audio-en-el-reloj.md)       | Pendiente |
-| 018 | [Háptica y sesión de ejercicio](./tasks/018-haptica-y-ejercicio.md)       | Pendiente |
-| 019 | [Complicación y widget](./tasks/019-complicacion-y-widget.md)             | Pendiente |
-| 020 | [Controles de bloqueo y auriculares](./tasks/020-controles-de-bloqueo.md) | Pendiente |
+| #   | Task                                                                      | Estado         |
+| --- | ------------------------------------------------------------------------- | -------------- |
+| 015 | [Target del reloj y puente](./tasks/015-target-del-reloj-y-puente.md)     | Pendiente      |
+| 016 | [El Rosario en el reloj](./tasks/016-el-rosario-en-el-reloj.md)           | Pendiente      |
+| 017 | [Audio independiente en el reloj](./tasks/017-audio-en-el-reloj.md)       | Pendiente      |
+| 018 | [Háptica y sesión de ejercicio](./tasks/018-haptica-y-ejercicio.md)       | Pendiente      |
+| 019 | [Complicación y widget](./tasks/019-complicacion-y-widget.md)             | Pendiente      |
+| 020 | [Controles de bloqueo y auriculares](./tasks/020-controles-de-bloqueo.md) | Primera pasada |
 
 ### Bloque C - Latín (fase 3)
 

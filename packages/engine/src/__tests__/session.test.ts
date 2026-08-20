@@ -6,6 +6,7 @@ import {
   decadesCompleted,
   goBack,
   goToDecade,
+  skipDecade,
   progressOf,
   recordOf,
   startSession,
@@ -47,6 +48,29 @@ describe('session', () => {
     const step = steps[state.stepIndex];
     expect(step?.kind).toBe('announce');
     expect(step !== undefined && 'decade' in step ? step.decade : undefined).toBe(3);
+  });
+
+  it('skips forward a whole decade from the lock screen', () => {
+    const first = goToDecade(startSession(now), steps, 0);
+    const next = skipDecade(first, steps, 1);
+    const step = steps[next.stepIndex];
+    expect(step !== undefined && 'decade' in step ? step.decade : undefined).toBe(1);
+  });
+
+  it('skips backward from the first decade to the opening', () => {
+    const first = goToDecade(startSession(now), steps, 0);
+    const back = skipDecade(first, steps, -1);
+    expect(back.stepIndex).toBe(0);
+  });
+
+  it('skips forward from the last decade into the closing', () => {
+    const last = goToDecade(startSession(now), steps, 4);
+    const after = skipDecade(last, steps, 1);
+    const step = steps[after.stepIndex];
+    expect(
+      step !== undefined && 'decade' in step ? step.decade : undefined,
+    ).toBeUndefined();
+    expect(after.stepIndex).toBeGreaterThan(last.stepIndex);
   });
 
   it('finishes at the end and writes the record', () => {

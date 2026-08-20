@@ -5,6 +5,7 @@ import {
   decadesCompleted,
   waysOfSession,
   goBack,
+  skipDecade,
   mysteriesOfDay,
   progressOf,
   recordOf,
@@ -34,6 +35,7 @@ import { useReducedMotion } from 'react-native-reanimated';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
+import { lockScreenOf } from '@/features/audio/lock-screen';
 import { audioPacks } from '@/features/audio/packs.generated';
 import { audioSettingsOf } from '@/features/audio/schedule';
 import { appJournal } from '@/features/journal/app-journal';
@@ -198,12 +200,24 @@ export default function PrayScreen() {
     void playHaptic(hapticForStep(steps[progress.stepIndex + 1]), settings.haptics);
     setSession((current) => advance(current, steps, new Date()));
   };
+  const handleSkipDecade = useCallback(
+    (direction: 1 | -1) => {
+      setSession((current) => skipDecade(current, steps, direction));
+    },
+    [steps],
+  );
+  const lockScreen = useMemo(
+    () => lockScreenOf(step, buildOptions.set, language, t(`sets.${buildOptions.set}`)),
+    [step, buildOptions.set, language, t],
+  );
   const paceSettings = useMemo(() => audioSettingsOf(settings), [settings]);
   const audio = useAudioGuide({
     steps,
     stepIndex: progress.stepIndex,
     pack: audioPacks[buildOptions.locale],
     settings: paceSettings,
+    lockScreen,
+    onSkipDecade: handleSkipDecade,
     onAdvance: handleNext,
   });
 
