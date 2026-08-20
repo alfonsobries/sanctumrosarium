@@ -120,7 +120,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 031 | [Motor del Camino](./tasks/031-motor-del-camino.md)       | Las ocho etapas y su avance                               | Primera pasada |
 | 032 | [Meditar](./tasks/032-meditar.md)                         | Lectura de la Palabra y silencio configurable             | Pendiente      |
 | 033 | [Cláusulas](./tasks/033-clausulas.md)                     | Frase del misterio tras el nombre de Jesús                | Primera pasada |
-| 034 | [Escuela del Rosario](./tasks/034-escuela-del-rosario.md) | Historia, magisterio, promesas e indulgencias, con fuente | Pendiente      |
+| 034 | [Escuela del Rosario](./tasks/034-escuela-del-rosario.md) | Historia, magisterio, promesas e indulgencias, con fuente | Primera pasada |
 
 ### Bloque F - Recogimiento (fase 6)
 

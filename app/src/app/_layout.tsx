@@ -112,6 +112,21 @@ function RootNavigator() {
           }}
         />
         <Stack.Screen
+          name="school/index"
+          options={{
+            headerShown: true,
+            title: t('school.title'),
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        />
+        <Stack.Screen
+          name="school/[page]"
+          options={{
+            headerShown: true,
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        />
+        <Stack.Screen
           name="camino/index"
           options={{
             headerShown: true,

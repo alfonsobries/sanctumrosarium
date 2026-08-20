@@ -317,6 +317,17 @@ export const es = {
     },
     hint: 'Enunciar el misterio, escuchar la Palabra y callar un momento; un toque siempre sigue.',
   },
+  school: {
+    title: 'Escuela del Rosario',
+    intro:
+      'Qué es el Rosario, de dónde viene, qué dice la Iglesia y qué no es. Cada afirmación lleva su fuente.',
+    source: 'Fuente principal: {{name}}.',
+    kind: {
+      magisterium: 'Magisterio',
+      liturgy: 'Liturgia',
+      tradition: 'Tradición piadosa',
+    },
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },

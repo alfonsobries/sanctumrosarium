@@ -685,8 +685,8 @@ Alano de la Roche...".
    quien lo reza. No es talismán ni protege "por sí".
 2. La eficacia está en la fe, la atención y la caridad de quien reza, y en la intercesión
    de María y de la Iglesia; nunca "en la sola materialidad de las oraciones" (CIC 2111).
-3. No hay número mágico: 50 Avemarías mal dichas valen menos que una bien dicha (Montfort,
-   Rosa 41). Ni la app ni el usuario "acumulan poder".
+3. No hay número mágico: una Avemaría bien dicha vale más que 150 mal dichas (Montfort,
+   Rosa 41, texto en B.4). Ni la app ni el usuario "acumulan poder".
 4. Las promesas e indulgencias son ayudas de la Iglesia condicionadas a la disposición
    interior; la app describe condiciones, no certifica resultados.
 5. Nada de "rachas" que "rompan la protección", ni de "puntos de gracia", ni de rosarios
