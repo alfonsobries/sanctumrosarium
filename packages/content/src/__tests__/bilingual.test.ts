@@ -34,7 +34,7 @@ describe('latin line alignment', () => {
             expect(index).toBeLessThan(latin.lines.length);
           }
           for (let index = 1; index < map.length; index += 1) {
-            expect(map[index]).toBeGreaterThanOrEqual(map[index - 1]);
+            expect(map[index] ?? -1).toBeGreaterThanOrEqual(map[index - 1] ?? -1);
           }
         });
       }
