@@ -7,6 +7,8 @@ import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
 import { appJournal } from '@/features/journal/app-journal';
+import { monthFidelity, type MonthFidelity } from '@/features/journal/fidelity';
+import { MonthGrid } from '@/features/journal/MonthGrid';
 import { ruleProgress } from '@/features/journal/rule';
 import { useToday } from '@/features/rosary/use-today';
 import { useSettings } from '@/settings/settings-context';
@@ -18,12 +20,29 @@ export default function HomeScreen() {
   const { prayerLanguage, settings } = useSettings();
   const today = useToday();
   // Recomputed on focus: coming back from praying shows the decades just prayed.
-  const [progress, setProgress] = useState(() =>
-    ruleProgress(settings.rule, appJournal, new Date()),
-  );
+  const [progress, setProgress] = useState<{
+    today: ReturnType<typeof ruleProgress>;
+    month: MonthFidelity | undefined;
+  }>(() => ({
+    today: ruleProgress(settings.rule, appJournal, new Date()),
+    month: monthFidelity(
+      settings.rule,
+      appJournal,
+      (date) => appJournal.isPaused(date),
+      new Date(),
+    ),
+  }));
   useFocusEffect(
     useCallback(() => {
-      setProgress(ruleProgress(settings.rule, appJournal, new Date()));
+      setProgress({
+        today: ruleProgress(settings.rule, appJournal, new Date()),
+        month: monthFidelity(
+          settings.rule,
+          appJournal,
+          (date) => appJournal.isPaused(date),
+          new Date(),
+        ),
+      });
     }, [settings.rule]),
   );
 
@@ -68,20 +87,23 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      {progress === undefined ? null : (
+      {progress.month === undefined ? null : (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={t('rule.title')}
-          onPress={() => router.push('/rule')}
+          accessibilityLabel={t('fidelity.title')}
+          onPress={() => router.push('/fidelity')}
           style={({ pressed }) => [styles.ruleLine, pressed && styles.pressed]}
         >
+          <MonthGrid month={progress.month} />
           <AppText variant="caption" color="muted">
-            {progress.decades === 0
+            {progress.today === undefined || progress.today.decades === 0
               ? t(`rule.names.${settings.rule}`)
-              : t(progress.period === 'day' ? 'rule.progressDay' : 'rule.progressWeek', {
-                  done: progress.decades,
-                  target: progress.target,
-                })}
+              : t(
+                  progress.today.period === 'day'
+                    ? 'rule.progressDay'
+                    : 'rule.progressWeek',
+                  { done: progress.today.decades, target: progress.today.target },
+                )}
           </AppText>
         </Pressable>
       )}

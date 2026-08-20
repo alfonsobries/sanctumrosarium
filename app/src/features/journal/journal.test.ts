@@ -3,6 +3,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { describe, expect, it } from 'vitest';
 
 import { migrateJournal, openJournal, type SqlDb } from './db';
+import { monthFidelity } from './fidelity';
 import { ruleProgress } from './rule';
 
 function testDb(): SqlDb {
@@ -46,7 +47,97 @@ describe('journal', () => {
     migrateJournal(db);
     migrateJournal(db);
     const version = db.all<{ version: number }>('select version from journal_version');
-    expect(version[0].version).toBeGreaterThanOrEqual(1);
+    expect(version[0].version).toBeGreaterThanOrEqual(2);
+  });
+
+  it('migrates a version 1 journal without losing what was prayed', () => {
+    const db = testDb();
+    // Recreate the version 1 schema by hand, with one entry.
+    db.exec(`create table prayed (
+      id integer primary key autoincrement,
+      started_at text not null unique,
+      finished_at text not null,
+      decades integer not null,
+      local_date text not null
+    )`);
+    db.exec('create index prayed_local_date on prayed (local_date)');
+    db.exec('create table journal_version (version integer not null)');
+    db.run('insert into journal_version (version) values (?)', [1]);
+    db.run(
+      'insert into prayed (started_at, finished_at, decades, local_date) values (?, ?, ?, ?)',
+      ['2026-08-03T20:00:00', '2026-08-03T20:25:00', 5, '2026-08-03'],
+    );
+    const journal = openJournal(db);
+    expect(journal.all()).toHaveLength(1);
+    expect(journal.pauseActive()).toBe(false);
+  });
+
+  it('pauses leave no gap and end without questions', () => {
+    const journal = openJournal(testDb());
+    expect(journal.pauseActive()).toBe(false);
+    journal.startPause('2026-08-05');
+    expect(journal.pauseActive()).toBe(true);
+    expect(journal.isPaused('2026-08-06')).toBe(true);
+    expect(journal.isPaused('2026-08-04')).toBe(false);
+    journal.endPause('2026-08-08');
+    expect(journal.pauseActive()).toBe(false);
+    expect(journal.isPaused('2026-08-07')).toBe(true);
+    expect(journal.isPaused('2026-08-09')).toBe(false);
+  });
+});
+
+describe('monthFidelity', () => {
+  const now = new Date(2026, 7, 10, 22, 0);
+
+  it('marks faithful days for a daily rule and leaves plain gaps', () => {
+    const journal = openJournal(testDb());
+    journal.add(entry('2026-08-03', 5));
+    journal.add(entry('2026-08-05', 5, '2026-08-05T07:00:00'));
+    journal.add(entry('2026-08-05', 5, '2026-08-05T22:00:00'));
+    const month = monthFidelity('daily-rosary', journal, () => false, now);
+    expect(month?.unit).toBe('days');
+    expect(month?.days[2]).toBe('faithful');
+    expect(month?.days[3]).toBe('empty');
+    expect(month?.days[4]).toBe('faithful');
+    expect(month?.days[10]).toBe('future');
+    expect(month?.done).toBe(2);
+    expect(month?.total).toBe(31);
+  });
+
+  it('a day with less than the rule stays a gap, never a partial credit', () => {
+    const journal = openJournal(testDb());
+    journal.add(entry('2026-08-03', 1));
+    const month = monthFidelity('daily-rosary', journal, () => false, now);
+    expect(month?.days[2]).toBe('empty');
+  });
+
+  it('paused days show as paused, not as gaps', () => {
+    const journal = openJournal(testDb());
+    const month = monthFidelity(
+      'daily-decade',
+      journal,
+      (date) => date === '2026-08-04',
+      now,
+    );
+    expect(month?.days[3]).toBe('paused');
+    expect(month?.days[4]).toBe('empty');
+  });
+
+  it('shows the weekly rule by weeks, following the unit of the Rule', () => {
+    const journal = openJournal(testDb());
+    journal.add(entry('2026-08-03', 5));
+    journal.add(entry('2026-08-05', 5, '2026-08-05T07:00:00'));
+    journal.add(entry('2026-08-08', 5, '2026-08-08T07:00:00'));
+    const month = monthFidelity('weekly-fifteen', journal, () => false, now);
+    expect(month?.unit).toBe('weeks');
+    // Week of Aug 3-9 reaches fifteen decades on loose days.
+    expect(month?.weeks[1]).toBe('faithful');
+    expect(month?.done).toBe(1);
+  });
+
+  it('says nothing without a rule', () => {
+    const journal = openJournal(testDb());
+    expect(monthFidelity('none', journal, () => false, now)).toBeUndefined();
   });
 });
 

@@ -55,17 +55,36 @@ felicitan.
 6. Tests cubren: cálculo de días fieles con cada tipo de Regla, cambio de mes, zona
    horaria, y días en pausa.
 
-## Decisiones abiertas
+## Decisiones tomadas (primera pasada, agosto 2026)
 
-- Si la regla semanal se enseña por semanas en vez de por días. Recomendación: sí, la
-  unidad de la vista sigue a la unidad de la Regla.
+- **La regla semanal se enseña por semanas** (lunes a domingo): la unidad de la vista
+  sigue a la unidad de la Regla, como recomendaba la spec.
+- **El calendario son marcas, no números**: día fiel relleno, hueco en contorno (sin rojo,
+  sin animación), día en pausa con forma distinta (guion), futuro invisible. La
+  información nunca depende solo del color.
+- **Pausa** en la pantalla de Fidelidad, un toque, sin preguntar por qué; los días en
+  pausa quedan guardados como rangos en el diario (migración v2 probada, incluida la
+  subida desde v1 sin perder lo rezado).
+- **Volver tras faltar**: no existe ningún copy de vuelta; la pantalla es la de siempre.
+  El criterio se cumple por ausencia.
+- **Historia**: hasta doce meses anteriores, cada uno con su cuadrícula y su línea, sin
+  sumas ni comparaciones.
+- **Un día con menos decenas que la Regla queda como hueco**, nunca crédito parcial
+  (probado).
+- **Prueba de las cinco preguntas** (docs/gamificacion.md), pasada sobre la pantalla: (1)
+  sin ansiedad añadida: los huecos son contornos neutros y la pausa existe; (2) nada liga
+  cantidad con protección; (3) todos los números son actos (días, semanas, decenas); (4)
+  no hay comparación con nadie; (5) sin Regla, la pantalla lo dice en una línea y la app
+  queda completa.
 
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] Reloj - avance del día, sin historia
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad - el calendario se lee entero con lector de pantalla
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] Contenido y motor - cálculo puro de fidelidad con tests (reglas diarias, semanal,
+      cambio de mes, pausa, fecha local)
+- [x] App
+- [ ] Reloj - avance del día cuando exista (task 015)
+- [x] ~~Audio - n/a~~
+- [ ] Accesibilidad - la cuadrícula es decorativa y la línea lleva la cuenta; recorrido
+      con lector en aparato pendiente
+- [x] ~~Sitio - n/a~~

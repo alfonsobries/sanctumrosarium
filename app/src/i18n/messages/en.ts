@@ -126,6 +126,14 @@ export const en = {
     progressDay: '{{done}} of {{target}} decades today.',
     progressWeek: '{{done}} of {{target}} decades this week.',
   },
+  fidelity: {
+    title: 'Faithfulness',
+    pause: 'Paused',
+    pauseHint: 'Illness, travel, grief: paused days leave no gap and ask no explanation.',
+    daysLine: '{{done}} of {{total}} days',
+    weeksLine: '{{done}} of {{total}} weeks',
+    noRule: 'Faithfulness goes with a Rule; choose one if you want to see it here.',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },
