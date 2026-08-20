@@ -74,8 +74,12 @@ Hecho en código, pendiente la revisión en aparato real que cierra la task:
 - Roles, labels, estados y hints puestos en botones, filas, interruptores y el área de
   rezo.
 
-Queda para el cierre: recorrido completo con VoiceOver y TalkBack en aparato, revisión del
-sitio con herramienta, y el recorrido sin manos (depende de la task 020).
+- Sitio revisado con herramienta (axe-core 4.13, Chrome headless): cero violaciones WCAG 2
+  A/AA en las once páginas principales (incluidas /escuela y /en/school), en claro y en
+  oscuro (20-VIII-2026).
+
+Queda para el cierre: recorrido completo con VoiceOver y TalkBack en aparato, y el
+recorrido sin manos (depende de la task 020).
 
 ## Ciclo completo
 
