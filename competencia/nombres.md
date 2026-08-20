@@ -1,7 +1,7 @@
 # Nombres y branding
 
-**Elegido: SanctaMaria.** Dominio: `sanctamaria.app`. De la Avemaría: *Sancta Maria, Mater
-Dei*.
+**Elegido: SanctaMaria.** Dominio: `sanctamaria.app`. De la Avemaría: _Sancta Maria, Mater
+Dei_.
 
 El resto de este archivo es el barrido que se hizo antes de cerrar.
 

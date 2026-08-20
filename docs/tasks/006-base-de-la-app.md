@@ -61,17 +61,32 @@ Reporte de errores con lo mínimo. Ninguna analítica de comportamiento (decisi�
 6. La app funciona en avión de punta a punta.
 7. Tests cubren: migraciones, selección de idioma, y que el tema no tenga colores sueltos.
 
-## Decisiones abiertas
+## Decisiones tomadas
 
-- Sistema de estilos (ver [`../../.agents/stack.md`](../../.agents/stack.md) cuando esté
-  cerrado).
+- **Estilos**: StyleSheet con tokens propios (`app/src/theme/`), como fija
+  [`stack.md`](../../.agents/stack.md). Colores solo en `tokens.ts`; un test lo hace
+  cumplir y verifica contraste AA de cada par de la paleta.
+- **Tipografía**: Alegreya (la serif del sitio) para lo que se reza y se lee despacio; la
+  fuente del sistema para el resto de la interfaz.
+- **Almacenamiento**: kv-store de expo-sqlite con ajustes versionados y migraciones
+  probadas (v0 → v1). Las tablas del diario llegan con su task; heredan la misma regla.
+- **Apariencia**: además de seguir al sistema se puede fijar claro u oscuro. No estaba en
+  la spec; cuesta una fila de ajustes y sirve para rezar de noche con el sistema en claro.
+- **Errores**: Sentry queda pendiente de credenciales (DSN); la app tiene ErrorBoundary
+  propio con reintento. Se conecta en la task 014 o cuando haya DSN.
+- **Galería de UI**: rutas `dev/` (tokens, tipografía, componentes, controles nativos)
+  visibles solo en desarrollo; en producción redirigen a inicio.
+- **Iconos por CLI**: `pnpm icons:generate` produce todos los iconos (iOS
+  claro/oscuro/tinted, Android adaptativo + monocromo, splash claro/oscuro, favicon) desde
+  `assets/icon.svg`.
 
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] ~~Contenido y motor - n/a: esta task no toca contenido~~
-- [ ] App
-- [ ] ~~Reloj - n/a: la base del reloj es la task 015~~
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad - tipografía y lector de pantalla en la base, no después
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] ~~Contenido y motor - n/a: esta task no toca contenido~~
+- [x] App
+- [x] ~~Reloj - n/a: la base del reloj es la task 015~~
+- [x] ~~Audio - n/a~~
+- [ ] Accesibilidad - recorrido con VoiceOver y fuente al máximo en dispositivo real,
+      pendiente de la primera instalación en aparato
+- [x] ~~Sitio - n/a~~

@@ -1,45 +1,80 @@
-import { Link } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import { Pressable, StyleSheet, View } from 'react-native';
 
-import { reasonFor, setNames } from '@/features/rosary/labels';
+import { AppText } from '@/components/AppText';
+import { Button } from '@/components/Button';
+import { Screen } from '@/components/Screen';
 import { useToday } from '@/features/rosary/use-today';
-import { useTheme } from '@/theme/use-theme';
+import { useSettings } from '@/settings/settings-context';
+import { spacing, touchTarget } from '@/theme/tokens';
 
 export default function HomeScreen() {
-  const colors = useTheme();
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { prayerLanguage } = useSettings();
   const today = useToday();
 
+  const reason =
+    today.reason === 'solemnity'
+      ? t('home.todayReasonSolemnity', { feast: today.feast })
+      : today.reason === 'season'
+        ? t('home.todayReasonSeason', { season: t(`seasons.${today.season}`) })
+        : t('home.todayReasonWeekday');
+
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
-      <View style={styles.container}>
-        <Text style={[styles.set, { color: colors.text }]}>{setNames[today.set]}</Text>
-        <Text style={[styles.reason, { color: colors.textMuted }]}>
-          {reasonFor(today)}
-        </Text>
+    <Screen>
+      <View style={styles.topBar}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('home.settings')}
+          hitSlop={8}
+          onPress={() => router.push('/settings')}
+          style={({ pressed }) => [styles.settingsLink, pressed && styles.pressed]}
+        >
+          <AppText variant="label" color="accent">
+            {t('home.settings')}
+          </AppText>
+        </Pressable>
+      </View>
+
+      <View style={styles.today}>
+        <AppText variant="display" accessibilityRole="header">
+          {t(`sets.${today.set}`)}
+        </AppText>
+        <AppText variant="body" color="muted">
+          {reason}
+        </AppText>
 
         <View style={styles.mysteries}>
           {today.mysteries.map((mystery) => (
-            <Text key={mystery.id} style={[styles.mystery, { color: colors.textMuted }]}>
-              {mystery.text.es.title}
-            </Text>
+            <AppText key={mystery.id} variant="bodySerif" color="secondary">
+              {mystery.text[prayerLanguage].title}
+            </AppText>
           ))}
         </View>
-
-        <Link href="/pray" style={[styles.start, { color: colors.accent }]}>
-          Empezar
-        </Link>
       </View>
-    </SafeAreaView>
+
+      <Button label={t('home.start')} onPress={() => router.push('/pray')} />
+
+      {__DEV__ ? (
+        <View style={styles.devLink}>
+          <Button
+            label="Galería de UI"
+            variant="ghost"
+            onPress={() => router.push('/dev')}
+          />
+        </View>
+      ) : null}
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1 },
-  container: { flex: 1, justifyContent: 'center', paddingHorizontal: 28, gap: 12 },
-  set: { fontSize: 30, fontWeight: '600' },
-  reason: { fontSize: 16, lineHeight: 22 },
-  mysteries: { gap: 6, marginTop: 20 },
-  mystery: { fontSize: 16, lineHeight: 22 },
-  start: { fontSize: 20, fontWeight: '600', marginTop: 32 },
+  topBar: { alignItems: 'flex-end' },
+  settingsLink: { minHeight: touchTarget, justifyContent: 'center' },
+  pressed: { opacity: 0.6 },
+  today: { gap: spacing.md, marginTop: spacing.xl, marginBottom: spacing.xxl },
+  mysteries: { gap: spacing.sm, marginTop: spacing.md },
+  devLink: { marginTop: spacing.sm },
 });

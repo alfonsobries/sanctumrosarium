@@ -13,7 +13,8 @@ Documentos:
   ante gamificar la oración (con fuentes).
 - [`referentes-ux.md`](./referentes-ux.md) - Headspace/Calm/Waking Up/Forest/Core como
   referencia de audio + watch + foco; sitios web de rosario y cómo se financian; latín.
-- [`nombres.md`](./nombres.md) - SanctaMaria; nombres ya usados y el barrido de candidatos.
+- [`nombres.md`](./nombres.md) - SanctaMaria; nombres ya usados y el barrido de
+  candidatos.
 - [`gaps.md`](./gaps.md) - síntesis: huecos del mercado, oportunidades, riesgos.
 
 ## Resumen ejecutivo

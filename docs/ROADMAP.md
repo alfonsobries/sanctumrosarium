@@ -72,7 +72,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | 003 | [Los veinte misterios](./tasks/003-los-veinte-misterios.md)                   | Primera pasada |
 | 004 | [Calendario y misterio del día](./tasks/004-calendario-y-misterio-del-dia.md) | Primera pasada |
 | 005 | [Motor del Rosario](./tasks/005-motor-del-rosario.md)                         | Primera pasada |
-| 006 | [Base de la app](./tasks/006-base-de-la-app.md)                               | Pendiente      |
+| 006 | [Base de la app](./tasks/006-base-de-la-app.md)                               | Primera pasada |
 | 007 | [Pantalla de rezo](./tasks/007-pantalla-de-rezo.md)                           | Andamio        |
 | 008 | [Audio del Rosario](./tasks/008-audio-del-rosario.md)                         | Pendiente      |
 | 009 | [Resaltado sincronizado](./tasks/009-resaltado-sincronizado.md)               | Pendiente      |
