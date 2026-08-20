@@ -116,6 +116,15 @@ export default function HomeScreen() {
           onPress={() => router.push('/litany')}
         />
       </View>
+      {settings.caminoEnabled ? (
+        <View style={styles.litanyLink}>
+          <Button
+            label={t('camino.title')}
+            variant="ghost"
+            onPress={() => router.push('/camino')}
+          />
+        </View>
+      ) : null}
 
       {__DEV__ ? (
         <View style={styles.devLink}>

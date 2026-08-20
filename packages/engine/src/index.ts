@@ -1,3 +1,11 @@
+export { caminoStages, stageState, waysOfSession } from './camino';
+export type {
+  CaminoStage,
+  CaminoStageId,
+  CaminoStageState,
+  CaminoWay,
+  SessionShape,
+} from './camino';
 export { easterSunday, liturgicalSeason, mysteriesOfDay } from './calendar';
 export type { DayOfMysteries, LiturgicalSeason } from './calendar';
 export {

@@ -49,6 +49,7 @@ type SettingsContextValue = {
     value: Partial<Pick<Settings, 'audioPace' | 'responseSilence' | 'announcePause'>>,
   ) => void;
   readonly setChoirRole: (value: ChoirRoleSetting) => void;
+  readonly setCaminoEnabled: (value: boolean) => void;
   readonly setReminder: (
     value: Partial<
       Pick<Settings, 'reminderMode' | 'reminderHour' | 'reminderMinute' | 'reminderDays'>
@@ -123,6 +124,7 @@ export function SettingsProvider({
       setWithClauses: (withClauses) => update({ withClauses }),
       setPace: (value) => update(value),
       setChoirRole: (value) => update({ choirRole: value }),
+      setCaminoEnabled: (value) => update({ caminoEnabled: value }),
       toggleLatinMix: (prayer) =>
         update({
           latinMixOwn: settings.latinMixOwn.includes(prayer)

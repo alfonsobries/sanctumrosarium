@@ -117,7 +117,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 
 | #   | Task                                                      | Qué es                                                    |
 | --- | --------------------------------------------------------- | --------------------------------------------------------- |
-| 031 | [Motor del Camino](./tasks/031-motor-del-camino.md)       | Las ocho etapas y su avance                               |
+| 031 | [Motor del Camino](./tasks/031-motor-del-camino.md)       | Primera pasada                                            |
 | 032 | [Meditar](./tasks/032-meditar.md)                         | Lectura de la Palabra y silencio configurable             |
 | 033 | [Cláusulas](./tasks/033-clausulas.md)                     | Primera pasada                                            |
 | 034 | [Escuela del Rosario](./tasks/034-escuela-del-rosario.md) | Historia, magisterio, promesas e indulgencias, con fuente |

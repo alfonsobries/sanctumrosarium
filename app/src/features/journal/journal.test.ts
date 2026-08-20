@@ -223,3 +223,59 @@ describe('ruleProgress', () => {
     expect(journal.all()).toHaveLength(1);
   });
 });
+
+describe('the Way in the journal', () => {
+  it('counts rosaries prayed a given way', () => {
+    const journal = openJournal(testDb());
+    journal.add({ ...entry('2026-08-03', 5), ways: ['structure', 'latin'] });
+    journal.add({ ...entry('2026-08-04', 5), ways: ['structure'] });
+    expect(journal.wayCount('structure')).toBe(2);
+    expect(journal.wayCount('latin')).toBe(1);
+    expect(journal.wayCount('clauses')).toBe(0);
+  });
+
+  it('a litany never walks the Way of the Rosary', () => {
+    const journal = openJournal(testDb());
+    journal.add({ ...entry('2026-08-03', 0), kind: 'litany', ways: ['structure'] });
+    expect(journal.wayCount('structure')).toBe(0);
+  });
+
+  it('counts a day with all four sets of mysteries as one act', () => {
+    const journal = openJournal(testDb());
+    const sets = ['gozosa', 'luminosa', 'dolorosa', 'gloriosa'];
+    sets.forEach((set, hour) => {
+      journal.add({
+        ...entry('2026-08-03', 5, `2026-08-03T1${hour}:00:00`),
+        ways: ['structure'],
+        mysterySet: set,
+      });
+    });
+    // Four Rosaries of the same set are twenty decades, not the twenty mysteries.
+    for (let hour = 0; hour < 4; hour += 1) {
+      journal.add({
+        ...entry('2026-08-04', 5, `2026-08-04T1${hour}:00:00`),
+        ways: ['structure'],
+        mysterySet: 'gozosa',
+      });
+    }
+    expect(journal.twentyCount()).toBe(1);
+  });
+
+  it('a mark of today can be taken back', () => {
+    const journal = openJournal(testDb());
+    journal.markWay('sung', '2026-08-03');
+    journal.unmarkWay('sung', '2026-08-03');
+    expect(journal.markCount('sung')).toBe(0);
+    expect(journal.markedWay('sung', '2026-08-03')).toBe(false);
+  });
+
+  it('a self-marked way counts once per day and never on its own', () => {
+    const journal = openJournal(testDb());
+    expect(journal.markCount('sung')).toBe(0);
+    journal.markWay('sung', '2026-08-03');
+    journal.markWay('sung', '2026-08-03');
+    journal.markWay('sung', '2026-08-04');
+    expect(journal.markCount('sung')).toBe(2);
+    expect(journal.markCount('family')).toBe(0);
+  });
+});

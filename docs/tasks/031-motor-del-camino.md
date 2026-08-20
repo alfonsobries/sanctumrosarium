@@ -52,15 +52,41 @@ Si la progresión está apagada, el Camino no aparece y el Rosario sigue complet
 4. La pantalla pasa las cinco preguntas de `docs/gamificacion.md`.
 5. Tests cubren: avance por uso, salto, apagado, y que nada suba una etapa sola.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Modelo en el motor** (`packages/engine/src/camino.ts`): ocho etapas con umbral
+  `timesToWalk: 3` (ajustable ahí), estados `not-started / walking / walked`, y
+  `waysOfSession` que lee de la sesión cómo se rezó. Sin puntos ni insignias: el tipo de
+  etapa ni siquiera tiene dónde ponerlos (un test lo guarda).
+- **El diario guarda el cómo** (migración v5): columna `ways` por rosario. Las etapas
+  detectables cuentan actos del diario; los veinte misterios cuentan días cuyos rosarios
+  suman veinte decenas.
+- **Cantar y en familia no se detectan y no se adivinan**: la persona lo dice ("Hoy recé
+  así"), un día a la vez (`camino_marks`, única por etapa y día). Sin micrófono.
+- Al descartar una sesión a medias solo cuenta lo que sus propias opciones prueban
+  (idioma, cláusulas), nunca pausa ni papel.
+- **Los rosarios anteriores a esta task no traen `ways`**: el Camino cuenta desde que
+  existe. Se decidió no reconstruir el pasado: sería adivinar.
+- Apagador en Ajustes (v13 `caminoEnabled`); apagado, la entrada del inicio desaparece y
+  nada más cambia.
+- Tras la revisión doctrinal: una sesión descartada no camina ninguna etapa (sus decenas
+  sueltas siguen contando para la Regla); los veinte misterios cuentan días con los cuatro
+  grupos distintos (el diario guarda el grupo, migración v6), no veinte decenas; los
+  conteos llevan unidad ("2 de 3 rosarios", "1 de 3 días"); y la marca de hoy se puede
+  quitar, por quien se equivoca y por quien se escrupuliza.
+- **Pendiente**: la página del sitio (con la escuela, 034) y el contenido formativo
+  extenso de cada etapa (032/034); hoy cada etapa lleva su enseñanza en dos líneas y el
+  gesto concreto para rezar así.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] ~~Reloj - n/a: el Camino se lee y se configura en el teléfono~~
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad
-- [ ] Sitio - el Camino se explica en una página, sin venderlo como curso
+- [x] Definir qué aplica
+- [x] Contenido y motor
+- [x] App
+- [x] ~~Reloj - n/a: el Camino se lee y se configura en el teléfono~~
+- [x] ~~Audio - n/a~~
+- [x] Accesibilidad - filas nativas, estados con texto, sin información solo por color
+- [ ] Sitio - el Camino se explica en una página, sin venderlo como curso (con la 034)
 
 ## Fuentes
 
