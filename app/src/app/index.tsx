@@ -1,4 +1,4 @@
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useFocusEffect, useRouter, type Href } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -144,6 +144,20 @@ export default function HomeScreen() {
           label={t('novena.title')}
           variant="ghost"
           onPress={() => router.push('/novena')}
+        />
+      </View>
+      <View style={styles.litanyLink}>
+        <Button
+          label={t('chaplet.title')}
+          variant="ghost"
+          onPress={() => router.push('/chaplet' as Href)}
+        />
+      </View>
+      <View style={styles.litanyLink}>
+        <Button
+          label={t('seven-sorrows.title')}
+          variant="ghost"
+          onPress={() => router.push('/sorrows' as Href)}
         />
       </View>
 

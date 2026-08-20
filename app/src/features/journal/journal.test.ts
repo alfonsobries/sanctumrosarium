@@ -109,6 +109,30 @@ describe('journal', () => {
   });
 });
 
+describe('sister devotions as their own act', () => {
+  it('never adds a chaplet or the Seven Sorrows to the Rule or the roses', () => {
+    const journal = openJournal(testDb());
+    journal.add(entry('2026-08-03', 5));
+    journal.add({
+      ...entry('2026-08-03', 50, '2026-08-03T21:00:00'),
+      kind: 'chaplet',
+    });
+    journal.add({
+      ...entry('2026-08-03', 7, '2026-08-03T22:00:00'),
+      kind: 'seven-sorrows',
+    });
+    expect(journal.all()).toHaveLength(1);
+    expect(journal.between('2026-08-01', '2026-08-31')).toHaveLength(1);
+    expect(journal.hasKindOn('chaplet', '2026-08-03')).toBe(true);
+    expect(journal.hasKindOn('seven-sorrows', '2026-08-03')).toBe(true);
+    const progress = ruleProgress('daily-rosary', journal, new Date(2026, 7, 3, 22));
+    expect(progress?.decades).toBe(5);
+    journal.unmarkKindOn('chaplet', '2026-08-03');
+    expect(journal.hasKindOn('chaplet', '2026-08-03')).toBe(false);
+    expect(journal.between('2026-08-01', '2026-08-31')).toHaveLength(1);
+  });
+});
+
 describe('litany as its own act', () => {
   it('never adds up as a Rosary', () => {
     const journal = openJournal(testDb());

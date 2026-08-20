@@ -40,15 +40,27 @@ Se pueden rezar en las mismas cuentas físicas. La app no las llama Rosario.
 4. Tests cubren: secuencias distintas, registros distintos, y que la Regla del Rosario no
    las cuenta.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- Crítica litúrgica previa: C.6 trae elipses, no textos. No se completa de memoria el
+  diario de Faustina ni se enumeran los siete dolores. Como en la novena: la app nombra la
+  estructura, cita la fuente, y el texto se reza del devocionario.
+- Diario: `kind: 'chaplet' | 'seven-sorrows'`, `decades: 0`. `between` y las rosas solo
+  ven `kind = 'rosary'`. Un recuento malicioso de 50 decenas en una coronilla no mueve la
+  Regla.
+- La Coronilla se llama coronilla, nunca Rosario. Los Siete Dolores, corona. La
+  indulgencia de 2002 no se describe: no está el decreto.
+- Audio, rezo paso a paso y reloj: cuando haya edición citable con permiso.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] Reloj - si sirven para rezar sin leer, sí
-- [ ] Audio
-- [ ] Accesibilidad
-- [ ] Sitio - una ficha por devoción, con su origen
+- [x] Definir qué aplica
+- [x] Contenido y motor - sin textos nuevos; el diario ya distingue
+- [x] App
+- [ ] Reloj - cuando haya texto citable
+- [ ] Audio - cuando haya texto citable
+- [x] Accesibilidad - pantalla de prosa y un botón
+- [x] Sitio - una ficha por devoción, con su origen
 
 ## Fuentes
 
