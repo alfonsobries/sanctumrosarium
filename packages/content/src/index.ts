@@ -1,5 +1,5 @@
 export * from './types';
-export { mysteries } from './mysteries';
+export { clausesSource, mysteries } from './mysteries';
 export { forms, allForms } from './forms';
 export { prayers, findPrayer, prayersFor } from './prayers';
 export { lauretanae } from './litany';

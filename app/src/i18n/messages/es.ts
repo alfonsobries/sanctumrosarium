@@ -178,6 +178,10 @@ export const es = {
     note: 'Un acto de culto por sí mismas; también pueden cerrar el rosario desde Ajustes.',
     settingHint: 'Cierran el rosario; son un acto de culto por sí mismas.',
   },
+  clauses: {
+    title: 'Cláusulas del misterio',
+    hint: 'Tras el nombre de Jesús, la frase del misterio en cada Ave (DPPL 201). Redacción propia sobre el patrón alemán y la lista de Montfort.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },

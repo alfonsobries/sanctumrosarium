@@ -74,6 +74,7 @@ export default function PrayScreen() {
           set: mysteriesOfDay(new Date()).set,
           include: settings.includedPrayers,
           withLitany: settings.withLitany,
+          withClauses: settings.withClauses,
           ...latinOverrides(prayerLocale, settings.latinMixOwn, systemPrayerLocale),
         }
       : saved.options,
@@ -187,6 +188,7 @@ export default function PrayScreen() {
       set: today.set,
       include: settings.includedPrayers,
       withLitany: settings.withLitany,
+      withClauses: settings.withClauses,
       ...latinOverrides(prayerLocale, settings.latinMixOwn, systemPrayerLocale),
     });
     setSession(startSession(new Date(), intention));

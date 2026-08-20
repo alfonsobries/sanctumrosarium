@@ -504,3 +504,12 @@ export const mysteries: readonly Mystery[] = [
     source: rvm,
   },
 ] as const;
+
+/**
+ * The clauses after the name of Jesus are our own wording, written over the German
+ * Gotteslob pattern and Montfort's list (The Secret of the Rosary, rose 50). They are
+ * never presented as a magisterial quotation; DPPL 201 is what asks for the custom.
+ */
+export const clausesSource = {
+  name: 'Redacción propia sobre el patrón del Gotteslob y la lista de Montfort (rosa 50); la costumbre la pide DPPL 201',
+} as const;

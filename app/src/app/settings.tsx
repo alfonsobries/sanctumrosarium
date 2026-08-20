@@ -66,6 +66,7 @@ export default function SettingsScreen() {
     setLatinText,
     setRosesEnabled,
     setWithLitany,
+    setWithClauses,
     toggleLatinMix,
   } = useSettings();
 
@@ -180,8 +181,14 @@ export default function SettingsScreen() {
           label={t('litany.title')}
           description={t('litany.settingHint')}
           value={settings.withLitany}
-          divider={false}
           onValueChange={(value) => setWithLitany(value)}
+        />
+        <SwitchRow
+          label={t('clauses.title')}
+          description={t('clauses.hint')}
+          value={settings.withClauses}
+          divider={false}
+          onValueChange={(value) => setWithClauses(value)}
         />
       </Card>
 

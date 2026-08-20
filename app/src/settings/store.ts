@@ -18,7 +18,7 @@ export type LatinTextSetting = 'both' | 'la' | 'own';
 export type ReminderMode = 'off' | 'hour' | 'angelus';
 
 export type Settings = {
-  readonly version: 9;
+  readonly version: 10;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -49,10 +49,12 @@ export type Settings = {
   /** Praying in Latin, these prayers go in the reader's own language: whoever is
       learning mixes one prayer at a time (task 021). */
   readonly latinMixOwn: readonly PrayerId[];
+  /** The clause of the mystery after the name of Jesus in each Hail Mary (DPPL 201). */
+  readonly withClauses: boolean;
 };
 
 export const defaultSettings: Settings = {
-  version: 9,
+  version: 10,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -68,6 +70,7 @@ export const defaultSettings: Settings = {
   rosesEnabled: true,
   withLitany: false,
   latinMixOwn: [],
+  withClauses: false,
 };
 
 const SETTINGS_KEY = 'settings';
@@ -97,6 +100,7 @@ const migrations: Record<
   6: (stored) => ({ rosesEnabled: true, ...stored, version: 7 }),
   7: (stored) => ({ withLitany: false, ...stored, version: 8 }),
   8: (stored) => ({ latinMixOwn: [], ...stored, version: 9 }),
+  9: (stored) => ({ withClauses: false, ...stored, version: 10 }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -145,7 +149,7 @@ const ruleOptions: readonly RuleId[] = [
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 9,
+    version: 10,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -203,6 +207,10 @@ function sanitize(stored: Record<string, unknown>): Settings {
           (id): id is PrayerId => typeof id === 'string' && knownPrayerIds.has(id),
         ) as readonly PrayerId[])
       : defaultSettings.latinMixOwn,
+    withClauses:
+      typeof stored.withClauses === 'boolean'
+        ? stored.withClauses
+        : defaultSettings.withClauses,
   };
 }
 
