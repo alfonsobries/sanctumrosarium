@@ -18,7 +18,7 @@ export type PrayedEntry = {
   /** Who this Rosary was offered for. The most intimate thing the app stores: local only. */
   readonly intention?: string;
   /** A litany is its own act of worship (DPPL 203), never added up as a Rosary. */
-  readonly kind?: 'rosary' | 'litany';
+  readonly kind?: 'rosary' | 'litany' | 'chaplet' | 'seven-sorrows';
   /** How it was prayed, for the Way. Acts, never graces. */
   readonly ways?: readonly string[];
   /** Which set of mysteries was prayed, for the twenty-mysteries stage. */
@@ -105,6 +105,15 @@ export type Journal = {
   readonly add: (entry: PrayedEntry) => void;
   readonly between: (fromDate: string, toDate: string) => readonly PrayedEntry[];
   readonly all: () => readonly PrayedEntry[];
+  /** Sister devotions: counted as themselves, never as a Rosary. */
+  readonly hasKindOn: (
+    kind: Exclude<NonNullable<PrayedEntry['kind']>, 'rosary'>,
+    localDate: string,
+  ) => boolean;
+  readonly unmarkKindOn: (
+    kind: Exclude<NonNullable<PrayedEntry['kind']>, 'rosary'>,
+    localDate: string,
+  ) => void;
   /** Pause mode: illness, travel, grief. Paused days leave no gap. */
   readonly startPause: (localDate: string) => void;
   readonly endPause: (localDate: string) => void;
@@ -202,6 +211,14 @@ export function openJournal(db: SqlDb): Journal {
           "select started_at, finished_at, decades, local_date, intention from prayed where kind = 'rosary' order by local_date",
         )
         .map(rowToEntry),
+    hasKindOn: (kind, localDate) =>
+      (db.all<{ n: number }>(
+        'select count(*) as n from prayed where kind = ? and local_date = ?',
+        [kind, localDate],
+      )[0]?.n ?? 0) > 0,
+    unmarkKindOn: (kind, localDate) => {
+      db.run('delete from prayed where kind = ? and local_date = ?', [kind, localDate]);
+    },
     startPause: (localDate) => {
       const open = db.all<{ id: number }>(
         'select id from pauses where ended_date is null',

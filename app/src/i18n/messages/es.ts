@@ -372,6 +372,36 @@ export const es = {
     leave: 'Dejar la novena',
     done: 'Cincuenta y cuatro días. La novena queda ofrecida.',
   },
+  chaplet: {
+    title: 'Coronilla de la Divina Misericordia',
+    lead: 'Se reza en las cuentas del rosario, con oraciones distintas. No es el Rosario.',
+    structure:
+      'En las cuentas grandes: «Padre Eterno, te ofrezco…». En las diez pequeñas: «Por su dolorosa Pasión…». Al final: «Santo Dios…».',
+    texts:
+      'El texto completo está en el diario de santa Faustina. La app no lo trae: se reza del diario o de un devocionario.',
+    notRosary:
+      'No cuenta para la Regla ni para las rosas del mes. La indulgencia del Rosario es del Rosario.',
+    mark: 'Contar la de hoy',
+    unmark: 'Quitar la marca de hoy',
+    markedToday: 'Contada por hoy.',
+    source:
+      'Santa Faustina, 1935. El dossier la describe en C.6. La indulgencia de 2002 no se detalla aquí: no está el decreto.',
+  },
+  'seven-sorrows': {
+    title: 'Corona de los Siete Dolores',
+    lead: 'Otra corona mariana, distinta del Rosario.',
+    structure:
+      'Siete veces un Padrenuestro y siete Avemarías, meditando los dolores de María, y tres Avemarías al final por sus lágrimas.',
+    texts:
+      'La app no enumera los dolores ni añade Gloria ni jaculatorias que la fuente no trae. El Padrenuestro y el Ave son los del Rosario; el resto, de un devocionario de los servitas.',
+    notRosary:
+      'No son cinco decenas de diez. No cuenta para la Regla ni para las rosas del mes.',
+    mark: 'Contar la de hoy',
+    unmark: 'Quitar la marca de hoy',
+    markedToday: 'Contada por hoy.',
+    source:
+      'Servitas, siglo XIII. El Directorio (n. 202) la cuenta entre las otras coronas marianas, también aprobadas.',
+  },
   widget: {
     prayedToday: 'Hoy ya rezaste.',
   },
