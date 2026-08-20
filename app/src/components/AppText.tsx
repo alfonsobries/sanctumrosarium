@@ -1,7 +1,7 @@
 import { Text, type TextProps } from 'react-native';
 
 import { useTheme } from '@/theme/use-theme';
-import { typeScale, type TypeVariant } from '@/theme/typography';
+import { typeScale, variantMaxFontScale, type TypeVariant } from '@/theme/typography';
 
 type TextColor = 'text' | 'secondary' | 'muted' | 'accent' | 'onAccent' | 'danger';
 
@@ -26,5 +26,11 @@ export function AppText({
     danger: colors.danger,
   }[color];
 
-  return <Text {...rest} style={[typeScale[variant], { color: colorValue }, style]} />;
+  return (
+    <Text
+      maxFontSizeMultiplier={variantMaxFontScale[variant]}
+      {...rest}
+      style={[typeScale[variant], { color: colorValue }, style]}
+    />
+  );
 }

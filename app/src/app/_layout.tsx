@@ -12,19 +12,21 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { ErrorScreen } from '@/components/ErrorScreen';
 import { initI18n } from '@/i18n';
 import { resolveInterfaceLanguage } from '@/settings/resolve-locale';
 import { SettingsProvider } from '@/settings/settings-context';
 import { loadSettings } from '@/settings/store';
-import { createSqliteDriver } from '@/storage/sqlite-driver';
+import { appKv } from '@/storage/app-kv';
 import { navigationTheme } from '@/theme/navigation-theme';
 import { useAppTheme } from '@/theme/use-theme';
 
 // Settings load synchronously before the first frame: the theme and the language are
 // right from the very first render, with no flash.
-const driver = createSqliteDriver();
+const driver = appKv;
 const initialSettings = loadSettings(driver);
 initI18n(
   resolveInterfaceLanguage(
@@ -83,8 +85,14 @@ export default function RootLayout() {
   }
 
   return (
-    <SettingsProvider driver={driver} initialSettings={initialSettings}>
-      <RootNavigator />
-    </SettingsProvider>
+    <GestureHandlerRootView style={styles.root}>
+      <SettingsProvider driver={driver} initialSettings={initialSettings}>
+        <RootNavigator />
+      </SettingsProvider>
+    </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+});
