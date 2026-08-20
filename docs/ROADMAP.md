@@ -87,7 +87,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | #   | Task                                                                      | Estado         |
 | --- | ------------------------------------------------------------------------- | -------------- |
 | 015 | [Target del reloj y puente](./tasks/015-target-del-reloj-y-puente.md)     | Primera pasada |
-| 016 | [El Rosario en el reloj](./tasks/016-el-rosario-en-el-reloj.md)           | Pendiente      |
+| 016 | [El Rosario en el reloj](./tasks/016-el-rosario-en-el-reloj.md)           | Primera pasada |
 | 017 | [Audio independiente en el reloj](./tasks/017-audio-en-el-reloj.md)       | Pendiente      |
 | 018 | [Háptica y sesión de ejercicio](./tasks/018-haptica-y-ejercicio.md)       | Pendiente      |
 | 019 | [Complicación y widget](./tasks/019-complicacion-y-widget.md)             | Primera pasada |
