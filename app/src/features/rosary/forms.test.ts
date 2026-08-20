@@ -16,7 +16,7 @@ describe('effectiveForm', () => {
 
   it('falls back to the language when the chosen form cannot be prayed in it', () => {
     // The Mexican form only exists in es-MX; Latin cannot pray it.
-    expect(effectiveForm('es-MX', 'la')).toBe('roman');
+    expect(effectiveForm('es-MX', 'la')).toBe('dominican');
   });
 });
 

@@ -43,10 +43,13 @@ describe('resolvePrayerLocale', () => {
 });
 
 describe('formForPrayerLocale', () => {
-  it('uses the regional form for Spanish and the roman form elsewhere', () => {
+  it('uses the regional form for Spanish and the roman form for English', () => {
     expect(formForPrayerLocale('es-MX')).toBe('es-MX');
     expect(formForPrayerLocale('es-ES')).toBe('es-ES');
     expect(formForPrayerLocale('en-US')).toBe('roman');
-    expect(formForPrayerLocale('la')).toBe('roman');
+  });
+
+  it('gives Latin the Dominican form, its historical home', () => {
+    expect(formForPrayerLocale('la')).toBe('dominican');
   });
 });
