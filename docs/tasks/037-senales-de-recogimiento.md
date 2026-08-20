@@ -45,15 +45,32 @@ sitio.
 4. La pantalla pasa las cinco preguntas de `docs/gamificacion.md`, anotado en la task.
 5. Hay un camino para quitar la feature entera si la prueba con usuarios falla.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Off por defecto** (`recollectionEnabled: false`, ajustes v14). Se enciende en Ajustes
+  con una línea de para qué; se apaga en el mismo interruptor.
+- **Solo hechos observables**: cuántas veces la app pasó a segundo plano durante el rezo
+  (AppState) y la duración que la pantalla final ya mostraba. Se muestran al terminar:
+  "Sin interrupciones." o "N salidas de la app.", sin verbo que juzgue.
+- El diario guarda `exits` (v7, nulo cuando está apagado): apagarlo deja de registrar y no
+  borra lo que la persona ya tenía. Nada sale del aparato.
+- **Prueba de las cinco preguntas**: sin porcentaje ni nota ni "tu mejor rosario"; el
+  número es un acto contado del aparato; sin comparación; apagado, la app queda completa.
+  Revisión doctrinal pasada.
+- **Camino de retiro** (criterio 5): quitar el interruptor y la línea final. No hay datos
+  que migrar ni borrar.
+- **Pendiente**: la sesión de atención plena en Salud con el reloj (task 038) y la prueba
+  con gente que reza a diario antes de publicarlo (decisión 8).
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] ~~Reloj - n/a: la 038 cubre el reloj~~
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] Contenido y motor - n/a: hechos del aparato, no del rezo
+- [x] App
+- [x] ~~Reloj - n/a: la 038 cubre el reloj~~
+- [x] ~~Audio - n/a~~
+- [x] Accesibilidad - texto plano en la pantalla final; el interruptor es fila nativa
+- [x] ~~Sitio - n/a~~
 
 ## Fuentes
 

@@ -50,6 +50,7 @@ type SettingsContextValue = {
   ) => void;
   readonly setChoirRole: (value: ChoirRoleSetting) => void;
   readonly setCaminoEnabled: (value: boolean) => void;
+  readonly setRecollectionEnabled: (value: boolean) => void;
   readonly setReminder: (
     value: Partial<
       Pick<Settings, 'reminderMode' | 'reminderHour' | 'reminderMinute' | 'reminderDays'>
@@ -125,6 +126,7 @@ export function SettingsProvider({
       setPace: (value) => update(value),
       setChoirRole: (value) => update({ choirRole: value }),
       setCaminoEnabled: (value) => update({ caminoEnabled: value }),
+      setRecollectionEnabled: (value) => update({ recollectionEnabled: value }),
       toggleLatinMix: (prayer) =>
         update({
           latinMixOwn: settings.latinMixOwn.includes(prayer)

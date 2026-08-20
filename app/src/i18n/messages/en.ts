@@ -171,7 +171,8 @@ export const en = {
     count_many: '{{count}} rosaries',
     count_other: '{{count}} rosaries',
     empty: 'Each rosary of the month sets a rose.',
-    toggle: 'The crown of the month; it can be turned off and the app stays whole.',
+    toggle:
+      'At the close of the prayer, shows facts of the device: how long it took and how many times the app went to the background. They are not kept and never leave the phone; the conclusions are yours.',
   },
   litany: {
     title: 'Litany of Loreto',
@@ -210,7 +211,8 @@ export const en = {
     intro:
       'Eight manners of praying the same Rosary. They are walked by praying, starting wherever you want.',
     anyOrder: 'The order suggests; every stage opens whenever you choose.',
-    toggle: 'Turned off, the app stays whole and nothing is lost.',
+    toggle:
+      'At the close of the prayer, shows facts of the device: how long it took and how many times the app went to the background. They are not kept and never leave the phone; the conclusions are yours.',
     timesRosaries: '{{done}} of {{target}} Rosaries',
     timesDays: '{{done}} of {{target}} days',
     state: {
@@ -277,6 +279,14 @@ export const en = {
         walked: 'You now know how to pray the Rosary of the twenty mysteries.',
       },
     },
+  },
+  recollection: {
+    title: 'At the close',
+    toggle:
+      'At the close of the prayer, shows facts of the device: how long it took and how many times the app went to the background. They are not kept and never leave the phone; the conclusions are yours.',
+    noInterruptions: 'No interruptions.',
+    exits_one: 'The app went to the background 1 time.',
+    exits_other: 'The app went to the background {{count}} times.',
   },
   error: {
     screen: 'Something failed while opening this screen.',

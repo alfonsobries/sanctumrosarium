@@ -17,6 +17,7 @@ import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  AppState,
   Linking,
   PixelRatio,
   Pressable,
@@ -100,6 +101,26 @@ export default function PrayScreen() {
   // Whether the guide's voice was used at all this session, for the Way's respond stage.
   const usedAudioRef = useRef(false);
 
+  // Times the app left the foreground while praying: a fact of the device, shown once
+  // at the close and never stored. Never a judgment (gamificacion.md 6). Praying with
+  // the voice and the screen locked is intended use, so those backgrounds do not count;
+  // a resumed session shows nothing, because the count cannot speak for the gap.
+  const exitsRef = useRef(0);
+  const resumedRef = useRef(false);
+  const [finishedExits, setFinishedExits] = useState<number | undefined>(undefined);
+  const audioPlayingRef = useRef(false);
+  useEffect(() => {
+    if (phase !== 'praying' || !settings.recollectionEnabled) {
+      return;
+    }
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'background' && !audioPlayingRef.current) {
+        exitsRef.current += 1;
+      }
+    });
+    return () => subscription.remove();
+  }, [phase, settings.recollectionEnabled]);
+
   const sessionWays = useCallback(
     () =>
       waysOfSession({
@@ -131,6 +152,11 @@ export default function PrayScreen() {
           ...(record.intention === undefined ? {} : { intention: record.intention }),
         });
       }
+      setFinishedExits(
+        settings.recollectionEnabled && !resumedRef.current
+          ? exitsRef.current
+          : undefined,
+      );
       clearSession(appKv);
       return;
     }
@@ -140,7 +166,15 @@ export default function PrayScreen() {
       options: buildOptions,
       localDate: localDateOf(new Date()),
     });
-  }, [session, buildOptions, steps, progress.finished, phase, sessionWays]);
+  }, [
+    session,
+    buildOptions,
+    steps,
+    progress.finished,
+    phase,
+    sessionWays,
+    settings.recollectionEnabled,
+  ]);
 
   const handleNext = () => {
     void playHaptic(hapticForStep(steps[progress.stepIndex + 1]), settings.haptics);
@@ -175,10 +209,14 @@ export default function PrayScreen() {
     usedAudioRef.current = true;
     audio.toggle();
   };
+  useEffect(() => {
+    audioPlayingRef.current = audio.playing;
+  }, [audio.playing]);
   const handlePrevious = () => {
     setSession((current) => goBack(current));
   };
   const handleResume = () => {
+    resumedRef.current = true;
     setPhase('praying');
   };
   const handleStartOver = () => {
@@ -243,7 +281,9 @@ export default function PrayScreen() {
   }
 
   if (step === undefined) {
-    return <FinishedScreen set={buildOptions.set} session={session} />;
+    return (
+      <FinishedScreen set={buildOptions.set} session={session} exits={finishedExits} />
+    );
   }
 
   const mystery = 'mystery' in step ? step.mystery : undefined;
@@ -561,9 +601,11 @@ function ResumeScreen({
 function FinishedScreen({
   set,
   session,
+  exits,
 }: {
   set: 'gaudiosa' | 'luminosa' | 'dolorosa' | 'gloriosa';
   session: SessionState;
+  exits: number | undefined;
 }) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -596,6 +638,13 @@ function FinishedScreen({
         {minutes === undefined ? null : (
           <AppText variant="caption" color="muted">
             {t('pray.duration', { count: minutes })}
+          </AppText>
+        )}
+        {exits === undefined ? null : (
+          <AppText variant="caption" color="muted">
+            {exits === 0
+              ? t('recollection.noInterruptions')
+              : t('recollection.exits', { count: exits })}
           </AppText>
         )}
         <View style={styles.resumeActions}>

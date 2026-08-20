@@ -22,7 +22,7 @@ export type AnnouncePauseSetting = 'short' | 'medium' | 'long';
 export type ChoirRoleSetting = 'guide' | 'respond';
 
 export type Settings = {
-  readonly version: 13;
+  readonly version: 14;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -64,10 +64,13 @@ export type Settings = {
   readonly choirRole: ChoirRoleSetting;
   /** The Way: eight stages of learning. Off is first-class: the Rosary stays whole. */
   readonly caminoEnabled: boolean;
+  /** Facts of the device after a session (duration, times out of the app). Never a
+      grade: prayer is not measured (gamificacion.md 6). Off by default. */
+  readonly recollectionEnabled: boolean;
 };
 
 export const defaultSettings: Settings = {
-  version: 13,
+  version: 14,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -89,6 +92,7 @@ export const defaultSettings: Settings = {
   announcePause: 'short',
   choirRole: 'guide',
   caminoEnabled: true,
+  recollectionEnabled: false,
 };
 
 const SETTINGS_KEY = 'settings';
@@ -128,6 +132,7 @@ const migrations: Record<
   }),
   11: (stored) => ({ choirRole: 'guide', ...stored, version: 12 }),
   12: (stored) => ({ caminoEnabled: true, ...stored, version: 13 }),
+  13: (stored) => ({ recollectionEnabled: false, ...stored, version: 14 }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -180,7 +185,7 @@ const ruleOptions: readonly RuleId[] = [
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 13,
+    version: 14,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -258,6 +263,10 @@ function sanitize(stored: Record<string, unknown>): Settings {
       typeof stored.caminoEnabled === 'boolean'
         ? stored.caminoEnabled
         : defaultSettings.caminoEnabled,
+    recollectionEnabled:
+      typeof stored.recollectionEnabled === 'boolean'
+        ? stored.recollectionEnabled
+        : defaultSettings.recollectionEnabled,
   };
 }
 

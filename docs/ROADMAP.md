@@ -95,60 +95,60 @@ Aplican a toda pantalla, sin que la task lo pida:
 
 ### Bloque C - Latín (fase 3)
 
-| #   | Task                                                  | Qué es                                                         |
-| --- | ----------------------------------------------------- | -------------------------------------------------------------- |
-| 021 | [Textos en latín](./tasks/021-textos-en-latin.md)     | Primera pasada                                                 |
-| 022 | [Audio en latín](./tasks/022-audio-en-latin.md)       | Primera pasada                                                 |
-| 023 | [Texto bilingüe](./tasks/023-texto-bilingue.md)       | Latín y lengua propia alineados línea a línea                  |
-| 024 | [Aprender el latín](./tasks/024-aprender-el-latin.md) | De escuchar a responder de memoria, con el texto que se atenúa |
+| #   | Task                                                  | Qué es                                                         | Estado         |
+| --- | ----------------------------------------------------- | -------------------------------------------------------------- | -------------- |
+| 021 | [Textos en latín](./tasks/021-textos-en-latin.md)     | Todas las oraciones y las letanías lauretanas completas        | Primera pasada |
+| 022 | [Audio en latín](./tasks/022-audio-en-latin.md)       | Pronunciación eclesiástica, voz humana                         | Primera pasada |
+| 023 | [Texto bilingüe](./tasks/023-texto-bilingue.md)       | Latín y lengua propia alineados línea a línea                  | Primera pasada |
+| 024 | [Aprender el latín](./tasks/024-aprender-el-latin.md) | De escuchar a responder de memoria, con el texto que se atenúa | Pendiente      |
 
 ### Bloque D - Constancia (fase 4)
 
-| #   | Task                                                  | Qué es                               |
-| --- | ----------------------------------------------------- | ------------------------------------ |
-| 025 | [La Regla](./tasks/025-la-regla.md)                   | Primera pasada                       |
-| 026 | [Fidelidad del mes](./tasks/026-fidelidad-del-mes.md) | Primera pasada                       |
-| 027 | [Recordatorio](./tasks/027-recordatorio.md)           | Primera pasada                       |
-| 028 | [Intenciones](./tasks/028-intenciones.md)             | Primera pasada                       |
-| 029 | [Rosas del mes](./tasks/029-rosas-del-mes.md)         | Corona visual de lo rezado, apagable |
-| 030 | [Rezar por partes](./tasks/030-rezar-por-partes.md)   | Primera pasada                       |
+| #   | Task                                                  | Qué es                                                  | Estado         |
+| --- | ----------------------------------------------------- | ------------------------------------------------------- | -------------- |
+| 025 | [La Regla](./tasks/025-la-regla.md)                   | Norma personal editable que no obliga bajo pecado       | Primera pasada |
+| 026 | [Fidelidad del mes](./tasks/026-fidelidad-del-mes.md) | Calendario de días fieles, huecos sin drama, modo pausa | Primera pasada |
+| 027 | [Recordatorio](./tasks/027-recordatorio.md)           | Uno, a tu hora, o el modelo del Ángelus                 | Primera pasada |
+| 028 | [Intenciones](./tasks/028-intenciones.md)             | Por quién ofreces, con historial                        | Primera pasada |
+| 029 | [Rosas del mes](./tasks/029-rosas-del-mes.md)         | Corona visual de lo rezado, apagable                    | Primera pasada |
+| 030 | [Rezar por partes](./tasks/030-rezar-por-partes.md)   | Guardar y retomar, con la nota sobre la indulgencia     | Primera pasada |
 
 ### Bloque E - El Camino (fase 5)
 
-| #   | Task                                                      | Qué es                                                    |
-| --- | --------------------------------------------------------- | --------------------------------------------------------- |
-| 031 | [Motor del Camino](./tasks/031-motor-del-camino.md)       | Primera pasada                                            |
-| 032 | [Meditar](./tasks/032-meditar.md)                         | Lectura de la Palabra y silencio configurable             |
-| 033 | [Cláusulas](./tasks/033-clausulas.md)                     | Primera pasada                                            |
-| 034 | [Escuela del Rosario](./tasks/034-escuela-del-rosario.md) | Historia, magisterio, promesas e indulgencias, con fuente |
+| #   | Task                                                      | Qué es                                                    | Estado         |
+| --- | --------------------------------------------------------- | --------------------------------------------------------- | -------------- |
+| 031 | [Motor del Camino](./tasks/031-motor-del-camino.md)       | Las ocho etapas y su avance                               | Primera pasada |
+| 032 | [Meditar](./tasks/032-meditar.md)                         | Lectura de la Palabra y silencio configurable             | Pendiente      |
+| 033 | [Cláusulas](./tasks/033-clausulas.md)                     | Frase del misterio tras el nombre de Jesús                | Primera pasada |
+| 034 | [Escuela del Rosario](./tasks/034-escuela-del-rosario.md) | Historia, magisterio, promesas e indulgencias, con fuente | Pendiente      |
 
 ### Bloque F - Recogimiento (fase 6)
 
-| #   | Task                                                              | Qué es                                                          |
-| --- | ----------------------------------------------------------------- | --------------------------------------------------------------- |
-| 035 | [Ritmo y pausas](./tasks/035-ritmo-y-pausas.md)                   | Primera pasada                                                  |
-| 036 | [Imagen del misterio](./tasks/036-imagen-del-misterio.md)         | Arte sacro a pantalla completa, con su ficha                    |
-| 037 | [Señales de recogimiento](./tasks/037-senales-de-recogimiento.md) | Interrupciones y ritmo: privado, opcional, sin puntaje          |
-| 038 | [Salud](./tasks/038-salud.md)                                     | Corazón y variabilidad desde el reloj; sesión de atención plena |
+| #   | Task                                                              | Qué es                                                          | Estado         |
+| --- | ----------------------------------------------------------------- | --------------------------------------------------------------- | -------------- |
+| 035 | [Ritmo y pausas](./tasks/035-ritmo-y-pausas.md)                   | Tiempos por Ave, pausas dentro de la oración, silencio          | Primera pasada |
+| 036 | [Imagen del misterio](./tasks/036-imagen-del-misterio.md)         | Arte sacro a pantalla completa, con su ficha                    | Pendiente      |
+| 037 | [Señales de recogimiento](./tasks/037-senales-de-recogimiento.md) | Interrupciones y ritmo: privado, opcional, sin puntaje          | Primera pasada |
+| 038 | [Salud](./tasks/038-salud.md)                                     | Corazón y variabilidad desde el reloj; sesión de atención plena | Pendiente      |
 
 ### Bloque G - En familia (fase 7)
 
-| #   | Task                                              | Qué es                                       |
-| --- | ------------------------------------------------- | -------------------------------------------- |
-| 039 | [A dos coros](./tasks/039-a-dos-coros.md)         | Primera pasada                               |
-| 040 | [Modo niños](./tasks/040-modo-ninos.md)           | Menos texto, imágenes grandes, decena suelta |
-| 041 | [Rezo compartido](./tasks/041-rezo-compartido.md) | Varias personas en la misma casa             |
+| #   | Task                                              | Qué es                                          | Estado         |
+| --- | ------------------------------------------------- | ----------------------------------------------- | -------------- |
+| 039 | [A dos coros](./tasks/039-a-dos-coros.md)         | La app hace de guía o de respuesta, en voz alta | Primera pasada |
+| 040 | [Modo niños](./tasks/040-modo-ninos.md)           | Menos texto, imágenes grandes, decena suelta    | Pendiente      |
+| 041 | [Rezo compartido](./tasks/041-rezo-compartido.md) | Varias personas en la misma casa                | Pendiente      |
 
 ### Bloque H - Después
 
-| #   | Task                                                                  | Qué es                                                       |
-| --- | --------------------------------------------------------------------- | ------------------------------------------------------------ |
-| 042 | [Idiomas nuevos](./tasks/042-idiomas-nuevos.md)                       | Italiano, portugués, francés, polaco, alemán y sus variantes |
-| 043 | [Letanías](./tasks/043-letanias.md)                                   | Primera pasada                                               |
-| 044 | [Novena de 54 días](./tasks/044-novena-de-54-dias.md)                 | Estructura propia, con su contador                           |
-| 045 | [Coronilla y Siete Dolores](./tasks/045-coronilla-y-siete-dolores.md) | Devociones hermanas, nunca mezcladas con el Rosario          |
-| 046 | [Cofradía del Rosario](./tasks/046-cofradia-del-rosario.md)           | Regla semanal de quince decenas e inscripción                |
-| 047 | [Rezar a la vez](./tasks/047-rezar-a-la-vez.md)                       | Cuántos rezan ahora, sin nombres ni ranking                  |
+| #   | Task                                                                  | Qué es                                                       | Estado         |
+| --- | --------------------------------------------------------------------- | ------------------------------------------------------------ | -------------- |
+| 042 | [Idiomas nuevos](./tasks/042-idiomas-nuevos.md)                       | Italiano, portugués, francés, polaco, alemán y sus variantes | Pendiente      |
+| 043 | [Letanías](./tasks/043-letanias.md)                                   | Lauretanas completas, rezadas y cantadas                     | Primera pasada |
+| 044 | [Novena de 54 días](./tasks/044-novena-de-54-dias.md)                 | Estructura propia, con su contador                           | Pendiente      |
+| 045 | [Coronilla y Siete Dolores](./tasks/045-coronilla-y-siete-dolores.md) | Devociones hermanas, nunca mezcladas con el Rosario          | Pendiente      |
+| 046 | [Cofradía del Rosario](./tasks/046-cofradia-del-rosario.md)           | Regla semanal de quince decenas e inscripción                | Pendiente      |
+| 047 | [Rezar a la vez](./tasks/047-rezar-a-la-vez.md)                       | Cuántos rezan ahora, sin nombres ni ranking                  | Pendiente      |
 
 ## Estado
 
