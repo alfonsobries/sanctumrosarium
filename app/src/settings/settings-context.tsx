@@ -56,6 +56,8 @@ type SettingsContextValue = {
   readonly setMeditation: (
     value: Partial<Pick<Settings, 'withReading' | 'silenceSeconds'>>,
   ) => void;
+  readonly setMysteryImages: (value: boolean) => void;
+  readonly setHealthWrite: (value: boolean) => void;
   readonly setReminder: (
     value: Partial<
       Pick<Settings, 'reminderMode' | 'reminderHour' | 'reminderMinute' | 'reminderDays'>
@@ -135,6 +137,8 @@ export function SettingsProvider({
       setLatinLearn: (prayer, mode) =>
         update({ latinLearn: { ...settings.latinLearn, [prayer]: mode } }),
       setMeditation: (value) => update(value),
+      setMysteryImages: (mysteryImages) => update({ mysteryImages }),
+      setHealthWrite: (healthWrite) => update({ healthWrite }),
       toggleLatinMix: (prayer) =>
         update({
           latinMixOwn: settings.latinMixOwn.includes(prayer)

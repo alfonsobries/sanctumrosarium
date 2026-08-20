@@ -1,6 +1,6 @@
 import { allForms } from './forms';
 import { lauretanae } from './litany';
-import { mysteries } from './mysteries';
+import { artworks, mysteries } from './mysteries';
 import { findPrayer, prayers } from './prayers';
 import type { Locale } from './types';
 
@@ -90,6 +90,23 @@ export function validateContent(): readonly ValidationIssue[] {
       issues.push({
         kind: 'bad-mystery',
         detail: `${mystery.id} has no scripture reference`,
+      });
+    }
+    const artwork = artworks[mystery.id];
+    if (artwork === undefined) {
+      issues.push({
+        kind: 'bad-mystery',
+        detail: `${mystery.id} has no artwork`,
+      });
+    } else if (
+      artwork.artist.trim() === '' ||
+      artwork.museum.trim() === '' ||
+      artwork.source.name.trim() === '' ||
+      /vatican/i.test(artwork.museum)
+    ) {
+      issues.push({
+        kind: 'bad-mystery',
+        detail: `${mystery.id} has an incomplete or forbidden artwork ficha`,
       });
     }
   }

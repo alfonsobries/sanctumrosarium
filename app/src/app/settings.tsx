@@ -1,7 +1,7 @@
 import { findPrayer, forms, type PrayerId } from '@rosario/content';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Linking, StyleSheet } from 'react-native';
+import { Linking, Platform, StyleSheet } from 'react-native';
 
 import { AppText } from '@/components/AppText';
 import { Card } from '@/components/Card';
@@ -13,6 +13,7 @@ import { ReminderSection } from '@/features/reminder/ReminderSection';
 import { formsForLocale, optionalPrayersOf } from '@/features/rosary/forms';
 import { useSettings } from '@/settings/settings-context';
 import { silenceOptions } from '@/settings/store';
+import { healthWriteAvailable, requestHealthWrite } from '../../modules/mindful-session';
 import type {
   AppearanceSetting,
   InterfaceLanguageSetting,
@@ -74,6 +75,8 @@ export default function SettingsScreen() {
     setPace,
     setChoirRole,
     setMeditation,
+    setMysteryImages,
+    setHealthWrite,
   } = useSettings();
 
   // The prayers of the current form that can be mixed while praying in Latin:
@@ -302,6 +305,40 @@ export default function SettingsScreen() {
           onValueChange={(value) => setCaminoEnabled(value)}
         />
       </Card>
+
+      <SectionHeader title={t('artwork.title')} />
+      <Card>
+        <SwitchRow
+          label={t('artwork.title')}
+          description={t('artwork.toggle')}
+          value={settings.mysteryImages}
+          divider={false}
+          onValueChange={setMysteryImages}
+        />
+      </Card>
+
+      {Platform.OS === 'ios' && healthWriteAvailable() ? (
+        <>
+          <SectionHeader title={t('health.title')} />
+          <Card>
+            <SwitchRow
+              label={t('health.title')}
+              description={t('health.toggle')}
+              value={settings.healthWrite}
+              divider={false}
+              onValueChange={(value) => {
+                if (!value) {
+                  setHealthWrite(false);
+                  return;
+                }
+                void requestHealthWrite().then((ok) => {
+                  setHealthWrite(ok);
+                });
+              }}
+            />
+          </Card>
+        </>
+      ) : null}
 
       <SectionHeader title={t('recollection.title')} />
       <Card>

@@ -15,11 +15,13 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { mysteries } from '@rosario/content';
 import { mysteriesOfDay } from '@rosario/engine';
 
 import { ErrorScreen } from '@/components/ErrorScreen';
 import { appJournal } from '@/features/journal/app-journal';
-import { pushWatchContext } from '../../modules/watch-bridge';
+import { localDateOf } from '@/features/rosary/session-store';
+import { addWatchPrayedListener, pushWatchContext } from '../../modules/watch-bridge';
 import { applyReminder } from '@/features/reminder/apply';
 import { syncMysteryWidget } from '@/features/widget/update-widget';
 import { initI18n } from '@/i18n';
@@ -66,8 +68,25 @@ function RootNavigator() {
   // and whenever the language, the Rule, or the prayer locale changes (task 019).
   useEffect(() => {
     const { set } = mysteriesOfDay(new Date());
-    pushWatchContext({ set, locale: prayerLanguage });
+    const titles = mysteries
+      .filter((mystery) => mystery.set === set)
+      .map((mystery) => mystery.text[prayerLanguage].title)
+      .join('|');
+    pushWatchContext({ set, locale: prayerLanguage, titles });
   }, [prayerLanguage, settings.rule]);
+
+  useEffect(() => {
+    return addWatchPrayedListener((event) => {
+      const now = new Date();
+      appJournal.add({
+        startedAt: now.toISOString(),
+        finishedAt: now.toISOString(),
+        decades: event.decades,
+        localDate: localDateOf(now),
+        ...(event.set === undefined ? {} : { mysterySet: event.set }),
+      });
+    });
+  }, []);
 
   useEffect(() => {
     syncMysteryWidget({

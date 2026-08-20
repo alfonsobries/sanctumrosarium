@@ -35,6 +35,7 @@ import { useReducedMotion } from 'react-native-reanimated';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
+import { SwitchRow } from '@/components/SwitchRow';
 import { lockScreenOf } from '@/features/audio/lock-screen';
 import { audioPacks } from '@/features/audio/packs.generated';
 import { audioSettingsOf } from '@/features/audio/schedule';
@@ -45,6 +46,11 @@ import { pairLatinLines } from '@/features/rosary/bilingual';
 import { hapticForStep } from '@/features/rosary/haptic-patterns';
 import { playHaptic } from '@/features/rosary/haptics';
 import { BeadTrack } from '@/features/rosary/BeadTrack';
+import {
+  loadHouseIntention,
+  saveHouseIntention,
+} from '@/features/rosary/house-intention';
+import { MysteryArtwork } from '@/features/rosary/MysteryArtwork';
 import {
   clearSession,
   isFromToday,
@@ -58,6 +64,7 @@ import { useSettings } from '@/settings/settings-context';
 import { syncMysteryWidget } from '@/features/widget/update-widget';
 import { appKv } from '@/storage/app-kv';
 import { leaveToHome } from '@/features/rosary/leave';
+import { beginMindfulSession, endMindfulSession } from '../../modules/mindful-session';
 import { nightBlack, radius, spacing, touchTarget } from '@/theme/tokens';
 import { useTheme } from '@/theme/use-theme';
 import { fonts, typeScale } from '@/theme/typography';
@@ -189,6 +196,9 @@ export default function PrayScreen() {
         });
         syncWidget();
       }
+      if (settings.healthWrite) {
+        endMindfulSession();
+      }
       setFinishedExits(
         settings.recollectionEnabled && !resumedRef.current
           ? exitsRef.current
@@ -211,6 +221,7 @@ export default function PrayScreen() {
     phase,
     sessionWays,
     settings.recollectionEnabled,
+    settings.healthWrite,
     syncWidget,
   ]);
 
@@ -285,6 +296,9 @@ export default function PrayScreen() {
   };
   const handleResume = () => {
     resumedRef.current = true;
+    if (settings.healthWrite) {
+      beginMindfulSession();
+    }
     setPhase('praying');
   };
   const handleStartOver = () => {
@@ -311,9 +325,14 @@ export default function PrayScreen() {
     clearSession(appKv);
     setPhase('intention');
   };
-  const handleBegin = (intention: string | undefined) => {
+  const handleBegin = (intention: string | undefined, keepHouse = false) => {
     if (intention !== undefined) {
       appJournal.saveIntention(intention);
+    }
+    if (keepHouse && intention !== undefined) {
+      saveHouseIntention(appKv, intention);
+    } else if (!keepHouse) {
+      saveHouseIntention(appKv, '');
     }
     const today = mysteriesOfDay(new Date());
     setBuildOptions({
@@ -325,9 +344,13 @@ export default function PrayScreen() {
       withClauses: settings.withClauses,
       withReading: settings.withReading,
       silenceSeconds: settings.silenceSeconds,
+      ...(singleDecade ? { decadeCount: 1 } : {}),
       ...latinOverrides(prayerLocale, settings.latinMixOwn, systemPrayerLocale),
     });
     setSession(startSession(new Date(), intention));
+    if (settings.healthWrite) {
+      beginMindfulSession();
+    }
     setPhase('praying');
   };
 
@@ -411,9 +434,16 @@ export default function PrayScreen() {
           <AppText variant="overline" color="muted">
             {t(`sets.${buildOptions.set}`).toUpperCase()}
           </AppText>
-          <AppText variant="heading" accessibilityRole="header">
-            {mystery.text[language].title}
-          </AppText>
+          {settings.mysteryImages ? (
+            <MysteryArtwork
+              mysteryId={mystery.id}
+              mysteryTitle={mystery.text[language].title}
+            />
+          ) : (
+            <AppText variant="heading" accessibilityRole="header">
+              {mystery.text[language].title}
+            </AppText>
+          )}
         </View>
       )}
 
@@ -555,11 +585,13 @@ export default function PrayScreen() {
 function IntentionScreen({
   onBegin,
 }: {
-  onBegin: (intention: string | undefined) => void;
+  onBegin: (intention: string | undefined, keepHouse?: boolean) => void;
 }) {
   const { t } = useTranslation();
   const colors = useTheme();
-  const [text, setText] = useState('');
+  const house = loadHouseIntention(appKv);
+  const [text, setText] = useState(house ?? '');
+  const [keepHouse, setKeepHouse] = useState(house !== undefined);
   const [savedIntentions] = useState(() => appJournal.savedIntentions().slice(0, 5));
 
   return (
@@ -595,10 +627,19 @@ function IntentionScreen({
             </AppText>
           </Pressable>
         ))}
+        <SwitchRow
+          label={t('house.keep')}
+          description={t('house.keepHint')}
+          value={keepHouse}
+          divider={false}
+          onValueChange={setKeepHouse}
+        />
         <View style={styles.resumeActions}>
           <Button
             label={t('home.start')}
-            onPress={() => onBegin(text.trim() === '' ? undefined : text.trim())}
+            onPress={() =>
+              onBegin(text.trim() === '' ? undefined : text.trim(), keepHouse)
+            }
           />
         </View>
       </View>

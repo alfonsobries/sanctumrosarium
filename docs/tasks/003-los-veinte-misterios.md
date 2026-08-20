@@ -101,7 +101,7 @@ Pendiente:
 
 - Texto de la cita bíblica: depende de la decisión 10 (traducción y licencia por idioma).
 - Meditaciones en inglés y latín, con atribución.
-- Imágenes: falta la curaduría entera y su ficha.
+- Imágenes: curadas en la task 036.
 - **Las cláusulas no están ancladas.** Siguen el patrón de las oficiales alemanas y de la
   lista de Montfort (Rosa 50), pero la redacción concreta en español, inglés y latín la
   escribí yo. Hay que contrastarlas con una fuente de cada lengua antes de publicarlas, o

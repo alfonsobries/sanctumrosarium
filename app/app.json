@@ -18,7 +18,12 @@
       },
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true,
-        "UIBackgroundModes": ["audio"]
+        "UIBackgroundModes": ["audio"],
+        "NSHealthShareUsageDescription": "The duration of the Rosary can be saved as a mindfulness session. Nothing else is written.",
+        "NSHealthUpdateUsageDescription": "The duration of the Rosary can be saved as a mindfulness session. Nothing else is written."
+      },
+      "entitlements": {
+        "com.apple.developer.healthkit": true
       }
     },
     "android": {

@@ -38,15 +38,26 @@ el título, no un recuadro roto.
 3. El misterio sigue legible sobre la imagen, en claro y en oscuro.
 4. Apagar las imágenes deja el rezo igual de usable.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- Veinte obras de dominio público (PD-Art o CC0), una por misterio, fichas en
+  `packages/content/src/mysteries/artwork.ts` y archivos en `packages/content/art/`.
+  Ninguna foto de Museos Vaticanos. Ninguna ilustración generada.
+- En el rezo la obra ocupa la mitad superior; el título queda sobre ella. Un toque abre la
+  ficha (autor, año, museo, licencia). Apagar las imágenes en Ajustes deja el rezo igual.
+- El sitio muestra las mismas obras y fichas.
+- **Reloj**: el título del misterio ya ocupa la pantalla; no se embebe la miniatura (peso
+  del target). La ficha no cabe.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor - las fichas viven junto a la obra
-- [ ] App
-- [ ] Reloj - una miniatura del misterio si cabe; no la ficha
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad - la imagen tiene texto alternativo; nada depende solo de ella
-- [ ] Sitio - las mismas obras y fichas
+- [x] Definir qué aplica
+- [x] Contenido y motor - las fichas viven junto a la obra
+- [x] App
+- [x] ~~Reloj - n/a: el título basta; la miniatura inflaría el target~~
+- [x] ~~Audio - n/a~~
+- [x] Accesibilidad - la imagen tiene texto alternativo; nada depende solo de ella
+- [x] Sitio - las mismas obras y fichas
 
 ## Fuentes
 

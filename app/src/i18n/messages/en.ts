@@ -308,6 +308,26 @@ export const en = {
     revealHint: 'A tap shows the text for this step.',
     yourTurn: 'Your turn.',
   },
+  artwork: {
+    title: 'Image of the mystery',
+    toggle:
+      'Shows a public-domain work behind the mystery. Turning it off leaves the prayer the same.',
+    hint: 'A tap opens the caption of the work.',
+    alt: '{{title}}, by {{artist}}',
+    license: 'Licence: {{license}}',
+  },
+  health: {
+    title: 'Health',
+    toggle:
+      'The length of each Rosary is written to Health, under the mindfulness category the system uses; it does not measure how you prayed.',
+    denied: 'The app does not write to Health. It is turned on in the system settings.',
+  },
+  house: {
+    tonight: 'Household intention',
+    keep: 'Leave it on this phone today',
+    keepHint:
+      'Anyone who prays on this phone sees it. It clears in the morning. It does not travel.',
+  },
   meditation: {
     title: 'Meditating',
     reading: 'Reading the Word',

@@ -1,5 +1,7 @@
 import type { Mystery } from '../types';
 
+export { artworks } from './artwork';
+
 /**
  * The source of the mysteries themselves: the four sets and their sense come from RVM 19-23.
  *

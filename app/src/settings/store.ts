@@ -23,7 +23,7 @@ export type ChoirRoleSetting = 'guide' | 'respond';
 export type LatinLearnMode = 'listen' | 'read' | 'memory';
 
 export type Settings = {
-  readonly version: 16;
+  readonly version: 17;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -76,10 +76,14 @@ export type Settings = {
   readonly withReading: boolean;
   /** Seconds of silence before the decade (RVM 31). Zero is a valid choice. */
   readonly silenceSeconds: number;
+  /** Sacred art behind the mystery while praying. Off leaves the Rosary whole. */
+  readonly mysteryImages: boolean;
+  /** Write the duration of the Rosary as a mindfulness session (Health). Off by default. */
+  readonly healthWrite: boolean;
 };
 
 export const defaultSettings: Settings = {
-  version: 16,
+  version: 17,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -105,6 +109,8 @@ export const defaultSettings: Settings = {
   latinLearn: {},
   withReading: false,
   silenceSeconds: 0,
+  mysteryImages: true,
+  healthWrite: false,
 };
 
 const SETTINGS_KEY = 'settings';
@@ -147,6 +153,7 @@ const migrations: Record<
   13: (stored) => ({ recollectionEnabled: false, ...stored, version: 14 }),
   14: (stored) => ({ latinLearn: {}, ...stored, version: 15 }),
   15: (stored) => ({ withReading: false, silenceSeconds: 0, ...stored, version: 16 }),
+  16: (stored) => ({ mysteryImages: true, healthWrite: false, ...stored, version: 17 }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -217,7 +224,7 @@ const ruleOptions: readonly RuleId[] = [
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 16,
+    version: 17,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -307,6 +314,14 @@ function sanitize(stored: Record<string, unknown>): Settings {
     silenceSeconds: silenceOptions.includes(stored.silenceSeconds as number)
       ? (stored.silenceSeconds as number)
       : defaultSettings.silenceSeconds,
+    mysteryImages:
+      typeof stored.mysteryImages === 'boolean'
+        ? stored.mysteryImages
+        : defaultSettings.mysteryImages,
+    healthWrite:
+      typeof stored.healthWrite === 'boolean'
+        ? stored.healthWrite
+        : defaultSettings.healthWrite,
   };
 }
 

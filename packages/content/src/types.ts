@@ -84,6 +84,19 @@ export type MysteryText = {
   readonly clause?: string;
 };
 
+/** A public-domain work shown with the mystery. Never generated; never a Vatican Museums photo. */
+export type ArtworkLicense = 'CC0' | 'PD-Art';
+
+export type Artwork = {
+  readonly file: string;
+  readonly title: string;
+  readonly artist: string;
+  readonly year: string;
+  readonly museum: string;
+  readonly license: ArtworkLicense;
+  readonly source: Source;
+};
+
 export type Mystery = {
   readonly id: MysteryId;
   readonly set: MysterySetId;

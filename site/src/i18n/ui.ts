@@ -109,6 +109,11 @@ export const ui = {
       'Un Rosario son cinco decenas de un ciclo de misterios: gozosos, luminosos, dolorosos o gloriosos. En cada decena se anuncia el misterio, se reza un Padrenuestro, diez Avemarías y un Gloria. Juan Pablo II lo describe como contemplar a Cristo con María, y advierte que sin esa atención es «un cuerpo sin alma».',
     'how.p2':
       'En la app eliges la forma de tu región y el idioma del rezo, que puede ser distinto del idioma de la interfaz. Las oraciones opcionales se encienden o se apagan una por una.',
+    'how.family.title': 'En casa',
+    'how.family.p1':
+      'Un solo teléfono en la mesa basta. La app dice la primera mitad o la segunda, en voz alta, y se puede dejar una intención de esa noche en ese aparato. No hay perfiles ni lista de quién rezó.',
+    'how.family.p2':
+      'A la hora del Ángelus mucha gente reza. La app puede avisarte; no cuenta a nadie.',
     'how.corona.title': 'La corona',
     'how.order.title': 'El orden',
     'how.order.lead':
@@ -338,6 +343,11 @@ export const ui = {
       'A Rosary is five decades of one set of mysteries: Joyful, Luminous, Sorrowful or Glorious. In each decade the mystery is announced, then an Our Father, ten Hail Marys and a Glory Be. John Paul II describes it as contemplating Christ with Mary, and warns that without that attention it is "a body without a soul".',
     'how.p2':
       'In the app you pick the form of your region and the language of the prayer, which can differ from the language of the interface. Optional prayers are turned on or off one by one.',
+    'how.family.title': 'At home',
+    'how.family.p1':
+      'One phone on the table is enough. The app says the first half or the second, out loud, and a household intention can sit on that device for the night. There are no profiles and no list of who prayed.',
+    'how.family.p2':
+      'At the Angelus hours many people pray. The app can remind you; it does not count anyone.',
     'how.corona.title': 'The beads',
     'how.order.title': 'The order',
     'how.order.lead':

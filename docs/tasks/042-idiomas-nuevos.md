@@ -46,6 +46,12 @@ Una voz por lengua, con el mismo corte de llamada y respuesta.
 - Orden de llegada. Recomendación: portugués (Fátima original), italiano, francés, polaco,
   alemán. El alemán es el más distinto y el que más prueba el motor.
 
+## Bloqueo (agosto 2026)
+
+Ningún texto de italiano, portugués, francés, polaco o alemán entra sin la redacción de la
+conferencia episcopal o del Compendio en esa lengua, con fuente en el dato. El dossier
+apunta dónde están; no los transcribe. Sin transcripción verificada, esta task no arranca.
+
 ## Ciclo completo
 
 - [ ] Definir qué aplica

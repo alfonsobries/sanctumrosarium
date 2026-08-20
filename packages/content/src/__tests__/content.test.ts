@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { allForms, forms } from '../forms';
-import { mysteries } from '../mysteries';
+import { artworks, mysteries } from '../mysteries';
 import { lauretanae } from '../litany';
 import { findPrayer, prayers, prayersFor } from '../prayers';
 import type { Locale, MysterySetId } from '../types';
@@ -106,6 +106,24 @@ describe('mysteries', () => {
   it('gives every mystery a clause to say after the name of Jesus', () => {
     for (const mystery of mysteries) {
       expect(mystery.text.es.clause, mystery.id).toBeDefined();
+    }
+  });
+
+  it('gives every mystery a public-domain artwork with a complete ficha', () => {
+    expect(Object.keys(artworks)).toHaveLength(20);
+    for (const mystery of mysteries) {
+      const artwork = artworks[mystery.id];
+      expect(artwork).toBeDefined();
+      if (artwork === undefined) {
+        continue;
+      }
+      expect(artwork.file).toBe(`${mystery.id}.jpg`);
+      expect(artwork.artist).not.toBe('');
+      expect(artwork.year).not.toBe('');
+      expect(artwork.museum).not.toBe('');
+      expect(artwork.source.url).toMatch(/^https:\/\//);
+      expect(artwork.museum.toLowerCase()).not.toContain('vatican');
+      expect(['CC0', 'PD-Art']).toContain(artwork.license);
     }
   });
 });

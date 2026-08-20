@@ -49,6 +49,12 @@ como ranking de misterios.
 - Dónde vive el pulso. Recomendación: un servicio mínimo y anónimo, sin cuentas, distinto
   de cualquier diario.
 
+## Bloqueo (agosto 2026)
+
+Un contador de "quién reza ahora" pide servidor. La decisión 4 es empezar sin backend, y
+lo rezado no sale del dispositivo. El sitio ya dice que a la hora del Ángelus mucha gente
+reza, sin contar a nadie. El pulso anónimo espera demanda real después del lanzamiento.
+
 ## Ciclo completo
 
 - [ ] Definir qué aplica

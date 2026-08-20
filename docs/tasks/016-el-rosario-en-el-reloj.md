@@ -58,17 +58,21 @@ Todo lo anterior funciona con el teléfono apagado o lejos.
 
 ## Decisiones tomadas (primera pasada, agosto 2026)
 
-- Una decena en el reloj: misterio a la vista, corona digital con detente (0 =
-  Padrenuestro, 1-10 = Ave). El texto del Ave no cabe y no se muestra.
-- Cinco decenas, sesión a medias, pantalla always-on, ida al diario y verificación en
-  reloj real quedan para la siguiente pasada. Audio 017, háptica 018.
+- Cinco decenas con el misterio a la vista, corona digital con detente (0 = Padrenuestro,
+  1-10 = Ave, 10 = Gloria) y toque. El texto del Ave no cabe y no se muestra. Al terminar,
+  el reloj envía las cinco decenas al diario del teléfono (mensaje si está cerca,
+  `transferUserInfo` si no). Los títulos llegan del teléfono en el contexto.
+- Always-on: el estado se conserva al bajar la muñeca. Actualizar el fotograma atenuado
+  durante el rezo pide la sesión de ejercicio de la 018.
+- Verificación en reloj real: pendiente.
 
 ## Ciclo completo
 
 - [x] Definir qué aplica
 - [x] ~~Contenido y motor - n/a~~
-- [ ] App - recepción en el diario (015 envió el contexto; el diario de vuelta no)
-- [x] Reloj - una decena con corona
+- [x] App - el diario recibe lo rezado en el reloj
+- [x] Reloj - cinco decenas con corona
 - [x] ~~Audio - n/a: task 017~~
-- [ ] Accesibilidad - la pantalla del reloj se recorre con lector de pantalla
+- [x] Accesibilidad - etiqueta, valor y toque; recorrido con VoiceOver en aparato
+      pendiente
 - [x] ~~Sitio - n/a~~

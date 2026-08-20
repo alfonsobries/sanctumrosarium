@@ -307,6 +307,25 @@ export const es = {
     revealHint: 'Un toque muestra el texto de este paso.',
     yourTurn: 'Respondes tú.',
   },
+  artwork: {
+    title: 'Imagen del misterio',
+    toggle:
+      'Muestra una obra de dominio público detrás del misterio. Apagarla deja el rezo igual.',
+    hint: 'Un toque muestra la ficha de la obra.',
+    alt: '{{title}}, de {{artist}}',
+    license: 'Licencia: {{license}}',
+  },
+  health: {
+    title: 'Salud',
+    toggle:
+      'La duración de cada Rosario se escribe en Salud, bajo la categoría de atención plena del sistema; no mide cómo rezaste.',
+    denied: 'La app no escribe en Salud. Se activa en los ajustes del sistema.',
+  },
+  house: {
+    tonight: 'Intención de la casa',
+    keep: 'Dejarla en este teléfono hoy',
+    keepHint: 'La ven quienes recen en este teléfono. Mañana se borra. No viaja.',
+  },
   meditation: {
     title: 'Meditar',
     reading: 'Leer la Palabra',
