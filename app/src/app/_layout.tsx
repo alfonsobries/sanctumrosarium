@@ -54,7 +54,11 @@ function RootNavigator() {
         <Stack.Screen name="pray" options={{ gestureEnabled: true }} />
         <Stack.Screen
           name="settings"
-          options={{ headerShown: true, title: t('settings.title') }}
+          options={{
+            headerShown: true,
+            title: t('settings.title'),
+            headerBackButtonDisplayMode: 'minimal',
+          }}
         />
       </Stack>
     </ThemeProvider>
