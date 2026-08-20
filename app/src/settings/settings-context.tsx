@@ -18,6 +18,7 @@ import {
 import {
   saveSettings,
   type AppearanceSetting,
+  type ChoirRoleSetting,
   type HapticsSetting,
   type InterfaceLanguageSetting,
   type LatinTextSetting,
@@ -47,6 +48,7 @@ type SettingsContextValue = {
   readonly setPace: (
     value: Partial<Pick<Settings, 'audioPace' | 'responseSilence' | 'announcePause'>>,
   ) => void;
+  readonly setChoirRole: (value: ChoirRoleSetting) => void;
   readonly setReminder: (
     value: Partial<
       Pick<Settings, 'reminderMode' | 'reminderHour' | 'reminderMinute' | 'reminderDays'>
@@ -120,6 +122,7 @@ export function SettingsProvider({
       setWithLitany: (withLitany) => update({ withLitany }),
       setWithClauses: (withClauses) => update({ withClauses }),
       setPace: (value) => update(value),
+      setChoirRole: (value) => update({ choirRole: value }),
       toggleLatinMix: (prayer) =>
         update({
           latinMixOwn: settings.latinMixOwn.includes(prayer)

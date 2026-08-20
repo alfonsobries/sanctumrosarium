@@ -5,32 +5,39 @@ import type { Settings } from '@/settings/store';
 import type { AudioManifest, LineMark } from './types';
 
 /**
- * What the guide does on one step: say its track and then hold the silence where the
- * person prays their part. The app does not pray for you (task 008): the leader half
- * plays, the response half only donates its duration to size the silence.
+ * What the guide does on one step: hold the silence for the part that is yours, say its
+ * own, and hold again while you close. The app never prays your half (task 008): a half
+ * that is not played only donates its duration to size the silence.
  */
 export type StepAudioPlan =
   | {
       readonly kind: 'track';
       readonly file: string;
+      /** Silence held before speaking: your call, when the app answers. */
+      readonly silenceBeforeMs: number;
       readonly silenceAfterMs: number;
       readonly lines?: readonly LineMark[];
+      /** Lines the played half skips: the highlight lands on the right line of the full text. */
+      readonly lineOffset?: number;
     }
   | { readonly kind: 'silence'; readonly silenceAfterMs: number };
 
 export type AudioSettings = {
   /** Playback rate. Normal or slower: there is no fast mode (MC 47, RVM 12). */
   readonly rate: number;
-  /** Breathing room over the spoken length of the response. */
+  /** Breathing room over the spoken length of the half the person prays. */
   readonly responseFactor: number;
   /** Silence taken in the mystery after its announcement. */
   readonly announceMs: number;
+  /** Who leads the two choirs: the app calls and you answer, or the reverse (Rosa 46). */
+  readonly choirRole: 'guide' | 'respond';
 };
 
 export const defaultAudioSettings: AudioSettings = {
   rate: 1,
   responseFactor: 1.25,
   announceMs: 4000,
+  choirRole: 'guide',
 };
 
 /** Small pause after a prayer nobody responds to. */
@@ -53,6 +60,34 @@ export function planForStep(
       return { kind: 'silence', silenceAfterMs: GAP_MS };
     }
     const response = track.response;
+    if (settings.choirRole === 'respond' && response !== undefined) {
+      // You call: silence sized to the leader half, then the app answers.
+      const call = Math.round(
+        (track.leader.durationMs * settings.responseFactor) / settings.rate,
+      );
+      let after = GAP_MS;
+      if (step.prayer.id === 'ave-maria') {
+        const spoken = Math.round(response.durationMs / settings.rate);
+        after = Math.max(GAP_MS, AVE_FLOOR_MS - call - spoken);
+      }
+      return {
+        kind: 'track',
+        file: response.file,
+        silenceBeforeMs: call,
+        silenceAfterMs: after,
+        ...(response.lines === undefined ? {} : { lines: response.lines }),
+        ...(step.prayer.responseFrom === undefined
+          ? {}
+          : { lineOffset: step.prayer.responseFrom }),
+      };
+    }
+    if (settings.choirRole === 'respond') {
+      // A prayer with no response half is all yours: the guide only keeps the time.
+      const whole = Math.round(
+        (track.leader.durationMs * settings.responseFactor) / settings.rate,
+      );
+      return { kind: 'silence', silenceAfterMs: whole + GAP_MS };
+    }
     let silence =
       response === undefined
         ? GAP_MS
@@ -64,6 +99,7 @@ export function planForStep(
     return {
       kind: 'track',
       file: track.leader.file,
+      silenceBeforeMs: 0,
       silenceAfterMs: silence,
       ...(track.leader.lines === undefined ? {} : { lines: track.leader.lines }),
     };
@@ -89,5 +125,6 @@ export function audioSettingsOf(settings: Settings): AudioSettings {
         : settings.announcePause === 'medium'
           ? 8000
           : 4000,
+    choirRole: settings.choirRole,
   };
 }

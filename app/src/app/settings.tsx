@@ -69,6 +69,7 @@ export default function SettingsScreen() {
     setWithClauses,
     toggleLatinMix,
     setPace,
+    setChoirRole,
   } = useSettings();
 
   // The prayers of the current form that can be mixed while praying in Latin:
@@ -320,6 +321,22 @@ export default function SettingsScreen() {
       </Card>
       <AppText variant="caption" color="muted" style={styles.hint}>
         {t('pace.hint')}
+      </AppText>
+
+      <SectionHeader title={t('choir.title')} />
+      <Card>
+        {(['guide', 'respond'] as const).map((option, index) => (
+          <ListRow
+            key={option}
+            label={t(`choir.${option}`)}
+            selected={settings.choirRole === option}
+            divider={index < 1}
+            onPress={() => setChoirRole(option)}
+          />
+        ))}
+      </Card>
+      <AppText variant="caption" color="muted" style={styles.hint}>
+        {t('choir.hint')}
       </AppText>
 
       <ReminderSection />

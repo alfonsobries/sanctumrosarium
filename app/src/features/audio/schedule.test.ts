@@ -35,6 +35,7 @@ describe('planForStep', () => {
     expect(plan).toEqual({
       kind: 'track',
       file: 'ave-maria.leader.mp3',
+      silenceBeforeMs: 0,
       silenceAfterMs: 7500,
     });
   });
@@ -47,6 +48,7 @@ describe('planForStep', () => {
     expect(plan).toEqual({
       kind: 'track',
       file: 'ave-maria.leader.mp3',
+      silenceBeforeMs: 0,
       silenceAfterMs: 9375,
     });
   });
@@ -56,6 +58,7 @@ describe('planForStep', () => {
     expect(plan).toEqual({
       kind: 'track',
       file: 'signum-crucis.leader.mp3',
+      silenceBeforeMs: 0,
       silenceAfterMs: 1200,
     });
   });
@@ -88,6 +91,49 @@ describe('planForStep', () => {
   it('the automatic mode never skips the response silence', () => {
     const plan = planForStep(ave!, manifest, { ...defaultAudioSettings, rate: 0.85 });
     expect(plan.kind === 'track' && plan.silenceAfterMs > 0).toBe(true);
+  });
+
+  it('answering role holds your call first and then plays the response', () => {
+    const plan = planForStep(ave!, manifest, {
+      ...defaultAudioSettings,
+      choirRole: 'respond',
+    });
+    expect(plan.kind).toBe('track');
+    if (plan.kind === 'track') {
+      expect(plan.file).toBe('ave-maria.response.mp3');
+      expect(plan.silenceBeforeMs).toBe(10_000);
+      expect(plan.lineOffset).toBe(ave!.kind === 'prayer' ? ave!.prayer.responseFrom : 0);
+    }
+  });
+
+  it('answering role leaves a whole prayer without response to the person', () => {
+    const plan = planForStep(sign!, manifest, {
+      ...defaultAudioSettings,
+      choirRole: 'respond',
+    });
+    expect(plan).toEqual({ kind: 'silence', silenceAfterMs: 6200 });
+  });
+
+  it('answering role keeps the Hail Mary floor', () => {
+    const quick: AudioManifest = {
+      ...manifest,
+      tracks: {
+        'ave-maria': {
+          leader: { file: 'ave-maria.leader.mp3', durationMs: 3000 },
+          response: { file: 'ave-maria.response.mp3', durationMs: 2000 },
+        },
+      },
+    };
+    const plan = planForStep(ave!, quick, {
+      ...defaultAudioSettings,
+      choirRole: 'respond',
+    });
+    expect(plan.kind).toBe('track');
+    if (plan.kind === 'track') {
+      expect(plan.silenceBeforeMs + 2000 + plan.silenceAfterMs).toBeGreaterThanOrEqual(
+        12_000,
+      );
+    }
   });
 
   it('keeps praying in silence when a track is missing', () => {

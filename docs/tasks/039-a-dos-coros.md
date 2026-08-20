@@ -40,14 +40,31 @@ ni una red.
 3. Cambiar de papel no reinicia el Rosario.
 4. No se pide el micrófono.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Dos papeles en Ajustes ("A dos coros")**: la voz guía y tú respondes (lo de siempre),
+  o tú guías y la voz responde. En el segundo, la app calla el tiempo de tu llamada
+  (duración de esa mitad por el mismo factor de respiro del ritmo) y luego dice su parte.
+- **El volumen es silencio**: la parte que te toca no suena en absoluto; no hay pista a
+  volumen bajo que te tape. Una oración sin corte de respuesta es toda tuya y la guía solo
+  lleva el tiempo.
+- **El piso del Avemaría se conserva** en los dos papeles: nada premia ir más rápido.
+- Cambiar de papel es un ajuste: la sesión no se toca (criterio 3). Sin micrófono, por
+  decisión 7 (criterio 4).
+- El resaltado en el papel de respuesta cae sobre las líneas de la respuesta
+  (`responseFrom` como offset); durante tu llamada no se resalta nada: esa parte es tuya.
+- **Pendiente**: el papel en el reloj (cuando exista su audio, task 017) y la mención en
+  la guía de rezar en familia del sitio (con la 034/040).
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor - los cortes `lead`/`response` ya están
-- [ ] App
+- [x] Definir qué aplica
+- [x] Contenido y motor - los cortes `lead`/`response` ya estaban
+- [x] App
 - [ ] Reloj - un papel simple, si el audio del reloj existe
-- [ ] Audio
-- [ ] Accesibilidad
+- [x] Audio - reusa las mitades de la 008 en los tres idiomas
+- [x] Accesibilidad - filas nativas con estado seleccionado; recorrido en aparato
+      pendiente
 - [ ] Sitio - la guía de rezar en familia lo menciona
 
 ## Fuentes

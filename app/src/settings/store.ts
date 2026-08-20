@@ -19,9 +19,10 @@ export type ReminderMode = 'off' | 'hour' | 'angelus';
 export type AudioPaceSetting = 'calm' | 'normal';
 export type ResponseSilenceSetting = 'normal' | 'long';
 export type AnnouncePauseSetting = 'short' | 'medium' | 'long';
+export type ChoirRoleSetting = 'guide' | 'respond';
 
 export type Settings = {
-  readonly version: 11;
+  readonly version: 12;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -58,10 +59,13 @@ export type Settings = {
   readonly audioPace: AudioPaceSetting;
   readonly responseSilence: ResponseSilenceSetting;
   readonly announcePause: AnnouncePauseSetting;
+  /** Who leads when praying aloud with the guide: the app calls, or the app answers
+      (Montfort, Rosa 46). Time and touch, never the microphone (decision 7). */
+  readonly choirRole: ChoirRoleSetting;
 };
 
 export const defaultSettings: Settings = {
-  version: 11,
+  version: 12,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -81,6 +85,7 @@ export const defaultSettings: Settings = {
   audioPace: 'normal',
   responseSilence: 'normal',
   announcePause: 'short',
+  choirRole: 'guide',
 };
 
 const SETTINGS_KEY = 'settings';
@@ -118,6 +123,7 @@ const migrations: Record<
     ...stored,
     version: 11,
   }),
+  11: (stored) => ({ choirRole: 'guide', ...stored, version: 12 }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -158,6 +164,7 @@ const reminderModes: readonly ReminderMode[] = ['off', 'hour', 'angelus'];
 const audioPaces: readonly AudioPaceSetting[] = ['calm', 'normal'];
 const responseSilences: readonly ResponseSilenceSetting[] = ['normal', 'long'];
 const announcePauses: readonly AnnouncePauseSetting[] = ['short', 'medium', 'long'];
+const choirRoles: readonly ChoirRoleSetting[] = ['guide', 'respond'];
 const ruleOptions: readonly RuleId[] = [
   'none',
   'daily-decade',
@@ -169,7 +176,7 @@ const ruleOptions: readonly RuleId[] = [
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 11,
+    version: 12,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -240,6 +247,9 @@ function sanitize(stored: Record<string, unknown>): Settings {
     announcePause: isOneOf(stored.announcePause, announcePauses)
       ? stored.announcePause
       : defaultSettings.announcePause,
+    choirRole: isOneOf(stored.choirRole, choirRoles)
+      ? stored.choirRole
+      : defaultSettings.choirRole,
   };
 }
 

@@ -58,6 +58,7 @@ export function useAudioGuide({
 
     const plan = planForStep(step, pack.manifest, settings);
     const source = plan.kind === 'track' ? pack.sources[plan.file] : undefined;
+    let beforeTimer: ReturnType<typeof setTimeout> | null = null;
     let timer: ReturnType<typeof setTimeout> | null = null;
     let subscription: { remove: () => void } | null = null;
 
@@ -65,19 +66,21 @@ export function useAudioGuide({
       timer = setTimeout(() => onAdvanceRef.current(), plan.silenceAfterMs);
     };
 
-    if (source === undefined) {
+    if (source === undefined || plan.kind !== 'track') {
       scheduleAdvance();
     } else {
       const player = playerRef.current ?? createAudioPlayer();
       playerRef.current = player;
-      const lines = plan.kind === 'track' ? plan.lines : undefined;
+      const { lines } = plan;
+      const lineOffset = plan.lineOffset ?? 0;
       subscription = player.addListener('playbackStatusUpdate', (status) => {
         if (lines !== undefined) {
           const line = activeLineAt(lines, status.currentTime * 1000);
+          const shown = line === undefined ? undefined : line + lineOffset;
           setSpokenLine((current) =>
-            current?.step === stepIndex && current.line === line
+            current?.step === stepIndex && current.line === shown
               ? current
-              : { step: stepIndex, line },
+              : { step: stepIndex, line: shown },
           );
         }
         if (status.didJustFinish) {
@@ -86,12 +89,22 @@ export function useAudioGuide({
           scheduleAdvance();
         }
       });
-      player.replace(source);
-      player.setPlaybackRate(settings.rate, 'high');
-      player.play();
+      const startPlayback = () => {
+        player.replace(source);
+        player.setPlaybackRate(settings.rate, 'high');
+        player.play();
+      };
+      if (plan.silenceBeforeMs > 0) {
+        beforeTimer = setTimeout(startPlayback, plan.silenceBeforeMs);
+      } else {
+        startPlayback();
+      }
     }
 
     return () => {
+      if (beforeTimer !== null) {
+        clearTimeout(beforeTimer);
+      }
       if (timer !== null) {
         clearTimeout(timer);
       }

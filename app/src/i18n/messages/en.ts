@@ -199,6 +199,12 @@ export const en = {
     },
     hint: 'The tranquil pace is the normal mode; there is no fast mode.',
   },
+  choir: {
+    title: 'Two choirs',
+    guide: 'The voice leads, you answer',
+    respond: 'You lead, the voice answers',
+    hint: 'For praying aloud, with the phone at the center of the table. The part that is yours stays silent.',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },
