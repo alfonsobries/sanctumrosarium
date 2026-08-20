@@ -1,0 +1,19 @@
+# Prays the whole Rosary by button, checks the sober ending, and leaves to home.
+appId: app.sanctamaria
+---
+- stopApp
+- launchApp
+- openLink: sanctamaria:///pray
+- runFlow:
+    when:
+      visible: 'Start over'
+    commands:
+      - tapOn: 'Start over'
+- repeat:
+    while:
+      visible: 'Next'
+    commands:
+      - tapOn: 'Next'
+- assertVisible: 'Five decades.'
+- tapOn: 'Finish'
+- assertVisible: 'Settings'

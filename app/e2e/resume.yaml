@@ -1,0 +1,23 @@
+# Leaves mid-decade and checks the app offers to resume at the same place.
+appId: app.sanctamaria
+---
+- stopApp
+- launchApp
+- openLink: sanctamaria:///pray
+- runFlow:
+    when:
+      visible: 'Start over'
+    commands:
+      - tapOn: 'Start over'
+- repeat:
+    times: 12
+    commands:
+      - tapOn: 'Next'
+- assertVisible: 'Decade 1 of 5'
+- tapOn: 'Leave'
+- assertVisible: 'Settings'
+- openLink: sanctamaria:///pray
+- assertVisible: 'Resume'
+- tapOn: 'Resume'
+- assertVisible: 'Decade 1 of 5'
+- tapOn: 'Leave'

@@ -15,6 +15,26 @@ export const fonts = {
   sansMedium: Platform.select({ ios: 'System', default: 'sans-serif-medium' }),
 } as const;
 
+/**
+ * Cap for the prayed line. Task 007 asks that a Hail Mary read without scroll at the
+ * largest system size; the base size is already large, so the cap keeps the whole
+ * prayer on screen.
+ */
+export const prayerMaxFontScale = 1.6;
+
+/**
+ * Reading text scales to the system maximum. Interface chrome (labels, counters,
+ * overlines) caps like the platform's own bars do, so controls stay usable instead of
+ * colliding at accessibility sizes.
+ */
+export const variantMaxFontScale: Partial<Record<TypeVariant, number>> = {
+  prayer: prayerMaxFontScale,
+  heading: 1.8,
+  label: 1.5,
+  caption: 1.5,
+  overline: 1.3,
+};
+
 export type TypeVariant =
   | 'display'
   | 'title'

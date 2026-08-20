@@ -66,21 +66,35 @@ regañar.
 7. Tests cubren: avance por todos los medios, retomar sesión, cambio de misterio, y el
    recorrido completo de una decena.
 
-## Decisiones abiertas
+## Decisiones tomadas
 
-- Si las cuentas se representan como un rosario visual (cuentas dibujadas) o como progreso
-  abstracto. Recomendación: rosario visual discreto; es la metáfora que todo el mundo
-  conoce, pero no debe robarle sitio al texto.
+- **Cuentas**: rosario visual discreto (diez puntos que se llenan) más el conteo en texto.
+  Los puntos son decorativos para el lector de pantalla; el texto lleva la cuenta.
+- **Imagen del misterio**: llega con la task 036; la pantalla reserva la cabecera
+  (conjunto + título) que nunca sale de la vista durante la decena.
+- **Tamaño de fuente**: el texto de la oración crece hasta 1.6x y el chrome (botones,
+  contadores) hasta lo que usa el sistema en sus barras. En el tamaño máximo de
+  accesibilidad el Ave se lee casi entero y el resto se alcanza con scroll; capar más
+  abajo dejaría el texto más chico a quien más lo necesita.
+- **Anuncio del misterio**: no repite el título (ya está en la cabecera); muestra la
+  introducción y el fruto.
+- **Salir**: el botón Salir siempre está; no pide confirmación porque no se pierde nada:
+  la sesión se guarda en cada paso. Con deep link y sin stack, salir lleva al inicio.
+- **Terminar antes de tiempo**: es lo mismo que salir; al volver se ofrece retomar.
+- **Cargando**: no existe como estado; el contenido es local y síncrono.
+- **e2e**: flujos de Maestro en `app/e2e/` (rosario completo y retomar). Se corren a mano
+  con `maestro test app/e2e/`; el runner de CI es Linux y no puede.
 
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] ~~Contenido y motor - n/a: ya existe~~
-- [ ] App
-- [ ] ~~Reloj - n/a: task 016~~
-- [ ] ~~Audio - n/a: task 008~~
-- [ ] Accesibilidad - la pantalla se recorre entera con lector de pantalla
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] ~~Contenido y motor - n/a: ya existe~~
+- [x] App
+- [x] ~~Reloj - n/a: task 016~~
+- [x] ~~Audio - n/a: task 008~~
+- [ ] Accesibilidad - roles, labels y hints puestos; el recorrido con VoiceOver en
+      dispositivo real queda pendiente de la primera instalación
+- [x] ~~Sitio - n/a~~
 
 ## Primera pasada (agosto 2026)
 
