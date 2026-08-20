@@ -97,14 +97,15 @@ export function ReminderSection() {
                       false,
                     )
                   }
-                  style={[
+                  style={({ pressed }) => [
                     styles.day,
                     active
-                      ? { backgroundColor: colors.accentSoft }
+                      ? { backgroundColor: colors.accent }
                       : { borderWidth: 1, borderColor: colors.borderStrong },
+                    pressed && styles.pressed,
                   ]}
                 >
-                  <AppText variant="caption" color={active ? 'text' : 'muted'}>
+                  <AppText variant="caption" color={active ? 'onAccent' : 'muted'}>
                     {dayLetter(day, i18n.language)}
                   </AppText>
                 </Pressable>
@@ -142,12 +143,13 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   day: {
-    width: touchTarget - 8,
-    height: touchTarget - 8,
+    width: touchTarget,
+    height: touchTarget,
     borderRadius: radius.full,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  pressed: { opacity: 0.75 },
   denied: { marginTop: spacing.sm, gap: spacing.sm, paddingHorizontal: spacing.xs },
   hint: { marginTop: spacing.sm, paddingHorizontal: spacing.xs },
 });

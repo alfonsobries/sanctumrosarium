@@ -50,15 +50,33 @@ fidelidad, no continuidad.
 4. Tests cubren: retomar desde cada tipo de paso, sesión de ayer, y el conteo para cada
    Regla.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Guardar y retomar ya existía** (task 007): la cuenta exacta sobrevive salir, cerrar la
+  app y volver otro día, con la pregunta de retomar o empezar de nuevo.
+- **Las decenas sueltas cuentan**: el motor expone `decadesCompleted` (probado paso a
+  paso) y al descartar una sesión a medias sus decenas completas se registran en el diario
+  con la fecha en que se rezaron y su intención. La Regla mide fidelidad, no continuidad.
+  Una sesión retomada y terminada registra el total una sola vez.
+- **La nota de la indulgencia** aparece una sola vez (bandera local), en la pantalla de
+  retomar, con la precisión del dossier: la plenaria pide cinco decenas seguidas con las
+  demás condiciones; rezar por partes es oración igual y cuenta para la Regla. Enlaza a la
+  explicación completa del sitio (Preguntas).
+- **El sitio ya lleva la explicación completa** (página de Preguntas, task 013).
+- De pasada se aplicó la revisión del agente diseñador: feedback de presión en filas, riel
+  apagado de los switches con token, objetivos táctiles al mínimo de 48, inputs por la
+  escala tipográfica (sin lineHeight en TextInput), día activo del recordatorio en
+  accent/onAccent por contraste, y dos pares más en la prueba automática de contraste.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] Contenido y motor
-- [ ] App
-- [ ] Reloj - una decena suelta en el reloj es un caso principal, no un extra
-- [ ] ~~Audio - n/a~~
-- [ ] Accesibilidad
-- [ ] Sitio - la explicación completa de la indulgencia vive en el sitio
+- [x] Definir qué aplica
+- [x] Contenido y motor - `decadesCompleted` con tests
+- [x] App
+- [ ] Reloj - la decena suelta será caso principal del reloj (task 016)
+- [x] ~~Audio - n/a~~
+- [x] Accesibilidad - la nota es texto normal con enlace etiquetado
+- [x] Sitio - la explicación vive en Preguntas
 
 ## Fuentes
 

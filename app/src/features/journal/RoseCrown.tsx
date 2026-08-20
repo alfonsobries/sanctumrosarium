@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
+  // Decorative glyph sized to the ring geometry, not to the reading scale.
   rose: {
     position: 'absolute',
     fontSize: 18,

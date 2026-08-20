@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
-    maxWidth: 7 * 24 + 6 * 8,
+    // Seven wide cells plus their gaps: the grid wraps weekly.
+    maxWidth: 7 * 16 + 6 * spacing.sm + 6 * spacing.sm,
   },
   cell: {
     borderRadius: radius.full,

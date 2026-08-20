@@ -127,6 +127,6 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
   },
   rowText: { flex: 1 },
-  delete: { minHeight: touchTarget - 16, justifyContent: 'center' },
+  delete: { minHeight: touchTarget, justifyContent: 'center' },
   pressed: { opacity: 0.6 },
 });

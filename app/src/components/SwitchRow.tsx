@@ -31,12 +31,13 @@ export function SwitchRow({
       accessibilityState={{ checked: value }}
       onPress={() => onValueChange(!value)}
       android_ripple={{ color: colors.border }}
-      style={[
+      style={({ pressed }) => [
         styles.row,
         divider && {
           borderBottomWidth: StyleSheet.hairlineWidth,
           borderBottomColor: colors.border,
         },
+        pressed && { backgroundColor: colors.surfaceRaised },
       ]}
     >
       <View style={styles.text}>
@@ -51,7 +52,7 @@ export function SwitchRow({
         value={value}
         onValueChange={onValueChange}
         importantForAccessibility="no"
-        trackColor={{ true: colors.accentSoft }}
+        trackColor={{ false: colors.border, true: colors.accentSoft }}
         thumbColor={value ? colors.accent : undefined}
       />
     </Pressable>
@@ -66,5 +67,5 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     paddingVertical: spacing.sm,
   },
-  text: { flex: 1, gap: 2 },
+  text: { flex: 1, gap: spacing.xs },
 });

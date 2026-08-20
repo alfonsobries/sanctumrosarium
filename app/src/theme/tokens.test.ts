@@ -56,6 +56,8 @@ describe.each(['light', 'dark'] as const)('%s palette contrast', (scheme) => {
     ['danger', colors.danger, colors.background],
     ['text on surface', colors.text, colors.surface],
     ['textMuted on surface', colors.textMuted, colors.surface],
+    ['text on surfaceRaised', colors.text, colors.surfaceRaised],
+    ['danger on surface', colors.danger, colors.surface],
     ['onAccent', colors.onAccent, colors.accent],
   ])('%s reads at AA', (_name, foreground, background) => {
     expect(contrast(foreground, background)).toBeGreaterThanOrEqual(4.5);

@@ -2,6 +2,7 @@ import { findPrayer, type Locale } from '@rosario/content';
 import {
   advance,
   buildRosary,
+  decadesCompleted,
   goBack,
   mysteriesOfDay,
   progressOf,
@@ -14,6 +15,7 @@ import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  Linking,
   PixelRatio,
   Pressable,
   ScrollView,
@@ -50,6 +52,7 @@ import { appKv } from '@/storage/app-kv';
 import { leaveToHome } from '@/features/rosary/leave';
 import { nightBlack, radius, spacing, touchTarget } from '@/theme/tokens';
 import { useTheme } from '@/theme/use-theme';
+import { fonts, typeScale } from '@/theme/typography';
 
 export default function PrayScreen() {
   const { t } = useTranslation();
@@ -150,6 +153,22 @@ export default function PrayScreen() {
     setPhase('praying');
   };
   const handleStartOver = () => {
+    // The loose decades of the discarded session still count: the Rule measures
+    // faithfulness, not continuity (task 030; Montfort recommends praying in parts).
+    if (saved !== undefined) {
+      const prayed = decadesCompleted(saved.state, buildRosary(saved.options));
+      if (prayed >= 1) {
+        appJournal.add({
+          startedAt: saved.state.startedAt,
+          finishedAt: new Date().toISOString(),
+          decades: prayed,
+          localDate: localDateOf(new Date(saved.state.startedAt)),
+          ...(saved.state.intention === undefined
+            ? {}
+            : { intention: saved.state.intention }),
+        });
+      }
+    }
     clearSession(appKv);
     setPhase('intention');
   };
@@ -407,6 +426,8 @@ function IntentionScreen({
   );
 }
 
+const INDULGENCE_NOTE_KEY = 'indulgence-note-shown';
+
 function ResumeScreen({
   saved,
   onResume,
@@ -417,8 +438,18 @@ function ResumeScreen({
   onStartOver: () => void;
 }) {
   const { t } = useTranslation();
+  const { interfaceLanguage } = useSettings();
   const steps = useMemo(() => buildRosary(saved.options), [saved.options]);
   const progress = progressOf(saved.state, steps);
+  // Said once and with precision, never repeated day after day (task 030): praying in
+  // parts is prayer; it simply does not meet that one condition.
+  const [showNote] = useState(() => {
+    if (appKv.get(INDULGENCE_NOTE_KEY) !== null) {
+      return false;
+    }
+    appKv.set(INDULGENCE_NOTE_KEY, '1');
+    return true;
+  });
 
   return (
     <Screen center>
@@ -440,6 +471,26 @@ function ResumeScreen({
           <Button label={t('pray.resume')} onPress={onResume} />
           <Button label={t('pray.startOver')} variant="secondary" onPress={onStartOver} />
         </View>
+        {showNote ? (
+          <Pressable
+            accessibilityRole="link"
+            onPress={() =>
+              void Linking.openURL(
+                interfaceLanguage === 'es'
+                  ? 'https://sanctamaria.app/preguntas/'
+                  : 'https://sanctamaria.app/en/questions/',
+              )
+            }
+            style={({ pressed }) => [styles.note, pressed && styles.pressed]}
+          >
+            <AppText variant="caption" color="muted">
+              {t('pray.partsNote')}
+            </AppText>
+            <AppText variant="caption" color="accent">
+              {t('pray.partsNoteLink')}
+            </AppText>
+          </Pressable>
+        ) : null}
       </View>
     </Screen>
   );
@@ -649,28 +700,31 @@ const styles = StyleSheet.create({
   // The highlight never relies on colour alone: the said line also carries a line under.
   saidLine: { textDecorationLine: 'underline' },
   pairs: { gap: spacing.md },
-  pair: { gap: 2 },
+  pair: { gap: spacing.xs },
   bottom: { gap: spacing.md, paddingTop: spacing.sm },
   intention: { textAlign: 'center', fontStyle: 'italic' },
   beads: { alignItems: 'center', gap: spacing.sm },
   controls: { flexDirection: 'row', gap: spacing.md },
   control: { flex: 1 },
   resume: { gap: spacing.md },
+  // No lineHeight on TextInput: it mis-positions the text vertically on iOS.
   intentionInput: {
     borderWidth: 1,
     borderRadius: radius.md,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
-    fontSize: 17,
+    fontFamily: fonts.sans,
+    fontSize: typeScale.body.fontSize,
     minHeight: touchTarget,
   },
   savedIntention: {
     borderWidth: 1,
     borderRadius: radius.full,
     paddingHorizontal: spacing.md,
-    minHeight: touchTarget - 8,
+    minHeight: touchTarget,
     justifyContent: 'center',
     alignSelf: 'flex-start',
   },
   resumeActions: { gap: spacing.sm, marginTop: spacing.lg },
+  note: { gap: spacing.xs, marginTop: spacing.lg },
 });

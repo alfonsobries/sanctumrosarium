@@ -42,6 +42,9 @@ export const en = {
     resumeOtherDay: 'It was left unfinished another day.',
     resume: 'Resume',
     startOver: 'Start over',
+    partsNote:
+      'The plenary indulgence asks for five decades in one go, with the usual conditions. Praying in parts is prayer all the same, and it counts for your Rule.',
+    partsNoteLink: 'The full explanation, at sanctamaria.app/questions',
     doneDecades: 'Five decades.',
     duration_one: '{{count}} minute',
     duration_many: '{{count}} minutes',
