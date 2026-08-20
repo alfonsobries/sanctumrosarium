@@ -50,13 +50,30 @@ El modo a oscuras tiene que gastar notablemente menos que la pantalla encendida.
 5. Tests cubren: entrada y salida del modo, patrones por tipo de paso, ajuste de
    intensidad.
 
+## Decisiones tomadas
+
+- **Entrar y salir con el mismo gesto**: mantener presionada la pantalla (600 ms). Hay
+  además un botón "A oscuras" a la vista. La pantalla queda en negro puro (OLED apaga esos
+  píxeles) con el misterio y la cuenta tenues, y una línea que dice cómo salir.
+- **La pantalla no se bloquea en el modo a oscuras** (keep-awake solo ahí): el toque para
+  avanzar sigue funcionando. Con audio y pantalla bloqueada, el rezo sigue por sonido.
+- **Háptica por tipo**: cada paso da un toque; el Padrenuestro dos golpes, el Gloria golpe
+  y remate suave, el misterio nuevo un patrón de aviso. Tres niveles: apagada, suave
+  (default) y fuerte. Nunca continua. Ajuste con su fila en Ajustes (settings v3,
+  migración probada).
+- **Sin sermón**: la nota de que esto no sustituye al rosario de cuentas no pasó la prueba
+  de voz (explica lo que quien reza ya sabe); no se muestra.
+- **Batería**: la medición real (modo a oscuras vs pantalla encendida) queda pendiente de
+  dispositivo físico; el negro puro y el keep-awake acotado son las palancas.
+- Los patrones se sienten solo en aparato real: verificación háptica pendiente de la
+  primera instalación.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] ~~Contenido y motor - n/a~~
-- [ ] App
-- [ ] ~~Reloj - n/a: en el reloj la háptica es la task 018~~
-- [ ] Audio - el modo a oscuras depende del audio para el ritmo
-- [ ] Accesibilidad - el modo a oscuras es en sí una función de accesibilidad; se verifica
-      con lector de pantalla activo
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] ~~Contenido y motor - n/a~~
+- [x] App
+- [x] ~~Reloj - n/a: en el reloj la háptica es la task 018~~
+- [x] Audio - el guía y el silencio marcan el ritmo también a oscuras
+- [ ] Accesibilidad - recorrido con lector y háptica a ciegas en aparato, pendiente
+- [x] ~~Sitio - n/a~~

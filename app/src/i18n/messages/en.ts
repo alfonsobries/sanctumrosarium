@@ -46,6 +46,9 @@ export const en = {
     duration_one: '{{count}} minute',
     duration_many: '{{count}} minutes',
     duration_other: '{{count}} minutes',
+    dark: 'In the dark',
+    darkEnterHint: 'Dims the screen down to the minimum.',
+    darkExitHint: 'Press and hold to leave.',
     finish: 'Finish',
   },
   settings: {
@@ -86,6 +89,13 @@ export const en = {
     'oratio-pro-papa':
       "For the Pope's intentions; one of the conditions of the plenary indulgence.",
     'sub-tuum': 'Ancient Marian antiphon; Leo XIII added it at the end in October.',
+  },
+  settingsHaptics: {
+    title: 'Haptics',
+    off: 'Off',
+    gentle: 'Gentle',
+    strong: 'Strong',
+    hint: 'One touch per bead; the Our Father and the Glory Be feel different.',
   },
   error: {
     screen: 'Something failed while opening this screen.',

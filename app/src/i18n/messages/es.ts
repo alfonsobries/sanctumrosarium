@@ -46,6 +46,9 @@ export const es = {
     duration_one: '{{count}} minuto',
     duration_many: '{{count}} minutos',
     duration_other: '{{count}} minutos',
+    dark: 'A oscuras',
+    darkEnterHint: 'Apaga la pantalla y deja solo lo mínimo.',
+    darkExitHint: 'Mantén presionado para salir.',
     finish: 'Terminar',
   },
   settings: {
@@ -86,6 +89,13 @@ export const es = {
     'oratio-pro-papa':
       'Por las intenciones del Papa; es una de las condiciones de la indulgencia plenaria.',
     'sub-tuum': 'Antífona mariana antigua; León XIII la añadía al final en octubre.',
+  },
+  settingsHaptics: {
+    title: 'Háptica',
+    off: 'Apagada',
+    gentle: 'Suave',
+    strong: 'Fuerte',
+    hint: 'Un toque por cuenta; el Padrenuestro y el Gloria se sienten distinto.',
   },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
