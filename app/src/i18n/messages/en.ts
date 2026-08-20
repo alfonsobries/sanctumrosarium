@@ -373,6 +373,9 @@ export const en = {
     leave: 'Leave the novena',
     done: 'Fifty-four days. The novena stands offered.',
   },
+  widget: {
+    prayedToday: 'Prayed today.',
+  },
   error: {
     screen: 'Something failed while opening this screen.',
   },

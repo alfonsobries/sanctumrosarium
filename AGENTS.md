@@ -278,7 +278,13 @@ usuarios, y dónde están los huecos.
 ### Herramientas
 
 - `pnpm icons:generate` - regenera todos los iconos y splash desde `assets/icon.svg`
+- `pnpm audio:generate` - regenera los paquetes de audio (voz andamio) con sus marcas
 - `pnpm dark` / `pnpm light` - cambia la apariencia del simulador/emulador corriendo
+
+### E2E
+
+- `maestro test app/e2e/` - flujos de punta a punta (simulador iOS o emulador Android);
+  con los dos aparatos conectados, pasar `--device <udid>`
 
 ### Sitio
 

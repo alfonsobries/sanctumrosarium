@@ -7,3 +7,5 @@ allowBuilds:
   unrs-resolver: true
 minimumReleaseAgeExclude:
   - '@alfonsobries/aikit'
+  - '@expo/ui'
+  - expo-widgets
