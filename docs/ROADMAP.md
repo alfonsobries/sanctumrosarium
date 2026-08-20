@@ -136,7 +136,7 @@ Aplican a toda pantalla, sin que la task lo pida:
 | #   | Task                                              | Qué es                                          | Estado         |
 | --- | ------------------------------------------------- | ----------------------------------------------- | -------------- |
 | 039 | [A dos coros](./tasks/039-a-dos-coros.md)         | La app hace de guía o de respuesta, en voz alta | Primera pasada |
-| 040 | [Modo niños](./tasks/040-modo-ninos.md)           | Menos texto, imágenes grandes, decena suelta    | Pendiente      |
+| 040 | [Modo niños](./tasks/040-modo-ninos.md)           | Menos texto, imágenes grandes, decena suelta    | Primera pasada |
 | 041 | [Rezo compartido](./tasks/041-rezo-compartido.md) | Varias personas en la misma casa                | Pendiente      |
 
 ### Bloque H - Después

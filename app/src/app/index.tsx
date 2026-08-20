@@ -111,6 +111,13 @@ export default function HomeScreen() {
       <Button label={t('home.start')} onPress={() => router.push('/pray')} />
       <View style={styles.litanyLink}>
         <Button
+          label={t('home.oneDecade')}
+          variant="ghost"
+          onPress={() => router.push('/pray?decades=1')}
+        />
+      </View>
+      <View style={styles.litanyLink}>
+        <Button
           label={t('litany.title')}
           variant="ghost"
           onPress={() => router.push('/litany')}
