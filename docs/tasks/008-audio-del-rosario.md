@@ -66,23 +66,39 @@ Llamada, mensaje de voz, navegador GPS: se pausa y se retoma sola, en la cuenta 
 7. Tests cubren: encadenado de pistas, cálculo del silencio de respuesta, pausa y retoma
    por interrupción, y el estado de descarga.
 
-## Decisiones abiertas
+## Decisiones tomadas
 
-- Formato y calidad del audio, buscando el tamaño más chico que suene bien con voz
-  hablada.
-- Si las pistas son por oración completa o por mitad. Recomendación: por mitad, para poder
-  intercalar el silencio sin cortar.
+- **Pistas por mitad de oración** (guía / respuesta), como recomendaba la spec y fija el
+  skill `audio`. La respuesta no se reproduce: dona su duración para calcular el silencio
+  (`duración × 1.25 / velocidad`).
+- **Voz andamio**: sintetizada (ElevenLabs; camila para es-MX, sarah para en-US) mientras
+  la decisión 5 está abierta. Cada manifiesto viaja con `provisional: true` y **no se
+  publica**. `pnpm audio:generate` regenera pistas faltantes, manifiestos y el registro
+  estático.
+- **Empaquetado embebido por ahora**: los paquetes (8 MB ambos idiomas) van en el binario.
+  La descarga por idioma con tamaño y borrado llega cuando exista hosting (el sitio puede
+  servirlos); mientras la voz sea andamio no vale la pena el sistema de descarga. Queda
+  pendiente de esta task.
+- **Formato**: mp3 44.1/128 del proveedor. Optimizar peso (opus/aac mono) cuando la voz
+  sea definitiva.
+- **Música de fondo**: pospuesta; llega con los ajustes de ritmo (task 011/035), apagada
+  por defecto.
+- **Interrupciones**: iOS pausa la sesión de audio (doNotMix) y la posición vive en la
+  sesión del motor, así que nada se pierde; el retomar automático tras llamada se verifica
+  en dispositivo real (task 010 endurece segundo plano).
+- **Velocidad y silencio**: los defaults viven en `defaultAudioSettings`; el control de
+  usuario llega con la task 011.
 
 ## Ciclo completo
 
-- [ ] Definir qué aplica
-- [ ] ~~Contenido y motor - n/a: el motor ya expone los pasos~~
-- [ ] App
-- [ ] ~~Reloj - n/a: el audio del reloj es la task 017~~
-- [ ] Audio
-- [ ] Accesibilidad - el reproductor se opera con lector de pantalla; el audio no pelea
-      con VoiceOver
-- [ ] ~~Sitio - n/a~~
+- [x] Definir qué aplica
+- [x] ~~Contenido y motor - n/a: el motor ya expone los pasos~~
+- [x] App
+- [x] ~~Reloj - n/a: el audio del reloj es la task 017~~
+- [x] Audio - andamio sintetizado, marcado provisional; el definitivo espera la decisión 5
+- [ ] Accesibilidad - botón Escuchar/Pausa con hint; recorrido con VoiceOver en aparato
+      pendiente
+- [x] ~~Sitio - n/a~~
 
 ## Fuentes
 

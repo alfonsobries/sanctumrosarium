@@ -17,6 +17,8 @@ import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handl
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
+import { audioPacks } from '@/features/audio/packs.generated';
+import { useAudioGuide } from '@/features/audio/use-audio-guide';
 import { BeadTrack } from '@/features/rosary/BeadTrack';
 import {
   clearSession,
@@ -83,6 +85,12 @@ export default function PrayScreen() {
     void Haptics.selectionAsync();
     setSession((current) => advance(current, steps, new Date()));
   };
+  const audio = useAudioGuide({
+    steps,
+    stepIndex: progress.stepIndex,
+    pack: audioPacks[buildOptions.locale],
+    onAdvance: handleNext,
+  });
   const handlePrevious = () => {
     setSession((current) => goBack(current));
   };
@@ -219,6 +227,16 @@ export default function PrayScreen() {
               accessibilityHint={t('pray.backHint')}
             />
           </View>
+          {audio.available ? (
+            <View style={styles.control}>
+              <Button
+                label={audio.playing ? t('pray.pause') : t('pray.listen')}
+                variant="secondary"
+                onPress={audio.toggle}
+                accessibilityHint={t('pray.listenHint')}
+              />
+            </View>
+          ) : null}
           <View style={styles.control}>
             <Button label={t('pray.next')} onPress={handleNext} />
           </View>
