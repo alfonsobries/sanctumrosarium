@@ -133,11 +133,11 @@ Aplican a toda pantalla, sin que la task lo pida:
 
 ### Bloque G - En familia (fase 7)
 
-| #   | Task                                              | Qué es                                          |
-| --- | ------------------------------------------------- | ----------------------------------------------- |
-| 039 | [A dos coros](./tasks/039-a-dos-coros.md)         | La app hace de guía o de respuesta, en voz alta |
-| 040 | [Modo niños](./tasks/040-modo-ninos.md)           | Menos texto, imágenes grandes, decena suelta    |
-| 041 | [Rezo compartido](./tasks/041-rezo-compartido.md) | Varias personas en la misma casa                |
+| #   | Task                                              | Qué es                                       |
+| --- | ------------------------------------------------- | -------------------------------------------- |
+| 039 | [A dos coros](./tasks/039-a-dos-coros.md)         | Primera pasada                               |
+| 040 | [Modo niños](./tasks/040-modo-ninos.md)           | Menos texto, imágenes grandes, decena suelta |
+| 041 | [Rezo compartido](./tasks/041-rezo-compartido.md) | Varias personas en la misma casa             |
 
 ### Bloque H - Después
 

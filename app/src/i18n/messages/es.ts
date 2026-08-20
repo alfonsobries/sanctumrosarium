@@ -199,6 +199,12 @@ export const es = {
     },
     hint: 'El ritmo tranquilo es el modo normal; no hay modo rápido.',
   },
+  choir: {
+    title: 'A dos coros',
+    guide: 'La voz guía y tú respondes',
+    respond: 'Tú guías y la voz responde',
+    hint: 'Para rezar en voz alta, con el teléfono en el centro de la mesa. La parte que te toca queda en silencio.',
+  },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',
   },
