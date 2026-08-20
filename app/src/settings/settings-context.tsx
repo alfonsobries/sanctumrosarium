@@ -40,6 +40,11 @@ type SettingsContextValue = {
   readonly setHaptics: (value: HapticsSetting) => void;
   readonly setLatinText: (value: LatinTextSetting) => void;
   readonly setRule: (value: RuleId) => void;
+  readonly setReminder: (
+    value: Partial<
+      Pick<Settings, 'reminderMode' | 'reminderHour' | 'reminderMinute' | 'reminderDays'>
+    >,
+  ) => void;
   /** The prayer locale the device would choose on its own: the companion language when
       praying in Latin. */
   readonly systemPrayerLocale: Locale;
@@ -103,6 +108,7 @@ export function SettingsProvider({
       setHaptics: (haptics) => update({ haptics }),
       setLatinText: (latinText) => update({ latinText }),
       setRule: (rule) => update({ rule }),
+      setReminder: (value) => update(value),
       systemPrayerLocale: resolvePrayerLocale('system', deviceLocales()),
       toggleIncludedPrayer: (prayer) =>
         update({

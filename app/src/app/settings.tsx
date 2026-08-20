@@ -8,6 +8,7 @@ import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
 import { SwitchRow } from '@/components/SwitchRow';
 import { AppText } from '@/components/AppText';
+import { ReminderSection } from '@/features/reminder/ReminderSection';
 import { formsForLocale, optionalPrayersOf } from '@/features/rosary/forms';
 import { useSettings } from '@/settings/settings-context';
 import type {
@@ -195,6 +196,8 @@ export default function SettingsScreen() {
       <AppText variant="caption" color="muted" style={styles.hint}>
         {t('settingsHaptics.hint')}
       </AppText>
+
+      <ReminderSection />
     </Screen>
   );
 }
