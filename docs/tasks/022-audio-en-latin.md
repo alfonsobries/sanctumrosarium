@@ -54,9 +54,23 @@ Si hace falta generar pistas para desarrollar, se marcan como síntesis y no se 
   aunque el trabajo sea donado. Un locutor comercial casi seguro no sabe el latín
   litúrgico.
 
+## Decisiones tomadas (primera pasada, agosto 2026)
+
+- **Andamio sintetizado** con la voz española del catálogo (más cercana al latín
+  eclesiástico que una inglesa), marcado `provisional: true` como el resto: nunca se
+  presenta como voz humana ni se publica (criterio 4 por construcción).
+- Mismas unidades que la 008 (llamada/respuesta por oración) y **marcas de tiempo de la
+  009 incluidas** (criterio 3): el resaltado funciona en latín.
+- Verificado en simulador: el guía latino reza y avanza solo, con el hueco para responder;
+  convive con el texto bilingüe y con las cláusulas.
+- **Pendiente**: el oído de alguien que sepa latín eclesiástico (criterio 2), la nota de
+  pronunciación en "Acerca de" (cuando la voz sea real y la pronunciación garantizada), la
+  descarga aparte del paquete (misma razón que la 008: falta hosting), y el anuncio del
+  misterio con voz.
+
 ## Ciclo completo
 
-- [ ] Definir qué aplica
+- [x] Definir qué aplica
 - [ ] ~~Contenido y motor - n/a: los textos son la 021~~
 - [ ] App - el idioma de rezo puede ser latín con la interfaz en español o inglés
 - [ ] Reloj - si el audio del reloj (017) ya existe, este idioma entra o queda pendiente
