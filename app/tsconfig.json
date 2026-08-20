@@ -6,7 +6,8 @@
       "@/*": ["./src/*"],
       "@/assets/*": ["./assets/*"],
       "@rosario/content": ["../packages/content/src/index.ts"],
-      "@rosario/engine": ["../packages/engine/src/index.ts"]
+      "@rosario/engine": ["../packages/engine/src/index.ts"],
+      "lock-screen-remote": ["./modules/lock-screen-remote/index.ts"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]

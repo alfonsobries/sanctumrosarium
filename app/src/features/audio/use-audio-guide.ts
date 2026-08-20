@@ -2,7 +2,10 @@ import type { Step } from '@rosario/engine';
 import { createAudioPlayer, setAudioModeAsync, type AudioPlayer } from 'expo-audio';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { addSkipListener } from 'lock-screen-remote';
+
 import { activeLineAt } from './highlight';
+import type { LockScreenInfo } from './lock-screen';
 import { defaultAudioSettings, planForStep, type AudioSettings } from './schedule';
 import type { AudioPack, LineMark } from './types';
 
@@ -11,6 +14,8 @@ type UseAudioGuideOptions = {
   readonly stepIndex: number;
   readonly pack: AudioPack | undefined;
   readonly settings?: AudioSettings;
+  readonly lockScreen?: LockScreenInfo;
+  readonly onSkipDecade?: (direction: 1 | -1) => void;
   /** Called when the guide finishes a step and its response silence. */
   readonly onAdvance: () => void;
 };
@@ -23,6 +28,19 @@ type AudioGuide = {
   readonly toggle: () => void;
 };
 
+const lockScreenOptions = {
+  showSeekForward: false,
+  showSeekBackward: false,
+  isLiveStream: true,
+} as const;
+
+function ensurePlayer(ref: { current: AudioPlayer | null }): AudioPlayer {
+  if (ref.current === null) {
+    ref.current = createAudioPlayer();
+  }
+  return ref.current;
+}
+
 /**
  * The voice of the guide: says its half of the step, holds the silence where the person
  * answers, and only then moves on. Pausing keeps the bead; the session state owns the
@@ -33,6 +51,8 @@ export function useAudioGuide({
   stepIndex,
   pack,
   settings = defaultAudioSettings,
+  lockScreen,
+  onSkipDecade,
   onAdvance,
 }: UseAudioGuideOptions): AudioGuide {
   const [playing, setPlaying] = useState(false);
@@ -42,10 +62,30 @@ export function useAudioGuide({
   } | null>(null);
   const playerRef = useRef<AudioPlayer | null>(null);
   const onAdvanceRef = useRef(onAdvance);
+  const playingRef = useRef(playing);
 
   useEffect(() => {
     onAdvanceRef.current = onAdvance;
   }, [onAdvance]);
+
+  useEffect(() => {
+    playingRef.current = playing;
+  }, [playing]);
+
+  useEffect(() => {
+    if (onSkipDecade === undefined) {
+      return;
+    }
+    return addSkipListener(onSkipDecade);
+  }, [onSkipDecade]);
+
+  useEffect(() => {
+    const player = ensurePlayer(playerRef);
+    if (lockScreen === undefined) {
+      return;
+    }
+    player.setActiveForLockScreen(true, lockScreen, lockScreenOptions);
+  }, [lockScreen]);
 
   useEffect(() => {
     if (!playing || pack === undefined) {
@@ -69,8 +109,7 @@ export function useAudioGuide({
     if (source === undefined || plan.kind !== 'track') {
       scheduleAdvance();
     } else {
-      const player = playerRef.current ?? createAudioPlayer();
-      playerRef.current = player;
+      const player = ensurePlayer(playerRef);
       let half: { lines?: readonly LineMark[]; lineOffset: number; last: boolean } = {
         ...(plan.lines === undefined ? {} : { lines: plan.lines }),
         lineOffset: plan.lineOffset ?? 0,
@@ -108,6 +147,10 @@ export function useAudioGuide({
           player.replace(followSource);
           player.setPlaybackRate(settings.rate, 'high');
           player.play();
+          return;
+        }
+        if (!status.playing && playingRef.current) {
+          setPlaying(false);
         }
       });
       const startPlayback = () => {
@@ -136,6 +179,7 @@ export function useAudioGuide({
 
   useEffect(
     () => () => {
+      playerRef.current?.clearLockScreenControls();
       playerRef.current?.release();
       playerRef.current = null;
     },
