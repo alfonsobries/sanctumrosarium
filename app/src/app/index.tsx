@@ -10,7 +10,9 @@ import { appJournal } from '@/features/journal/app-journal';
 import { monthFidelity, type MonthFidelity } from '@/features/journal/fidelity';
 import { MonthGrid } from '@/features/journal/MonthGrid';
 import { ruleProgress } from '@/features/journal/rule';
+import { loadHouseIntention } from '@/features/rosary/house-intention';
 import { useToday } from '@/features/rosary/use-today';
+import { appKv } from '@/storage/app-kv';
 import { useSettings } from '@/settings/settings-context';
 import { spacing, touchTarget } from '@/theme/tokens';
 
@@ -20,6 +22,7 @@ export default function HomeScreen() {
   const { prayerLanguage, settings } = useSettings();
   const today = useToday();
   // Recomputed on focus: coming back from praying shows the decades just prayed.
+  const [houseTonight, setHouseTonight] = useState(() => loadHouseIntention(appKv));
   const [progress, setProgress] = useState<{
     today: ReturnType<typeof ruleProgress>;
     month: MonthFidelity | undefined;
@@ -34,6 +37,7 @@ export default function HomeScreen() {
   }));
   useFocusEffect(
     useCallback(() => {
+      setHouseTonight(loadHouseIntention(appKv));
       setProgress({
         today: ruleProgress(settings.rule, appJournal, new Date()),
         month: monthFidelity(
@@ -85,6 +89,11 @@ export default function HomeScreen() {
             </AppText>
           ))}
         </View>
+        {houseTonight === undefined ? null : (
+          <AppText variant="caption" color="muted">
+            {t('house.tonight')}: {houseTonight}
+          </AppText>
+        )}
       </View>
 
       {progress.month === undefined ? null : (
