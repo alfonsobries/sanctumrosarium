@@ -63,6 +63,8 @@
       [
         "expo-widgets",
         {
+          "bundleIdentifier": "app.sanctamaria.widgets",
+          "groupIdentifier": "group.app.sanctamaria",
           "widgets": [
             {
               "name": "MysteryOfDay",

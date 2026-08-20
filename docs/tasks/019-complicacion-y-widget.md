@@ -59,6 +59,10 @@ entrenamiento) para que el sistema la ofrezca sola.
   o una decena hoy. La nota se calcula en la app y se congela en la entrada de hoy: no
   hace falta compartir el diario con la extensión. Sin Regla, o si hoy no se ha rezado, no
   dice nada: el widget no culpa.
+- El target nativo (`ExpoWidgetsTarget`) lo genera el plugin al prebuildear. Si `ios/` ya
+  existía, hace falta `expo prebuild --platform ios` (o `--clean`) antes de
+  `pnpm app:ios`; si no, la app se instala sin la extensión y el widget no aparece en la
+  galería.
 - **Pendiente**: la complicación del reloj (con el bloque del reloj, tasks 015-016); la
   relevancia en el reloj; y el nombre y descripción del widget en la galería, que hoy van
   solo en español (la galería no se localiza por ajuste de la app).
