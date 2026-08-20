@@ -171,7 +171,8 @@ export const es = {
     count_many: '{{count}} rosarios',
     count_other: '{{count}} rosarios',
     empty: 'Cada rosario del mes pone una rosa.',
-    toggle: 'La corona del mes; se puede apagar y la app queda igual de completa.',
+    toggle:
+      'Al cerrar el rezo, muestra hechos del aparato: cuánto duró y cuántas veces la app pasó a segundo plano. No se guardan ni salen del teléfono; tú sacas tus conclusiones.',
   },
   litany: {
     title: 'Letanías lauretanas',
@@ -210,7 +211,8 @@ export const es = {
     intro:
       'Ocho maneras de rezar el mismo Rosario. Se recorren rezando, empezando por donde quieras.',
     anyOrder: 'El orden sugiere; cada etapa se abre cuando tú quieras.',
-    toggle: 'Apagado, la app sigue completa y nada se pierde.',
+    toggle:
+      'Al cerrar el rezo, muestra hechos del aparato: cuánto duró y cuántas veces la app pasó a segundo plano. No se guardan ni salen del teléfono; tú sacas tus conclusiones.',
     timesRosaries: '{{done}} de {{target}} rosarios',
     timesDays: '{{done}} de {{target}} días',
     state: {
@@ -276,6 +278,14 @@ export const es = {
         walked: 'Ya sabes rezar el Rosario de los veinte misterios.',
       },
     },
+  },
+  recollection: {
+    title: 'Al terminar',
+    toggle:
+      'Al cerrar el rezo, muestra hechos del aparato: cuánto duró y cuántas veces la app pasó a segundo plano. No se guardan ni salen del teléfono; tú sacas tus conclusiones.',
+    noInterruptions: 'Sin interrupciones.',
+    exits_one: 'La app pasó a segundo plano 1 vez.',
+    exits_other: 'La app pasó a segundo plano {{count}} veces.',
   },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',

@@ -66,6 +66,7 @@ export default function SettingsScreen() {
     setLatinText,
     setRosesEnabled,
     setCaminoEnabled,
+    setRecollectionEnabled,
     setWithLitany,
     setWithClauses,
     toggleLatinMix,
@@ -259,6 +260,17 @@ export default function SettingsScreen() {
           value={settings.caminoEnabled}
           divider={false}
           onValueChange={(value) => setCaminoEnabled(value)}
+        />
+      </Card>
+
+      <SectionHeader title={t('recollection.title')} />
+      <Card>
+        <SwitchRow
+          label={t('recollection.title')}
+          description={t('recollection.toggle')}
+          value={settings.recollectionEnabled}
+          divider={false}
+          onValueChange={(value) => setRecollectionEnabled(value)}
         />
       </Card>
 
