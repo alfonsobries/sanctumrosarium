@@ -18,7 +18,7 @@ export type LatinTextSetting = 'both' | 'la' | 'own';
 export type ReminderMode = 'off' | 'hour' | 'angelus';
 
 export type Settings = {
-  readonly version: 6;
+  readonly version: 7;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
@@ -41,10 +41,13 @@ export type Settings = {
   readonly reminderMinute: number;
   /** Days of the week that remind, 0 = Sunday. */
   readonly reminderDays: readonly number[];
+  /** The month's crown of roses: visual inventory, never accumulated power. Off is a
+      first-class state: the app stays whole without it. */
+  readonly rosesEnabled: boolean;
 };
 
 export const defaultSettings: Settings = {
-  version: 6,
+  version: 7,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
@@ -57,6 +60,7 @@ export const defaultSettings: Settings = {
   reminderHour: 8,
   reminderMinute: 0,
   reminderDays: [0, 1, 2, 3, 4, 5, 6],
+  rosesEnabled: true,
 };
 
 const SETTINGS_KEY = 'settings';
@@ -83,6 +87,7 @@ const migrations: Record<
     ...stored,
     version: 6,
   }),
+  6: (stored) => ({ rosesEnabled: true, ...stored, version: 7 }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -131,7 +136,7 @@ const ruleOptions: readonly RuleId[] = [
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 6,
+    version: 7,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -176,6 +181,10 @@ function sanitize(stored: Record<string, unknown>): Settings {
           (day): day is number => typeof day === 'number' && day >= 0 && day <= 6,
         )
       : defaultSettings.reminderDays,
+    rosesEnabled:
+      typeof stored.rosesEnabled === 'boolean'
+        ? stored.rosesEnabled
+        : defaultSettings.rosesEnabled,
   };
 }
 

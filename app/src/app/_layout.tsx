@@ -64,6 +64,14 @@ function RootNavigator() {
         <Stack.Screen name="index" />
         <Stack.Screen name="pray" options={{ gestureEnabled: true }} />
         <Stack.Screen
+          name="roses"
+          options={{
+            headerShown: true,
+            title: t('roses.title'),
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        />
+        <Stack.Screen
           name="intentions"
           options={{
             headerShown: true,
