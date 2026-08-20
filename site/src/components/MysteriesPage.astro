@@ -1,5 +1,5 @@
 ---
-import { mysteries, type MysterySetId } from '@rosario/content';
+import { artworks, mysteries, type MysterySetId } from '@rosario/content';
 
 import Base from '../layouts/Base.astro';
 import { t, type UiLanguage } from '../i18n/ui';
@@ -41,8 +41,17 @@ const source = mysteries[0]?.source;
               .filter((mystery) => mystery.set === set)
               .map((mystery) => {
                 const text = mystery.text[language];
+                const artwork = artworks[mystery.id];
                 return (
                   <li id={mystery.id}>
+                    <figure class="work">
+                      <img
+                        src={`/mysteries/${mystery.id}.jpg`}
+                        alt={`${artwork.title}, ${artwork.artist}`}
+                        width="800"
+                        height="600"
+                      />
+                    </figure>
                     <div class="m-head">
                       <h3>{text.title}</h3>
                       <span class="ref">{mystery.scriptureRef}</span>
@@ -62,6 +71,10 @@ const source = mysteries[0]?.source;
                         </div>
                       ) : null}
                     </dl>
+                    <p class="ficha">
+                      {artwork.artist}, {artwork.year}. {artwork.museum}.{' '}
+                      {artwork.license}.
+                    </p>
                   </li>
                 );
               })}
@@ -134,6 +147,27 @@ const source = mysteries[0]?.source;
     counter-increment: mystery;
     position: relative;
     padding: 0 0 var(--space-4) 3rem;
+  }
+
+  .work {
+    margin: 0 0 0.8rem;
+  }
+
+  .work img {
+    display: block;
+    width: 100%;
+    max-width: 28rem;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--surface);
+    border-radius: 4px;
+  }
+
+  .ficha {
+    margin-top: 0.55rem;
+    color: var(--mute);
+    font-size: 0.9rem;
   }
 
   .mysteries li::before {
