@@ -12,16 +12,20 @@ describe('loadSettings', () => {
   it('round-trips what was saved', () => {
     const driver = createMemoryDriver();
     saveSettings(driver, {
-      version: 1,
+      version: 2,
       appearance: 'dark',
       interfaceLanguage: 'es',
       prayerLocale: 'la',
+      prayerForm: 'dominican',
+      includedPrayers: ['oratio-fatimae'],
     });
     expect(loadSettings(driver)).toEqual({
-      version: 1,
+      version: 2,
       appearance: 'dark',
       interfaceLanguage: 'es',
       prayerLocale: 'la',
+      prayerForm: 'dominican',
+      includedPrayers: ['oratio-fatimae'],
     });
   });
 
@@ -30,11 +34,39 @@ describe('loadSettings', () => {
       settings: JSON.stringify({ appearance: 'light', prayerLocale: 'es-MX' }),
     });
     expect(loadSettings(driver)).toEqual({
-      version: 1,
+      ...defaultSettings,
       appearance: 'light',
-      interfaceLanguage: 'system',
       prayerLocale: 'es-MX',
     });
+  });
+
+  it('migrates version 1 settings to version 2 with sober defaults', () => {
+    const driver = createMemoryDriver({
+      settings: JSON.stringify({
+        version: 1,
+        appearance: 'dark',
+        interfaceLanguage: 'en',
+        prayerLocale: 'en-US',
+      }),
+    });
+    expect(loadSettings(driver)).toEqual({
+      version: 2,
+      appearance: 'dark',
+      interfaceLanguage: 'en',
+      prayerLocale: 'en-US',
+      prayerForm: 'auto',
+      includedPrayers: [],
+    });
+  });
+
+  it('drops unknown prayers from the included list', () => {
+    const driver = createMemoryDriver({
+      settings: JSON.stringify({
+        version: 2,
+        includedPrayers: ['oratio-fatimae', 'not-a-prayer'],
+      }),
+    });
+    expect(loadSettings(driver).includedPrayers).toEqual(['oratio-fatimae']);
   });
 
   it('falls back to defaults on corrupt JSON', () => {

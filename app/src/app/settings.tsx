@@ -1,10 +1,13 @@
+import { findPrayer, forms } from '@rosario/content';
 import { useTranslation } from 'react-i18next';
 
 import { Card } from '@/components/Card';
 import { ListRow } from '@/components/ListRow';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
+import { SwitchRow } from '@/components/SwitchRow';
 import { AppText } from '@/components/AppText';
+import { formsForLocale, optionalPrayersOf } from '@/features/rosary/forms';
 import { useSettings } from '@/settings/settings-context';
 import type {
   AppearanceSetting,
@@ -46,8 +49,23 @@ const prayerLabels: Record<PrayerLocaleSetting, string> = {
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
-  const { settings, setAppearance, setInterfaceLanguage, setPrayerLocale } =
-    useSettings();
+  const {
+    settings,
+    prayerLocale,
+    prayerForm,
+    setAppearance,
+    setInterfaceLanguage,
+    setPrayerLocale,
+    setPrayerForm,
+    toggleIncludedPrayer,
+  } = useSettings();
+
+  const availableForms = formsForLocale(prayerLocale);
+  // The prayer after the litany waits for the litany itself (task 043): offering it
+  // alone would insert it without the litany it answers to.
+  const optionalPrayers = optionalPrayersOf(forms[prayerForm]).filter(
+    (prayer) => prayer !== 'oratio-litaniarum',
+  );
 
   return (
     <Screen edges={['bottom', 'left', 'right']}>
@@ -92,6 +110,41 @@ export default function SettingsScreen() {
       <AppText variant="caption" color="muted" style={styles.hint}>
         {t('settings.prayerLanguageHint')}
       </AppText>
+
+      <SectionHeader title={t('settings.prayerForm')} />
+      <Card>
+        <ListRow
+          label={t('forms.auto')}
+          selected={settings.prayerForm === 'auto'}
+          onPress={() => setPrayerForm('auto')}
+        />
+        {availableForms.map((form, index) => (
+          <ListRow
+            key={form.id}
+            label={t(`forms.${form.id}`)}
+            selected={settings.prayerForm === form.id}
+            divider={index < availableForms.length - 1}
+            onPress={() => setPrayerForm(form.id)}
+          />
+        ))}
+      </Card>
+      <AppText variant="caption" color="muted" style={styles.hint}>
+        {t('settings.prayerFormHint')}
+      </AppText>
+
+      <SectionHeader title={t('settings.optionalPrayers')} />
+      <Card>
+        {optionalPrayers.map((prayer, index) => (
+          <SwitchRow
+            key={prayer}
+            label={findPrayer(prayer, prayerLocale)?.title ?? prayer}
+            description={t(`optional.${prayer}`)}
+            value={settings.includedPrayers.includes(prayer)}
+            divider={index < optionalPrayers.length - 1}
+            onValueChange={() => toggleIncludedPrayer(prayer)}
+          />
+        ))}
+      </Card>
     </Screen>
   );
 }

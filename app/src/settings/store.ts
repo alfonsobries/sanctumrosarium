@@ -1,25 +1,38 @@
-import type { Locale } from '@rosario/content';
+import {
+  forms,
+  prayers,
+  type FormId,
+  type Locale,
+  type PrayerId,
+} from '@rosario/content';
 
 import type { KvDriver } from '@/storage/kv';
 
 export type AppearanceSetting = 'system' | 'light' | 'dark';
 export type InterfaceLanguageSetting = 'system' | 'es' | 'en';
 export type PrayerLocaleSetting = 'system' | Locale;
+export type PrayerFormSetting = 'auto' | FormId;
 
 export type Settings = {
-  readonly version: 1;
+  readonly version: 2;
   readonly appearance: AppearanceSetting;
   /** Language of the interface. Independent from what is prayed. */
   readonly interfaceLanguage: InterfaceLanguageSetting;
   /** Language and region of what is prayed. Someone can use the app in Spanish and pray in Latin. */
   readonly prayerLocale: PrayerLocaleSetting;
+  /** Regional form framing the Rosary. 'auto' follows the prayer language. */
+  readonly prayerForm: PrayerFormSetting;
+  /** Optional prayers turned on. What is essential is never here: the engine always prays it. */
+  readonly includedPrayers: readonly PrayerId[];
 };
 
 export const defaultSettings: Settings = {
-  version: 1,
+  version: 2,
   appearance: 'system',
   interfaceLanguage: 'system',
   prayerLocale: 'system',
+  prayerForm: 'auto',
+  includedPrayers: [],
 };
 
 const SETTINGS_KEY = 'settings';
@@ -33,6 +46,7 @@ const migrations: Record<
   (stored: Record<string, unknown>) => Record<string, unknown>
 > = {
   0: (stored) => ({ ...stored, version: 1 }),
+  1: (stored) => ({ ...stored, version: 2, prayerForm: 'auto', includedPrayers: [] }),
 };
 
 function migrate(stored: Record<string, unknown>): Record<string, unknown> {
@@ -62,11 +76,16 @@ const prayerLocales: readonly PrayerLocaleSetting[] = [
   'en-US',
   'la',
 ];
+const prayerForms: readonly PrayerFormSetting[] = [
+  'auto',
+  ...(Object.keys(forms) as FormId[]),
+];
+const knownPrayerIds: ReadonlySet<string> = new Set(prayers.map((prayer) => prayer.id));
 
 /** Unknown values fall back field by field: a corrupt setting never takes the rest down. */
 function sanitize(stored: Record<string, unknown>): Settings {
   return {
-    version: 1,
+    version: 2,
     appearance: isOneOf(stored.appearance, appearances)
       ? stored.appearance
       : defaultSettings.appearance,
@@ -76,6 +95,14 @@ function sanitize(stored: Record<string, unknown>): Settings {
     prayerLocale: isOneOf(stored.prayerLocale, prayerLocales)
       ? stored.prayerLocale
       : defaultSettings.prayerLocale,
+    prayerForm: isOneOf(stored.prayerForm, prayerForms)
+      ? stored.prayerForm
+      : defaultSettings.prayerForm,
+    includedPrayers: Array.isArray(stored.includedPrayers)
+      ? (stored.includedPrayers.filter(
+          (id): id is PrayerId => typeof id === 'string' && knownPrayerIds.has(id),
+        ) as readonly PrayerId[])
+      : defaultSettings.includedPrayers,
   };
 }
 

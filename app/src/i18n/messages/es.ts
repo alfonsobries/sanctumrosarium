@@ -55,6 +55,10 @@ export const es = {
     prayerLanguage: 'Idioma del rezo',
     prayerLanguageHint:
       'Puede ser distinto del idioma de la app: la app en español y el rezo en latín.',
+    prayerForm: 'Forma del rezo',
+    prayerFormHint:
+      'Elegir una forma acomoda las oraciones opcionales de golpe; después se puede ajustar cada una. Lo esencial no cambia: misterio, Padrenuestro, diez Avemarías y Gloria.',
+    optionalPrayers: 'Oraciones opcionales',
     system: 'Como el sistema',
     light: 'Claro',
     dark: 'Oscuro',
@@ -64,6 +68,24 @@ export const es = {
     prayerEsES: 'Español (España)',
     prayerEnUS: 'English',
     prayerLa: 'Latín',
+  },
+  forms: {
+    auto: 'Según el idioma del rezo',
+    roman: 'Forma romana',
+    'es-MX': 'Forma mexicana',
+    'es-ES': 'Forma española',
+    dominican: 'Forma dominicana',
+  },
+  optional: {
+    'oratio-fatimae':
+      'Tras cada decena; viene de las apariciones de Fátima de 1917 y no es parte esencial.',
+    'ave-maria-purissima': 'Saludo de la costumbre hispana al cerrar la decena.',
+    'actus-contritionis': 'Acto de contrición al empezar, como preparación.',
+    oblatio: 'Ofrecimiento del rosario al empezar.',
+    'oratio-litaniarum': 'La oración que sigue a las letanías.',
+    'oratio-pro-papa':
+      'Por las intenciones del Papa; es una de las condiciones de la indulgencia plenaria.',
+    'sub-tuum': 'Antífona mariana antigua; León XIII la añadía al final en octubre.',
   },
   error: {
     screen: 'Algo falló al abrir esta pantalla.',

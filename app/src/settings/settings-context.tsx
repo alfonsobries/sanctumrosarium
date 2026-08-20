@@ -1,12 +1,14 @@
-import type { Language, Locale } from '@rosario/content';
+import type { FormId, Language, Locale, PrayerId } from '@rosario/content';
 import { getLocales } from 'expo-localization';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
 import { setLanguage } from '@/i18n';
 import type { KvDriver } from '@/storage/kv';
 
+import { effectiveForm, optionalPrayersOf } from '@/features/rosary/forms';
+import { forms } from '@rosario/content';
+
 import {
-  formForPrayerLocale,
   languageForLocale,
   resolveInterfaceLanguage,
   resolvePrayerLocale,
@@ -16,6 +18,7 @@ import {
   saveSettings,
   type AppearanceSetting,
   type InterfaceLanguageSetting,
+  type PrayerFormSetting,
   type PrayerLocaleSetting,
   type Settings,
 } from './store';
@@ -25,10 +28,12 @@ type SettingsContextValue = {
   readonly interfaceLanguage: 'es' | 'en';
   readonly prayerLocale: Locale;
   readonly prayerLanguage: Language;
-  readonly prayerForm: 'roman' | 'es-MX' | 'es-ES';
+  readonly prayerForm: FormId;
   readonly setAppearance: (value: AppearanceSetting) => void;
   readonly setInterfaceLanguage: (value: InterfaceLanguageSetting) => void;
   readonly setPrayerLocale: (value: PrayerLocaleSetting) => void;
+  readonly setPrayerForm: (value: PrayerFormSetting) => void;
+  readonly toggleIncludedPrayer: (prayer: PrayerId) => void;
 };
 
 const SettingsContext = createContext<SettingsContextValue | null>(null);
@@ -75,10 +80,23 @@ export function SettingsProvider({
       ),
       prayerLocale,
       prayerLanguage: languageForLocale(prayerLocale),
-      prayerForm: formForPrayerLocale(prayerLocale),
+      prayerForm: effectiveForm(settings.prayerForm, prayerLocale),
       setAppearance: (appearance) => update({ appearance }),
       setInterfaceLanguage: (interfaceLanguage) => update({ interfaceLanguage }),
-      setPrayerLocale: (prayerLocale) => update({ prayerLocale }),
+      setPrayerLocale: (value) => update({ prayerLocale: value }),
+      // Choosing a form arranges every optional switch at once (its regional custom);
+      // each one can still be toggled afterwards.
+      setPrayerForm: (value) =>
+        update({
+          prayerForm: value,
+          includedPrayers: value === 'auto' ? [] : optionalPrayersOf(forms[value]),
+        }),
+      toggleIncludedPrayer: (prayer) =>
+        update({
+          includedPrayers: settings.includedPrayers.includes(prayer)
+            ? settings.includedPrayers.filter((id) => id !== prayer)
+            : [...settings.includedPrayers, prayer],
+        }),
     };
   }, [settings, update]);
 
