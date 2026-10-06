@@ -1,0 +1,21 @@
+# aikit
+CLAUDE.local.md
+AGENTS.override.md
+
+node_modules/
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.log
+
+.env
+.env.*
+!.env.example
+*.p8
+*.pem
+*.key
+auth.json
+
+# research captures from third-party apps stay local
+_design/research/**/img/
