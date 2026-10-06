@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import type { Settings } from '@/domains/settings/settings';
+import { AccountSection } from '@/domains/sync/AccountSection';
 import { useSettings } from '@/domains/settings/use-settings';
 import { skinIds, skins, type SkinId } from '@/shared/theme/skins';
 import { useSkin } from '@/shared/theme/SkinProvider';
@@ -195,6 +196,8 @@ export default function SettingsScreen() {
             </Field>
           </Card>
         </Section>
+
+        <AccountSection />
       </ScrollView>
     </>
   );
