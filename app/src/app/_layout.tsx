@@ -29,6 +29,7 @@ import { useTranslation } from 'react-i18next';
 import { journalKeys } from '@/domains/journal/queries';
 import { useSettings, useSettingsHydrated } from '@/domains/settings/use-settings';
 import { syncNow } from '@/domains/sync/account';
+import { useWatchSync } from '@/domains/watch/use-watch-sync';
 import { SkinProvider, useSkin } from '@/shared/theme/SkinProvider';
 
 void SplashScreen.preventAutoHideAsync();
@@ -55,6 +56,7 @@ function useJournalSync(): void {
 
 function Navigation() {
   useJournalSync();
+  useWatchSync(() => queryClient.invalidateQueries({ queryKey: journalKeys.all }));
   const { t } = useTranslation();
   const { colors, scheme, screenBackground } = useSkin();
   const onboarded = useSettings((state) => state.onboarded);

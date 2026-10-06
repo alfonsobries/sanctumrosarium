@@ -16,7 +16,8 @@
           "audio"
         ]
       },
-      "usesAppleSignIn": true
+      "usesAppleSignIn": true,
+      "appleTeamId": "TY2LB9Y7DK"
     },
     "android": {
       "adaptiveIcon": {
