@@ -17,6 +17,7 @@ import { stepsFor } from '@/domains/prayer/session';
 import { StepContent, StepScroll, stepHeading } from '@/domains/prayer/StepContent';
 import { useSession } from '@/domains/prayer/use-session';
 import { useSessionJournal } from '@/domains/prayer/use-session-journal';
+import { nextRate } from '@/domains/settings/settings';
 import { useSettings } from '@/domains/settings/use-settings';
 import { useContentLocale } from '@/shared/i18n/use-content-locale';
 import { useSkin } from '@/shared/theme/SkinProvider';
@@ -208,6 +209,20 @@ export default function PrayScreen() {
                 : t('pray.opening')
               : t('pray.decadeOf', { decade: step.decade })}
           </Text>
+          {listening && (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t('settings.rate')}
+              accessibilityValue={{ text: `${rate}×` }}
+              onPress={() => updateSettings({ rate: nextRate(rate) })}
+              hitSlop={8}
+              className="absolute right-14 h-11 min-w-[44px] items-center justify-center rounded-full px-2 active:bg-surface"
+            >
+              <Text variant="footnote" className="font-semibold text-accent" style={{ fontVariant: ['tabular-nums'] }}>
+                {rate}×
+              </Text>
+            </Pressable>
+          )}
           {hasAudio(plan.locale) ? (
             <Pressable
               accessibilityRole="button"

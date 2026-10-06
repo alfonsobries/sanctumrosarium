@@ -3,7 +3,7 @@ import { Stack, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
-import type { Settings } from '@/domains/settings/settings';
+import { rates, type Settings } from '@/domains/settings/settings';
 import { AccountSection } from '@/domains/sync/AccountSection';
 import { useSettings } from '@/domains/settings/use-settings';
 import { skinIds, skins, type SkinId } from '@/shared/theme/skins';
@@ -157,7 +157,7 @@ export default function SettingsScreen() {
                 accessibilityLabel={t('settings.rate')}
                 value={String(settings.rate)}
                 onChange={(value) => update({ rate: Number(value) })}
-                options={['0.85', '1', '1.15', '1.3'].map((value) => ({ value, label: `${value}×` }))}
+                options={rates.map((value) => ({ value: String(value), label: `${value}×` }))}
               />
             </Field>
             <Field label={t('settings.gospel')} hint={t('settings.gospelHint')}>

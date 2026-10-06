@@ -26,6 +26,14 @@ export type Settings = {
   onboarded: boolean;
 };
 
+/** Voice speeds offered; the player stretches time without changing pitch. */
+export const rates = [0.8, 1, 1.2, 1.5, 2] as const;
+
+export function nextRate(rate: number): number {
+  const index = rates.findIndex((candidate) => candidate === rate);
+  return rates[(index + 1) % rates.length] ?? 1;
+}
+
 export const defaultSettings: Settings = {
   prayerLocale: 'es-MX',
   skin: 'simple',
