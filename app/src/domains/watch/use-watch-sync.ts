@@ -1,6 +1,8 @@
+import { formatLocalDate, localDateOf } from '@sanctamaria/rosary';
 import { useEffect, useRef } from 'react';
 
 import { appJournal } from '@/domains/journal/app-journal';
+import { useJournalEntries } from '@/domains/journal/queries';
 import { useSettings } from '@/domains/settings/use-settings';
 
 import {
@@ -8,10 +10,13 @@ import {
   addWatchSessionListener,
   pendingWatchSessions,
   sendSettings,
+  sendToday,
+  setWatchAudioPack,
   type WatchSessionPayload,
 } from '../../../modules/watch-bridge';
 
-import { sameWatchSettings, watchEntryFrom, watchSettingsOf } from './watch-entry';
+import { watchAudioPackOffer } from './watch-audio';
+import { sameWatchSettings, watchEntryFrom, watchSettingsOf, watchTodayOf } from './watch-entry';
 
 async function store(payloads: readonly WatchSessionPayload[]): Promise<boolean> {
   if (payloads.length === 0) {
@@ -33,9 +38,10 @@ async function store(payloads: readonly WatchSessionPayload[]): Promise<boolean>
 }
 
 /**
- * Keeps the Apple Watch in step with the phone: sends the prayer settings whenever they
- * change, and writes each session prayed on the watch into the journal. A no-op where
- * there is no watch.
+ * Keeps the Apple Watch in step with the phone: sends the prayer settings, what was
+ * prayed today and the audio pack of the prayer language whenever they change, and
+ * writes each session prayed on the watch into the journal. A no-op where there is no
+ * watch.
  */
 export function useWatchSync(onJournalChange: () => Promise<void> | void): void {
   const onChange = useRef(onJournalChange);
@@ -49,6 +55,29 @@ export function useWatchSync(onJournalChange: () => Promise<void> | void): void 
       }
     });
   }, []);
+
+  const prayerLocale = useSettings((state) => state.prayerLocale);
+  useEffect(() => {
+    let cancelled = false;
+    void watchAudioPackOffer(prayerLocale)
+      .then((offer) => {
+        if (!cancelled) {
+          setWatchAudioPack(offer);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [prayerLocale]);
+
+  const today = formatLocalDate(localDateOf(new Date()));
+  const { data: todayEntries } = useJournalEntries(today, today);
+  useEffect(() => {
+    if (todayEntries !== undefined) {
+      sendToday(watchTodayOf(today, todayEntries));
+    }
+  }, [today, todayEntries]);
 
   useEffect(() => {
     let queue = Promise.resolve();

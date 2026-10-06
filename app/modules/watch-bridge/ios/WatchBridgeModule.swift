@@ -1,6 +1,18 @@
 import ExpoModulesCore
 import WatchConnectivity
 
+struct PackFileRecord: Record {
+  @Field var name: String = ""
+  @Field var path: String = ""
+}
+
+struct PackRecord: Record {
+  @Field var locale: String = ""
+  @Field var version: String?
+  @Field var parts: String?
+  @Field var files: [PackFileRecord] = []
+}
+
 public final class WatchBridgeModule: Module {
   public func definition() -> ModuleDefinition {
     Name("WatchBridge")
@@ -26,6 +38,19 @@ public final class WatchBridgeModule: Module {
 
     Function("sendSettings") { (settings: [String: Any]) in
       WatchBridgeSession.shared.send(settings: settings)
+    }
+
+    Function("sendToday") { (today: [String: Any]) in
+      WatchBridgeSession.shared.send(today: today)
+    }
+
+    Function("setAudioPack") { (pack: PackRecord) in
+      WatchBridgeSession.shared.setPack(
+        locale: pack.locale,
+        version: pack.version,
+        parts: pack.parts,
+        files: pack.files.map { (name: $0.name, path: $0.path) }
+      )
     }
 
     Function("pendingSessions") { () -> [[String: Any]] in

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { defaultSettings } from '@/domains/settings/settings';
 
-import { sameWatchSettings, watchEntryFrom, watchSettingsOf } from './watch-entry';
+import { sameWatchSettings, watchEntryFrom, watchSettingsOf, watchTodayOf } from './watch-entry';
 
 const payload = {
   id: '7c1d2c55-0b4f-4f43-9a55-0f3f5d1d9b1e',
@@ -50,6 +50,7 @@ describe('watch settings', () => {
       prayerLocale: 'es-MX',
       fatimaPrayer: true,
       litany: false,
+      prayerForThePope: true,
       pauseSeconds: 1,
       rate: 1,
       mode: 'listen',
@@ -59,5 +60,32 @@ describe('watch settings', () => {
   it('ignores changes the watch does not use', () => {
     expect(sameWatchSettings(defaultSettings, { ...defaultSettings, skin: 'manuscript' })).toBe(true);
     expect(sameWatchSettings(defaultSettings, { ...defaultSettings, litany: true })).toBe(false);
+  });
+});
+
+describe('watchTodayOf', () => {
+  const entry = {
+    ...payload,
+    kind: 'rosary' as const,
+    mysterySet: 'joyful' as const,
+    locale: 'es-MX' as const,
+    completedAt: null,
+    readings: null,
+    clientUpdatedAt: '2026-10-05T23:20:00.000Z',
+    deletedAt: null,
+  };
+
+  it('leaves out null values, which cannot reach the watch', () => {
+    expect(watchTodayOf('2026-10-05', [entry]).entries[0]).not.toHaveProperty('completedAt');
+    expect(watchTodayOf('2026-10-05', [entry]).entries[0]).not.toHaveProperty('readings');
+  });
+
+  it('keeps only what was prayed that day and not deleted', () => {
+    const today = watchTodayOf('2026-10-05', [
+      entry,
+      { ...entry, id: 'other-day', prayedOn: '2026-10-04' },
+      { ...entry, id: 'deleted', deletedAt: '2026-10-05T23:40:00.000Z' },
+    ]);
+    expect(today.entries.map((candidate) => candidate.id)).toEqual([entry.id]);
   });
 });

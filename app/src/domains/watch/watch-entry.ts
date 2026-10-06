@@ -4,7 +4,7 @@ import type { JournalEntry } from '@/domains/journal/journal';
 import type { Settings } from '@/domains/settings/settings';
 import type { Locale } from '@/domains/sync/api.gen';
 
-import type { WatchSettings } from '../../../modules/watch-bridge';
+import type { WatchSettings, WatchToday } from '../../../modules/watch-bridge';
 
 export type WatchJournalEntry = Omit<JournalEntry, 'clientUpdatedAt' | 'deletedAt'>;
 
@@ -16,6 +16,7 @@ export function watchSettingsOf(settings: Settings): WatchSettings {
     prayerLocale: settings.prayerLocale,
     fatimaPrayer: settings.fatimaPrayer,
     litany: settings.litany,
+    prayerForThePope: settings.prayerForThePope,
     pauseSeconds: settings.pauseSeconds,
     rate: settings.rate,
     mode: settings.mode,
@@ -92,5 +93,25 @@ export function watchEntryFrom(payload: Record<string, unknown>): WatchJournalEn
     decades,
     durationSeconds: Math.round(durationSeconds),
     readings: readings ?? null,
+  };
+}
+
+/** Today's journal for the watch, without null values (they cannot cross to it). */
+export function watchTodayOf(date: string, entries: readonly JournalEntry[]): WatchToday {
+  return {
+    date,
+    entries: entries
+      .filter((entry) => entry.deletedAt === null && entry.prayedOn === date)
+      .map((entry) => ({
+        id: entry.id,
+        kind: entry.kind,
+        mysterySet: entry.mysterySet,
+        locale: entry.locale,
+        prayedOn: entry.prayedOn,
+        startedAt: entry.startedAt,
+        ...(entry.completedAt === null ? {} : { completedAt: entry.completedAt }),
+        decades: entry.decades,
+        durationSeconds: entry.durationSeconds,
+      })),
   };
 }
