@@ -20,3 +20,4 @@ minimumReleaseAgeExclude:
   - expo-modules-core@57.0.21
   - expo-router@57.0.25
   - expo@57.0.27
+  - expo-sqlite@57.0.4
