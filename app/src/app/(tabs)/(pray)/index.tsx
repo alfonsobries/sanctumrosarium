@@ -96,7 +96,8 @@ export default function TodayScreen() {
     resumable === null ? 1 : (stepsFor(resumable, mysteryRefsOf(resumable.set))[position]?.decade ?? 1);
 
   async function handleStart(set: MysterySet, scope: 'full' | 'decade') {
-    await startSession(set, scope === 'full' ? { kind: 'full' } : { kind: 'decade', decade: 1 });
+    const prayedToday = days.data?.find((day) => day.prayedOn === formatLocalDate(today))?.decades ?? 0;
+    await startSession(set, scope === 'full' ? { kind: 'full' } : { kind: 'decade', decade: (prayedToday % 5) + 1 });
     router.push('/pray');
   }
 
