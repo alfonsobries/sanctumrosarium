@@ -76,7 +76,11 @@
         ],
         "fix": "pint",
         "lint": "pint --test",
-        "analyse": "phpstan analyse --memory-limit=2G"
+        "analyse": "phpstan analyse --memory-limit=2G",
+        "types": [
+            "@php artisan typescript:transform",
+            "@php artisan ziggy:generate ../app/src/domains/sync/ziggy.gen.js --types"
+        ]
     },
     "extra": {
         "laravel": {
