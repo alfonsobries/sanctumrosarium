@@ -42,6 +42,8 @@ async function uriOf(module: number): Promise<string> {
 export type RosaryAudio = {
   availability: 'unavailable' | 'loading' | 'ready';
   status: RosaryPlaybackStatus;
+  /** How far through the current step the voice is, 0 to 1. */
+  progress: number;
   toggle: () => void;
   skipTo: (index: number) => void;
 };
@@ -143,6 +145,7 @@ export function useRosaryAudio(options: Options): RosaryAudio {
   return {
     availability: enabled ? availability : 'unavailable',
     status: player.status,
+    progress: player.durationMs > 0 ? Math.min(1, player.positionMs / player.durationMs) : 0,
     toggle: () => void toggle(),
     skipTo: (index) => void skipTo(index),
   };

@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Alert, Pressable, View, useWindowDimensions } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
-import { useRosaryAudio } from '@/domains/audio/use-rosary-audio';
+import { hasAudio, useRosaryAudio } from '@/domains/audio/use-rosary-audio';
 import { beadRingState, decadeFills } from '@/domains/prayer/bead-state';
 import { BeadRing } from '@/domains/prayer/BeadRing';
 import { DecadeProgress } from '@/domains/prayer/DecadeProgress';
@@ -22,6 +22,7 @@ import { useContentLocale } from '@/shared/i18n/use-content-locale';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
+import { SafeScreen } from '@/shared/ui/SafeScreen';
 import { Text } from '@/shared/ui/Text';
 
 function hapticFor(step: Step | undefined): void {
@@ -164,9 +165,9 @@ export default function PrayScreen() {
 
   if (finished || step === undefined) {
     return (
-      <View className="flex-1 bg-background pb-safe pt-safe">
+      <SafeScreen>
         <Finished decades={decadesCompleted(steps, steps.length)} onDone={handleDone} />
-      </View>
+      </SafeScreen>
     );
   }
 
@@ -175,7 +176,7 @@ export default function PrayScreen() {
   const ringSize = Math.min(150, width * 0.38);
 
   return (
-    <View className="flex-1 bg-background pb-safe pt-safe">
+    <SafeScreen>
       <View className="gap-4 px-5 pt-2">
         <View className="flex-row items-center justify-between">
           <Pressable
@@ -190,15 +191,19 @@ export default function PrayScreen() {
           <Text variant="footnote">
             {step.decade === null ? (step.section === 'closing' ? t('pray.closing') : t('pray.opening')) : t('pray.decadeOf', { decade: step.decade })}
           </Text>
+          {hasAudio(plan.locale) ? (
           <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={mode === 'listen' ? t('options.tap') : t('options.listen')}
-            onPress={() => updateSettings({ mode: mode === 'listen' ? 'tap' : 'listen' })}
-            hitSlop={10}
-            className="h-11 w-11 items-center justify-center rounded-full active:bg-surface"
-          >
-            <Icon name={mode === 'listen' ? 'listen' : 'tap'} color={mode === 'listen' ? colors.accent : colors.muted} />
-          </Pressable>
+              accessibilityRole="button"
+              accessibilityLabel={mode === 'listen' ? t('options.tap') : t('options.listen')}
+              onPress={() => updateSettings({ mode: mode === 'listen' ? 'tap' : 'listen' })}
+              hitSlop={10}
+              className="h-11 w-11 items-center justify-center rounded-full active:bg-surface"
+            >
+              <Icon name={mode === 'listen' ? 'listen' : 'tap'} color={mode === 'listen' ? colors.accent : colors.muted} />
+            </Pressable>
+          ) : (
+            <View className="h-11 w-11" />
+          )}
         </View>
         <DecadeProgress
           fills={decadeFills(steps, position)}
@@ -231,15 +236,12 @@ export default function PrayScreen() {
         onPress={listening ? audio.toggle : handleNext}
         className="flex-1"
       >
-        <StepScroll>
+        <StepScroll stepId={step.id} progress={listening && audio.status === 'playing' ? audio.progress : null}>
           <Animated.View key={step.id} entering={FadeIn.duration(220)} exiting={FadeOut.duration(120)} className="gap-4">
             {guide !== null && (
               <Text variant="footnote" className="font-prayer-italic text-[16px] leading-[22px] text-rubric">
                 {t(`guide.${guide}`)}
               </Text>
-            )}
-            {mode === 'listen' && audio.availability === 'unavailable' && position === 0 && (
-              <Text variant="footnote">{t('pray.audioMissing')}</Text>
             )}
             {listening && audio.status === 'interrupted' && (
               <Text variant="footnote" className="text-accent">
@@ -286,6 +288,6 @@ export default function PrayScreen() {
           />
         </View>
       </View>
-    </View>
+    </SafeScreen>
   );
 }

@@ -67,7 +67,6 @@ export const en: Messages<typeof es> = {
     doneDecades_one: 'You prayed {{count}} decade',
     doneDecades_other: 'You prayed {{count}} decades',
     done: 'Done',
-    audioMissing: 'Audio for this language is not on the device yet. You can keep going by tapping.',
     interrupted: 'Paused by another app',
   },
   guide: {

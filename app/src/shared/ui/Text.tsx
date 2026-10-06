@@ -1,4 +1,5 @@
 import { Text as NativeText, type TextProps } from 'react-native';
+import { twMerge } from 'tailwind-merge';
 
 type Variant = 'display' | 'title' | 'headline' | 'body' | 'callout' | 'footnote' | 'caption' | 'eyebrow';
 
@@ -16,5 +17,5 @@ const variants: Record<Variant, string> = {
 export type TextProperties = TextProps & { variant?: Variant };
 
 export function Text({ variant = 'body', className, ...rest }: TextProperties) {
-  return <NativeText className={`${variants[variant]} ${className ?? ''}`} {...rest} />;
+  return <NativeText className={twMerge(variants[variant], className)} {...rest} />;
 }

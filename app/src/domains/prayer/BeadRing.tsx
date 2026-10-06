@@ -41,9 +41,9 @@ export function BeadRing({ state, size }: BeadRingProperties) {
   const bead = size * 0.045;
 
   if (state.kind === 'opening') {
-    const spacing = bead * 3.6;
+    const spacing = bead * 4.2;
     const arm = bead * 1.5;
-    const crossY = center - spacing * 2.2;
+    const crossY = center - spacing * 2.1;
     const beads = [
       { position: 1, y: crossY + spacing * 1.25, r: bead * 1.45 },
       { position: 2, y: crossY + spacing * 2.25, r: bead },
@@ -59,7 +59,7 @@ export function BeadRing({ state, size }: BeadRingProperties) {
             strokeWidth={bead * 0.55}
             strokeLinecap="round"
           />
-          {state.current === 0 && <CurrentHalo cx={center} cy={crossY} r={arm * 2} color={colors.accent} />}
+          {state.current === 0 && <CurrentHalo cx={center} cy={crossY + arm * 0.2} r={arm * 1.75} color={colors.accent} />}
           {beads.map(({ position, y, r }) => (
             <G key={position}>
               <Circle cx={center} cy={y} r={r} fill={position <= state.prayed ? colors['bead-done'] : colors.bead} />

@@ -63,7 +63,6 @@ export const es = {
     doneDecades_one: 'Rezaste {{count}} decena',
     doneDecades_other: 'Rezaste {{count}} decenas',
     done: 'Listo',
-    audioMissing: 'El audio de este idioma aún no está en el dispositivo. Puedes seguir tocando.',
     interrupted: 'En pausa por otra app',
   },
   guide: {

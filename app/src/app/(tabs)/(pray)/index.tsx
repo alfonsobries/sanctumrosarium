@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View, useWindowDimensions } from 'react-native';
 
 import { artworks } from '@/domains/artwork/artworks';
+import { hasAudio } from '@/domains/audio/use-rosary-audio';
 import { weekOf } from '@/domains/calendar/dates';
 import { useJournalDays } from '@/domains/journal/queries';
 import { stepsFor } from '@/domains/prayer/session';
@@ -57,6 +58,7 @@ export default function TodayScreen() {
   const { width } = useWindowDimensions();
   const mode = useSettings((state) => state.mode);
   const prayerLocale = useSettings((state) => state.prayerLocale);
+  const listens = mode === 'listen' && hasAudio(prayerLocale);
   const plan = useSession((state) => state.plan);
   const position = useSession((state) => state.position);
 
@@ -90,7 +92,7 @@ export default function TodayScreen() {
   return (
     <>
       <Stack.Screen options={{ title: t('tabs.pray'), headerLargeTitle: false, headerShown: false }} />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerClassName="gap-8 px-5 pb-16 pt-safe">
+      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerClassName="gap-8 px-5 pb-16">
         <View className="flex-row items-center justify-between pt-3">
           <Text variant="footnote" className="capitalize">
             {dateFormat.format(now)}
@@ -119,7 +121,7 @@ export default function TodayScreen() {
                 source={artwork.source}
                 placeholder={{ thumbhash: artwork.thumbhash }}
                 contentFit="cover"
-                contentPosition="top"
+                contentPosition="center"
                 transition={200}
                 accessibilityLabel={`${artwork.title}, ${artwork.artist}`}
                 style={{ flex: 1 }}
@@ -147,9 +149,9 @@ export default function TodayScreen() {
               onPress={() => router.push({ pathname: '/begin', params: { set: todaySet } })}
               className="min-h-[44px] flex-row items-center justify-center gap-2 active:opacity-60"
             >
-              <Icon name={mode === 'listen' ? 'listen' : 'tap'} size={18} color={colors.muted} />
+              <Icon name={listens ? 'listen' : 'tap'} size={18} color={colors.muted} />
               <Text variant="footnote">
-                {mode === 'listen' ? t('home.summaryListen') : t('home.summaryTap')} · {t(`locales.${prayerLocale}`)}
+                {listens ? t('home.summaryListen') : t('home.summaryTap')} · {t(`locales.${prayerLocale}`)}
               </Text>
               <Icon name="chevron" size={14} color={colors.faint} />
             </Pressable>

@@ -11,6 +11,7 @@ import {
 import { evangelistOf, type Step } from '@sanctamaria/rosary';
 import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useRef, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { artworks } from '@/domains/artwork/artworks';
@@ -153,12 +154,40 @@ export function stepHeading(step: Step, locale: Locale, t: (key: string, options
   return step.count === null ? title : `${title} · ${t('pray.hailMaryCount', step.count)}`;
 }
 
-export function StepScroll({ children }: { children: React.ReactNode }) {
+type StepScrollProperties = {
+  children: React.ReactNode;
+  /** When the voice is reading, how far through the step it is; the text follows it. */
+  progress: number | null;
+  stepId: string;
+};
+
+export function StepScroll({ children, progress, stepId }: StepScrollProperties) {
+  const scroll = useRef<ScrollView>(null);
+  const [viewport, setViewport] = useState(0);
+  const [content, setContent] = useState(0);
+  const overflow = Math.max(0, content - viewport);
+
+  useEffect(() => {
+    scroll.current?.scrollTo({ y: 0, animated: false });
+  }, [stepId]);
+
+  useEffect(() => {
+    if (progress === null || overflow === 0) {
+      return;
+    }
+    // Keep the line being said a little above the middle: start moving after a fifth of the step.
+    const eased = Math.min(1, Math.max(0, (progress - 0.2) / 0.7));
+    scroll.current?.scrollTo({ y: eased * overflow, animated: true });
+  }, [progress, overflow]);
+
   return (
     <ScrollView
+      ref={scroll}
       className="flex-1"
       contentContainerClassName="flex-grow justify-center px-6 py-4"
       showsVerticalScrollIndicator={false}
+      onLayout={(event) => setViewport(event.nativeEvent.layout.height)}
+      onContentSizeChange={(_, height) => setContent(height)}
     >
       {children}
     </ScrollView>

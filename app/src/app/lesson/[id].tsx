@@ -12,6 +12,7 @@ import { useSettings } from '@/domains/settings/use-settings';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
+import { SafeScreen } from '@/shared/ui/SafeScreen';
 import { Text } from '@/shared/ui/Text';
 
 function LessonFigure({ figure }: { figure: Figure }) {
@@ -74,7 +75,7 @@ export default function LessonScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background pb-safe pt-safe">
+    <SafeScreen>
       <View className="flex-row items-center gap-4 px-5 pt-2">
         <Pressable
           accessibilityRole="button"
@@ -137,6 +138,6 @@ export default function LessonScreen() {
           <Button label={t('learn.next')} onPress={() => setIndex(index + 1)} />
         )}
       </View>
-    </View>
+    </SafeScreen>
   );
 }

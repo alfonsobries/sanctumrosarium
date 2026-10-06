@@ -11,6 +11,7 @@ import { useSkin } from '@/shared/theme/SkinProvider';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
 import { Segmented } from '@/shared/ui/Segmented';
+import { SafeScreen } from '@/shared/ui/SafeScreen';
 import { Text } from '@/shared/ui/Text';
 
 function deviceLocale(): Locale {
@@ -42,8 +43,8 @@ export default function WelcomeScreen() {
   }
 
   return (
-    <View className="flex-1 justify-between bg-background px-6 pb-safe-offset-6 pt-safe-offset-16">
-      <Animated.View entering={FadeIn.duration(400)} className="items-center gap-5 pt-10">
+    <SafeScreen className="justify-between px-6" extraTop={24} extraBottom={12}>
+      <Animated.View entering={FadeIn.duration(400)} className="flex-1 items-center justify-center gap-5">
         <Icon name="cross" size={52} color={colors.accent} />
         <View className="items-center gap-2">
           <Text variant="display" className="text-center">
@@ -76,6 +77,6 @@ export default function WelcomeScreen() {
           <Button label={t('onboarding.learn')} variant="secondary" onPress={handleLearn} />
         </View>
       </View>
-    </View>
+    </SafeScreen>
   );
 }
