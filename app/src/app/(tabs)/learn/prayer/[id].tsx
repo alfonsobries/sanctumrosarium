@@ -1,4 +1,11 @@
-import { hasPrayerText, litany, prayer as findPrayer, prayerText, prayerTitle, type Locale } from '@sanctamaria/content';
+import {
+  hasPrayerText,
+  litany,
+  prayer as findPrayer,
+  prayerText,
+  prayerTitle,
+  type Locale,
+} from '@sanctamaria/content';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +23,9 @@ export default function PrayerScreen() {
   const contentLocale = useContentLocale();
   const prayer = findPrayer(id ?? '');
   const available = shown.filter((locale) => hasPrayerText(prayer.id, locale));
-  const [locale, setLocale] = useState<Locale>(available.includes(contentLocale) ? contentLocale : (available[0] ?? 'es-MX'));
+  const [locale, setLocale] = useState<Locale>(
+    available.includes(contentLocale) ? contentLocale : (available[0] ?? 'es-MX'),
+  );
   const text = prayer.id === 'litany-of-loreto' ? null : prayerText(prayer.id, locale);
   const litanyText = prayer.id === 'litany-of-loreto' ? litany(locale) : null;
   const source = text?.source ?? litanyText?.source;
@@ -24,7 +33,10 @@ export default function PrayerScreen() {
   return (
     <>
       <Stack.Screen options={{ title: prayerTitle(prayer.id, contentLocale), headerLargeTitle: false }} />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerClassName="gap-6 px-5 pb-16 pt-4">
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerClassName="gap-6 px-5 pb-16 pt-4"
+      >
         {available.length > 1 && (
           <Segmented
             accessibilityLabel={t('options.language')}

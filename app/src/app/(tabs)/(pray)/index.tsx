@@ -1,5 +1,11 @@
 import { mysteriesOf, mysteryRefsOf, mysteryTitle } from '@sanctamaria/content';
-import { formatLocalDate, localDateOf, mysterySetFor, mysterySets, type MysterySet } from '@sanctamaria/rosary';
+import {
+  formatLocalDate,
+  localDateOf,
+  mysterySetFor,
+  mysterySets,
+  type MysterySet,
+} from '@sanctamaria/rosary';
 import { Image } from 'expo-image';
 import { Link, Stack, useRouter } from 'expo-router';
 import { useMemo } from 'react';
@@ -78,7 +84,11 @@ export default function TodayScreen() {
   );
   const prayedDays = new Set(days.data?.map((day) => day.prayedOn));
   const weekdayFormat = new Intl.DateTimeFormat(i18n.language, { weekday: 'narrow' });
-  const dateFormat = new Intl.DateTimeFormat(i18n.language, { weekday: 'long', day: 'numeric', month: 'long' });
+  const dateFormat = new Intl.DateTimeFormat(i18n.language, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  });
 
   const resumable = plan !== null && isResumable(plan.startedAt) ? plan : null;
   const resumeDecade =
@@ -208,7 +218,11 @@ export default function TodayScreen() {
               />
             ))}
           </View>
-          <Button label={t('home.decade')} variant="plain" onPress={() => void handleStart(todaySet, 'decade')} />
+          <Button
+            label={t('home.decade')}
+            variant="plain"
+            onPress={() => void handleStart(todaySet, 'decade')}
+          />
         </View>
 
         <Link href="/lesson/how-to-pray" asChild>

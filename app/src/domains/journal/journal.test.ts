@@ -6,7 +6,9 @@ import { memoryDatabase } from './node-sql';
 let clock = new Date('2026-10-06T22:00:00Z');
 let journal: Journal;
 
-const entry = (overrides: Partial<JournalEntry> = {}): Omit<JournalEntry, 'clientUpdatedAt' | 'deletedAt'> => ({
+const entry = (
+  overrides: Partial<JournalEntry> = {},
+): Omit<JournalEntry, 'clientUpdatedAt' | 'deletedAt'> => ({
   id: 'a',
   kind: 'rosary',
   mysterySet: 'sorrowful',

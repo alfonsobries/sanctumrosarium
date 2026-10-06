@@ -48,7 +48,9 @@ export function AccountSection() {
   const when =
     lastSyncedAt === null
       ? null
-      : new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(lastSyncedAt));
+      : new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium', timeStyle: 'short' }).format(
+          new Date(lastSyncedAt),
+        );
 
   return (
     <View className="gap-2">
@@ -83,7 +85,13 @@ export function AccountSection() {
         <Card>
           <Row
             title={user.name ?? user.email ?? t('settings.signedInAs')}
-            detail={syncError ? t('settings.syncError') : when === null ? undefined : t('settings.syncedAt', { when })}
+            detail={
+              syncError
+                ? t('settings.syncError')
+                : when === null
+                  ? undefined
+                  : t('settings.syncedAt', { when })
+            }
             chevron={false}
           />
           <Row

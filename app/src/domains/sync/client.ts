@@ -51,7 +51,12 @@ export class ApiClient {
     return (response.status === 204 ? undefined : await response.json()) as T;
   }
 
-  signIn(provider: 'apple' | 'google', identityToken: string, device: string, name?: string): Promise<TokenData> {
+  signIn(
+    provider: 'apple' | 'google',
+    identityToken: string,
+    device: string,
+    name?: string,
+  ): Promise<TokenData> {
     return this.request('POST', this.url('api.auth.identity', { provider }), {
       identityToken,
       device,

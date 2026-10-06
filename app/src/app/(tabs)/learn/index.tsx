@@ -31,10 +31,21 @@ function MysteryRow({ id, index }: { id: string; index: number }) {
   const artwork = artworks[id];
   return (
     <Link href={{ pathname: '/learn/mystery/[id]', params: { id } }} asChild>
-      <Pressable accessibilityRole="button" className="flex-row items-center gap-3 px-4 py-2.5 active:bg-surface-raised">
-        <View className="h-12 w-10 overflow-hidden rounded-md" style={{ backgroundColor: artwork?.color, borderCurve: 'continuous' }}>
+      <Pressable
+        accessibilityRole="button"
+        className="flex-row items-center gap-3 px-4 py-2.5 active:bg-surface-raised"
+      >
+        <View
+          className="h-12 w-10 overflow-hidden rounded-md"
+          style={{ backgroundColor: artwork?.color, borderCurve: 'continuous' }}
+        >
           {artwork !== undefined && (
-            <Image source={artwork.source} placeholder={{ thumbhash: artwork.thumbhash }} contentFit="cover" style={{ flex: 1 }} />
+            <Image
+              source={artwork.source}
+              placeholder={{ thumbhash: artwork.thumbhash }}
+              contentFit="cover"
+              style={{ flex: 1 }}
+            />
           )}
         </View>
         <Text variant="footnote" className="w-3 text-faint">
@@ -58,7 +69,10 @@ export default function LearnScreen() {
   return (
     <>
       <Stack.Screen options={{ title: t('learn.title') }} />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerClassName="gap-8 px-5 pb-16 pt-2">
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerClassName="gap-8 px-5 pb-16 pt-2"
+      >
         <Link href="/lesson/how-to-pray" asChild>
           <Pressable
             accessibilityRole="button"
@@ -93,7 +107,11 @@ export default function LearnScreen() {
           <Text variant="eyebrow">{t('learn.prayers')}</Text>
           <Card>
             {prayers.map((prayer) => (
-              <Link key={prayer.id} href={{ pathname: '/learn/prayer/[id]', params: { id: prayer.id } }} asChild>
+              <Link
+                key={prayer.id}
+                href={{ pathname: '/learn/prayer/[id]', params: { id: prayer.id } }}
+                asChild
+              >
                 <Row title={prayerTitle(prayer.id, locale)} />
               </Link>
             ))}

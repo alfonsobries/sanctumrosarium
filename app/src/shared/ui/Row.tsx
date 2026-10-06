@@ -27,7 +27,11 @@ export function Row({ title, detail, value, icon, chevron = true, ...rest }: Row
         <Text variant="callout">{title}</Text>
         {detail !== undefined && <Text variant="footnote">{detail}</Text>}
       </View>
-      {value !== undefined && <Text variant="callout" className="text-muted">{value}</Text>}
+      {value !== undefined && (
+        <Text variant="callout" className="text-muted">
+          {value}
+        </Text>
+      )}
       {chevron && <Icon name="chevron" size={18} color={colors.faint} />}
     </Pressable>
   );

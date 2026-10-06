@@ -6,9 +6,12 @@ import type { MysteryRef } from './types';
 
 const steps = buildSequence({
   set: 'joyful',
-  mysteries: [1, 2, 3, 4, 5].map(
-    (order): MysteryRef => ({ id: `j${order}`, set: 'joyful', order, readings: [] }),
-  ),
+  mysteries: [1, 2, 3, 4, 5].map((order): MysteryRef => ({
+    id: `j${order}`,
+    set: 'joyful',
+    order,
+    readings: [],
+  })),
   scope: { kind: 'full' },
   opening: true,
   readingFor: null,

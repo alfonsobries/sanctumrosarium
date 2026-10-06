@@ -60,15 +60,27 @@ function SkinPreview({ id, selected, onPress }: { id: SkinId; selected: boolean;
         <Text style={{ fontFamily: skin.fonts.display, color: palette.foreground, fontSize: 20 }}>
           {t('sets.joyful')}
         </Text>
-        <Text style={{ fontFamily: skin.fonts.prayer, color: palette.foreground, fontSize: 15, lineHeight: 20 }}>
-          <Text style={{ fontFamily: skin.dropCap ? skin.fonts.display : skin.fonts.prayer, color: skin.dropCap ? palette.rubric : palette.foreground, fontSize: skin.dropCap ? 24 : 15 }}>
+        <Text
+          style={{ fontFamily: skin.fonts.prayer, color: palette.foreground, fontSize: 15, lineHeight: 20 }}
+        >
+          <Text
+            style={{
+              fontFamily: skin.dropCap ? skin.fonts.display : skin.fonts.prayer,
+              color: skin.dropCap ? palette.rubric : palette.foreground,
+              fontSize: skin.dropCap ? 24 : 15,
+            }}
+          >
             A
           </Text>
           ve Maria, gratia plena
         </Text>
         <View className="flex-row gap-1.5">
           {[0, 1, 2, 3, 4].map((i) => (
-            <View key={i} className="h-2 w-2 rounded-full" style={{ backgroundColor: i < 2 ? palette['bead-done'] : palette.bead }} />
+            <View
+              key={i}
+              className="h-2 w-2 rounded-full"
+              style={{ backgroundColor: i < 2 ? palette['bead-done'] : palette.bead }}
+            />
           ))}
         </View>
       </View>
@@ -99,7 +111,10 @@ export default function SettingsScreen() {
           ),
         }}
       />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerClassName="gap-7 px-5 pb-16 pt-4">
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerClassName="gap-7 px-5 pb-16 pt-4"
+      >
         <Section title={t('settings.prayer')}>
           <Card>
             <Field label={t('settings.language')}>
@@ -109,7 +124,8 @@ export default function SettingsScreen() {
                 onChange={(value) => update({ prayerLocale: value })}
                 options={(['es-MX', 'es-ES', 'en-US', 'la'] as const).map((value) => ({
                   value,
-                  label: value === 'es-MX' ? 'MX' : value === 'es-ES' ? 'ES' : value === 'en-US' ? 'EN' : 'LA',
+                  label:
+                    value === 'es-MX' ? 'MX' : value === 'es-ES' ? 'ES' : value === 'en-US' ? 'EN' : 'LA',
                 }))}
               />
               <Text variant="footnote">{t(`locales.${settings.prayerLocale}`)}</Text>
@@ -163,17 +179,39 @@ export default function SettingsScreen() {
                   : t('settings.gospelFixed', { evangelist: t(`evangelists.${settings.gospel}`) })}
               </Text>
             </Field>
-            <SwitchRow title={t('options.reading')} value={settings.reading} onChange={(value) => update({ reading: value })} />
-            <SwitchRow title={t('options.guided')} detail={t('options.guidedDetail')} value={settings.guided} onChange={(value) => update({ guided: value })} />
-            <SwitchRow title={t('settings.fatima')} value={settings.fatimaPrayer} onChange={(value) => update({ fatimaPrayer: value })} />
-            <SwitchRow title={t('settings.litany')} value={settings.litany} onChange={(value) => update({ litany: value })} />
+            <SwitchRow
+              title={t('options.reading')}
+              value={settings.reading}
+              onChange={(value) => update({ reading: value })}
+            />
+            <SwitchRow
+              title={t('options.guided')}
+              detail={t('options.guidedDetail')}
+              value={settings.guided}
+              onChange={(value) => update({ guided: value })}
+            />
+            <SwitchRow
+              title={t('settings.fatima')}
+              value={settings.fatimaPrayer}
+              onChange={(value) => update({ fatimaPrayer: value })}
+            />
+            <SwitchRow
+              title={t('settings.litany')}
+              value={settings.litany}
+              onChange={(value) => update({ litany: value })}
+            />
           </Card>
         </Section>
 
         <Section title={t('settings.appearance')}>
           <View className="flex-row gap-3">
             {skinIds.map((id) => (
-              <SkinPreview key={id} id={id} selected={settings.skin === id} onPress={() => update({ skin: id })} />
+              <SkinPreview
+                key={id}
+                id={id}
+                selected={settings.skin === id}
+                onPress={() => update({ skin: id })}
+              />
             ))}
           </View>
           <Card>
@@ -182,7 +220,10 @@ export default function SettingsScreen() {
                 accessibilityLabel={t('settings.theme')}
                 value={settings.appearance}
                 onChange={(value) => update({ appearance: value })}
-                options={(['system', 'light', 'dark'] as const).map((value) => ({ value, label: t(`settings.themes.${value}`) }))}
+                options={(['system', 'light', 'dark'] as const).map((value) => ({
+                  value,
+                  label: t(`settings.themes.${value}`),
+                }))}
               />
             </Field>
             <Field label={t('settings.textSize')}>
@@ -190,7 +231,10 @@ export default function SettingsScreen() {
                 accessibilityLabel={t('settings.textSize')}
                 value={settings.textSize}
                 onChange={(value) => update({ textSize: value })}
-                options={(['regular', 'large', 'larger'] as const).map((value) => ({ value, label: t(`settings.textSizes.${value}`) }))}
+                options={(['regular', 'large', 'larger'] as const).map((value) => ({
+                  value,
+                  label: t(`settings.textSizes.${value}`),
+                }))}
               />
             </Field>
           </Card>

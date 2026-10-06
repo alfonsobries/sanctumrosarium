@@ -46,7 +46,8 @@ export function prayer(id: string): Prayer {
   return found;
 }
 
-type StoredText = PrayerText | { missing: true } | { sameAs: Locale } | { structured: LitanyStructure; source: Source };
+type StoredText =
+  PrayerText | { missing: true } | { sameAs: Locale } | { structured: LitanyStructure; source: Source };
 
 function resolveText(id: string, locale: Locale, seen: Locale[] = []): StoredText | undefined {
   const stored = (prayer(id).texts as Partial<Record<Locale, StoredText>>)[locale];
@@ -71,7 +72,11 @@ export function prayerText(id: string, locale: Locale): PrayerText {
     }
     if ('structured' in text) {
       const pairs = litanyPairs(text.structured);
-      return { lines: pairs.map((pair) => `${pair.call} ${pair.response}`), responseFrom: null, source: text.source };
+      return {
+        lines: pairs.map((pair) => `${pair.call} ${pair.response}`),
+        responseFrom: null,
+        source: text.source,
+      };
     }
     return text;
   }
@@ -110,7 +115,11 @@ export function litany(locale: Locale): { pairs: LitanyPair[]; source: Source } 
 
 export function prayerTitle(id: string, locale: Locale): string {
   const titles = prayer(id).titles;
-  return fallbacks(locale).map((candidate) => titles[candidate]).find((t) => t !== undefined) ?? id;
+  return (
+    fallbacks(locale)
+      .map((candidate) => titles[candidate])
+      .find((t) => t !== undefined) ?? id
+  );
 }
 
 export function allPrayers(): readonly Prayer[] {
@@ -153,7 +162,11 @@ export function allMysteries(): readonly Mystery[] {
 
 export function mysteryTitle(id: string, locale: Locale): string {
   const titles = mystery(id).titles;
-  return fallbacks(locale).map((candidate) => titles[candidate]).find((t) => t !== undefined) ?? id;
+  return (
+    fallbacks(locale)
+      .map((candidate) => titles[candidate])
+      .find((t) => t !== undefined) ?? id
+  );
 }
 
 /** Short id shared with the artwork and audio files: `sorrowful-1-agony-in-the-garden` → `agony-in-the-garden`. */

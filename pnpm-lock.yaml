@@ -8,6 +8,12 @@ importers:
 
   .:
     devDependencies:
+      prettier:
+        specifier: ^3.9.9
+        version: 3.9.9
+      prettier-plugin-tailwindcss:
+        specifier: ^0.8.1
+        version: 0.8.1(prettier@3.9.9)
       tsx:
         specifier: ^4.23.15
         version: 4.23.15

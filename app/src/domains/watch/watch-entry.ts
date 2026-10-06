@@ -45,8 +45,18 @@ function isReadings(value: unknown): value is Record<string, string> {
  * is dropped rather than stored half right.
  */
 export function watchEntryFrom(payload: Record<string, unknown>): WatchJournalEntry | null {
-  const { id, kind, mysterySet, locale, prayedOn, startedAt, completedAt, decades, durationSeconds, readings } =
-    payload;
+  const {
+    id,
+    kind,
+    mysterySet,
+    locale,
+    prayedOn,
+    startedAt,
+    completedAt,
+    decades,
+    durationSeconds,
+    readings,
+  } = payload;
   if (!isString(id) || (kind !== 'rosary' && kind !== 'decade')) {
     return null;
   }

@@ -1,7 +1,18 @@
 import { buildSequence, mysterySets, type PrayerId } from '@sanctamaria/rosary';
 import { describe, expect, it } from 'vitest';
 
-import { hasPrayerText, litany, locales, mysteriesOf, mysteryRefsOf, mysterySlug, passage, prayerText, allMysteries, allPrayers } from './index';
+import {
+  hasPrayerText,
+  litany,
+  locales,
+  mysteriesOf,
+  mysteryRefsOf,
+  mysterySlug,
+  passage,
+  prayerText,
+  allMysteries,
+  allPrayers,
+} from './index';
 
 const rosaryPrayers: PrayerId[] = [
   'sign-of-the-cross',

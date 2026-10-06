@@ -52,7 +52,11 @@ const save = (id: string) =>
 describe('syncJournal', () => {
   it('pushes dirty entries to the generated sync route and stores the cursor', async () => {
     await save('a');
-    await syncJournal(client(() => ok()), journal, cursors);
+    await syncJournal(
+      client(() => ok()),
+      journal,
+      cursors,
+    );
 
     expect(calls[0]).toMatchObject({ url: 'https://api.test/api/sync', method: 'POST' });
     expect(calls[0]?.body.prayers.map((p) => p.id)).toEqual(['a']);
@@ -91,7 +95,11 @@ describe('syncJournal', () => {
     await save('a');
 
     await expect(
-      syncJournal(client(() => new Response('down', { status: 503 })), journal, cursors),
+      syncJournal(
+        client(() => new Response('down', { status: 503 })),
+        journal,
+        cursors,
+      ),
     ).rejects.toBeInstanceOf(ApiError);
     expect(await journal.dirty()).toHaveLength(1);
     expect(cursor).toBeNull();

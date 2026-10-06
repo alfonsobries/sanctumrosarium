@@ -6,7 +6,12 @@ import { Alert, Pressable, ScrollView, View } from 'react-native';
 
 import { monthGrid, monthRange } from '@/domains/calendar/dates';
 import { appJournal } from '@/domains/journal/app-journal';
-import { useInvalidateJournal, useJournalDays, useJournalEntries, useJournalTotals } from '@/domains/journal/queries';
+import {
+  useInvalidateJournal,
+  useJournalDays,
+  useJournalEntries,
+  useJournalTotals,
+} from '@/domains/journal/queries';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Card } from '@/shared/ui/Card';
 import { Icon } from '@/shared/ui/Icon';
@@ -36,10 +41,17 @@ function DayCell({
       <View
         className={`h-full w-full items-center justify-center gap-0.5 rounded-full ${selected ? 'bg-surface-raised' : ''} ${today ? 'border border-accent' : ''}`}
       >
-        <Text variant="callout" className={prayed ? 'text-foreground' : 'text-faint'} style={{ fontVariant: ['tabular-nums'] }}>
+        <Text
+          variant="callout"
+          className={prayed ? 'text-foreground' : 'text-faint'}
+          style={{ fontVariant: ['tabular-nums'] }}
+        >
           {date.day}
         </Text>
-        <View className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: prayed ? colors.accent : 'transparent' }} />
+        <View
+          className="h-1.5 w-1.5 rounded-full"
+          style={{ backgroundColor: prayed ? colors.accent : 'transparent' }}
+        />
       </View>
     </Pressable>
   );
@@ -88,14 +100,23 @@ export default function JournalScreen() {
   return (
     <>
       <Stack.Screen options={{ title: t('journal.title') }} />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerClassName="gap-6 px-5 pb-16 pt-2">
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerClassName="gap-6 px-5 pb-16 pt-2"
+      >
         <View className="gap-3">
           <View className="flex-row items-center justify-between">
             <Text variant="headline" className="capitalize">
               {monthName}
             </Text>
             <View className="flex-row gap-1">
-              <Pressable accessibilityRole="button" accessibilityLabel="‹" onPress={() => shift(-1)} hitSlop={6} className="h-11 w-11 items-center justify-center rounded-full active:bg-surface">
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="‹"
+                onPress={() => shift(-1)}
+                hitSlop={6}
+                className="h-11 w-11 items-center justify-center rounded-full active:bg-surface"
+              >
                 <View style={{ transform: [{ scaleX: -1 }] }}>
                   <Icon name="chevron" size={20} color={colors.accent} />
                 </View>
@@ -137,15 +158,19 @@ export default function JournalScreen() {
             )}
           </View>
           <Text variant="footnote">
-            {prayed.size === 0 && isCurrentMonth ? t('journal.empty') : t('journal.monthDays', { count: prayed.size })}
+            {prayed.size === 0 && isCurrentMonth
+              ? t('journal.empty')
+              : t('journal.monthDays', { count: prayed.size })}
           </Text>
         </View>
 
         <View className="gap-2">
           <Text variant="eyebrow">
-            {new Intl.DateTimeFormat(i18n.language, { weekday: 'long', day: 'numeric', month: 'long' }).format(
-              new Date(`${selected}T12:00:00`),
-            )}
+            {new Intl.DateTimeFormat(i18n.language, {
+              weekday: 'long',
+              day: 'numeric',
+              month: 'long',
+            }).format(new Date(`${selected}T12:00:00`))}
           </Text>
           {entries.data !== undefined && entries.data.length === 0 ? (
             <Text variant="footnote">{t('journal.nothing')}</Text>
@@ -161,7 +186,9 @@ export default function JournalScreen() {
                   <Icon name={entry.decades === 5 ? 'rosary' : 'decade'} color={colors.accent} />
                   <View className="flex-1 gap-0.5">
                     <Text variant="callout">
-                      {entry.decades === 5 ? t('journal.entryRosary') : t('journal.entryDecades', { count: entry.decades })}
+                      {entry.decades === 5
+                        ? t('journal.entryRosary')
+                        : t('journal.entryDecades', { count: entry.decades })}
                     </Text>
                     <Text variant="footnote">
                       {t(`sets.${entry.mysterySet as MysterySet}`)} · {t(`locales.${entry.locale}`)}
@@ -183,7 +210,11 @@ export default function JournalScreen() {
               t('journal.decades', { count: totals.data.decades }),
               t('journal.days', { count: totals.data.days }),
             ].map((label) => (
-              <View key={label} className="flex-1 items-center rounded-card bg-surface px-2 py-3" style={{ borderCurve: 'continuous' }}>
+              <View
+                key={label}
+                className="flex-1 items-center rounded-card bg-surface px-2 py-3"
+                style={{ borderCurve: 'continuous' }}
+              >
                 <Text variant="footnote" className="text-center text-foreground">
                   {label}
                 </Text>

@@ -21,7 +21,10 @@ export function useSessionJournal(plan: SessionPlan | null, steps: readonly Step
     if (plan === null) {
       return;
     }
-    const decades = position >= steps.length - 1 ? decadesCompleted(steps, steps.length) : decadesCompleted(steps, position);
+    const decades =
+      position >= steps.length - 1
+        ? decadesCompleted(steps, steps.length)
+        : decadesCompleted(steps, position);
     if (decades === saved.current) {
       return;
     }

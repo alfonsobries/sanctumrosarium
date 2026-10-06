@@ -6,7 +6,10 @@ import {
   EBGaramond_400Regular_Italic,
   EBGaramond_600SemiBold,
 } from '@expo-google-fonts/eb-garamond';
-import { IMFellEnglish_400Regular, IMFellEnglish_400Regular_Italic } from '@expo-google-fonts/im-fell-english';
+import {
+  IMFellEnglish_400Regular,
+  IMFellEnglish_400Regular_Italic,
+} from '@expo-google-fonts/im-fell-english';
 import { UnifrakturMaguntia_400Regular } from '@expo-google-fonts/unifrakturmaguntia';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';

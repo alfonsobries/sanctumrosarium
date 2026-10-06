@@ -62,6 +62,10 @@ describe('journalEntryFor', () => {
 
   it('records a complete Rosary at the last step', () => {
     const entry = journalEntryFor(p, steps, steps.length - 1, new Date('2026-10-07T04:52:00Z'), 1320);
-    expect(entry).toMatchObject({ decades: 5, completedAt: '2026-10-07T04:52:00.000Z', durationSeconds: 1320 });
+    expect(entry).toMatchObject({
+      decades: 5,
+      completedAt: '2026-10-07T04:52:00.000Z',
+      durationSeconds: 1320,
+    });
   });
 });

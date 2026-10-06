@@ -18,7 +18,9 @@ const cursorKey = 'sync-cursor';
 export const apiUrl: string | null = process.env.EXPO_PUBLIC_API_URL ?? null;
 
 export const api =
-  apiUrl === null ? null : new ApiClient({ baseUrl: apiUrl, token: () => SecureStore.getItemAsync(tokenKey) });
+  apiUrl === null
+    ? null
+    : new ApiClient({ baseUrl: apiUrl, token: () => SecureStore.getItemAsync(tokenKey) });
 
 const cursors: CursorStore = {
   get: () => Storage.getItem(cursorKey),

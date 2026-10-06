@@ -36,7 +36,17 @@ function hapticFor(step: Step | undefined): void {
   void Haptics.selectionAsync();
 }
 
-function ControlButton({ label, icon, onPress, disabled }: { label: string; icon: 'previous' | 'next'; onPress: () => void; disabled?: boolean }) {
+function ControlButton({
+  label,
+  icon,
+  onPress,
+  disabled,
+}: {
+  label: string;
+  icon: 'previous' | 'next';
+  onPress: () => void;
+  disabled?: boolean;
+}) {
   const { colors } = useSkin();
   return (
     <Pressable
@@ -171,7 +181,10 @@ export default function PrayScreen() {
     );
   }
 
-  const mystery = step.decade === null ? null : (steps.find((s) => s.kind === 'announce' && s.decade === step.decade) ?? null);
+  const mystery =
+    step.decade === null
+      ? null
+      : (steps.find((s) => s.kind === 'announce' && s.decade === step.decade) ?? null);
   const guide = guided ? guideFor(steps, position) : null;
   const ringSize = Math.min(150, width * 0.38);
 
@@ -189,17 +202,24 @@ export default function PrayScreen() {
             <Icon name="close" color={colors.muted} />
           </Pressable>
           <Text variant="footnote">
-            {step.decade === null ? (step.section === 'closing' ? t('pray.closing') : t('pray.opening')) : t('pray.decadeOf', { decade: step.decade })}
+            {step.decade === null
+              ? step.section === 'closing'
+                ? t('pray.closing')
+                : t('pray.opening')
+              : t('pray.decadeOf', { decade: step.decade })}
           </Text>
           {hasAudio(plan.locale) ? (
-          <Pressable
+            <Pressable
               accessibilityRole="button"
               accessibilityLabel={mode === 'listen' ? t('options.tap') : t('options.listen')}
               onPress={() => updateSettings({ mode: mode === 'listen' ? 'tap' : 'listen' })}
               hitSlop={10}
               className="h-11 w-11 items-center justify-center rounded-full active:bg-surface"
             >
-              <Icon name={mode === 'listen' ? 'listen' : 'tap'} color={mode === 'listen' ? colors.accent : colors.muted} />
+              <Icon
+                name={mode === 'listen' ? 'listen' : 'tap'}
+                color={mode === 'listen' ? colors.accent : colors.muted}
+              />
             </Pressable>
           ) : (
             <View className="h-11 w-11" />
@@ -236,8 +256,16 @@ export default function PrayScreen() {
         onPress={listening ? audio.toggle : handleNext}
         className="flex-1"
       >
-        <StepScroll stepId={step.id} progress={listening && audio.status === 'playing' ? audio.progress : null}>
-          <Animated.View key={step.id} entering={FadeIn.duration(220)} exiting={FadeOut.duration(120)} className="gap-4">
+        <StepScroll
+          stepId={step.id}
+          progress={listening && audio.status === 'playing' ? audio.progress : null}
+        >
+          <Animated.View
+            key={step.id}
+            entering={FadeIn.duration(220)}
+            exiting={FadeOut.duration(120)}
+            className="gap-4"
+          >
             {guide !== null && (
               <Text variant="footnote" className="font-prayer-italic text-[16px] leading-[22px] text-rubric">
                 {t(`guide.${guide}`)}
@@ -270,7 +298,11 @@ export default function PrayScreen() {
               onPress={audio.toggle}
               className="h-16 w-16 items-center justify-center rounded-full bg-accent active:opacity-80"
             >
-              <Icon name={audio.status === 'playing' ? 'pause' : 'play'} size={28} color={colors['accent-foreground']} />
+              <Icon
+                name={audio.status === 'playing' ? 'pause' : 'play'}
+                size={28}
+                color={colors['accent-foreground']}
+              />
             </Pressable>
           ) : (
             <Button label={t('pray.next')} onPress={handleNext} className="mx-4 flex-1" />

@@ -64,7 +64,12 @@ export default function WelcomeScreen() {
           <Segmented
             accessibilityLabel={t('onboarding.language')}
             value={prayerLocale === 'es-ES' ? 'es-MX' : prayerLocale}
-            onChange={(value) => update({ prayerLocale: value === 'es-MX' ? deviceLocale().startsWith('es') ? deviceLocale() : 'es-MX' : value })}
+            onChange={(value) =>
+              update({
+                prayerLocale:
+                  value === 'es-MX' ? (deviceLocale().startsWith('es') ? deviceLocale() : 'es-MX') : value,
+              })
+            }
             options={[
               { value: 'es-MX', label: 'Español' },
               { value: 'en-US', label: 'English' },

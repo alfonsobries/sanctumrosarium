@@ -8,12 +8,21 @@ type SafeScreenProperties = ViewProps & {
 };
 
 /** Full-screen surface (modals without a navigation bar) padded clear of the island and home indicator. */
-export function SafeScreen({ extraTop = 0, extraBottom = 0, className, style, ...rest }: SafeScreenProperties) {
+export function SafeScreen({
+  extraTop = 0,
+  extraBottom = 0,
+  className,
+  style,
+  ...rest
+}: SafeScreenProperties) {
   const insets = useSafeAreaInsets();
   return (
     <View
       className={`flex-1 bg-background ${className ?? ''}`}
-      style={[{ paddingTop: insets.top + extraTop, paddingBottom: Math.max(insets.bottom, 12) + extraBottom }, style]}
+      style={[
+        { paddingTop: insets.top + extraTop, paddingBottom: Math.max(insets.bottom, 12) + extraBottom },
+        style,
+      ]}
       {...rest}
     />
   );

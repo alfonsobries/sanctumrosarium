@@ -150,7 +150,8 @@ export const es = {
     syncError: 'No se pudo sincronizar. Se intentará de nuevo.',
     signOut: 'Cerrar sesión',
     deleteAccount: 'Borrar cuenta',
-    deleteAccountDetail: 'Se borra tu cuenta y el diario guardado en el servidor. El de este teléfono se queda.',
+    deleteAccountDetail:
+      'Se borra tu cuenta y el diario guardado en el servidor. El de este teléfono se queda.',
     about: 'Acerca de',
     sources: 'Fuentes de los textos',
     openSource: 'Código abierto',

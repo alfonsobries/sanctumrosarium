@@ -24,13 +24,16 @@ export default function MysteryScreen() {
 
   const label = (value: string): string => {
     const evangelist = evangelistOf({ book: bookOf(value), ref: value });
-    return evangelist === null ? value.split(' ')[0] ?? value : t(`evangelists.${evangelist}`);
+    return evangelist === null ? (value.split(' ')[0] ?? value) : t(`evangelists.${evangelist}`);
   };
 
   return (
     <>
       <Stack.Screen options={{ title: t(`setShort.${mystery.set}`), headerLargeTitle: false }} />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerClassName="gap-6 px-5 pb-16 pt-2">
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerClassName="gap-6 px-5 pb-16 pt-2"
+      >
         {artwork !== undefined && (
           <Card style={{ height: (width - 40) * 1.1, backgroundColor: artwork.color }}>
             <Image
@@ -46,7 +49,10 @@ export default function MysteryScreen() {
         )}
         <View className="gap-1">
           <Text variant="eyebrow">
-            {t('pray.mystery', { ordinal: t(`ordinal.${mystery.order - 1}`), set: t(`setAdjective.${mystery.set}`) })}
+            {t('pray.mystery', {
+              ordinal: t(`ordinal.${mystery.order - 1}`),
+              set: t(`setAdjective.${mystery.set}`),
+            })}
           </Text>
           <Text variant="display">{mysteryTitle(mystery.id, locale)}</Text>
           {artwork !== undefined && (

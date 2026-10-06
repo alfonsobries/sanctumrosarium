@@ -90,9 +90,7 @@ export function journalEntryFor(
   activeSeconds: number,
 ) {
   const finished = position >= steps.length - 1;
-  const decades = finished
-    ? decadesCompleted(steps, steps.length)
-    : decadesCompleted(steps, position);
+  const decades = finished ? decadesCompleted(steps, steps.length) : decadesCompleted(steps, position);
   if (decades === 0) {
     return null;
   }

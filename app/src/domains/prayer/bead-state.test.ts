@@ -5,7 +5,12 @@ import { beadRingState, decadeFills } from './bead-state';
 
 const steps = buildSequence({
   set: 'joyful',
-  mysteries: [1, 2, 3, 4, 5].map((order): MysteryRef => ({ id: `j${order}`, set: 'joyful', order, readings: [] })),
+  mysteries: [1, 2, 3, 4, 5].map((order): MysteryRef => ({
+    id: `j${order}`,
+    set: 'joyful',
+    order,
+    readings: [],
+  })),
   scope: { kind: 'full' },
   opening: true,
   readingFor: null,
@@ -22,7 +27,11 @@ describe('beadRingState', () => {
   });
 
   it('walks the three opening Hail Marys', () => {
-    expect(beadRingState(steps, at('opening-hail-mary-2'))).toEqual({ kind: 'opening', prayed: 2, current: 3 });
+    expect(beadRingState(steps, at('opening-hail-mary-2'))).toEqual({
+      kind: 'opening',
+      prayed: 2,
+      current: 3,
+    });
   });
 
   it('marks the Our Father bead of a decade', () => {

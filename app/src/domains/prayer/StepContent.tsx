@@ -32,7 +32,15 @@ type StepContentProperties = {
   textSize: Settings['textSize'];
 };
 
-function PrayerLines({ id, locale, textSize }: { id: string; locale: Locale; textSize: Settings['textSize'] }) {
+function PrayerLines({
+  id,
+  locale,
+  textSize,
+}: {
+  id: string;
+  locale: Locale;
+  textSize: Settings['textSize'];
+}) {
   const { skin } = useSkin();
   const text = prayerText(id, locale);
   const { size, line } = sizes[textSize];
@@ -125,7 +133,11 @@ export function StepContent({ step, locale, textSize }: StepContentProperties) {
     return (
       <View className="gap-2">
         {pairs.map((pair, index) => (
-          <Text key={index} className="font-prayer text-foreground" style={{ fontSize: size - 3, lineHeight: line - 4 }}>
+          <Text
+            key={index}
+            className="font-prayer text-foreground"
+            style={{ fontSize: size - 3, lineHeight: line - 4 }}
+          >
             {pair.call} <Text className="font-prayer-italic text-muted">{pair.response}</Text>
           </Text>
         ))}
@@ -141,7 +153,11 @@ export function StepContent({ step, locale, textSize }: StepContentProperties) {
 }
 
 /** Heading over the step: which prayer, and the count for the Hail Marys. */
-export function stepHeading(step: Step, locale: Locale, t: (key: string, options?: Record<string, unknown>) => string): string {
+export function stepHeading(
+  step: Step,
+  locale: Locale,
+  t: (key: string, options?: Record<string, unknown>) => string,
+): string {
   if (step.kind === 'announce') {
     return t('pray.mystery', {
       ordinal: t(`ordinal.${step.mystery.order - 1}`),
@@ -196,18 +212,18 @@ export function StepScroll({ children, progress, stepId }: StepScrollProperties)
 
   return (
     <View className="flex-1">
-    <ScrollView
-      ref={scroll}
-      className="flex-1"
-      contentContainerClassName="flex-grow justify-center px-6 py-4"
-      showsVerticalScrollIndicator={false}
-      onLayout={(event) => setViewport(event.nativeEvent.layout.height)}
-      onContentSizeChange={(_, height) => setContent(height)}
-    >
-      {children}
-    </ScrollView>
-    {overflow > 0 && <Fade edge="top" />}
-    {overflow > 0 && <Fade edge="bottom" />}
+      <ScrollView
+        ref={scroll}
+        className="flex-1"
+        contentContainerClassName="flex-grow justify-center px-6 py-4"
+        showsVerticalScrollIndicator={false}
+        onLayout={(event) => setViewport(event.nativeEvent.layout.height)}
+        onContentSizeChange={(_, height) => setContent(height)}
+      >
+        {children}
+      </ScrollView>
+      {overflow > 0 && <Fade edge="top" />}
+      {overflow > 0 && <Fade edge="bottom" />}
     </View>
   );
 }

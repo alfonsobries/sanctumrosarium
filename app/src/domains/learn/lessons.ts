@@ -10,7 +10,12 @@ export type LessonPage = {
   figure?: Figure;
 };
 
-export type Lesson = { id: string; title: string; pages: LessonPage[]; source: { title: string; url: string } };
+export type Lesson = {
+  id: string;
+  title: string;
+  pages: LessonPage[];
+  source: { title: string; url: string };
+};
 
 const rvm = {
   es: {
@@ -32,7 +37,10 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
       {
         title: 'Qué es',
         body: 'El Rosario es una oración a la Virgen que recorre la vida de Jesús. Mientras se repiten oraciones sencillas, se piensa en una escena del Evangelio.',
-        quote: { text: 'Recitar el Rosario, en efecto, es en realidad contemplar con María el rostro de Cristo.', cite: 'RVM 3' },
+        quote: {
+          text: 'Recitar el Rosario, en efecto, es en realidad contemplar con María el rostro de Cristo.',
+          cite: 'RVM 3',
+        },
         figure: 'cross',
       },
       {
@@ -80,7 +88,10 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
       {
         title: 'What it is',
         body: 'The Rosary is a prayer to Our Lady that walks through the life of Jesus. While simple prayers are repeated, you think about a scene from the Gospel.',
-        quote: { text: 'To recite the Rosary is nothing other than to contemplate with Mary the face of Christ.', cite: 'RVM 3' },
+        quote: {
+          text: 'To recite the Rosary is nothing other than to contemplate with Mary the face of Christ.',
+          cite: 'RVM 3',
+        },
         figure: 'cross',
       },
       {

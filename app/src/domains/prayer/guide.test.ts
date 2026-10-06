@@ -5,7 +5,12 @@ import { guideFor } from './guide';
 
 const steps = buildSequence({
   set: 'glorious',
-  mysteries: [1, 2, 3, 4, 5].map((order): MysteryRef => ({ id: `g${order}`, set: 'glorious', order, readings: [] })),
+  mysteries: [1, 2, 3, 4, 5].map((order): MysteryRef => ({
+    id: `g${order}`,
+    set: 'glorious',
+    order,
+    readings: [],
+  })),
   scope: { kind: 'full' },
   opening: true,
   readingFor: null,

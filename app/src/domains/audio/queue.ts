@@ -72,7 +72,10 @@ export function buildQueue(
     let parts: QueuePart[] | null;
     if (step.kind === 'announce') {
       const track = manifest.tracks[`announce.${step.mystery.id}`];
-      parts = track === undefined ? null : [{ file: track.file, gapAfterMs: Math.max(timing.afterAnnounceMs, timing.pauseMs) }];
+      parts =
+        track === undefined
+          ? null
+          : [{ file: track.file, gapAfterMs: Math.max(timing.afterAnnounceMs, timing.pauseMs) }];
     } else if (step.kind === 'reading') {
       parts = [{ file: null, gapAfterMs: readingSilenceMs(passageText(step.reading.ref)) }];
     } else if (step.prayer === 'litany-of-loreto') {

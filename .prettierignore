@@ -1,0 +1,9 @@
+api/
+**/*.gen.*
+content/*.json
+content/scripture/
+app/assets/
+app/ios/
+app/android/
+_design/
+pnpm-lock.yaml

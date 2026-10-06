@@ -10,7 +10,12 @@ type SegmentedProperties<T extends string> = {
   accessibilityLabel: string;
 };
 
-export function Segmented<T extends string>({ options, value, onChange, accessibilityLabel }: SegmentedProperties<T>) {
+export function Segmented<T extends string>({
+  options,
+  value,
+  onChange,
+  accessibilityLabel,
+}: SegmentedProperties<T>) {
   return (
     <View
       accessibilityRole="radiogroup"
@@ -33,7 +38,11 @@ export function Segmented<T extends string>({ options, value, onChange, accessib
             }}
             className={`min-h-[40px] flex-1 items-center justify-center rounded-full px-2 ${selected ? 'bg-surface-raised' : ''}`}
           >
-            <Text variant="footnote" numberOfLines={1} className={selected ? 'font-semibold text-foreground' : 'text-muted'}>
+            <Text
+              variant="footnote"
+              numberOfLines={1}
+              className={selected ? 'font-semibold text-foreground' : 'text-muted'}
+            >
               {option.label}
             </Text>
           </Pressable>

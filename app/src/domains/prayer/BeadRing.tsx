@@ -59,10 +59,17 @@ export function BeadRing({ state, size }: BeadRingProperties) {
             strokeWidth={bead * 0.55}
             strokeLinecap="round"
           />
-          {state.current === 0 && <CurrentHalo cx={center} cy={crossY + arm * 0.2} r={arm * 1.75} color={colors.accent} />}
+          {state.current === 0 && (
+            <CurrentHalo cx={center} cy={crossY + arm * 0.2} r={arm * 1.75} color={colors.accent} />
+          )}
           {beads.map(({ position, y, r }) => (
             <G key={position}>
-              <Circle cx={center} cy={y} r={r} fill={position <= state.prayed ? colors['bead-done'] : colors.bead} />
+              <Circle
+                cx={center}
+                cy={y}
+                r={r}
+                fill={position <= state.prayed ? colors['bead-done'] : colors.bead}
+              />
               {state.current === position && (
                 <CurrentHalo cx={center} cy={y} r={r * 1.9} color={colors.accent} />
               )}

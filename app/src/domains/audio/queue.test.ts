@@ -73,7 +73,9 @@ describe('buildQueue', () => {
 
   it('turns an unrecorded reading into silence to read it', () => {
     const queue = buildQueue(steps({ reading: true }), manifest, timing, () => 'a'.repeat(280))!;
-    expect(queue.find((entry) => entry.id === 'd1-reading')?.parts).toEqual([{ file: null, gapAfterMs: 20_000 }]);
+    expect(queue.find((entry) => entry.id === 'd1-reading')?.parts).toEqual([
+      { file: null, gapAfterMs: 20_000 },
+    ]);
   });
 
   it('alternates litany calls and shared responses', () => {

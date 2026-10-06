@@ -1,6 +1,12 @@
 import type { es } from './es';
 
-type Messages<T> = { [K in keyof T]: T[K] extends string ? string : T[K] extends readonly string[] ? readonly string[] : Messages<T[K]> };
+type Messages<T> = {
+  [K in keyof T]: T[K] extends string
+    ? string
+    : T[K] extends readonly string[]
+      ? readonly string[]
+      : Messages<T[K]>;
+};
 
 export const en: Messages<typeof es> = {
   tabs: { pray: 'Pray', learn: 'Learn', journal: 'Journal' },
@@ -154,7 +160,8 @@ export const en: Messages<typeof es> = {
     syncError: 'Could not sync. It will try again.',
     signOut: 'Sign out',
     deleteAccount: 'Delete account',
-    deleteAccountDetail: 'Deletes your account and the journal saved on the server. The one on this phone stays.',
+    deleteAccountDetail:
+      'Deletes your account and the journal saved on the server. The one on this phone stays.',
     about: 'About',
     sources: 'Text sources',
     openSource: 'Open source',

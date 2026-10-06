@@ -29,10 +29,7 @@ export function SkinProvider({ children }: SkinProviderProperties) {
   const scheme: 'light' | 'dark' = colorScheme === 'light' ? 'light' : 'dark';
   const skin = skins[skinId];
 
-  const value = useMemo(
-    () => ({ skin, scheme, colors: skin[scheme] }),
-    [skin, scheme],
-  );
+  const value = useMemo(() => ({ skin, scheme, colors: skin[scheme] }), [skin, scheme]);
   const style = useMemo(() => vars(skinVariables(skin, scheme)), [skin, scheme]);
 
   return (

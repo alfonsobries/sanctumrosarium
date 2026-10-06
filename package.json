@@ -9,9 +9,13 @@
     "api": "cd api && php artisan serve",
     "api:test": "cd api && composer test",
     "api:check": "cd api && composer lint && composer analyse && composer test",
-    "audio:generate": "tsx scripts/generate-audio.mts"
+    "audio:generate": "tsx scripts/generate-audio.mts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "prettier": "^3.9.9",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "tsx": "^4.23.15"
   }
 }

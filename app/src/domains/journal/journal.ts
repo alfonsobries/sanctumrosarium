@@ -197,10 +197,10 @@ export class Journal {
   async markSynced(pushed: readonly JournalEntry[]): Promise<void> {
     await this.db.withTransactionAsync(async () => {
       for (const entry of pushed) {
-        await this.db.runAsync(
-          'UPDATE prayers SET dirty = 0 WHERE id = ? AND client_updated_at = ?',
-          [entry.id, entry.clientUpdatedAt],
-        );
+        await this.db.runAsync('UPDATE prayers SET dirty = 0 WHERE id = ? AND client_updated_at = ?', [
+          entry.id,
+          entry.clientUpdatedAt,
+        ]);
       }
     });
   }
