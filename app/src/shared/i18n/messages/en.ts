@@ -86,6 +86,7 @@ export const en: Messages<typeof es> = {
     closingPrayer: 'The closing prayer asks to imitate what the mysteries contain (RVM 35).',
     response: 'In italics, the part the others answer when praying together.',
   },
+  evangelistShort: { matthew: 'Mt', mark: 'Mk', luke: 'Lk', john: 'Jn' },
   evangelists: { matthew: 'Matthew', mark: 'Mark', luke: 'Luke', john: 'John' },
   learn: {
     title: 'Learn',
@@ -130,6 +131,7 @@ export const en: Messages<typeof es> = {
     none: 'None',
     rate: 'Voice speed',
     gospel: 'Gospel',
+    rotateShort: 'Rotate',
     gospelRotate: 'A different one each time',
     gospelFixed: 'Always {{evangelist}}',
     gospelHint: 'When several evangelists tell the same mystery.',

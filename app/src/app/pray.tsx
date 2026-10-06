@@ -248,7 +248,7 @@ export default function PrayScreen() {
                 {t('pray.interrupted')}
               </Text>
             )}
-            {step.kind !== 'announce' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
+            {step.kind === 'prayer' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
             <StepContent step={step} locale={plan.locale} textSize={textSize} />
           </Animated.View>
         </StepScroll>

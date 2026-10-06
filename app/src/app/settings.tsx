@@ -89,7 +89,6 @@ export default function SettingsScreen() {
     <>
       <Stack.Screen
         options={{
-          headerShown: true,
           title: t('settings.title'),
           headerRight: () => (
             <Pressable accessibilityRole="button" onPress={() => router.back()} hitSlop={10}>
@@ -151,10 +150,10 @@ export default function SettingsScreen() {
                 value={settings.gospel}
                 onChange={(value) => update({ gospel: value })}
                 options={[
-                  { value: 'rotate', label: '↻' },
+                  { value: 'rotate', label: t('settings.rotateShort') },
                   ...(['matthew', 'mark', 'luke', 'john'] as Evangelist[]).map((value) => ({
                     value,
-                    label: t(`evangelists.${value}`),
+                    label: t(`evangelistShort.${value}`),
                   })),
                 ]}
               />

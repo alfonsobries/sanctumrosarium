@@ -82,6 +82,7 @@ export const es = {
     closingPrayer: 'La oración final pide imitar lo que contienen los misterios (RVM 35).',
     response: 'En cursiva, la parte que responden los demás cuando se reza en grupo.',
   },
+  evangelistShort: { matthew: 'Mt', mark: 'Mc', luke: 'Lc', john: 'Jn' },
   evangelists: { matthew: 'Mateo', mark: 'Marcos', luke: 'Lucas', john: 'Juan' },
   learn: {
     title: 'Aprender',
@@ -126,6 +127,7 @@ export const es = {
     none: 'Ninguno',
     rate: 'Velocidad de la voz',
     gospel: 'Evangelio',
+    rotateShort: 'Rotar',
     gospelRotate: 'Uno distinto cada vez',
     gospelFixed: 'Siempre {{evangelist}}',
     gospelHint: 'Cuando varios evangelistas cuentan el mismo misterio.',

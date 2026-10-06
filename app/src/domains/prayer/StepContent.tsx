@@ -10,6 +10,7 @@ import {
 } from '@sanctamaria/content';
 import { evangelistOf, type Step } from '@sanctamaria/rosary';
 import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef, useState } from 'react';
 import { ScrollView, View } from 'react-native';
@@ -161,6 +162,19 @@ type StepScrollProperties = {
   stepId: string;
 };
 
+function Fade({ edge }: { edge: 'top' | 'bottom' }) {
+  const { colors } = useSkin();
+  const solid = colors.background;
+  const clear = `${solid}00`;
+  return (
+    <LinearGradient
+      pointerEvents="none"
+      colors={edge === 'top' ? [solid, clear] : [clear, solid]}
+      style={{ position: 'absolute', left: 0, right: 0, height: 28, [edge]: 0 }}
+    />
+  );
+}
+
 export function StepScroll({ children, progress, stepId }: StepScrollProperties) {
   const scroll = useRef<ScrollView>(null);
   const [viewport, setViewport] = useState(0);
@@ -181,6 +195,7 @@ export function StepScroll({ children, progress, stepId }: StepScrollProperties)
   }, [progress, overflow]);
 
   return (
+    <View className="flex-1">
     <ScrollView
       ref={scroll}
       className="flex-1"
@@ -191,5 +206,8 @@ export function StepScroll({ children, progress, stepId }: StepScrollProperties)
     >
       {children}
     </ScrollView>
+    {overflow > 0 && <Fade edge="top" />}
+    {overflow > 0 && <Fade edge="bottom" />}
+    </View>
   );
 }

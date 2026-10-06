@@ -84,7 +84,17 @@ function Navigation() {
               sheetCornerRadius: 24,
             }}
           />
-          <Stack.Screen name="settings" options={{ presentation: 'modal' }} />
+          <Stack.Screen
+            name="settings"
+            options={{
+              presentation: 'modal',
+              headerShown: true,
+              headerStyle: { backgroundColor: colors.background },
+              headerTintColor: colors.accent,
+              headerTitleStyle: { color: colors.foreground },
+              headerShadowVisible: false,
+            }}
+          />
           <Stack.Screen name="lesson/[id]" options={{ presentation: 'fullScreenModal' }} />
         </Stack.Protected>
         <Stack.Protected guard={!onboarded}>
