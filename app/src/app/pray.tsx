@@ -238,9 +238,11 @@ export default function PrayScreen() {
                   set: t(`setAdjective.${mystery.mystery.set}`),
                 })}
               </Text>
-              <Text variant="headline" className="font-prayer text-[20px] leading-[26px]" numberOfLines={2}>
-                {mysteryTitle(mystery.mystery.id, headingLocale)}
-              </Text>
+              {step.kind !== 'announce' && (
+                <Text variant="headline" className="font-prayer text-[20px] leading-[26px]" numberOfLines={2}>
+                  {mysteryTitle(mystery.mystery.id, headingLocale)}
+                </Text>
+              )}
             </>
           ) : (
             <Text variant="headline" className="font-prayer text-[20px] leading-[26px]">
