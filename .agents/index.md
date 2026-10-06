@@ -35,4 +35,5 @@ App para rezar el Santo Rosario, católica y de código abierto. Qué es y para 
 - `pnpm test` - motor; `pnpm --filter app test` - lógica de la app
 - `pnpm --filter app typecheck`
 - `pnpm api:check` - Pint, Larastan y Pest
-- `pnpm app` - Expo; `cd app && npx expo run:ios`
+- `pnpm play` - API en la red local y Metro con la app apuntando a ella (`pnpm play 192.168.X.X` fija la IP)
+- `cd app && npx expo run:ios` - compilar el dev client

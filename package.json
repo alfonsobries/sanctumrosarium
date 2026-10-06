@@ -11,7 +11,9 @@
     "api:check": "cd api && composer lint && composer analyse && composer test",
     "audio:generate": "tsx scripts/generate-audio.mts",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "watch:content": "tsx scripts/build-watch-content.mts",
+    "play": "bash scripts/play.sh"
   },
   "devDependencies": {
     "prettier": "^3.9.9",

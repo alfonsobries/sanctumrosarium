@@ -25,6 +25,7 @@ Todo lo que se reza sale de fuentes oficiales citadas en [`content/`](content/RE
 
 ```sh
 pnpm install
+pnpm play                 # API en la red local + Metro, la app ya apunta a la API
 pnpm test                 # motor y contenido
 pnpm --filter app test    # lógica de la app
 cd app && npx expo run:ios
