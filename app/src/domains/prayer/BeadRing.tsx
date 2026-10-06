@@ -41,7 +41,8 @@ const toRadians = (degrees: number): number => ((degrees - 90) * Math.PI) / 180;
 export function BeadRing({ state, size, children }: BeadRingProperties) {
   const { colors } = useSkin();
   const center = size / 2;
-  const ringRadius = size * 0.42;
+  // Leave room above the top slot for the crucifix, which is taller than a bead.
+  const ringRadius = size * 0.39;
   const bead = size * 0.04;
   const at = (degrees: number) => ({
     x: center + ringRadius * Math.cos(toRadians(degrees)),
@@ -82,7 +83,7 @@ export function BeadRing({ state, size, children }: BeadRingProperties) {
     }
   }
 
-  const arm = bead * 1.5;
+  const arm = bead * 1.3;
 
   return (
     <View style={{ width: size, height: size }} className="items-center justify-center">
