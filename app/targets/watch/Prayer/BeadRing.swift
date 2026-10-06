@@ -1,86 +1,100 @@
 import SwiftUI
 
 /**
- * One decade as a circle of ten beads with its Our Father bead apart at the top: beads
- * already prayed are filled, the current one carries a halo. During the opening, the
- * cross and the four beads before the first decade.
+ * The beads drawn as a circle around the count, as on the phone: for a decade, its Our
+ * Father bead at the top and ten Hail Marys from 30° to 330°; during the opening, the
+ * crucifix at the top and the four beads that follow it. Prayed beads are filled, the
+ * current one carries a halo. Always-On drops the halo animation and the accent.
  */
 struct BeadRing: View {
   let state: RingState
   var dimmed = false
 
+  private struct Slot: Identifiable {
+    let id: String
+    let degrees: Double
+    let large: Bool
+    let done: Bool
+    let current: Bool
+  }
+
   var body: some View {
     GeometryReader { proxy in
       let size = min(proxy.size.width, proxy.size.height)
+      let radius = size * 0.42
+      let bead = size * 0.085
       ZStack {
-        switch state {
-        case let .decade(ourFather, prayed, current):
-          decade(size: size, ourFather: ourFather, prayed: prayed, current: current)
-        case let .opening(prayed, current):
-          opening(size: size, prayed: prayed, current: current)
+        Circle()
+          .stroke(Color("bead"), lineWidth: 1)
+          .frame(width: radius * 2, height: radius * 2)
+
+        if let cross {
+          crossView(arm: bead * 0.75, done: cross.done, current: cross.current)
+            .offset(offset(0, radius: radius))
+        }
+
+        ForEach(slots) { slot in
+          beadView(diameter: slot.large ? bead * 1.45 : bead, filled: slot.done, current: slot.current)
+            .offset(offset(slot.degrees, radius: radius))
         }
       }
       .frame(width: size, height: size)
       .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-    .animation(.smooth(duration: 0.26), value: state)
+    .animation(dimmed ? nil : .smooth(duration: 0.26), value: state)
     .accessibilityHidden(true)
+  }
+
+  private var cross: (done: Bool, current: Bool)? {
+    guard case let .opening(prayed, current) = state else {
+      return nil
+    }
+    return (done: prayed > 0 || current != 0, current: current == 0)
+  }
+
+  private var slots: [Slot] {
+    switch state {
+    case let .opening(prayed, current):
+      return [72.0, 144, 216, 288].enumerated().map { index, degrees in
+        let position = index + 1
+        return Slot(id: "o\(position)", degrees: degrees, large: position == 1, done: position <= prayed, current: current == position)
+      }
+    case let .decade(ourFather, prayed, current):
+      let ourFatherSlot = Slot(id: "of", degrees: 0, large: true, done: ourFather != .pending, current: ourFather == .current)
+      let hailMarys = (1...10).map { index in
+        Slot(id: "hm\(index)", degrees: 30 + Double(index - 1) * 300 / 9, large: false, done: index <= prayed, current: current == index)
+      }
+      return [ourFatherSlot] + hailMarys
+    }
+  }
+
+  private func offset(_ degrees: Double, radius: CGFloat) -> CGSize {
+    let radians = (degrees - 90) * .pi / 180
+    return CGSize(width: radius * cos(radians), height: radius * sin(radians))
   }
 
   private var bead: Color { Color("bead") }
   private var beadDone: Color { dimmed ? Color("beadDone").opacity(0.55) : Color("beadDone") }
   private var halo: Color { dimmed ? .secondary : .accentColor }
 
-  @ViewBuilder
-  private func decade(size: CGFloat, ourFather: RingState.Bead, prayed: Int, current: Int?) -> some View {
-    let center = size / 2
-    let radius = size * 0.4
-    let small = size * 0.11
-    let large = small * 1.45
-
-    Circle()
-      .stroke(Color("bead"), lineWidth: 1)
-      .frame(width: radius * 2, height: radius * 2)
-      .position(x: center, y: center)
-
-    beadView(diameter: large, filled: ourFather != .pending, current: ourFather == .current)
-      .position(x: center, y: center - radius)
-
-    ForEach(1...10, id: \.self) { index in
-      let angle = -Double.pi / 2 + Double(index) * 2 * Double.pi / 12
-      beadView(diameter: small, filled: index <= prayed, current: current == index)
-        .position(x: center + radius * cos(angle), y: center + radius * sin(angle))
-    }
-  }
-
-  @ViewBuilder
-  private func opening(size: CGFloat, prayed: Int, current: Int?) -> some View {
-    let center = size / 2
-    let small = size * 0.1
-    let spacing = small * 1.75
-    let crossY = center - spacing * 1.9
-    let arm = small * 0.75
-
-    Path { path in
-      path.move(to: CGPoint(x: center, y: crossY - arm * 1.3))
-      path.addLine(to: CGPoint(x: center, y: crossY + arm * 1.7))
-      path.move(to: CGPoint(x: center - arm, y: crossY - arm * 0.3))
-      path.addLine(to: CGPoint(x: center + arm, y: crossY - arm * 0.3))
-    }
-    .stroke(current == 0 || prayed > 0 ? beadDone : bead, style: StrokeStyle(lineWidth: small * 0.3, lineCap: .round))
-
-    if current == 0 {
+  private func crossView(arm: CGFloat, done: Bool, current: Bool) -> some View {
+    ZStack {
       Circle()
-        .stroke(halo, lineWidth: 2)
-        .frame(width: arm * 4, height: arm * 4)
-        .position(x: center, y: crossY)
-    }
-
-    ForEach(1...4, id: \.self) { position in
-      let diameter = position == 1 ? small * 1.45 : small
-      let y = crossY + spacing * (position == 1 ? 1.4 : 1.4 + Double(position - 1) * 0.9 + 0.15)
-      beadView(diameter: diameter, filled: position <= prayed, current: current == position)
-        .position(x: center, y: y)
+        .fill(Color.black)
+        .frame(width: arm * 3.2, height: arm * 3.2)
+      Path { path in
+        path.move(to: CGPoint(x: arm * 1.6, y: arm * 0.3))
+        path.addLine(to: CGPoint(x: arm * 1.6, y: arm * 3))
+        path.move(to: CGPoint(x: arm * 0.6, y: arm * 1.25))
+        path.addLine(to: CGPoint(x: arm * 2.6, y: arm * 1.25))
+      }
+      .stroke(done || current ? beadDone : bead, style: StrokeStyle(lineWidth: arm * 0.4, lineCap: .round))
+      .frame(width: arm * 3.2, height: arm * 3.2)
+      if current {
+        Circle()
+          .stroke(halo, lineWidth: 2)
+          .frame(width: arm * 4, height: arm * 4)
+      }
     }
   }
 
@@ -93,7 +107,7 @@ struct BeadRing: View {
           Circle()
             .stroke(halo, lineWidth: 2)
             .frame(width: diameter * 1.8, height: diameter * 1.8)
-            .transition(.scale(scale: 0.6).combined(with: .opacity))
+            .transition(dimmed ? .identity : .scale(scale: 0.6).combined(with: .opacity))
         }
       }
   }

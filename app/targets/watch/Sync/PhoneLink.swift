@@ -2,9 +2,11 @@ import Foundation
 import WatchConnectivity
 
 /**
- * The watch side of WatchConnectivity: receives settings through the application context
- * and sends each session to the phone journal with transferUserInfo, which the system
- * queues and delivers whenever the phone is reachable again.
+ * The watch side of WatchConnectivity. The phone's application context carries the
+ * settings, what was prayed today and which audio pack to hold; pack files arrive with
+ * transferFile. The watch's own context tells the phone which pack files it has. Each
+ * session goes to the phone journal with transferUserInfo, which the system queues and
+ * delivers whenever the phone is reachable again, even after this app is closed.
  */
 @MainActor
 final class PhoneLink: NSObject, WCSessionDelegate {
@@ -25,11 +27,12 @@ final class PhoneLink: NSObject, WCSessionDelegate {
    * waiting to be delivered, so the phone only receives the latest state.
    */
   func send(entry: [String: Any]) {
+    TodayStore.shared.record(entry)
     let payload: [String: Any] = ["type": "journal-entry", "entry": entry]
-    let session = WCSession.default
     guard WCSession.isSupported() else {
       return
     }
+    let session = WCSession.default
     guard session.activationState == .activated else {
       pending.append(payload)
       return
@@ -44,6 +47,27 @@ final class PhoneLink: NSObject, WCSessionDelegate {
     session.transferUserInfo(payload)
   }
 
+  private func apply(_ context: [String: Any]) {
+    if let settings = context["settings"] as? [String: Any] {
+      WatchSettings.shared.apply(settings)
+    }
+    if let today = context["today"] as? [String: Any] {
+      TodayStore.shared.apply(phone: today)
+    }
+    if let pack = context["pack"] as? [String: Any] {
+      PackStore.shared.apply(offer: pack)
+    }
+    reportPack()
+  }
+
+  private func reportPack() {
+    let session = WCSession.default
+    guard session.activationState == .activated else {
+      return
+    }
+    try? session.updateApplicationContext(["pack": PackStore.shared.report()])
+  }
+
   // MARK: - WCSessionDelegate
 
   nonisolated func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
@@ -52,9 +76,7 @@ final class PhoneLink: NSObject, WCSessionDelegate {
     }
     let context = session.receivedApplicationContext
     Task { @MainActor in
-      if !context.isEmpty {
-        WatchSettings.shared.apply(context)
-      }
+      self.apply(context)
       let queued = self.pending
       self.pending = []
       for payload in queued {
@@ -67,7 +89,17 @@ final class PhoneLink: NSObject, WCSessionDelegate {
 
   nonisolated func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
     Task { @MainActor in
-      WatchSettings.shared.apply(applicationContext)
+      self.apply(applicationContext)
+    }
+  }
+
+  nonisolated func session(_ session: WCSession, didReceive file: WCSessionFile) {
+    guard PackStore.store(file.fileURL, metadata: file.metadata) else {
+      return
+    }
+    Task { @MainActor in
+      PackStore.shared.refresh()
+      self.reportPack()
     }
   }
 }

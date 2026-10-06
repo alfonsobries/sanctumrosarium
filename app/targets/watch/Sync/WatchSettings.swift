@@ -17,6 +17,7 @@ final class WatchSettings {
   var prayerLocale: String
   var fatimaPrayer: Bool
   var litany: Bool
+  var prayerForThePope: Bool
   var pauseSeconds: Double
   var rate: Double
   /** "listen" starts the audio with the prayer; "tap" waits for the person to start it. */
@@ -30,6 +31,7 @@ final class WatchSettings {
     prayerLocale = stored["prayerLocale"] as? String ?? Self.deviceLocale()
     fatimaPrayer = stored["fatimaPrayer"] as? Bool ?? true
     litany = stored["litany"] as? Bool ?? false
+    prayerForThePope = stored["prayerForThePope"] as? Bool ?? true
     pauseSeconds = stored["pauseSeconds"] as? Double ?? 1
     rate = stored["rate"] as? Double ?? 1
     mode = stored["mode"] as? String ?? "listen"
@@ -47,6 +49,9 @@ final class WatchSettings {
     if let value = context["litany"] as? Bool {
       litany = value
     }
+    if let value = context["prayerForThePope"] as? Bool {
+      prayerForThePope = value
+    }
     if let value = context["pauseSeconds"] as? Double {
       pauseSeconds = max(0, value)
     }
@@ -61,6 +66,7 @@ final class WatchSettings {
         "prayerLocale": prayerLocale,
         "fatimaPrayer": fatimaPrayer,
         "litany": litany,
+        "prayerForThePope": prayerForThePope,
         "pauseSeconds": pauseSeconds,
         "rate": rate,
         "mode": mode,

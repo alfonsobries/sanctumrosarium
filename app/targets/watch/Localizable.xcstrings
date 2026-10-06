@@ -2,6 +2,81 @@
   "sourceLanguage": "es",
   "version": "1.0",
   "strings": {
+    "audio.downloading": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descargando audio…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Downloading audio…"
+          }
+        }
+      }
+    },
+    "home.continue %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar: misterio %lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue: mystery %lld"
+          }
+        }
+      }
+    },
+    "home.decadesToday %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld decena rezada"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld decenas rezadas"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld decade prayed"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld decades prayed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "home.mysteries": {
       "extractionState": "manual",
       "localizations": {
@@ -49,6 +124,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pray"
+          }
+        }
+      }
+    },
+    "home.prayDecade": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rezar esta decena"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pray this decade"
+          }
+        }
+      }
+    },
+    "home.prayRosary": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rezar el Rosario"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pray the Rosary"
           }
         }
       }
@@ -172,6 +281,23 @@
         }
       }
     },
+    "prayer.next": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siguiente cuenta"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next bead"
+          }
+        }
+      }
+    },
     "prayer.options": {
       "extractionState": "manual",
       "localizations": {
@@ -202,6 +328,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pause"
+          }
+        }
+      }
+    },
+    "prayer.pope": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Por las intenciones del Papa"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For the Pope's intentions"
           }
         }
       }

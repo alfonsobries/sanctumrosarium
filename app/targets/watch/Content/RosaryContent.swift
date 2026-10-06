@@ -11,7 +11,10 @@ struct RosaryFile: Decodable {
 struct SetTemplate: Decodable, Identifiable, Hashable {
   let id: String
   let mysteries: [String]
+  /** The whole Rosary. */
   let steps: [StepTemplate]
+  /** Each mystery prayed as a single decade. */
+  let decades: [[StepTemplate]]
 }
 
 struct StepTemplate: Decodable, Hashable {
@@ -27,6 +30,8 @@ struct StepTemplate: Decodable, Hashable {
   let decade: Int?
   let mystery: String?
   let count: Count?
+  /** "pope" for the Our Father and Hail Mary said for the Pope's intentions. */
+  let intention: String?
   let ring: RingState
   let decadesBefore: Int
   let audio: String
@@ -72,17 +77,10 @@ struct LocaleContent: Decodable {
     let responseFrom: Int?
   }
 
-  struct AudioPart: Decodable {
-    let file: String
-    let minGapMs: Double
-    let pause: Bool
-  }
-
   let locale: String
   let setTitles: [String: String]
   let mysteries: [String: Mystery]
   let prayers: [String: Prayer]
-  let audio: [String: [AudioPart]]?
 }
 
 enum ContentError: Error {
@@ -129,11 +127,6 @@ final class ContentStore {
   func setFor(_ date: Date, calendar: Calendar = .current) -> SetTemplate {
     let weekday = calendar.component(.weekday, from: date) - 1
     return set(rosary.weekdays[weekday])
-  }
-
-  /** Audio files of a pack, or nil when the pack is not in the bundle. */
-  static func audioURL(locale: String, file: String) -> URL? {
-    Bundle.main.url(forResource: file, withExtension: nil, subdirectory: "audio/\(locale)")
   }
 
   private static func decode<T: Decodable>(_ type: T.Type, named name: String) throws -> T {

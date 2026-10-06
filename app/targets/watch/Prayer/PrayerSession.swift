@@ -3,17 +3,25 @@ import Observation
 import WatchKit
 
 /**
- * One Rosary prayed on the wrist. Owns the position, moves it from the crown, taps or the
- * audio, plays the haptic for each bead and keeps the phone journal up to date each time
- * a decade is finished.
+ * One Rosary (or one decade) prayed on the wrist. Owns the position, moves it from the
+ * crown, taps, double tap or the audio, plays the haptic for each bead and keeps the
+ * phone journal up to date each time a decade is finished.
  */
 @MainActor
 @Observable
 final class PrayerSession: Identifiable {
+  enum Scope: Equatable {
+    case rosary
+    case decade(Int)
+    /** Carries on a Rosary left halfway today, on the phone or here, as the same entry. */
+    case continuing(TodayStore.Entry)
+  }
+
   let id: String
   let set: SetTemplate
   let content: LocaleContent
   let steps: [StepTemplate]
+  let kind: String
   let startedAt: Date
   let prayedOn: String
 
@@ -22,9 +30,10 @@ final class PrayerSession: Identifiable {
   private(set) var audioLoaded = false
   private(set) var finished = false
 
-  /** Pack parts resolved to files; nil when this language has no audio in the bundle. */
+  /** Pack parts resolved to files; nil while this language's pack is not on the watch. */
   private let audioSteps: [RosaryStep]?
   private let settings: WatchSettings
+  private let earlierSeconds: Double
   private var activeSeconds: Double = 0
   private var lastTick = Date()
   private var counting = true
@@ -35,24 +44,57 @@ final class PrayerSession: Identifiable {
   var hasAudio: Bool { audioSteps != nil }
   var step: StepTemplate { steps[position] }
 
-  init(set: SetTemplate, settings: WatchSettings, now: Date = Date()) {
+  init(set: SetTemplate, scope: Scope, settings: WatchSettings, now: Date = Date()) {
     let content = ContentStore.shared.content(for: settings.prayerLocale)
     let fatima = settings.fatimaPrayer && content.prayers["fatima-prayer"] != nil
-    let steps = set.steps.filter { step in
-      switch step.prayer {
-      case "fatima-prayer": return fatima
-      case "litany-of-loreto": return settings.litany
-      default: return true
-      }
+    let template: [StepTemplate]
+    switch scope {
+    case .rosary, .continuing:
+      template = set.steps
+    case let .decade(decade):
+      template = set.decades[min(max(1, decade), set.decades.count) - 1]
     }
-    self.id = UUID().uuidString.lowercased()
+    // Mirrors `keeps` in scripts/build-watch-content.mts, which checks it against the engine.
+    let steps = template.filter { step in
+      if step.prayer == "fatima-prayer" {
+        return fatima
+      }
+      if step.prayer == "litany-of-loreto" {
+        return settings.litany
+      }
+      if step.intention == "pope" {
+        return settings.prayerForThePope
+      }
+      return true
+    }
     self.set = set
     self.content = content
     self.steps = steps
     self.settings = settings
-    self.startedAt = now
-    self.prayedOn = Self.localDate(now)
-    self.audioSteps = Self.audioSteps(steps, set: set, content: content, pauseSeconds: settings.pauseSeconds)
+    self.audioSteps = PackStore.shared.pack(for: content.locale).flatMap {
+      Self.audioSteps(steps, set: set, content: content, pack: $0, pauseSeconds: settings.pauseSeconds)
+    }
+
+    switch scope {
+    case let .continuing(entry):
+      id = entry.id
+      kind = "rosary"
+      startedAt = Self.parse(entry.startedAt) ?? now
+      prayedOn = entry.prayedOn
+      earlierSeconds = Double(entry.durationSeconds)
+      savedDecades = entry.decades
+      position = steps.firstIndex { $0.isAnnounce && $0.decade == entry.decades + 1 } ?? 0
+    case .rosary, .decade:
+      id = UUID().uuidString.lowercased()
+      if case .decade = scope {
+        kind = "decade"
+      } else {
+        kind = "rosary"
+      }
+      startedAt = now
+      prayedOn = TodayStore.today(now)
+      earlierSeconds = 0
+    }
   }
 
   // MARK: - Labels
@@ -67,6 +109,7 @@ final class PrayerSession: Identifiable {
 
   var setTitle: String { content.setTitles[set.id] ?? set.id }
 
+  /** The prayer being said, or the Gospel passage while a mystery is announced. */
   var prayerTitle: String {
     if step.isAnnounce, let mystery = step.mystery {
       return content.mysteries[mystery]?.reading ?? ""
@@ -116,6 +159,10 @@ final class PrayerSession: Identifiable {
     }
   }
 
+  /**
+   * Starts the audio the first time, then plays or pauses. The player decides from its
+   * own state, never a cached flag, so one press always does what it shows.
+   */
   func toggleAudio() {
     guard let audioSteps else {
       return
@@ -186,6 +233,7 @@ final class PrayerSession: Identifiable {
     save(force: false)
   }
 
+  /** A firmer tap on the Our Father bead and the announced mystery, a light one on each Hail Mary. */
   private func playHaptic() {
     defer { quietClick = false }
     guard settings.haptics else {
@@ -223,13 +271,13 @@ final class PrayerSession: Identifiable {
   private func journalEntry(decades: Int) -> [String: Any] {
     var entry: [String: Any] = [
       "id": id,
-      "kind": "rosary",
+      "kind": kind,
       "mysterySet": set.id,
       "locale": content.locale,
       "prayedOn": prayedOn,
       "startedAt": Self.iso(startedAt),
       "decades": decades,
-      "durationSeconds": Int(activeSeconds.rounded()),
+      "durationSeconds": Int((earlierSeconds + activeSeconds).rounded()),
     ]
     if isComplete {
       entry["completedAt"] = Self.iso(Date())
@@ -239,23 +287,22 @@ final class PrayerSession: Identifiable {
 
   // MARK: - Helpers
 
-  private static func audioSteps(_ steps: [StepTemplate], set: SetTemplate, content: LocaleContent, pauseSeconds: Double) -> [RosaryStep]? {
-    guard let audio = content.audio else {
-      return nil
-    }
+  private static func audioSteps(
+    _ steps: [StepTemplate],
+    set: SetTemplate,
+    content: LocaleContent,
+    pack: PackStore.Installed,
+    pauseSeconds: Double
+  ) -> [RosaryStep]? {
     let pauseMs = pauseSeconds * 1000
     var result: [RosaryStep] = []
     for step in steps {
-      guard let parts = audio[step.audio], !parts.isEmpty else {
+      guard let parts = pack.parts[step.audio], !parts.isEmpty else {
         return nil
       }
-      var resolved: [RosaryPart] = []
-      for part in parts {
-        guard let url = ContentStore.audioURL(locale: content.locale, file: part.file) else {
-          return nil
-        }
+      let resolved = parts.map { part in
         let gapMs = part.pause ? max(part.minGapMs, pauseMs) : part.minGapMs
-        resolved.append(RosaryPart(url: url, gapAfter: gapMs / 1000))
+        return RosaryPart(url: pack.url(of: part.file), gapAfter: gapMs / 1000)
       }
       let title = step.prayer.flatMap { content.prayers[$0]?.title }
         ?? step.mystery.flatMap { content.mysteries[$0]?.title }
@@ -268,15 +315,16 @@ final class PrayerSession: Identifiable {
     return result
   }
 
-  private static func localDate(_ date: Date) -> String {
-    let parts = Calendar.current.dateComponents([.year, .month, .day], from: date)
-    return String(format: "%04d-%02d-%02d", parts.year ?? 0, parts.month ?? 0, parts.day ?? 0)
-  }
-
   private static func iso(_ date: Date) -> String {
     let formatter = ISO8601DateFormatter()
     formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
     return formatter.string(from: date)
+  }
+
+  private static func parse(_ value: String) -> Date? {
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    return formatter.date(from: value) ?? ISO8601DateFormatter().date(from: value)
   }
 }
 

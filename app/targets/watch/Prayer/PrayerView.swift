@@ -2,8 +2,9 @@ import SwiftUI
 import WatchKit
 
 /**
- * The Rosary on the wrist: the mystery always on top, the decade as beads, and the crown
- * or a tap moving one bead at a time.
+ * The Rosary on the wrist: the mystery always on top and the beads below it. The crown
+ * moves one bead per detent, the whole bead area is one button, and double tap on the
+ * watches that have it is the same "next bead".
  */
 struct PrayerView: View {
   @Bindable var session: PrayerSession
@@ -32,6 +33,11 @@ struct PrayerView: View {
         session.setCounting(phase == .active)
       }
       .containerBackground(Color.black, for: .navigation)
+      .transaction { transaction in
+        if dimmed {
+          transaction.animation = nil
+        }
+      }
       .onAppear {
         crown = Double(session.position)
         session.start()
@@ -50,28 +56,43 @@ struct PrayerView: View {
         .minimumScaleFactor(0.75)
         .frame(maxWidth: .infinity)
 
-      ZStack {
-        BeadRing(state: session.step.ring, dimmed: dimmed)
-        center
-      }
-      .frame(maxHeight: .infinity)
+      Button {
+        session.advance()
+      } label: {
+        VStack(spacing: 0) {
+          ZStack {
+            BeadRing(state: session.step.ring, dimmed: dimmed)
+            center
+          }
+          .frame(maxHeight: .infinity)
 
-      Text(session.prayerTitle)
-        .font(.footnote)
-        .foregroundStyle(.secondary)
-        .lineLimit(1)
-        .minimumScaleFactor(0.8)
-    }
-    .contentShape(Rectangle())
-    .onTapGesture { session.advance() }
-    .accessibilityElement(children: .ignore)
-    .accessibilityLabel(accessibilityText)
-    .accessibilityAction { session.advance() }
-    .accessibilityAdjustableAction { direction in
-      switch direction {
-      case .increment: session.advance()
-      case .decrement: session.go(to: session.position - 1)
-      @unknown default: break
+          Text(session.prayerTitle)
+            .font(.footnote)
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .minimumScaleFactor(0.8)
+          if session.step.intention == "pope" {
+            Text("prayer.pope")
+              .font(.caption2)
+              .foregroundStyle(.secondary)
+              .lineLimit(1)
+              .minimumScaleFactor(0.7)
+          }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .contentShape(Rectangle())
+      }
+      .buttonStyle(.plain)
+      .handGestureShortcut(.primaryAction)
+      .accessibilityElement(children: .ignore)
+      .accessibilityLabel(accessibilityText)
+      .accessibilityHint(Text("prayer.next"))
+      .accessibilityAdjustableAction { direction in
+        switch direction {
+        case .increment: session.advance()
+        case .decrement: session.go(to: session.position - 1)
+        @unknown default: break
+        }
       }
     }
   }
@@ -101,14 +122,6 @@ struct PrayerView: View {
 
   @ToolbarContentBuilder
   private var toolbar: some ToolbarContent {
-    ToolbarItemGroup(placement: .bottomBar) {
-      Spacer()
-      Button {
-        showingOptions = true
-      } label: {
-        Label("prayer.options", systemImage: "ellipsis")
-      }
-    }
     if session.hasAudio {
       ToolbarItem(placement: .topBarTrailing) {
         Button {
@@ -116,6 +129,14 @@ struct PrayerView: View {
         } label: {
           playLabel
         }
+      }
+    }
+    ToolbarItemGroup(placement: .bottomBar) {
+      Spacer()
+      Button {
+        showingOptions = true
+      } label: {
+        Label("prayer.options", systemImage: "ellipsis")
       }
     }
   }
@@ -129,25 +150,23 @@ struct PrayerView: View {
     }
   }
 
-  /** Inside the decade ring: which Hail Mary, or which mystery is being announced. */
+  /** Inside the ring: which Hail Mary, or which mystery is being announced. */
   @ViewBuilder
   private var center: some View {
-    if case .decade = session.step.ring {
-      Group {
-        if session.step.isAnnounce, let decade = session.step.decade {
-          Text("prayer.mystery \(decade)")
-            .font(.footnote)
-            .foregroundStyle(.secondary)
-            .multilineTextAlignment(.center)
-        } else if let count = session.step.count {
-          Text(count.index, format: .number)
-            .font(.title.monospacedDigit().weight(.semibold))
-            .contentTransition(.numericText(value: Double(count.index)))
-        }
+    Group {
+      if session.step.isAnnounce, let decade = session.step.decade {
+        Text("prayer.mystery \(decade)")
+          .font(.footnote)
+          .foregroundStyle(.secondary)
+          .multilineTextAlignment(.center)
+      } else if let count = session.step.count {
+        Text(count.index, format: .number)
+          .font(.title.monospacedDigit().weight(.semibold))
+          .contentTransition(.numericText(value: Double(count.index)))
       }
-      .frame(maxWidth: 80)
-      .animation(.snappy, value: session.position)
     }
+    .frame(maxWidth: 80)
+    .animation(dimmed ? nil : .snappy, value: session.position)
   }
 
   private var accessibilityText: Text {
