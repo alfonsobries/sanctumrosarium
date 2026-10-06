@@ -7,3 +7,5 @@ app/ios/
 app/android/
 _design/
 pnpm-lock.yaml
+app/targets/watch/assets/
+app/targets/watch/Assets.xcassets/
