@@ -174,6 +174,19 @@ importers:
         specifier: ^5.0.3
         version: 5.0.3(@types/node@26.6.4)(vite@8.3.2(@types/node@26.6.4)(jiti@1.21.7)(terser@5.51.2)(yaml@2.9.1))
 
+  content:
+    dependencies:
+      '@sanctamaria/rosary':
+        specifier: workspace:*
+        version: link:../packages/rosary
+    devDependencies:
+      typescript:
+        specifier: ~6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: ^5.0.3
+        version: 5.0.3(@types/node@26.6.4)(vite@8.3.2(@types/node@26.6.4)(jiti@1.21.7)(terser@5.51.2)(yaml@2.9.1))
+
   packages/rosary:
     devDependencies:
       typescript:

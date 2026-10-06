@@ -1,0 +1,1863 @@
+{
+  "_meta": {
+    "schema": "Ver README.md",
+    "locales": [
+      "es-MX",
+      "es-ES",
+      "en-US",
+      "la"
+    ],
+    "categories": {
+      "magisterium": "Enseñanza o profesión de fe de la Iglesia",
+      "liturgy": "Texto litúrgico o tomado de la liturgia",
+      "pious-tradition": "Devoción aprobada, no litúrgica"
+    },
+    "generated": "2026-10-06"
+  },
+  "prayers": [
+    {
+      "id": "sign-of-the-cross",
+      "category": "liturgy",
+      "titles": {
+        "es-MX": "Señal de la cruz",
+        "es-ES": "Señal de la Cruz",
+        "en-US": "The Sign of the Cross",
+        "la": "Signum Crucis"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "En el nombre del Padre, y del Hijo, y del Espíritu Santo.",
+            "Amén."
+          ],
+          "responseFrom": 1,
+          "source": {
+            "publisher": "Desde la fe / Centro Católico de Comunicaciones (Arquidiócesis Primada de México): La Santa Misa, Misal Diario, septiembre 2024; Ordinario de la Misa según el Misal Romano, 3a ed. típica, edición para México (Buena Prensa 2014 / BAC-CEM 2015)",
+            "title": "Ordinario de la Misa (Misal Romano para México)",
+            "url": "https://desdelafe.mx/wp-content/uploads/2024/08/Misal_SEPTIEMBRE_2024_web_compressed.pdf",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Fórmula del rito de entrada del Misal Romano para México; 'Amén' es la respuesta del pueblo."
+        },
+        "es-ES": {
+          "lines": [
+            "En el nombre del Padre",
+            "y del Hijo",
+            "y del Espíritu Santo. Amén."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "Compendio del Catecismo de la Iglesia Católica (2005), Apéndice A: Oraciones comunes",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en-US": {
+          "lines": [
+            "In the name of the Father",
+            "and of the Son",
+            "and of the Holy Spirit. Amen."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "Compendium of the Catechism of the Catholic Church (2005), Appendix A: Common Prayers",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "USCCB page usccb.org/prayers/sign-cross could not be retrieved (bot wall, no archive); text from the Compendium (English edition)."
+        },
+        "la": {
+          "lines": [
+            "In nómine Patris",
+            "et Fílii",
+            "et Spíritus Sancti. Amen."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "Compendium of the Catechism of the Catholic Church (2005), Appendix A: Common Prayers (Latin column)",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      }
+    },
+    {
+      "id": "by-the-sign-of-the-holy-cross",
+      "category": "pious-tradition",
+      "categoryNote": "Persignación tradicional en el mundo hispano; RVM 37 reconoce que el inicio del Rosario varía según los contextos eclesiales.",
+      "regional": [
+        "es-MX"
+      ],
+      "titles": {
+        "es-MX": "Por la señal de la Santa Cruz (persignarse)"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Por la señal de la santa Cruz,",
+            "de nuestros enemigos,",
+            "líbranos, Señor, Dios nuestro.",
+            "En el nombre del Padre y del Hijo y del Espíritu Santo."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+            "title": "Rosario del lunes y sábado: Misterios Gozosos",
+            "url": "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/",
+            "accessed": "2026-10-06"
+          },
+          "notes": "La guía de la peregrinación 2025 (Desde la fe) añade 'R. Amén' al final.",
+          "variants": [
+            {
+              "label": "Guía de la peregrinación 2025",
+              "lines": [
+                "Por la señal de la Santa Cruz, de nuestros enemigos, líbranos Señor Dios nuestro.",
+                "En el nombre del Padre, del Hijo y del Espíritu Santo.",
+                "Amén."
+              ],
+              "responseFrom": 2,
+              "source": {
+                "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+                "title": "Guía para rezar el Rosario en la peregrinación 2025",
+                "url": "https://desdelafe.mx/noticias/arquidiocesis-de-mexico/guia-para-rezar-el-rosario-en-la-peregrinacion-2025/",
+                "accessed": "2026-10-06"
+              }
+            }
+          ]
+        },
+        "es-ES": {
+          "missing": true,
+          "notes": "Uso también extendido en España, pero no se encontró fuente oficial española verificable en esta revisión."
+        },
+        "en-US": {
+          "missing": true,
+          "notes": "No existe forma inglesa de uso común; no aplica."
+        },
+        "la": {
+          "missing": true,
+          "notes": "Sin texto latino oficial localizado."
+        }
+      }
+    },
+    {
+      "id": "o-god-come-to-my-aid",
+      "category": "liturgy",
+      "categoryNote": "Invocación inicial de la Liturgia de las Horas (Sal 70[69], 2). RVM 37 la menciona como inicio usado 'en algunas regiones'; vatican.va la usa como inicio del Rosario.",
+      "titles": {
+        "es-MX": "Dios mío, ven en mi auxilio",
+        "es-ES": "Dios mío, ven en mi auxilio",
+        "en-US": "O God, come to my aid",
+        "la": "Deus, in adiutorium meum intende"
+      },
+      "texts": {
+        "es-ES": {
+          "lines": [
+            "Dios mío, ven en mi auxilio.",
+            "Señor, date prisa en socorrerme."
+          ],
+          "responseFrom": 1,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - ¿Cómo se reza el Rosario?",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_sp.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "En vatican.va va precedida de la señal de la cruz y seguida del Gloria al Padre."
+        },
+        "es-MX": {
+          "sameAs": "es-ES",
+          "notes": "Texto de vatican.va (no específico de país); no se verificó fuente mexicana propia."
+        },
+        "en-US": {
+          "lines": [
+            "O God come to my aid;",
+            "O Lord, make haste to help me."
+          ],
+          "responseFrom": 1,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "The Holy Rosary - How to pray the Rosary?",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_en.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Holy See text, not USCCB."
+        },
+        "la": {
+          "lines": [
+            "Deus, in adiutorium meum intende;",
+            "Domine, ad adiuvandum me festina."
+          ],
+          "responseFrom": 1,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "Nova Vulgata, Psalmus 70 (69), 2",
+            "url": "https://www.vatican.va/archive/bible/nova_vulgata/documents/nova-vulgata_vt_psalmorum_lt.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Tomado del versículo bíblico (Nova Vulgata). La fórmula litúrgica de la Liturgia Horarum no se verificó en línea."
+        }
+      }
+    },
+    {
+      "id": "apostles-creed",
+      "category": "magisterium",
+      "categoryNote": "Símbolo de la fe de la Iglesia (Compendio, primera parte).",
+      "titles": {
+        "es-MX": "Credo de los Apóstoles",
+        "es-ES": "Símbolo de los Apóstoles",
+        "en-US": "The Apostles' Creed",
+        "la": "Symbolum Apostolicum"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Creo en Dios, Padre todopoderoso,",
+            "Creador del Cielo y de la tierra.",
+            "Creo en Jesucristo, su único Hijo, nuestro Señor,",
+            "que fue concebido por obra y gracia del Espíritu Santo,",
+            "nació de santa María Virgen,",
+            "padeció bajo el poder de Poncio Pilato,",
+            "fue crucificado, muerto y sepultado,",
+            "descendió a los infiernos;",
+            "al tercer día, resucitó de entre los muertos,",
+            "subió a los Cielos",
+            "y está sentado a la derecha de Dios, Padre todopoderoso.",
+            "Desde allí ha de venir a juzgar a vivos y muertos.",
+            "Creo en el Espíritu Santo,",
+            "la santa Iglesia católica,",
+            "la comunión de los santos,",
+            "el perdón de los pecados,",
+            "la resurrección de la carne",
+            "y la vida eterna.",
+            "Amén."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Desde la fe / Centro Católico de Comunicaciones (Arquidiócesis Primada de México): La Santa Misa, Misal Diario, septiembre 2024; Ordinario de la Misa según el Misal Romano, 3a ed. típica, edición para México (Buena Prensa 2014 / BAC-CEM 2015)",
+            "title": "Ordinario de la Misa (Misal Romano para México)",
+            "url": "https://desdelafe.mx/wp-content/uploads/2024/08/Misal_SEPTIEMBRE_2024_web_compressed.pdf",
+            "accessed": "2026-10-06"
+          },
+          "notes": "En la Misa, en las palabras 'que fue concebido... María Virgen' todos se inclinan (rúbrica del Misal)."
+        },
+        "es-ES": {
+          "lines": [
+            "Creo en Dios, Padre Todopoderoso,",
+            "Creador del cielo y de la tierra.",
+            "Creo en Jesucristo, su único Hijo,",
+            "Nuestro Señor,",
+            "Que fue concebido por obra y gracia del Espíritu Santo, nació de Santa María Virgen, padeció bajo el poder de Poncio Pilato,",
+            "fue crucificado, muerto y sepultado, descendió a los infiernos, al tercer día resucitó de entre los muertos, subió a los cielos y está sentado a la derecha de Dios, Padre todopoderoso. Desde allí ha de venir",
+            "a juzgar a vivos y muertos.",
+            "Creo en el Espíritu Santo,",
+            "la santa Iglesia católica,",
+            "la comunión de los santos,",
+            "el perdón de los pecados,",
+            "la resurrección de la carne",
+            "y la vida eterna.",
+            "Amén."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "Compendio del Catecismo de la Iglesia Católica (2005), Primera parte, segunda sección: El Credo",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Saltos de línea tal como en la fuente (irregulares)."
+        },
+        "en-US": {
+          "lines": [
+            "I believe in God,",
+            "the Father almighty,",
+            "Creator of heaven and earth,",
+            "and in Jesus Christ, his only Son, our Lord,",
+            "who was conceived by the Holy Spirit,",
+            "born of the Virgin Mary,",
+            "suffered under Pontius Pilate,",
+            "was crucified, died and was buried;",
+            "he descended into hell;",
+            "on the third day he rose again from the dead;",
+            "he ascended into heaven,",
+            "and is seated at the right hand of God the Father almighty;",
+            "from there he will come to judge the living and the dead.",
+            "I believe in the Holy Spirit,",
+            "the holy catholic Church,",
+            "the communion of saints,",
+            "the forgiveness of sins,",
+            "the resurrection of the body,",
+            "and life everlasting.",
+            "Amen."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "United States Conference of Catholic Bishops",
+            "title": "Apostles' Creed",
+            "url": "https://www.usccb.org/prayers/apostles-creed",
+            "accessed": "2026-10-06",
+            "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/prayers/apostles-creed"
+          },
+          "notes": "Same wording on usccb.org/prayers/prayers-rosary."
+        },
+        "la": {
+          "lines": [
+            "Credo in Deum Patrem omnipoténtem, Creatorem cæli et terræ,",
+            "et in Iesum Christum, Filium Eius unicum, Dominum nostrum,",
+            "qui concéptus est de Spíritu Sancto, natus ex Maria Virgine,",
+            "passus sub Póntio Piláto, crucifixus, mórtuus, et sepúltus,",
+            "descéndit ad ínferos, tértia die resurréxit a mórtuis,",
+            "ascéndit ad cælos, sedet ad déxteram Dei Patris omnipoténtis,",
+            "inde ventúrus est iudicáre vivos et mórtuos.",
+            "Et in Spíritum Sanctum,",
+            "sanctam Ecclésiam cathólicam,",
+            "sanctórum communiónem,",
+            "remissiónem peccatórum,",
+            "carnis resurrectiónem,",
+            "vitam ætérnam. Amen."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "Compendium of the Catechism of the Catholic Church (2005), Part One, Section Two: The Creed (Latin column)",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "En la fuente la primera parte es un solo párrafo; los saltos de línea de las primeras siete líneas son editoriales."
+        }
+      }
+    },
+    {
+      "id": "our-father",
+      "category": "liturgy",
+      "categoryNote": "Oración enseñada por Cristo (Mt 6, 9-13; Lc 11, 2-4); la Iglesia usa el texto de Mateo (Compendio 578).",
+      "titles": {
+        "es-MX": "Padre nuestro",
+        "es-ES": "Padre nuestro",
+        "en-US": "Our Father",
+        "la": "Pater Noster"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Padre nuestro, que estás en el Cielo,",
+            "santificado sea tu Nombre;",
+            "venga a nosotros tu Reino;",
+            "hágase tu voluntad en la tierra como en el Cielo.",
+            "Danos hoy nuestro pan de cada día;",
+            "perdona nuestras ofensas",
+            "como también nosotros perdonamos a los que nos ofenden;",
+            "no nos dejes caer en la tentación,",
+            "y líbranos del mal.",
+            "Amén."
+          ],
+          "responseFrom": 4,
+          "source": {
+            "publisher": "Desde la fe / Centro Católico de Comunicaciones (Arquidiócesis Primada de México): La Santa Misa, Misal Diario, septiembre 2024; Ordinario de la Misa según el Misal Romano, 3a ed. típica, edición para México (Buena Prensa 2014 / BAC-CEM 2015)",
+            "title": "Ordinario de la Misa (Misal Romano para México)",
+            "url": "https://desdelafe.mx/wp-content/uploads/2024/08/Misal_SEPTIEMBRE_2024_web_compressed.pdf",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Texto del Rito de la Comunión del Misal Romano para México; en la Misa no lleva 'Amén' (sigue el embolismo). El 'Amén' final se toma de la guía del Rosario de Desde la fe, que trae el mismo texto. Los saltos de línea son editoriales.",
+          "variants": [
+            {
+              "label": "Desde la fe, Rosario de los misterios gozosos (mismo texto, otra puntuación)",
+              "lines": [
+                "Padre Nuestro, que estás en el Cielo, santificado sea Tu nombre, venga a nosotros Tu reino, hágase tu voluntad, en la tierra como en el cielo.",
+                "Danos hoy nuestro pan de cada día, perdona nuestras ofensas, como también nosotros perdonamos a los que nos ofenden. No nos dejes caer en la tentación, y líbranos del mal. Amén"
+              ],
+              "responseFrom": 1,
+              "source": {
+                "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+                "title": "Rosario del lunes y sábado: Misterios Gozosos",
+                "url": "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/",
+                "accessed": "2026-10-06"
+              }
+            }
+          ]
+        },
+        "es-ES": {
+          "lines": [
+            "Padre nuestro que estás en el cielo,",
+            "santificado sea tu Nombre;",
+            "venga a nosotros tu Reino;",
+            "hágase tu voluntad",
+            "en la tierra como en el cielo.",
+            "Danos hoy",
+            "nuestro pan de cada día;",
+            "perdona nuestras ofensas,",
+            "como también nosotros perdonamos",
+            "a los que nos ofenden;",
+            "no nos dejes caer en la tentación,",
+            "y líbranos del mal. Amén."
+          ],
+          "responseFrom": 5,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "Compendio del Catecismo de la Iglesia Católica (2005), Apéndice A: Oraciones comunes",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en-US": {
+          "lines": [
+            "Our Father, who art in heaven,",
+            "hallowed be thy name;",
+            "thy kingdom come,",
+            "thy will be done",
+            "on earth as it is in heaven.",
+            "Give us this day our daily bread,",
+            "and forgive us our trespasses,",
+            "as we forgive those who trespass against us;",
+            "and lead us not into temptation,",
+            "but deliver us from evil.",
+            "Amen."
+          ],
+          "responseFrom": 5,
+          "source": {
+            "publisher": "United States Conference of Catholic Bishops",
+            "title": "Our Father",
+            "url": "https://www.usccb.org/prayers/our-father",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Fetched directly from usccb.org. The Compendium (English) has the same words with different punctuation."
+        },
+        "la": {
+          "lines": [
+            "Pater noster, qui es in cælis:",
+            "sanctificétur Nomen Tuum:",
+            "advéniat Regnum Tuum:",
+            "fiat volúntas Tua,",
+            "sicut in cælo, et in terra.",
+            "Panem nostrum",
+            "cotidiánum da nobis hódie,",
+            "et dimítte nobis débita nostra,",
+            "sicut et nos",
+            "dimíttimus debitóribus nostris.",
+            "et ne nos indúcas in tentatiónem;",
+            "sed líbera nos a Malo.",
+            "Amen."
+          ],
+          "responseFrom": 5,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "Compendium of the Catechism of the Catholic Church (2005), Appendix A: Common Prayers (Latin column)",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Texto de la cuarta parte del Compendio (edición inglesa, columna latina), sin 'Amen' en la fuente; se añade 'Amen' como en el Apéndice. El Apéndice de la edición española trae 'quotidianum' y otra acentuación."
+        }
+      }
+    },
+    {
+      "id": "hail-mary",
+      "category": "pious-tradition",
+      "categoryNote": "Primera parte bíblica (Lc 1, 28.42); segunda parte de la tradición de la Iglesia (RVM 33). Oración común del Compendio.",
+      "titles": {
+        "es-MX": "Avemaría",
+        "es-ES": "Ave María",
+        "en-US": "Hail Mary",
+        "la": "Ave Maria"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Dios te salve, María, llena eres de gracia, el Señor es contigo.",
+            "Bendita tú eres entre todas las mujeres y bendito es el fruto de tu vientre, Jesús.",
+            "Santa María, Madre de Dios,",
+            "ruega por nosotros pecadores,",
+            "ahora y en la hora de nuestra muerte. Amén."
+          ],
+          "responseFrom": 2,
+          "source": {
+            "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+            "title": "Rosario del lunes y sábado: Misterios Gozosos",
+            "url": "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/",
+            "accessed": "2026-10-06"
+          },
+          "notes": "La fuente escribe 'Dios te Salve'; se normalizó a minúscula. Saltos de línea editoriales."
+        },
+        "es-ES": {
+          "lines": [
+            "Dios te salve, María,",
+            "llena eres de gracia;",
+            "el Señor es contigo.",
+            "Bendita Tú eres",
+            "entre todas las mujeres,",
+            "y bendito es el fruto de tu vientre, Jesús.",
+            "Santa María, Madre de Dios,",
+            "ruega por nosotros, pecadores,",
+            "ahora y en la hora de nuestra muerte. Amén"
+          ],
+          "responseFrom": 6,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "Compendio del Catecismo de la Iglesia Católica (2005), Apéndice A: Oraciones comunes",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+            "accessed": "2026-10-06"
+          },
+          "variants": [
+            {
+              "label": "vatican.va, El Santo Rosario ('está contigo')",
+              "lines": [
+                "Dios te Salve, María, llena eres de gracia, el Señor está contigo. Bendita tú eres entre todas las mujeres y bendito es el fruto de tu vientre, Jesús.",
+                "Santa María, Madre de Dios, ruega por nosotros pecadores, ahora y en la hora de nuestra muerte. Amén"
+              ],
+              "responseFrom": 1,
+              "source": {
+                "publisher": "Santa Sede (vatican.va)",
+                "title": "El Santo Rosario - ¿Cómo se reza el Rosario?",
+                "url": "https://www.vatican.va/special/rosary/documents/misteri_sp.html",
+                "accessed": "2026-10-06"
+              }
+            }
+          ]
+        },
+        "en-US": {
+          "lines": [
+            "Hail, Mary, full of grace,",
+            "the Lord is with thee.",
+            "Blessed art thou among women",
+            "and blessed is the fruit of thy womb, Jesus.",
+            "Holy Mary, Mother of God,",
+            "pray for us sinners,",
+            "now and at the hour of our death.",
+            "Amen."
+          ],
+          "responseFrom": 4,
+          "source": {
+            "publisher": "United States Conference of Catholic Bishops",
+            "title": "Hail Mary",
+            "url": "https://www.usccb.org/prayers/hail-mary",
+            "accessed": "2026-10-06",
+            "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/prayers/hail-mary"
+          },
+          "notes": "Identical words in the Compendium (English).",
+          "variants": [
+            {
+              "label": "USCCB 'Prayers of the Rosary' (modern 'you' form)",
+              "lines": [
+                "Hail Mary, full of grace, the Lord is with you;",
+                "blessed are you among women,",
+                "and blessed is the fruit of your womb, Jesus.",
+                "Holy Mary, Mother of God,",
+                "pray for us sinners",
+                "now and at the hour of our death.",
+                "Amen."
+              ],
+              "responseFrom": 3,
+              "source": {
+                "publisher": "United States Conference of Catholic Bishops",
+                "title": "Prayers of the Rosary",
+                "url": "https://www.usccb.org/prayers/prayers-rosary",
+                "accessed": "2026-10-06",
+                "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/prayers/prayers-rosary"
+              }
+            }
+          ]
+        },
+        "la": {
+          "lines": [
+            "Ave, María, grátia plena,",
+            "Dóminus tecum.",
+            "Benedícta tu in muliéribus,",
+            "et benedíctus fructus ventris tui, Iesus.",
+            "Sancta María, Mater Dei,",
+            "ora pro nobis peccatóribus,",
+            "nunc et in hora mortis nostræ.",
+            "Amen."
+          ],
+          "responseFrom": 4,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "Compendium of the Catechism of the Catholic Church (2005), Appendix A: Common Prayers (Latin column)",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "La edición española del Compendio rotula 'Ave, Maríæ' (errata); se usa la edición inglesa."
+        }
+      }
+    },
+    {
+      "id": "glory-be",
+      "category": "liturgy",
+      "categoryNote": "Doxología menor de la liturgia (RVM 34).",
+      "titles": {
+        "es-MX": "Gloria al Padre",
+        "es-ES": "Gloria al Padre",
+        "en-US": "Glory Be",
+        "la": "Gloria Patri"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Gloria al Padre y al Hijo y al Espíritu Santo.",
+            "Como era en el principio, ahora y siempre,",
+            "por los siglos de los siglos. Amén."
+          ],
+          "responseFrom": 1,
+          "source": {
+            "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+            "title": "Rosario del lunes y sábado: Misterios Gozosos",
+            "url": "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/",
+            "accessed": "2026-10-06"
+          }
+        },
+        "es-ES": {
+          "lines": [
+            "Gloria al Padre",
+            "y al Hijo",
+            "y al Espíritu Santo.",
+            "Como era en el principio,",
+            "ahora y siempre,",
+            "por los siglos de los siglos. Amén."
+          ],
+          "responseFrom": 3,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "Compendio del Catecismo de la Iglesia Católica (2005), Apéndice A: Oraciones comunes",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en-US": {
+          "lines": [
+            "Glory be to the Father",
+            "and to the Son",
+            "and to the Holy Spirit,",
+            "as it was in the beginning",
+            "is now, and ever shall be",
+            "world without end.",
+            "Amen."
+          ],
+          "responseFrom": 3,
+          "source": {
+            "publisher": "United States Conference of Catholic Bishops",
+            "title": "Glory Be (Doxology)",
+            "url": "https://www.usccb.org/prayers/glory-be-doxology",
+            "accessed": "2026-10-06",
+            "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/prayers/glory-be-doxology"
+          },
+          "notes": "Identical in the Compendium (English)."
+        },
+        "la": {
+          "lines": [
+            "Glória Patri",
+            "et Fílio",
+            "et Spirítui Sancto.",
+            "Sicut erat in princípio,",
+            "et nunc et semper",
+            "et in sæcula sæculórum. Amen."
+          ],
+          "responseFrom": 3,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "Compendium of the Catechism of the Catholic Church (2005), Appendix A: Common Prayers (Latin column)",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "La fuente trae 'sæ´cula' con un acento suelto (errata); corregido."
+        }
+      }
+    },
+    {
+      "id": "fatima-prayer",
+      "category": "pious-tradition",
+      "categoryNote": "Jaculatoria de Fátima (aparición de 1917). RVM 35: tras el Gloria 'sigue una jaculatoria, que varía según las costumbres'. Opcional.",
+      "titles": {
+        "es-MX": "Oh Jesús mío",
+        "en-US": "Fatima Prayer"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "¡Oh Jesús mío!, perdona nuestros pecados;",
+            "líbranos del fuego del infierno.",
+            "Lleva al cielo a todas las almas,",
+            "especialmente a las más necesitadas de Tu misericordia."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+            "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+            "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+            "accessed": "2026-10-06"
+          },
+          "variants": [
+            {
+              "label": "Desde la fe, misterios gozosos",
+              "lines": [
+                "Oh Jesús mío: Perdona nuestros pecados, líbranos del fuego del infierno, lleva al Cielo a todas las almas, especialmente a las más necesitadas de Tu misericordia."
+              ],
+              "responseFrom": null,
+              "source": {
+                "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+                "title": "Rosario del lunes y sábado: Misterios Gozosos",
+                "url": "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/",
+                "accessed": "2026-10-06"
+              }
+            }
+          ]
+        },
+        "es-ES": {
+          "missing": true,
+          "notes": "No se encontró fuente oficial española; usar es-MX solo con revisión humana."
+        },
+        "en-US": {
+          "lines": [
+            "O my Jesus, forgive us our sins,",
+            "save us from the fires of hell;",
+            "lead all souls to Heaven,",
+            "especially those who have most need of your mercy."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "United States Conference of Catholic Bishops",
+            "title": "How to Pray the Rosary",
+            "url": "https://www.usccb.org/how-to-pray-the-rosary",
+            "accessed": "2026-10-06",
+            "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+          },
+          "notes": "USCCB introduces it as 'requested by the Blessed Virgin Mary at Fatima' and as optional ('some say')."
+        },
+        "la": {
+          "missing": true,
+          "notes": "No existe versión latina oficial; circulan varias traducciones privadas. No se incluye."
+        }
+      }
+    },
+    {
+      "id": "hail-holy-queen",
+      "category": "liturgy",
+      "categoryNote": "Antífona mariana de la Liturgia de las Horas; RVM 37 la propone al final del Rosario.",
+      "titles": {
+        "es-MX": "Salve",
+        "es-ES": "Salve",
+        "en-US": "Hail, Holy Queen",
+        "la": "Salve, Regina"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Dios te salve, Reina y Madre de misericordia,",
+            "vida, dulzura y esperanza nuestra; Dios te salve.",
+            "A ti llamamos los desterrados hijos de Eva;",
+            "a ti suspiramos, gimiendo y llorando en este valle de lágrimas.",
+            "Ea, pues, Señora, abogada nuestra,",
+            "vuelve a nosotros esos tus ojos misericordiosos;",
+            "y después de este destierro, muéstranos a Jesús, fruto bendito de tu vientre.",
+            "¡Oh, clemente, oh piadosa, oh dulce Virgen María!"
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+            "title": "Rosario del lunes y sábado: Misterios Gozosos",
+            "url": "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Diferencia con España: 'clemente' en lugar de 'clementísima'. Mismo texto en el Rosario por los difuntos de Desde la fe."
+        },
+        "es-ES": {
+          "lines": [
+            "Dios te salve, Reina",
+            "y Madre de misericordia,",
+            "vida, dulzura y esperanza nuestra;",
+            "Dios te salve.",
+            "A ti llamamos",
+            "los desterrados hijos de Eva;",
+            "a ti suspiramos, gimiendo y llorando",
+            "en este valle de lágrimas.",
+            "Ea, pues, Señora, abogada nuestra,",
+            "vuelve a nosotros esos tus ojos",
+            "misericordiosos;",
+            "y después de este destierro,",
+            "muéstranos a Jesús,",
+            "fruto bendito de tu vientre.",
+            "¡Oh, clementísima, oh piadosa,",
+            "oh dulce Virgen María!"
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "Compendio del Catecismo de la Iglesia Católica (2005), Apéndice A: Oraciones comunes",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Mismo texto en vatican.va, El Santo Rosario."
+        },
+        "en-US": {
+          "lines": [
+            "Hail, Holy Queen, Mother of Mercy,",
+            "our life, our sweetness and our hope.",
+            "To thee do we cry,",
+            "poor banished children of Eve.",
+            "To thee do we send up our sighs,",
+            "mourning and weeping in this valley of tears.",
+            "Turn then, most gracious advocate,",
+            "thine eyes of mercy toward us,",
+            "and after this our exile",
+            "show unto us the blessed fruit of thy womb, Jesus.",
+            "O clement, O loving,",
+            "O sweet Virgin Mary."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "United States Conference of Catholic Bishops",
+            "title": "Hail, Holy Queen (Salve Regina)",
+            "url": "https://www.usccb.org/prayers/hail-holy-queen-salve-regina",
+            "accessed": "2026-10-06",
+            "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/prayers/hail-holy-queen-salve-regina"
+          },
+          "variants": [
+            {
+              "label": "USCCB 'Prayers of the Rosary' ('you' form)",
+              "lines": [
+                "Hail, holy Queen, mother of mercy,",
+                "our life, our sweetness, and our hope.",
+                "To you we cry, poor banished children of Eve;",
+                "to you we send up our sighs,",
+                "mourning and weeping in this valley of tears.",
+                "Turn, then, most gracious advocate,",
+                "your eyes of mercy toward us;",
+                "and after this, our exile,",
+                "show unto us the blessed fruit of your womb, Jesus.",
+                "O clement, O loving, O sweet Virgin Mary."
+              ],
+              "responseFrom": null,
+              "source": {
+                "publisher": "United States Conference of Catholic Bishops",
+                "title": "Prayers of the Rosary",
+                "url": "https://www.usccb.org/prayers/prayers-rosary",
+                "accessed": "2026-10-06",
+                "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/prayers/prayers-rosary"
+              }
+            }
+          ]
+        },
+        "la": {
+          "lines": [
+            "Salve, Regína,",
+            "Mater misericórdiæ,",
+            "vita, dulcédo et spes nostra, salve.",
+            "Ad te clamámus,",
+            "éxsules fílii Evæ.",
+            "Ad te suspirámus geméntes et flentes",
+            "in hac lacrimárum valle.",
+            "Eia ergo, advocáta nostra,",
+            "illos tuos misericórdes óculos",
+            "ad nos convérte.",
+            "Et Iesum benedíctum fructum ventris tui,",
+            "nobis, post hoc exsílium, osténde.",
+            "O clemens, o pia, o dulcis Virgo María!"
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "Compendium of the Catechism of the Catholic Church (2005), Appendix A: Common Prayers (Latin column)",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "La edición española del Compendio trae 'Eva' y 'Maríae' (erratas)."
+        }
+      }
+    },
+    {
+      "id": "pray-for-us-holy-mother-of-god",
+      "category": "liturgy",
+      "categoryNote": "Versículo y respuesta que preceden a la oración final.",
+      "titles": {
+        "es-MX": "Ruega por nosotros",
+        "es-ES": "Ruega por nosotros",
+        "en-US": "Pray for us",
+        "la": "Ora pro nobis"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Ruega por nosotros, Santa Madre de Dios,",
+            "para que seamos dignos de alcanzar las promesas de Nuestro Señor Jesucristo. Amén."
+          ],
+          "responseFrom": 1,
+          "source": {
+            "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+            "title": "Rosario del lunes y sábado: Misterios Gozosos",
+            "url": "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/",
+            "accessed": "2026-10-06"
+          },
+          "variants": [
+            {
+              "label": "Desde la fe y vatican.va, final de la letanía",
+              "lines": [
+                "Ruega por nosotros, Santa Madre de Dios.",
+                "Para que seamos dignos de las promesas de Cristo."
+              ],
+              "responseFrom": 1,
+              "source": {
+                "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+                "title": "Letanía del Santo Rosario completa y actualizada (actualizado 6-VI-2024)",
+                "url": "https://desdelafe.mx/noticias/sabias-que/letania-completa-actualizada-rosario/",
+                "accessed": "2026-10-06"
+              }
+            }
+          ]
+        },
+        "es-ES": {
+          "lines": [
+            "Ruega por nosotros,",
+            "Santa Madre de Dios,",
+            "para que seamos dignos de alcanzar las promesas de Nuestro Señor Jesucristo."
+          ],
+          "responseFrom": 2,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "Compendio del Catecismo de la Iglesia Católica (2005), Apéndice A: Oraciones comunes",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en-US": {
+          "lines": [
+            "V. Pray for us, O holy Mother of God.",
+            "R. That we may be made worthy of the promises of Christ."
+          ],
+          "responseFrom": 1,
+          "source": {
+            "publisher": "United States Conference of Catholic Bishops",
+            "title": "How to Pray the Rosary",
+            "url": "https://www.usccb.org/how-to-pray-the-rosary",
+            "accessed": "2026-10-06",
+            "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+          }
+        },
+        "la": {
+          "lines": [
+            "Ora pro nobis, sancta Dei génetrix.",
+            "Ut digni efficiámur promissiónibus Christi."
+          ],
+          "responseFrom": 1,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "Compendium of the Catechism of the Catholic Church (2005), Appendix A: Common Prayers (Latin column)",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      }
+    },
+    {
+      "id": "rosary-closing-prayer",
+      "category": "liturgy",
+      "categoryNote": "Colecta de la fiesta de Nuestra Señora del Rosario (Missale Romanum 1960), citada en RVM 35 y nota 38.",
+      "titles": {
+        "es-MX": "Oración final del Rosario",
+        "es-ES": "Oración tras el rosario",
+        "en-US": "Prayer concluding the Rosary",
+        "la": "Oratio ad finem Rosarii dicenda"
+      },
+      "texts": {
+        "es-ES": {
+          "lines": [
+            "Oremos.",
+            "Oh Dios,",
+            "cuyo Hijo por medio de su vida,",
+            "muerte y resurrección,",
+            "nos otorgó los premios",
+            "de la vida eterna,",
+            "te rogamos que",
+            "venerando humildemente",
+            "los misterios del Rosario",
+            "de la Santísima Virgen María,",
+            "imitemos lo que contienen",
+            "y consigamos lo que nos prometen.",
+            "Por Jesucristo, nuestro Señor. Amén"
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "Compendio del Catecismo de la Iglesia Católica (2005), Apéndice A: Oraciones comunes",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "La fuente escribe 'Oremos' como encabezado."
+        },
+        "es-MX": {
+          "sameAs": "es-ES",
+          "notes": "Desde la fe no trae esta oración; propone en su lugar la oración 'Te suplicamos nos concedas' (ver id grant-us-your-servants). Sin fuente mexicana para este texto."
+        },
+        "en-US": {
+          "lines": [
+            "Let us pray:",
+            "O God, whose Only Begotten Son,",
+            "by his life, Death, and Resurrection,",
+            "has purchased for us the rewards of eternal life,",
+            "grant, we beseech thee,",
+            "that while meditating on these mysteries",
+            "of the most holy Rosary of the Blessed Virgin Mary,",
+            "we may imitate what they contain",
+            "and obtain what they promise,",
+            "through the same Christ our Lord.",
+            "Amen."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "United States Conference of Catholic Bishops",
+            "title": "How to Pray the Rosary",
+            "url": "https://www.usccb.org/how-to-pray-the-rosary",
+            "accessed": "2026-10-06",
+            "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+          },
+          "notes": "Line breaks editorial (single paragraph in source). The Compendium (English) reads 'that meditating' (without 'while')."
+        },
+        "la": {
+          "lines": [
+            "Orémus.",
+            "Deus, cuius Unigénitus per vitam,",
+            "mortem et resurrectiónem suam",
+            "nobis salútis ætérnæ",
+            "præmia comparávit,",
+            "concéde, quæsumus:",
+            "ut hæc mystéria sacratíssimo",
+            "beátæ Maríæ Vírginis",
+            "Rosário recoléntes,",
+            "et imitémur quod cóntinent,",
+            "et quod promíttunt assequámur.",
+            "Per Christum Dóminum nostrum.",
+            "Amen."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "Compendium of the Catechism of the Catholic Church (2005), Appendix A: Common Prayers (Latin column)",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      }
+    },
+    {
+      "id": "grant-us-your-servants",
+      "category": "liturgy",
+      "categoryNote": "Colecta mariana tradicional 'Concede nos famulos tuos', usada tras la letanía (vatican.va) y como cierre del Rosario en México y España.",
+      "titles": {
+        "es-MX": "Te suplicamos nos concedas",
+        "es-ES": "Te pedimos, Señor",
+        "en-US": "Grant, we beseech thee",
+        "la": "Concede nos famulos tuos"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Te suplicamos nos concedas, Señor, Dios Padre nuestro,",
+            "gozar de continua salud de alma y cuerpo,",
+            "y por la gloriosa intercesión de la bienaventurada siempre Virgen María,",
+            "vernos libres de las tristezas de la vida presente",
+            "y alcanzar los gozos de la vida eterna.",
+            "Por Jesucristo nuestro Señor. Amén."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+            "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+            "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Saltos de línea editoriales.",
+          "variants": [
+            {
+              "label": "Tras la letanía (Desde la fe y vatican.va)",
+              "lines": [
+                "Te rogamos nos concedas,",
+                "Señor Dios nuestro,",
+                "gozar de continua salud de alma y cuerpo,",
+                "y por la gloriosa intercesión",
+                "de la bienaventurada siempre Virgen María,",
+                "vernos libres de las tristezas de la vida presente",
+                "y disfrutar de las alegrías eternas.",
+                "Por Cristo nuestro Señor.",
+                "Amén."
+              ],
+              "responseFrom": null,
+              "source": {
+                "publisher": "Santa Sede (vatican.va)",
+                "title": "El Santo Rosario - Letanías de la Virgen",
+                "url": "https://www.vatican.va/special/rosary/documents/litanie-lauretane_sp.html",
+                "accessed": "2026-10-06"
+              }
+            }
+          ]
+        },
+        "es-ES": {
+          "lines": [
+            "Te pedimos Señor,",
+            "nos concedas a nosotros tus siervos,",
+            "gozar de perpetua salud de alma y cuerpo,",
+            "y por la gloriosa intercesión",
+            "de la bienaventurada siempre Virgen María, seamos librados de las tristezas presentes",
+            "y gocemos de la eterna alegría.",
+            "Por Jesucristo, nuestro Señor. Amén."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "Compendio del Catecismo de la Iglesia Católica (2005), Apéndice A: Oraciones comunes",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "El Compendio lo presenta como 'Oremos (tradición española)'."
+        },
+        "en-US": {
+          "lines": [
+            "Let us pray.",
+            "Grant, we beseech thee,",
+            "O Lord God,",
+            "that we, your servants,",
+            "may enjoy perpetual health of mind and body;",
+            "and by the glorious intercession of the Blessed Mary, ever Virgin,",
+            "may be delivered from present sorrow,",
+            "and obtain eternal joy.",
+            "Through Christ our Lord.",
+            "Amen."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "The Holy Rosary - The Litany of Loreto",
+            "url": "https://www.vatican.va/special/rosary/documents/litanie-lauretane_en.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Holy See text, not USCCB."
+        },
+        "la": {
+          "missing": true,
+          "notes": "No se localizó el texto latino en una fuente oficial en línea durante esta revisión."
+        }
+      }
+    },
+    {
+      "id": "litany-of-loreto",
+      "category": "pious-tradition",
+      "categoryNote": "Letanía aprobada por Sixto V (1587); su formulario lo regula la Santa Sede. RVM 37 la propone al final del Rosario. Opcional.",
+      "invocationCount": 54,
+      "additions": [
+        {
+          "invocation": "Mater misericordiae",
+          "after": "Mater Ecclesiae",
+          "year": 2020,
+          "source": {
+            "publisher": "Sala Stampa della Santa Sede, Bollettino N. 0350 (20-VI-2020)",
+            "title": "Congregatio de Cultu Divino, Litterae circulares de invocationibus «Mater misericordiae», «Mater spei» et «Solacium migrantium» in Litanias Lauretanas inserendis",
+            "url": "https://press.vatican.va/content/salastampa/it/bollettino/pubblico/2020/06/20/0350.pdf",
+            "accessed": "2026-10-06"
+          }
+        },
+        {
+          "invocation": "Mater spei",
+          "after": "Mater divinae gratiae",
+          "year": 2020,
+          "source": {
+            "publisher": "Sala Stampa della Santa Sede, Bollettino N. 0350 (20-VI-2020)",
+            "title": "Congregatio de Cultu Divino, Litterae circulares de invocationibus «Mater misericordiae», «Mater spei» et «Solacium migrantium» in Litanias Lauretanas inserendis",
+            "url": "https://press.vatican.va/content/salastampa/it/bollettino/pubblico/2020/06/20/0350.pdf",
+            "accessed": "2026-10-06"
+          }
+        },
+        {
+          "invocation": "Solacium migrantium",
+          "after": "Refugium peccatorum",
+          "year": 2020,
+          "source": {
+            "publisher": "Sala Stampa della Santa Sede, Bollettino N. 0350 (20-VI-2020)",
+            "title": "Congregatio de Cultu Divino, Litterae circulares de invocationibus «Mater misericordiae», «Mater spei» et «Solacium migrantium» in Litanias Lauretanas inserendis",
+            "url": "https://press.vatican.va/content/salastampa/it/bollettino/pubblico/2020/06/20/0350.pdf",
+            "accessed": "2026-10-06"
+          }
+        }
+      ],
+      "additionsCheck": "Búsqueda al 2026-10-06: no se encontraron invocaciones añadidas después de 2020 en fuentes de la Santa Sede.",
+      "titles": {
+        "es-MX": "Letanía Lauretana",
+        "es-ES": "Letanías de la Virgen",
+        "en-US": "Litany of Loreto",
+        "la": "Litaniae Lauretanae"
+      },
+      "texts": {
+        "la": {
+          "structured": {
+            "opening": [
+              {
+                "call": "Kyrie, eleison.",
+                "response": "Kyrie, eleison."
+              },
+              {
+                "call": "Christe, eleison.",
+                "response": "Christe, eleison."
+              },
+              {
+                "call": "Kyrie, eleison.",
+                "response": "Kyrie, eleison."
+              },
+              {
+                "call": "Christe, audi nos.",
+                "response": "Christe, audi nos."
+              },
+              {
+                "call": "Christe, exaudi nos.",
+                "response": "Christe, exaudi nos."
+              }
+            ],
+            "trinity": [
+              {
+                "call": "Pater de caelis, Deus,",
+                "response": "miserere nobis."
+              },
+              {
+                "call": "Fili, Redemptor mundi, Deus,",
+                "response": "miserere nobis."
+              },
+              {
+                "call": "Spiritus Sancte, Deus,",
+                "response": "miserere nobis."
+              },
+              {
+                "call": "Sancta Trinitas, unus Deus,",
+                "response": "miserere nobis."
+              }
+            ],
+            "invocations": [
+              "Sancta Maria",
+              "Sancta Dei Genitrix",
+              "Sancta Virgo virginum",
+              "Mater Christi",
+              "Mater Ecclesiae",
+              "Mater misericordiae",
+              "Mater divinae gratiae",
+              "Mater spei",
+              "Mater purissima",
+              "Mater castissima",
+              "Mater inviolata",
+              "Mater intemerata",
+              "Mater amabilis",
+              "Mater admirabilis",
+              "Mater boni consilii",
+              "Mater Creatoris",
+              "Mater Salvatoris",
+              "Virgo prudentissima",
+              "Virgo veneranda",
+              "Virgo praedicanda",
+              "Virgo potens",
+              "Virgo clemens",
+              "Virgo fidelis",
+              "Speculum iustitiae",
+              "Sedes sapientiae",
+              "Causa nostrae laetitiae",
+              "Vas spirituale",
+              "Vas honorabile",
+              "Vas insigne devotionis",
+              "Rosa mystica",
+              "Turris davidica",
+              "Turris eburnea",
+              "Domus aurea",
+              "Foederis arca",
+              "Ianua coeli",
+              "Stella matutina",
+              "Salus infirmorum",
+              "Refugium peccatorum",
+              "Solacium migrantium",
+              "Consolatrix afflictorum",
+              "Auxilium Christianorum",
+              "Regina Angelorum",
+              "Regina Patriarcharum",
+              "Regina Prophetarum",
+              "Regina Apostolorum",
+              "Regina Martyrum",
+              "Regina Confessorum",
+              "Regina Virginum",
+              "Regina Sanctorum omnium",
+              "Regina sine labe originali concepta",
+              "Regina in caelum assumpta",
+              "Regina sacratissimi Rosarii",
+              "Regina familiae",
+              "Regina pacis"
+            ],
+            "invocationResponse": "ora pro nobis.",
+            "agnusDei": [
+              {
+                "call": "Agnus Dei, qui tollis peccata mundi,",
+                "response": "parce nobis, Domine."
+              },
+              {
+                "call": "Agnus Dei, qui tollis peccata mundi,",
+                "response": "exaudi nos, Domine."
+              },
+              {
+                "call": "Agnus Dei, qui tollis peccata mundi,",
+                "response": "miserere nobis."
+              }
+            ]
+          },
+          "source": {
+            "publisher": "Conferenza Episcopale Italiana, Ufficio Liturgico Nazionale (Notiziario, anno 55, n. 2, 31-VIII-2021)",
+            "title": "Tre nuove invocazioni nelle Litanie Lauretane - LITANIAE LAURETANAE",
+            "url": "https://www.chiesacattolica.it/wp-content/uploads/sites/31/2026/09/87714-2021_06_Congr-culto-divino_Litanie-Lauretane.pdf",
+            "accessed": "2026-10-06"
+          },
+          "notes": "La fuente no indica la repetición de las aclamaciones iniciales por el pueblo; se modela como repetición según el uso de vatican.va (es/en)."
+        },
+        "es-ES": {
+          "structured": {
+            "opening": [
+              {
+                "call": "Señor, ten piedad",
+                "response": "Señor, ten piedad"
+              },
+              {
+                "call": "Cristo, ten piedad",
+                "response": "Cristo, ten piedad"
+              },
+              {
+                "call": "Señor, ten piedad.",
+                "response": "Señor, ten piedad."
+              },
+              {
+                "call": "Cristo, óyenos.",
+                "response": "Cristo, óyenos."
+              },
+              {
+                "call": "Cristo, escúchanos.",
+                "response": "Cristo, escúchanos."
+              }
+            ],
+            "trinity": [
+              {
+                "call": "Dios, Padre celestial,",
+                "response": "ten piedad de nosotros."
+              },
+              {
+                "call": "Dios, Hijo, Redentor del mundo,",
+                "response": "ten piedad de nosotros."
+              },
+              {
+                "call": "Dios, Espíritu Santo,",
+                "response": "ten piedad de nosotros."
+              },
+              {
+                "call": "Santísima Trinidad, un solo Dios,",
+                "response": "ten piedad de nosotros."
+              }
+            ],
+            "invocations": [
+              "Santa María",
+              "Santa Madre de Dios",
+              "Santa Virgen de las Vírgenes",
+              "Madre de Cristo",
+              "Madre de la Iglesia",
+              "Madre de la misericordia",
+              "Madre de la divina gracia",
+              "Madre de la esperanza",
+              "Madre purísima",
+              "Madre castísima",
+              "Madre siempre virgen",
+              "Madre inmaculada",
+              "Madre amable",
+              "Madre admirable",
+              "Madre del buen consejo",
+              "Madre del Creador",
+              "Madre del Salvador",
+              "Virgen prudentísima",
+              "Virgen digna de veneración",
+              "Virgen digna de alabanza",
+              "Virgen poderosa",
+              "Virgen clemente",
+              "Virgen fiel",
+              "Espejo de justicia",
+              "Trono de la sabiduría",
+              "Causa de nuestra alegría",
+              "Vaso espiritual",
+              "Vaso digno de honor",
+              "Vaso de insigne devoción",
+              "Rosa mística",
+              "Torre de David",
+              "Torre de marfil",
+              "Casa de oro",
+              "Arca de la Alianza",
+              "Puerta del cielo",
+              "Estrella de la mañana",
+              "Salud de los enfermos",
+              "Refugio de los pecadores",
+              "Consuelo de los migrantes",
+              "Consoladora de los afligidos",
+              "Auxilio de los cristianos",
+              "Reina de los Ángeles",
+              "Reina de los Patriarcas",
+              "Reina de los Profetas",
+              "Reina de los Apóstoles",
+              "Reina de los Mártires",
+              "Reina de los Confesores",
+              "Reina de las Vírgenes",
+              "Reina de todos los Santos",
+              "Reina concebida sin pecado original",
+              "Reina asunta a los Cielos",
+              "Reina del Santísimo Rosario",
+              "Reina de la familia",
+              "Reina de la paz"
+            ],
+            "invocationResponse": "ruega por nosotros.",
+            "agnusDei": [
+              {
+                "call": "Cordero de Dios, que quitas el pecado del mundo,",
+                "response": "perdónanos, Señor."
+              },
+              {
+                "call": "Cordero de Dios, que quitas el pecado del mundo,",
+                "response": "escúchanos, Señor."
+              },
+              {
+                "call": "Cordero de Dios, que quitas el pecado del mundo,",
+                "response": "ten misericordia de nosotros."
+              }
+            ]
+          },
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Letanías de la Virgen",
+            "url": "https://www.vatican.va/special/rosary/documents/litanie-lauretane_sp.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Texto de vatican.va (no específico de España). Tras la letanía: versículo (pray-for-us-holy-mother-of-god) y oración (grant-us-your-servants)."
+        },
+        "es-MX": {
+          "structured": {
+            "opening": [
+              {
+                "call": "Señor, ten piedad",
+                "response": "Señor, ten piedad"
+              },
+              {
+                "call": "Cristo, ten piedad",
+                "response": "Cristo, ten piedad"
+              },
+              {
+                "call": "Señor, ten piedad.",
+                "response": "Señor, ten piedad"
+              },
+              {
+                "call": "Cristo, óyenos",
+                "response": "Cristo, óyenos."
+              },
+              {
+                "call": "Cristo, escúchanos.",
+                "response": "Cristo, escúchanos."
+              }
+            ],
+            "trinity": [
+              {
+                "call": "Dios, Padre celestial,",
+                "response": "ten piedad de nosotros."
+              },
+              {
+                "call": "Dios, Hijo, Redentor del mundo",
+                "response": "ten piedad de nosotros."
+              },
+              {
+                "call": "Dios, Espíritu Santo,",
+                "response": "ten piedad de nosotros."
+              },
+              {
+                "call": "Santísima Trinidad, un solo Dios,",
+                "response": "ten piedad de nosotros."
+              }
+            ],
+            "invocations": [
+              "Santa María",
+              "Santa Madre de Dios",
+              "Santa Virgen de las Vírgenes",
+              "Madre de Cristo",
+              "Madre de la Iglesia",
+              "Madre de la Misericordia",
+              "Madre de la divina gracia",
+              "Madre de esperanza",
+              "Madre purísima",
+              "Madre castísima",
+              "Madre siempre virgen",
+              "Madre inmaculada",
+              "Madre amable",
+              "Madre admirable",
+              "Madre del buen consejo",
+              "Madre del Creador",
+              "Madre del Salvador",
+              "Virgen prudentísima",
+              "Virgen digna de veneración",
+              "Virgen digna de alabanza",
+              "Virgen poderosa",
+              "Virgen clemente",
+              "Virgen fiel",
+              "Espejo de justicia",
+              "Trono de la sabiduría",
+              "Causa de nuestra alegría",
+              "Vaso espiritual",
+              "Vaso digno de honor",
+              "Vaso de insigne devoción",
+              "Rosa mística",
+              "Torre de David",
+              "Torre de marfil",
+              "Casa de oro",
+              "Arca de la Alianza",
+              "Puerta del cielo",
+              "Estrella de la mañana",
+              "Salud de los enfermos",
+              "Refugio de los pecadores",
+              "Consuelo de los migrantes",
+              "Consoladora de los afligidos",
+              "Auxilio de los cristianos",
+              "Reina de los Ángeles",
+              "Reina de los Patriarcas",
+              "Reina de los Profetas",
+              "Reina de los Apóstoles",
+              "Reina de los Mártires",
+              "Reina de los Confesores",
+              "Reina de las Vírgenes",
+              "Reina de todos los Santos",
+              "Reina concebida sin pecado original",
+              "Reina asunta a los Cielos",
+              "Reina del Santísimo Rosario",
+              "Reina de la familia",
+              "Reina de la paz"
+            ],
+            "invocationResponse": "Ruega por nosotros.",
+            "agnusDei": [
+              {
+                "call": "Cordero de Dios, que quitas el pecado del mundo,",
+                "response": "perdónanos, Señor."
+              },
+              {
+                "call": "Cordero de Dios, que quitas el pecado del mundo,",
+                "response": "escúchanos, Señor."
+              },
+              {
+                "call": "Cordero de Dios, que quitas el pecado del mundo,",
+                "response": "ten misericordia de nosotros."
+              }
+            ]
+          },
+          "source": {
+            "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+            "title": "Letanía del Santo Rosario completa y actualizada (actualizado 6-VI-2024)",
+            "url": "https://desdelafe.mx/noticias/sabias-que/letania-completa-actualizada-rosario/",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Coincide con vatican.va salvo 'Madre de la Misericordia' (mayúscula) y 'Madre de esperanza' (sin artículo)."
+        },
+        "en-US": {
+          "structured": {
+            "opening": [
+              {
+                "call": "Lord have mercy.",
+                "response": "Lord have mercy."
+              },
+              {
+                "call": "Christ have mercy.",
+                "response": "Christ have mercy."
+              },
+              {
+                "call": "Lord have mercy.",
+                "response": "Lord have mercy."
+              },
+              {
+                "call": "Christ hear us.",
+                "response": "Christ hear us."
+              },
+              {
+                "call": "Christ graciously hear us.",
+                "response": "Christ graciously hear us."
+              }
+            ],
+            "trinity": [
+              {
+                "call": "God, the Father of heaven,",
+                "response": "have mercy on us."
+              },
+              {
+                "call": "God the Son, Redeemer of the world,",
+                "response": "have mercy on us."
+              },
+              {
+                "call": "God the Holy Spirit,",
+                "response": "have mercy on us."
+              },
+              {
+                "call": "Holy Trinity, one God,",
+                "response": "have mercy on us."
+              }
+            ],
+            "invocations": [
+              "Holy Mary",
+              "Holy Mother of God",
+              "Holy Virgin of virgins",
+              "Mother of Christ",
+              "Mother of the Church",
+              "Mother of Mercy",
+              "Mother of divine grace",
+              "Mother of Hope",
+              "Mother most pure",
+              "Mother most chaste",
+              "Mother inviolate",
+              "Mother undefiled",
+              "Mother most amiable",
+              "Mother most admirable",
+              "Mother of good counsel",
+              "Mother of our Creator",
+              "Mother of our Saviour",
+              "Virgin most prudent",
+              "Virgin most venerable",
+              "Virgin most renowned",
+              "Virgin most powerful",
+              "Virgin most merciful",
+              "Virgin most faithful",
+              "Mirror of justice",
+              "Seat of wisdom",
+              "Cause of our joy",
+              "Spiritual vessel",
+              "Vessel of honour",
+              "Singular vessel of devotion",
+              "Mystical rose",
+              "Tower of David",
+              "Tower of ivory",
+              "House of gold",
+              "Ark of the covenant",
+              "Gate of heaven",
+              "Morning star",
+              "Health of the sick",
+              "Refuge of sinners",
+              "Solace of Migrants",
+              "Comfort of the afflicted",
+              "Help of Christians",
+              "Queen of Angels",
+              "Queen of Patriarchs",
+              "Queen of Prophets",
+              "Queen of Apostles",
+              "Queen of Martyrs",
+              "Queen of Confessors",
+              "Queen of Virgins",
+              "Queen of all Saints",
+              "Queen conceived without original sin",
+              "Queen assumed into heaven",
+              "Queen of the most holy Rosary",
+              "Queen of families",
+              "Queen of peace"
+            ],
+            "invocationResponse": "pray for us.",
+            "agnusDei": [
+              {
+                "call": "Lamb of God, who takes away the sins of the world,",
+                "response": "spare us, O Lord."
+              },
+              {
+                "call": "Lamb of God, who takes away the sins of the world,",
+                "response": "graciously hear us, O Lord."
+              },
+              {
+                "call": "Lamb of God, who takes away the sins of the world,",
+                "response": "have mercy on us."
+              }
+            ]
+          },
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "The Holy Rosary - The Litany of Loreto",
+            "url": "https://www.vatican.va/special/rosary/documents/litanie-lauretane_en.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Holy See English text (British spelling 'Saviour', 'honour'); no USCCB text was found. EWTN's online text omits 'Mother of Mercy' and must not be used."
+        }
+      }
+    },
+    {
+      "id": "act-of-contrition",
+      "category": "pious-tradition",
+      "categoryNote": "Opcional al inicio (uso mexicano: Desde la fe lo propone tras la señal de la cruz). La segunda forma inglesa procede del Ritual de la Penitencia (liturgia).",
+      "titles": {
+        "es-MX": "Acto de contrición",
+        "es-ES": "Acto de contrición",
+        "en-US": "Act of Contrition",
+        "la": "Actus Contritionis"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Señor mío Jesucristo, Dios y Hombre verdadero,",
+            "me pesa de todo corazón de haber pecado",
+            "porque te ofendí a ti que eres tan bueno y que tanto me amas,",
+            "y a quien yo quiero amar sobre todas las cosas.",
+            "Propongo firmemente, con tu gracia,",
+            "enmendarme y alejarme de las ocasiones de pecar,",
+            "confesarme y cumplir la penitencia.",
+            "Confío en que me perdonarás por tu infinita misericordia. Amén."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+            "title": "Guía para rezar el Rosario en la peregrinación 2025",
+            "url": "https://desdelafe.mx/noticias/arquidiocesis-de-mexico/guia-para-rezar-el-rosario-en-la-peregrinacion-2025/",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Saltos de línea editoriales."
+        },
+        "es-ES": {
+          "lines": [
+            "Señor mío Jesucristo, Dios y hombre verdadero, Creador, Padre y Redentor mío.",
+            "Por ser tú quien eres, Bondad infinita,",
+            "y porque te amo sobre todas las cosas,",
+            "me pesa de todo corazón haberte ofendido. También me pesa que puedas castigarme",
+            "con las penas del infierno.",
+            "Ayudado de tu divina gracia propongo firmemente nunca más pecar, confesarme y cumplir la penitencia que me fuera impuesta. Amén"
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "Compendio del Catecismo de la Iglesia Católica (2005), Apéndice A: Oraciones comunes",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "El Compendio la presenta como 'tradición española'.",
+          "variants": [
+            {
+              "label": "Compendio, forma general",
+              "lines": [
+                "Dios mío,",
+                "me arrepiento de todo corazón",
+                "de todos mis pecados",
+                "y los aborrezco,",
+                "porque al pecar, no sólo merezco",
+                "las penas establecidas por ti",
+                "justamente,",
+                "sino principalmente porque te ofendí,",
+                "a ti sumo Bien y digno de amor",
+                "por encima de todas las cosas.",
+                "Por eso propongo firmemente,",
+                "con ayuda de tu gracia,",
+                "no pecar más en adelante",
+                "y huir de toda ocasión de pecado.",
+                "Amén."
+              ],
+              "responseFrom": null,
+              "source": {
+                "publisher": "Santa Sede (vatican.va)",
+                "title": "Compendio del Catecismo de la Iglesia Católica (2005), Apéndice A: Oraciones comunes",
+                "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+                "accessed": "2026-10-06"
+              }
+            }
+          ]
+        },
+        "en-US": {
+          "lines": [
+            "O my God,",
+            "I am heartily sorry for having offended you,",
+            "and I detest all my sins because of your just punishments,",
+            "but most of all because they offend you, my God,",
+            "who are all good and deserving of all my love.",
+            "I firmly resolve, with the help of your grace,",
+            "to sin no more",
+            "and to avoid the near occasions of sin.",
+            "Amen."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "United States Conference of Catholic Bishops",
+            "title": "Act of Contrition",
+            "url": "https://www.usccb.org/prayers/act-contrition",
+            "accessed": "2026-10-06",
+            "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/prayers/act-contrition"
+          },
+          "variants": [
+            {
+              "label": "Order of Penance, no. 45 (USCCB page, alternative)",
+              "lines": [
+                "O my God,",
+                "I am sorry and repent with all my heart",
+                "for all the wrong I have done",
+                "and for the good I have failed to do,",
+                "because by sinning I have offended you,",
+                "who are all good and worthy to be loved above all things.",
+                "I firmly resolve, with the help of your grace,",
+                "to do penance,",
+                "to sin no more,",
+                "and to avoid the occasions of sin.",
+                "Through the merits of the Passion of our Savior Jesus Christ,",
+                "Lord, have mercy."
+              ],
+              "responseFrom": null,
+              "source": {
+                "publisher": "United States Conference of Catholic Bishops",
+                "title": "Act of Contrition",
+                "url": "https://www.usccb.org/prayers/act-contrition",
+                "accessed": "2026-10-06",
+                "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/prayers/act-contrition"
+              }
+            }
+          ]
+        },
+        "la": {
+          "lines": [
+            "Deus meus, ex toto corde pænitet me ómnium meórum peccatórum,",
+            "éaque detéstor, quia peccándo,",
+            "non solum pœnas a te iuste statútas proméritus sum,",
+            "sed præsértim quia offéndi te, summum bonum,",
+            "ac dignum qui super ómnia diligáris.",
+            "Ídeo fírmiter propóno, adiuvánte grátia tua,",
+            "de cétero me non peccatúrum",
+            "peccandíque occasiónes próximas fugitúrum.",
+            "Amen."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "Holy See (vatican.va)",
+            "title": "Compendium of the Catechism of the Catholic Church (2005), Appendix A: Common Prayers (Latin column)",
+            "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+            "accessed": "2026-10-06"
+          },
+          "notes": "Un solo párrafo en la fuente; saltos de línea editoriales."
+        }
+      }
+    },
+    {
+      "id": "prayer-for-the-pope",
+      "category": "magisterium",
+      "categoryNote": "No es un texto propio: es la intención por el Papa al final del Rosario (RVM 37) y una de las tres condiciones de la indulgencia plenaria (Enchiridion, N. 20).",
+      "kind": "intention",
+      "composition": [
+        "our-father",
+        "hail-mary"
+      ],
+      "compositionNote": "Enchiridion Indulgentiarum N. 20 § 5: la condición se cumple rezando a su intención un Padrenuestro y un Avemaría; cada fiel puede rezar cualquier otra oración según su piedad. Desde la fe (México): 'Reza un Padrenuestro y un Avemaría por las intenciones del Papa.' Muchas guías añaden un Gloria; no es requisito.",
+      "sources": [
+        {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Juan Pablo II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/es/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        },
+        {
+          "publisher": "Paenitentiaria Apostolica (vatican.va)",
+          "title": "Enchiridion Indulgentiarum, editio quarta (1999), Normae N. 20 § 5",
+          "url": "https://www.vatican.va/roman_curia/tribunals/apost_penit/documents/rc_trib_appen_doc_20020826_enchiridion-indulgentiarum_lt.html",
+          "accessed": "2026-10-06"
+        },
+        {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        }
+      ],
+      "titles": {
+        "es-MX": "Por las intenciones del Papa",
+        "es-ES": "Por las intenciones del Papa",
+        "en-US": "For the intentions of the Holy Father",
+        "la": "Ad mentem Summi Pontificis"
+      }
+    }
+  ]
+}
