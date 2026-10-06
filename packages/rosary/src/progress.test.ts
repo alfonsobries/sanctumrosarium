@@ -16,6 +16,7 @@ const steps = buildSequence({
   opening: true,
   readingFor: null,
   fatimaPrayer: false,
+  prayerForThePope: false,
   hailHolyQueen: true,
   litany: false,
   closingPrayer: true,

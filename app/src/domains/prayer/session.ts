@@ -20,6 +20,7 @@ export type SessionPlan = {
   locale: Locale;
   fatimaPrayer: boolean;
   litany: boolean;
+  prayerForThePope: boolean;
   /** Reading chosen per mystery when the session began; absent when readings are off. */
   readings: Record<string, Reading> | null;
   startedAt: string;
@@ -34,6 +35,7 @@ export type PlanInput = {
   locale: Locale;
   fatimaPrayer: boolean;
   litany: boolean;
+  prayerForThePope: boolean;
   reading: boolean;
   gospel: ReadingPreference;
   readingCounts: Record<string, number>;
@@ -60,6 +62,7 @@ export function planSession(input: PlanInput): SessionPlan {
     locale: input.locale,
     fatimaPrayer: input.fatimaPrayer,
     litany: input.litany,
+    prayerForThePope: input.prayerForThePope,
     readings,
     startedAt: input.now.toISOString(),
     prayedOn: input.prayedOn,
@@ -75,6 +78,7 @@ export function stepsFor(plan: SessionPlan, mysteries: readonly MysteryRef[]): S
     opening: true,
     readingFor: readings === null ? null : (mystery) => readings[mystery.id] ?? null,
     fatimaPrayer: plan.fatimaPrayer,
+    prayerForThePope: plan.prayerForThePope ?? true,
     hailHolyQueen: true,
     litany: plan.litany,
     closingPrayer: true,

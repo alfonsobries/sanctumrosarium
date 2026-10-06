@@ -20,6 +20,7 @@ export type Settings = {
   pauseSeconds: number;
   rate: number;
   fatimaPrayer: boolean;
+  prayerForThePope: boolean;
   litany: boolean;
   textSize: 'regular' | 'large' | 'larger';
   onboarded: boolean;
@@ -36,6 +37,7 @@ export const defaultSettings: Settings = {
   pauseSeconds: 1,
   rate: 1,
   fatimaPrayer: true,
+  prayerForThePope: true,
   litany: false,
   textSize: 'regular',
   onboarded: false,

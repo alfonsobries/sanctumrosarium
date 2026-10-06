@@ -45,6 +45,7 @@ const steps = (overrides: { reading?: boolean; litany?: boolean; fatima?: boolea
     opening: true,
     readingFor: overrides.reading ? (m) => m.readings[0] ?? null : null,
     fatimaPrayer: overrides.fatima ?? false,
+    prayerForThePope: false,
     hailHolyQueen: true,
     litany: overrides.litany ?? false,
     closingPrayer: true,

@@ -107,9 +107,7 @@ export default function JournalScreen() {
       >
         <View className="gap-3">
           <View className="flex-row items-center justify-between">
-            <Text variant="headline">
-              {capitalizeFirst(monthName)}
-            </Text>
+            <Text variant="headline">{capitalizeFirst(monthName)}</Text>
             <View className="flex-row gap-1">
               <Pressable
                 accessibilityRole="button"

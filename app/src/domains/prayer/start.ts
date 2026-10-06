@@ -22,6 +22,7 @@ export async function startSession(set: MysterySet, scope: Scope): Promise<void>
       locale: settings.prayerLocale,
       fatimaPrayer: settings.fatimaPrayer && hasPrayerText('fatima-prayer', settings.prayerLocale),
       litany: settings.litany,
+      prayerForThePope: settings.prayerForThePope,
       reading: settings.reading,
       gospel: settings.gospel,
       readingCounts,

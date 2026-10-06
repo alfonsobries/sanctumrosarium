@@ -196,6 +196,11 @@ export default function SettingsScreen() {
               onChange={(value) => update({ fatimaPrayer: value })}
             />
             <SwitchRow
+              title={t('settings.pope')}
+              value={settings.prayerForThePope}
+              onChange={(value) => update({ prayerForThePope: value })}
+            />
+            <SwitchRow
               title={t('settings.litany')}
               value={settings.litany}
               onChange={(value) => update({ litany: value })}

@@ -95,7 +95,10 @@ export default function TodayScreen() {
 
   async function handleStart(set: MysterySet, scope: 'full' | 'decade') {
     const prayedToday = days.data?.find((day) => day.prayedOn === formatLocalDate(today))?.decades ?? 0;
-    await startSession(set, scope === 'full' ? { kind: 'full' } : { kind: 'decade', decade: (prayedToday % 5) + 1 });
+    await startSession(
+      set,
+      scope === 'full' ? { kind: 'full' } : { kind: 'decade', decade: (prayedToday % 5) + 1 },
+    );
     router.push('/pray');
   }
 
@@ -104,9 +107,7 @@ export default function TodayScreen() {
       <Stack.Screen options={{ title: t('tabs.pray'), headerLargeTitle: false, headerShown: false }} />
       <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerClassName="gap-8 px-5 pb-16">
         <View className="flex-row items-center justify-between pt-3">
-          <Text variant="footnote">
-            {capitalizeFirst(dateFormat.format(now))}
-          </Text>
+          <Text variant="footnote">{capitalizeFirst(dateFormat.format(now))}</Text>
           <Link href="/settings" asChild>
             <Pressable
               accessibilityRole="button"

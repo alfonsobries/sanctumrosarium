@@ -67,6 +67,7 @@ describe('content', () => {
       opening: true,
       readingFor: (m) => m.readings[0] ?? null,
       fatimaPrayer: true,
+      prayerForThePope: false,
       hailHolyQueen: true,
       litany: true,
       closingPrayer: true,

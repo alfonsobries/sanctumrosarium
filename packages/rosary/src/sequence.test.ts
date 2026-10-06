@@ -20,6 +20,7 @@ const base: RosaryOptions = {
   opening: true,
   readingFor: null,
   fatimaPrayer: false,
+  prayerForThePope: false,
   hailHolyQueen: true,
   litany: false,
   closingPrayer: true,
@@ -50,6 +51,7 @@ describe('buildSequence', () => {
     const steps = buildSequence({
       ...base,
       opening: false,
+      prayerForThePope: false,
       hailHolyQueen: false,
       closingPrayer: false,
     });
@@ -108,5 +110,24 @@ describe('buildSequence', () => {
     expect(() => buildSequence({ ...base, scope: { kind: 'decade', decade: 6 } })).toThrow(
       InvalidRosaryOptions,
     );
+  });
+});
+
+describe('prayer for the Pope', () => {
+  it('concludes with an Our Father and a Hail Mary for his intentions before the Hail Holy Queen', () => {
+    const steps = buildSequence({ ...base, prayerForThePope: true });
+    const ids = steps.map((step) => step.id);
+    const pope = ids.indexOf('closing-pope-our-father');
+    expect(ids.slice(pope, pope + 3)).toEqual([
+      'closing-pope-our-father',
+      'closing-pope-hail-mary',
+      'closing-hail-holy-queen',
+    ]);
+    expect(steps[pope]).toMatchObject({ intention: 'pope', count: null });
+  });
+
+  it('is left out of a single decade', () => {
+    const steps = buildSequence({ ...base, prayerForThePope: true, scope: { kind: 'decade', decade: 2 } });
+    expect(steps.some((step) => step.id.startsWith('closing-pope'))).toBe(false);
   });
 });

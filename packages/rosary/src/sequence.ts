@@ -135,6 +135,21 @@ function closingSteps(options: RosaryOptions): Step[] {
     });
   };
 
+  if (options.prayerForThePope) {
+    for (const prayer of ['our-father', 'hail-mary'] as const) {
+      steps.push({
+        id: `closing-pope-${prayer}`,
+        kind: 'prayer',
+        prayer,
+        section: 'closing',
+        decade: null,
+        count: null,
+        intention: 'pope',
+        bead: { kind: 'centerpiece' },
+      });
+    }
+  }
+
   if (options.hailHolyQueen) {
     add('hail-holy-queen');
   }

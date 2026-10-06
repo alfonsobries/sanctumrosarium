@@ -53,6 +53,8 @@ export type Step =
       decade: number | null;
       /** For counted prayers (the Hail Marys): position and total. */
       count: { index: number; total: number } | null;
+      /** Said for a particular intention rather than as part of a decade. */
+      intention?: 'pope';
     })
   | (StepBase & { kind: 'announce'; decade: number; mystery: MysteryRef })
   | (StepBase & { kind: 'reading'; decade: number; mystery: MysteryRef; reading: Reading });
@@ -69,6 +71,8 @@ export type RosaryOptions = {
   /** Reading chosen for each mystery, or none to skip the reading step. */
   readingFor: ((mystery: MysteryRef) => Reading | null) | null;
   fatimaPrayer: boolean;
+  /** Our Father and Hail Mary for the intentions of the Pope, which conclude the prayer (RVM 37). */
+  prayerForThePope: boolean;
   hailHolyQueen: boolean;
   litany: boolean;
   closingPrayer: boolean;

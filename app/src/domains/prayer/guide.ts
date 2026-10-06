@@ -14,7 +14,8 @@ export type GuideKey =
   | 'fatima'
   | 'hailHolyQueen'
   | 'litany'
-  | 'closingPrayer';
+  | 'closingPrayer'
+  | 'pope';
 
 function keyOf(step: Step): GuideKey | null {
   if (step.kind === 'announce') {
@@ -24,6 +25,9 @@ function keyOf(step: Step): GuideKey | null {
     return 'reading';
   }
   const opening = step.section === 'opening';
+  if (step.intention === 'pope') {
+    return step.prayer === 'our-father' ? 'pope' : null;
+  }
   switch (step.prayer) {
     case 'sign-of-the-cross':
       return step.section === 'closing' ? null : 'signOfTheCross';

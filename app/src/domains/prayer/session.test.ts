@@ -21,6 +21,7 @@ const plan = (overrides: Partial<Parameters<typeof planSession>[0]> = {}) =>
     locale: 'es-MX',
     fatimaPrayer: true,
     litany: false,
+    prayerForThePope: true,
     reading: true,
     gospel: 'rotate',
     readingCounts: { s1: 1 },

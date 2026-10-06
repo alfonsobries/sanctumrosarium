@@ -167,7 +167,10 @@ export function stepHeading(
   if (step.kind === 'reading') {
     return t('pray.reading');
   }
-  const title = prayerTitle(step.prayer, locale);
+  const title =
+    step.intention === 'pope'
+      ? `${t('pray.forThePope')} · ${prayerTitle(step.prayer, locale)}`
+      : prayerTitle(step.prayer, locale);
   return step.count === null ? title : `${title} · ${t('pray.hailMaryCount', step.count)}`;
 }
 
