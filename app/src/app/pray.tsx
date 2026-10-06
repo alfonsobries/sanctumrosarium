@@ -3,11 +3,12 @@ import { decadesCompleted, nextDecadeStart, type Step } from '@sanctamaria/rosar
 import * as Haptics from 'expo-haptics';
 import { useKeepAwake } from 'expo-keep-awake';
 import { Redirect, useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Pressable, View, useWindowDimensions } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
+import { useRosaryAudio } from '@/domains/audio/use-rosary-audio';
 import { beadRingState, decadeFills } from '@/domains/prayer/bead-state';
 import { BeadRing } from '@/domains/prayer/BeadRing';
 import { DecadeProgress } from '@/domains/prayer/DecadeProgress';
@@ -79,6 +80,10 @@ export default function PrayScreen() {
   const headingLocale = useContentLocale();
   const textSize = useSettings((state) => state.textSize);
   const guided = useSettings((state) => state.guided);
+  const mode = useSettings((state) => state.mode);
+  const updateSettings = useSettings((state) => state.update);
+  const rate = useSettings((state) => state.rate);
+  const pauseSeconds = useSettings((state) => state.pauseSeconds);
   const plan = useSession((state) => state.plan);
   const position = useSession((state) => state.position);
   const moveTo = useSession((state) => state.moveTo);
@@ -88,6 +93,29 @@ export default function PrayScreen() {
   const steps = useMemo(() => (plan === null ? [] : stepsFor(plan, mysteryRefsOf(plan.set))), [plan]);
   useSessionJournal(plan, steps, finished ? steps.length - 1 : position);
 
+  const audio = useRosaryAudio({
+    enabled: mode === 'listen' && !finished,
+    sessionId: plan?.id ?? null,
+    steps,
+    locale: plan?.locale ?? 'es-MX',
+    position,
+    rate,
+    pauseSeconds,
+    nowPlaying: {
+      album: plan === null ? '' : t(`sets.${plan.set}`),
+      artist: 'SanctaMaria',
+      titles: (s) => stepHeading(s, headingLocale, t),
+    },
+    onStep: (index) => moveTo(index),
+  });
+  const listening = mode === 'listen' && audio.availability === 'ready';
+
+  useEffect(() => {
+    if (listening && audio.status === 'ended') {
+      setFinished(true);
+    }
+  }, [listening, audio.status]);
+
   if (plan === null) {
     return <Redirect href="/" />;
   }
@@ -95,20 +123,26 @@ export default function PrayScreen() {
   const step = steps[position];
   const last = steps.length - 1;
 
+  function goTo(target: number) {
+    moveTo(target);
+    hapticFor(steps[target]);
+    if (listening) {
+      audio.skipTo(target);
+    }
+  }
+
   function handleNext() {
     if (position >= last) {
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       setFinished(true);
       return;
     }
-    moveTo(position + 1);
-    hapticFor(steps[position + 1]);
+    goTo(position + 1);
   }
 
   function handlePrevious() {
     if (position > 0) {
-      moveTo(position - 1);
-      void Haptics.selectionAsync();
+      goTo(position - 1);
     }
   }
 
@@ -156,7 +190,15 @@ export default function PrayScreen() {
           <Text variant="footnote">
             {step.decade === null ? (step.section === 'closing' ? t('pray.closing') : t('pray.opening')) : t('pray.decadeOf', { decade: step.decade })}
           </Text>
-          <View className="h-11 w-11" />
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={mode === 'listen' ? t('options.tap') : t('options.listen')}
+            onPress={() => updateSettings({ mode: mode === 'listen' ? 'tap' : 'listen' })}
+            hitSlop={10}
+            className="h-11 w-11 items-center justify-center rounded-full active:bg-surface"
+          >
+            <Icon name={mode === 'listen' ? 'listen' : 'tap'} color={mode === 'listen' ? colors.accent : colors.muted} />
+          </Pressable>
         </View>
         <DecadeProgress
           fills={decadeFills(steps, position)}
@@ -185,8 +227,8 @@ export default function PrayScreen() {
 
       <Pressable
         accessibilityRole="button"
-        accessibilityHint={t('pray.tapToContinue')}
-        onPress={handleNext}
+        accessibilityHint={listening ? undefined : t('pray.tapToContinue')}
+        onPress={listening ? audio.toggle : handleNext}
         className="flex-1"
       >
         <StepScroll>
@@ -194,6 +236,14 @@ export default function PrayScreen() {
             {guide !== null && (
               <Text variant="footnote" className="font-prayer-italic text-[16px] leading-[22px] text-rubric">
                 {t(`guide.${guide}`)}
+              </Text>
+            )}
+            {mode === 'listen' && audio.availability === 'unavailable' && position === 0 && (
+              <Text variant="footnote">{t('pray.audioMissing')}</Text>
+            )}
+            {listening && audio.status === 'interrupted' && (
+              <Text variant="footnote" className="text-accent">
+                {t('pray.interrupted')}
               </Text>
             )}
             {step.kind !== 'announce' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
@@ -211,15 +261,25 @@ export default function PrayScreen() {
             onPress={handlePrevious}
             disabled={position === 0}
           />
-          <Button label={t('pray.next')} onPress={handleNext} className="mx-4 flex-1" />
+          {listening ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={audio.status === 'playing' ? t('pray.pause') : t('pray.play')}
+              onPress={audio.toggle}
+              className="h-16 w-16 items-center justify-center rounded-full bg-accent active:opacity-80"
+            >
+              <Icon name={audio.status === 'playing' ? 'pause' : 'play'} size={28} color={colors['accent-foreground']} />
+            </Pressable>
+          ) : (
+            <Button label={t('pray.next')} onPress={handleNext} className="mx-4 flex-1" />
+          )}
           <ControlButton
             label={t('pray.nextDecade')}
             icon="next"
             onPress={() => {
               const target = nextDecadeStart(steps, position);
               if (target !== null) {
-                moveTo(target);
-                hapticFor(steps[target]);
+                goTo(target);
               }
             }}
             disabled={nextDecadeStart(steps, position) === null}

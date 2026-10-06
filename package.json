@@ -8,6 +8,10 @@
     "typecheck": "pnpm -r typecheck",
     "api": "cd api && php artisan serve",
     "api:test": "cd api && composer test",
-    "api:check": "cd api && composer lint && composer analyse && composer test"
+    "api:check": "cd api && composer lint && composer analyse && composer test",
+    "audio:generate": "tsx scripts/generate-audio.mts"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15"
   }
 }
