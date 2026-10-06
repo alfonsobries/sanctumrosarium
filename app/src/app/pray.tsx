@@ -187,11 +187,11 @@ export default function PrayScreen() {
       ? null
       : (steps.find((s) => s.kind === 'announce' && s.decade === step.decade) ?? null);
   const guide = guided ? guideFor(steps, position) : null;
-  const ringSize = Math.min(150, width * 0.38);
+  const ringSize = Math.min(168, width * 0.44);
 
   return (
     <SafeScreen>
-      <View className="gap-4 px-5 pt-2">
+      <View className="gap-4 px-5 pb-1 pt-2">
         <View className="flex-row items-center justify-between">
           <Pressable
             accessibilityRole="button"
@@ -218,7 +218,11 @@ export default function PrayScreen() {
               hitSlop={8}
               className="absolute right-14 h-11 min-w-[44px] items-center justify-center rounded-full px-2 active:bg-surface"
             >
-              <Text variant="footnote" className="font-semibold text-accent" style={{ fontVariant: ['tabular-nums'] }}>
+              <Text
+                variant="footnote"
+                className="font-semibold text-accent"
+                style={{ fontVariant: ['tabular-nums'] }}
+              >
                 {rate}×
               </Text>
             </Pressable>
@@ -299,15 +303,14 @@ export default function PrayScreen() {
         </StepScroll>
       </Pressable>
 
-      <View className="items-center gap-2 px-5 pb-2">
-        <BeadRing state={beadRingState(steps, position)} size={ringSize} />
-        <View className="w-full flex-row items-center justify-between">
-          <ControlButton
-            label={t('pray.previous')}
-            icon="previous"
-            onPress={handlePrevious}
-            disabled={position === 0}
-          />
+      <View className="flex-row items-center justify-between px-6 pb-2 pt-3">
+        <ControlButton
+          label={t('pray.previous')}
+          icon="previous"
+          onPress={handlePrevious}
+          disabled={position === 0}
+        />
+        <BeadRing state={beadRingState(steps, position)} size={ringSize}>
           {listening ? (
             <Pressable
               accessibilityRole="button"
@@ -322,20 +325,27 @@ export default function PrayScreen() {
               />
             </Pressable>
           ) : (
-            <Button label={t('pray.next')} onPress={handleNext} className="mx-4 flex-1" />
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t('pray.next')}
+              onPress={handleNext}
+              className="h-16 w-16 items-center justify-center rounded-full bg-accent active:opacity-80"
+            >
+              <Icon name="chevron" size={30} color={colors['accent-foreground']} />
+            </Pressable>
           )}
-          <ControlButton
-            label={t('pray.nextDecade')}
-            icon="next"
-            onPress={() => {
-              const target = nextDecadeStart(steps, position);
-              if (target !== null) {
-                goTo(target);
-              }
-            }}
-            disabled={nextDecadeStart(steps, position) === null}
-          />
-        </View>
+        </BeadRing>
+        <ControlButton
+          label={t('pray.nextDecade')}
+          icon="next"
+          onPress={() => {
+            const target = nextDecadeStart(steps, position);
+            if (target !== null) {
+              goTo(target);
+            }
+          }}
+          disabled={nextDecadeStart(steps, position) === null}
+        />
       </View>
     </SafeScreen>
   );

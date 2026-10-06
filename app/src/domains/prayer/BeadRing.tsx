@@ -15,6 +15,7 @@ export type BeadRingState =
 type BeadRingProperties = {
   state: BeadRingState;
   size: number;
+  children?: React.ReactNode;
 };
 
 const ease = Easing.bezier(0.23, 1, 0.32, 1);
@@ -29,93 +30,91 @@ function CurrentHalo({ cx, cy, r, color }: { cx: number; cy: number; r: number; 
   return <AnimatedCircle cx={cx} cy={cy} animatedProps={props} fill="none" stroke={color} strokeWidth={2} />;
 }
 
+const toRadians = (degrees: number): number => ((degrees - 90) * Math.PI) / 180;
+
 /**
- * One decade drawn as a circle of ten beads with its Our Father bead at the top: the
- * beads already prayed are filled, the current one carries a halo. During the opening,
- * the cross and the three beads before the first decade.
+ * The beads drawn as a circle around whatever sits in the middle (the play button):
+ * for a decade, its Our Father bead at the top and ten Hail Marys around; during the
+ * opening, the crucifix at the top and the four beads that follow it. Prayed beads are
+ * filled, the current one carries a halo.
  */
-export function BeadRing({ state, size }: BeadRingProperties) {
+export function BeadRing({ state, size, children }: BeadRingProperties) {
   const { colors } = useSkin();
   const center = size / 2;
-  const ringRadius = size * 0.38;
-  const bead = size * 0.045;
+  const ringRadius = size * 0.42;
+  const bead = size * 0.04;
+  const at = (degrees: number) => ({
+    x: center + ringRadius * Math.cos(toRadians(degrees)),
+    y: center + ringRadius * Math.sin(toRadians(degrees)),
+  });
+
+  const slots: { key: string; x: number; y: number; r: number; done: boolean; current: boolean }[] = [];
+  let cross: { x: number; y: number; done: boolean; current: boolean } | null = null;
 
   if (state.kind === 'opening') {
-    const spacing = bead * 4.2;
-    const arm = bead * 1.5;
-    const crossY = center - spacing * 2.1;
-    const beads = [
-      { position: 1, y: crossY + spacing * 1.25, r: bead * 1.45 },
-      { position: 2, y: crossY + spacing * 2.25, r: bead },
-      { position: 3, y: crossY + spacing * 3.05, r: bead },
-      { position: 4, y: crossY + spacing * 3.85, r: bead },
-    ];
-    return (
-      <View accessible={false} style={{ width: size, height: size }}>
+    cross = { ...at(0), done: state.prayed > 0 || state.current !== 0, current: state.current === 0 };
+    [72, 144, 216, 288].forEach((degrees, i) => {
+      const position = i + 1;
+      slots.push({
+        key: `o${position}`,
+        ...at(degrees),
+        r: position === 1 ? bead * 1.45 : bead,
+        done: position <= state.prayed,
+        current: state.current === position,
+      });
+    });
+  } else {
+    slots.push({
+      key: 'of',
+      ...at(0),
+      r: bead * 1.45,
+      done: state.ourFather !== 'pending',
+      current: state.ourFather === 'current',
+    });
+    for (let index = 1; index <= 10; index++) {
+      slots.push({
+        key: `hm${index}`,
+        ...at(30 + ((index - 1) * 300) / 9),
+        r: bead,
+        done: index <= state.prayed,
+        current: state.current === index,
+      });
+    }
+  }
+
+  const arm = bead * 1.5;
+
+  return (
+    <View style={{ width: size, height: size }} className="items-center justify-center">
+      <View accessible={false} style={{ position: 'absolute', inset: 0 }}>
         <Svg width={size} height={size}>
-          <Path
-            d={`M${center} ${crossY - arm * 1.2} V${crossY + arm * 1.7} M${center - arm} ${crossY - arm * 0.3} H${center + arm}`}
-            stroke={state.current === 0 || state.prayed > 0 ? colors['bead-done'] : colors.bead}
-            strokeWidth={bead * 0.55}
-            strokeLinecap="round"
-          />
-          {state.current === 0 && (
-            <CurrentHalo cx={center} cy={crossY + arm * 0.2} r={arm * 1.75} color={colors.accent} />
-          )}
-          {beads.map(({ position, y, r }) => (
-            <G key={position}>
-              <Circle
-                cx={center}
-                cy={y}
-                r={r}
-                fill={position <= state.prayed ? colors['bead-done'] : colors.bead}
+          <Circle cx={center} cy={center} r={ringRadius} fill="none" stroke={colors.border} strokeWidth={1} />
+          {cross !== null && (
+            <>
+              <Circle cx={cross.x} cy={cross.y} r={arm * 1.6} fill={colors.background} />
+              <Path
+                d={`M${cross.x} ${cross.y - arm * 1.3} V${cross.y + arm * 1.4} M${cross.x - arm} ${cross.y - arm * 0.35} H${cross.x + arm}`}
+                stroke={cross.done || cross.current ? colors['bead-done'] : colors.bead}
+                strokeWidth={bead * 0.55}
+                strokeLinecap="round"
               />
-              {state.current === position && (
-                <CurrentHalo cx={center} cy={y} r={r * 1.9} color={colors.accent} />
-              )}
+              {cross.current && <CurrentHalo cx={cross.x} cy={cross.y} r={arm * 2} color={colors.accent} />}
+            </>
+          )}
+          {slots.map((slot) => (
+            <G key={slot.key}>
+              <Circle
+                cx={slot.x}
+                cy={slot.y}
+                r={slot.r}
+                fill={slot.done ? colors['bead-done'] : colors.bead}
+              />
+              {slot.current && <CurrentHalo cx={slot.x} cy={slot.y} r={slot.r * 1.9} color={colors.accent} />}
             </G>
           ))}
         </Svg>
       </View>
-    );
-  }
-
-  const positions = Array.from({ length: 10 }, (_, i) => {
-    const angle = -Math.PI / 2 + ((i + 1) * 2 * Math.PI) / 12;
-    return { x: center + ringRadius * Math.cos(angle), y: center + ringRadius * Math.sin(angle) };
-  });
-  const ourFather = { x: center, y: center - ringRadius };
-
-  return (
-    <View accessible={false} style={{ width: size, height: size }}>
-      <Svg width={size} height={size}>
-        <Circle cx={center} cy={center} r={ringRadius} fill="none" stroke={colors.border} strokeWidth={1} />
-        <Circle
-          cx={ourFather.x}
-          cy={ourFather.y}
-          r={bead * 1.45}
-          fill={state.ourFather === 'pending' ? colors.bead : colors['bead-done']}
-        />
-        {state.ourFather === 'current' && (
-          <CurrentHalo cx={ourFather.x} cy={ourFather.y} r={bead * 2.4} color={colors.accent} />
-        )}
-        {positions.map((position, i) => {
-          const index = i + 1;
-          return (
-            <G key={index}>
-              <Circle
-                cx={position.x}
-                cy={position.y}
-                r={bead}
-                fill={index <= state.prayed ? colors['bead-done'] : colors.bead}
-              />
-              {state.current === index && (
-                <CurrentHalo cx={position.x} cy={position.y} r={bead * 1.9} color={colors.accent} />
-              )}
-            </G>
-          );
-        })}
-      </Svg>
+      {children}
     </View>
   );
 }

@@ -218,7 +218,7 @@ export function StepScroll({ children, progress, stepId }: StepScrollProperties)
       <ScrollView
         ref={scroll}
         className="flex-1"
-        contentContainerClassName="flex-grow justify-center px-6 py-4"
+        contentContainerClassName="flex-grow justify-center px-6 py-6"
         showsVerticalScrollIndicator={false}
         onLayout={(event) => setViewport(event.nativeEvent.layout.height)}
         onContentSizeChange={(_, height) => setContent(height)}
