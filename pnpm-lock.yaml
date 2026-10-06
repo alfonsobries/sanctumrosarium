@@ -23,12 +23,18 @@ importers:
       '@bacons/apple-targets':
         specifier: ^5.0.0
         version: 5.0.0(expo@57.0.27)(supports-color@8.1.1)(typescript@6.0.3)
+      '@expo-google-fonts/cinzel':
+        specifier: ^0.4.2
+        version: 0.4.2
       '@expo-google-fonts/eb-garamond':
         specifier: ^0.4.3
         version: 0.4.3
       '@expo-google-fonts/im-fell-english':
         specifier: ^0.4.0
         version: 0.4.0
+      '@expo-google-fonts/nunito':
+        specifier: ^0.4.2
+        version: 0.4.2
       '@expo-google-fonts/unifrakturmaguntia':
         specifier: ^0.4.1
         version: 0.4.1
@@ -793,6 +799,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@expo-google-fonts/cinzel@0.4.2':
+    resolution: {integrity: sha512-UAlyuHCGjmKpMt2MoCKYueHz8ZEzjHO1VEol2G7NcPW54UH+85SWIGzpor05YNqUvr/aoqS8Qrfnswxg1RsNMw==}
+
   '@expo-google-fonts/eb-garamond@0.4.3':
     resolution: {integrity: sha512-8HsDPKN6vDlzxZLgo3UFcyr4uvtY33TBpM65owySnF8cy8hq0ss8AWmBvT/lMRJ/wfcoaPP8gFQsizPRvr0nqg==}
 
@@ -801,6 +810,9 @@ packages:
 
   '@expo-google-fonts/material-symbols@0.4.48':
     resolution: {integrity: sha512-aZztj44PyA/sj3TXSwwpLJwqMlTUJ49okbZJYURzEcuERxMQB0KbX7RrLBi8WJnuWz5HFOLlTRxORrJfNnUPNQ==}
+
+  '@expo-google-fonts/nunito@0.4.2':
+    resolution: {integrity: sha512-1KCWphw/I2ugqfs9iRHUCkPTnomNgGPtF4AvqVquoEKxr0EL+mcLNLgeixsslbaSFevRR6/KJAE3sc8g0VaY0Q==}
 
   '@expo-google-fonts/unifrakturmaguntia@0.4.1':
     resolution: {integrity: sha512-S+vdy52M6qqX80clUqbMlIzyh6av3ZzcUbobuLHnLpdNEAn/cWJ+vxZuEE+Ha5R88QhtsMllpgEsiZaTqNkd3A==}
@@ -4744,11 +4756,15 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
+  '@expo-google-fonts/cinzel@0.4.2': {}
+
   '@expo-google-fonts/eb-garamond@0.4.3': {}
 
   '@expo-google-fonts/im-fell-english@0.4.0': {}
 
   '@expo-google-fonts/material-symbols@0.4.48': {}
+
+  '@expo-google-fonts/nunito@0.4.2': {}
 
   '@expo-google-fonts/unifrakturmaguntia@0.4.1': {}
 
