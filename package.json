@@ -4,7 +4,7 @@
   "packageManager": "pnpm@11.18.0",
   "scripts": {
     "app": "pnpm --filter app start",
-    "test": "pnpm --filter './packages/*' test",
+    "test": "pnpm --filter './packages/*' --filter @sanctamaria/content test",
     "typecheck": "pnpm -r typecheck",
     "api": "cd api && php artisan serve",
     "api:test": "cd api && composer test",

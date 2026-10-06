@@ -1,6 +1,7 @@
 packages:
   - app
   - packages/*
+  - content
 minimumReleaseAgeExclude:
   - '@expo/cli@57.0.28'
   - '@expo/config-plugins@57.0.10'

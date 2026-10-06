@@ -1,4 +1,5 @@
 import Storage from 'expo-sqlite/kv-store';
+import { useSyncExternalStore } from 'react';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -23,3 +24,10 @@ export const useSettings = create<SettingsStore>()(
     },
   ),
 );
+
+export function useSettingsHydrated(): boolean {
+  return useSyncExternalStore(
+    (onChange) => useSettings.persist.onFinishHydration(onChange),
+    () => useSettings.persist.hasHydrated(),
+  );
+}
