@@ -79,7 +79,7 @@
         "analyse": "phpstan analyse --memory-limit=2G",
         "types": [
             "@php artisan typescript:transform",
-            "@php artisan ziggy:generate ../app/src/domains/sync/ziggy.gen.js --types"
+            "@php artisan ziggy:generate ../app/src/domains/sync/ziggy.gen.js --types=../app/src/domains/sync/ziggy-routes.gen.d.ts --only=api.*"
         ]
     },
     "extra": {

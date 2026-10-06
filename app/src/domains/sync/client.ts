@@ -1,4 +1,4 @@
-import { route as ziggyRoute } from 'ziggy-js';
+import { route as ziggyRoute, type Config } from 'ziggy-js';
 
 import type { SyncResultData, TokenData, UserData } from './api.gen';
 import { Ziggy } from './ziggy.gen';
@@ -29,7 +29,7 @@ export class ApiClient {
   }
 
   private url(name: string, params?: Record<string, string>): string {
-    return ziggyRoute(name, params, true, { ...Ziggy, url: this.options.baseUrl, port: null });
+    return ziggyRoute(name, params, true, { ...Ziggy, url: this.options.baseUrl, port: null } as Config);
   }
 
   private async request<T>(method: string, url: string, body?: unknown): Promise<T> {

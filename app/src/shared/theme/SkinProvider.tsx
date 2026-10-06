@@ -26,7 +26,7 @@ export function SkinProvider({ children }: SkinProviderProperties) {
     setColorScheme(appearance);
   }, [appearance, setColorScheme]);
 
-  const scheme = colorScheme === 'light' ? 'light' : 'dark';
+  const scheme: 'light' | 'dark' = colorScheme === 'light' ? 'light' : 'dark';
   const skin = skins[skinId];
 
   const value = useMemo(

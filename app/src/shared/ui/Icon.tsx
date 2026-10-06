@@ -1,32 +1,52 @@
-import { SymbolView } from 'expo-symbols';
+import {
+  ArrowRight01Icon,
+  BookOpen01Icon,
+  Calendar03Icon,
+  Cancel01Icon,
+  MoreHorizontalIcon,
+  NextIcon,
+  PauseIcon,
+  PlayIcon,
+  PreviousIcon,
+  Settings02Icon,
+  TextFontIcon,
+  Tick02Icon,
+  TouchInteraction01Icon,
+  VolumeHighIcon,
+} from '@hugeicons/core-free-icons';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react-native';
 
-const symbols = {
-  chevron: { ios: 'chevron.right', android: 'chevron_right' },
-  settings: { ios: 'gearshape', android: 'settings' },
-  play: { ios: 'play.fill', android: 'play_arrow' },
-  pause: { ios: 'pause.fill', android: 'pause' },
-  next: { ios: 'forward.end.fill', android: 'skip_next' },
-  previous: { ios: 'backward.end.fill', android: 'skip_previous' },
-  close: { ios: 'xmark', android: 'close' },
-  book: { ios: 'book.closed', android: 'menu_book' },
-  calendar: { ios: 'calendar', android: 'calendar_month' },
-  more: { ios: 'ellipsis', android: 'more_horiz' },
-  text: { ios: 'textformat.size', android: 'text_fields' },
-  check: { ios: 'checkmark', android: 'check' },
-  listen: { ios: 'speaker.wave.2', android: 'volume_up' },
-  tap: { ios: 'hand.tap', android: 'touch_app' },
-  learn: { ios: 'book', android: 'auto_stories' },
-} as const;
+import { DecadeIcon, LatinCrossIcon, RosaryIcon } from './custom-icons';
 
-export type IconName = keyof typeof symbols;
+const icons = {
+  chevron: ArrowRight01Icon,
+  settings: Settings02Icon,
+  play: PlayIcon,
+  pause: PauseIcon,
+  next: NextIcon,
+  previous: PreviousIcon,
+  close: Cancel01Icon,
+  calendar: Calendar03Icon,
+  more: MoreHorizontalIcon,
+  text: TextFontIcon,
+  check: Tick02Icon,
+  listen: VolumeHighIcon,
+  tap: TouchInteraction01Icon,
+  learn: BookOpen01Icon,
+  cross: LatinCrossIcon,
+  rosary: RosaryIcon,
+  decade: DecadeIcon,
+} satisfies Record<string, IconSvgElement>;
+
+export type IconName = keyof typeof icons;
 
 type IconProperties = {
   name: IconName;
   size?: number;
   color: string;
-  weight?: 'regular' | 'medium' | 'semibold';
+  strokeWidth?: number;
 };
 
-export function Icon({ name, size = 20, color, weight = 'regular' }: IconProperties) {
-  return <SymbolView name={symbols[name]} size={size} tintColor={color} weight={weight} />;
+export function Icon({ name, size = 22, color, strokeWidth = 1.5 }: IconProperties) {
+  return <HugeiconsIcon icon={icons[name]} size={size} color={color} strokeWidth={strokeWidth} />;
 }
