@@ -20,6 +20,7 @@ import { stepsFor } from '@/domains/prayer/session';
 import { isResumable, startSession } from '@/domains/prayer/start';
 import { useSession } from '@/domains/prayer/use-session';
 import { useSettings } from '@/domains/settings/use-settings';
+import { capitalizeFirst } from '@/shared/format';
 import { useContentLocale } from '@/shared/i18n/use-content-locale';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Button } from '@/shared/ui/Button';
@@ -104,8 +105,8 @@ export default function TodayScreen() {
       <Stack.Screen options={{ title: t('tabs.pray'), headerLargeTitle: false, headerShown: false }} />
       <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerClassName="gap-8 px-5 pb-16">
         <View className="flex-row items-center justify-between pt-3">
-          <Text variant="footnote" className="capitalize">
-            {dateFormat.format(now)}
+          <Text variant="footnote">
+            {capitalizeFirst(dateFormat.format(now))}
           </Text>
           <Link href="/settings" asChild>
             <Pressable

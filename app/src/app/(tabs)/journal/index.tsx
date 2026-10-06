@@ -12,6 +12,7 @@ import {
   useJournalEntries,
   useJournalTotals,
 } from '@/domains/journal/queries';
+import { capitalizeFirst } from '@/shared/format';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Card } from '@/shared/ui/Card';
 import { Icon } from '@/shared/ui/Icon';
@@ -106,8 +107,8 @@ export default function JournalScreen() {
       >
         <View className="gap-3">
           <View className="flex-row items-center justify-between">
-            <Text variant="headline" className="capitalize">
-              {monthName}
+            <Text variant="headline">
+              {capitalizeFirst(monthName)}
             </Text>
             <View className="flex-row gap-1">
               <Pressable
