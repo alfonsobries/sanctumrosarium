@@ -13,7 +13,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "watch:content": "tsx scripts/build-watch-content.mts",
-    "play": "bash scripts/play.sh"
+    "play": "bash scripts/play.sh",
+    "ios:build": "bash scripts/device-build.sh ios",
+    "ios:install": "bash scripts/device-install.sh ios",
+    "android:build": "bash scripts/device-build.sh android",
+    "android:install": "bash scripts/device-install.sh android"
   },
   "devDependencies": {
     "prettier": "^3.9.9",
