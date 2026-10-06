@@ -36,7 +36,7 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
     pages: [
       {
         title: 'Qué es',
-        body: 'El Rosario es una oración a la Virgen que recorre la vida de Jesús. Mientras se repiten oraciones sencillas, se piensa en una escena del Evangelio.',
+        body: 'El Rosario es una oración mariana centrada en Cristo (RVM 1). Mientras se repiten oraciones sencillas, se contempla un misterio de la vida de Jesús y de María.',
         quote: {
           text: 'Recitar el Rosario, en efecto, es en realidad contemplar con María el rostro de Cristo.',
           cite: 'RVM 3',
@@ -45,9 +45,9 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
       },
       {
         title: 'Cómo empieza',
-        body: 'Se empieza en el crucifijo con la señal de la cruz y el Credo. Después, en la primera cuenta grande, un Padrenuestro; en las tres pequeñas, tres Avemarías; y un Gloria.',
+        body: 'La forma más extendida empieza en el crucifijo con la señal de la cruz y el Credo; después, en la primera cuenta grande, un Padrenuestro; en las tres pequeñas, tres Avemarías; y un Gloria. Hay otros modos legítimos de comenzar (RVM 37).',
         quote: {
-          text: 'El rosario está centrado en el Crucifijo, que abre y cierra el proceso mismo de la oración.',
+          text: '[...] el rosario está centrado en el Crucifijo, que abre y cierra el proceso mismo de la oración.',
           cite: 'RVM 36',
         },
         figure: 'opening',
@@ -63,7 +63,7 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
       },
       {
         title: 'Los misterios',
-        body: 'Hay veinte misterios en cuatro grupos: gozosos, luminosos, dolorosos y gloriosos. Cada día se reza un grupo. La app te propone el de hoy.',
+        body: 'Hay veinte misterios en cuatro grupos: gozosos, luminosos, dolorosos y gloriosos. RVM 38 sugiere un grupo para cada día de la semana, sin quitar la libertad de elegir otro. La app te propone el de hoy.',
         quote: {
           text: 'Esta distribución semanal da a los días de la semana un cierto «color» espiritual, análogamente a lo que hace la Liturgia con las diversas fases del año litúrgico.',
           cite: 'RVM 38',
@@ -72,10 +72,10 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
       },
       {
         title: 'Sin prisa',
-        body: 'Lo importante no es terminar rápido. Ve despacio, piensa en la escena y deja que las palabras acompañen. Si te pierdes, la cuenta en la pantalla te dice dónde vas.',
+        body: 'Lo importante no es terminar rápido. Ve despacio, piensa en la escena y deja que las palabras acompañen. Si te pierdes, las cuentas en la pantalla te dicen por dónde vas.',
         quote: {
           text: 'Por su naturaleza el rezo del Rosario exige un ritmo tranquilo y un reflexivo remanso.',
-          cite: 'Pablo VI, citado en RVM 12',
+          cite: 'Pablo VI, Marialis cultus 47, citado en RVM 12',
         },
       },
     ],
@@ -87,7 +87,7 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
     pages: [
       {
         title: 'What it is',
-        body: 'The Rosary is a prayer to Our Lady that walks through the life of Jesus. While simple prayers are repeated, you think about a scene from the Gospel.',
+        body: 'The Rosary is a Marian prayer centred on Christ (RVM 1). While simple prayers are repeated, you contemplate a mystery from the life of Jesus and Mary.',
         quote: {
           text: 'To recite the Rosary is nothing other than to contemplate with Mary the face of Christ.',
           cite: 'RVM 3',
@@ -96,7 +96,7 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
       },
       {
         title: 'How it begins',
-        body: 'You begin at the crucifix with the Sign of the Cross and the Creed. Then an Our Father on the first large bead, three Hail Marys on the three small ones, and a Glory Be.',
+        body: 'The most widespread way begins at the crucifix with the Sign of the Cross and the Creed; then an Our Father on the first large bead, three Hail Marys on the three small ones, and a Glory Be. There are other legitimate ways to begin (RVM 37).',
         quote: {
           text: 'The first thing to note is the way the beads converge upon the Crucifix, which both opens and closes the unfolding sequence of prayer.',
           cite: 'RVM 36',
@@ -114,9 +114,9 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
       },
       {
         title: 'The mysteries',
-        body: "There are twenty mysteries in four sets: joyful, luminous, sorrowful and glorious. Each day has its set. The app suggests today's.",
+        body: "There are twenty mysteries in four sets: joyful, luminous, sorrowful and glorious. RVM 38 suggests a set for each day of the week, leaving you free to choose another. The app suggests today's.",
         quote: {
-          text: 'This weekly distribution has the effect of giving the different days of the week a certain spiritual "colour".',
+          text: 'This weekly distribution has the effect of giving the different days of the week a certain spiritual "colour" [...].',
           cite: 'RVM 38',
         },
         figure: 'sets',
@@ -126,7 +126,7 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
         body: 'What matters is not finishing quickly. Go slowly, picture the scene and let the words keep you company. If you lose your place, the beads on screen show where you are.',
         quote: {
           text: 'By its nature the recitation of the Rosary calls for a quiet rhythm and a lingering pace.',
-          cite: 'Paul VI, quoted in RVM 12',
+          cite: 'Paul VI, Marialis Cultus 47, quoted in RVM 12',
         },
       },
     ],

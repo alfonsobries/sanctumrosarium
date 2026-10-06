@@ -31,12 +31,10 @@ import { Text } from '@/shared/ui/Text';
 function WeekDay({ label, prayed, today }: { label: string; prayed: boolean; today: boolean }) {
   return (
     <View className="flex-1 items-center gap-1.5">
-      <Text variant="caption" className={today ? 'text-foreground' : undefined}>
+      <Text variant="caption" className={today ? 'font-semibold text-foreground' : undefined}>
         {label}
       </Text>
-      <View
-        className={`h-2.5 w-2.5 rounded-full ${prayed ? 'bg-accent' : today ? 'border border-accent' : 'bg-bead'}`}
-      />
+      <View className={`h-2.5 w-2.5 rounded-full ${prayed ? 'bg-accent' : ''}`} />
     </View>
   );
 }
