@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useRef, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
-import { artworks } from '@/domains/artwork/artworks';
+import { useArtwork } from '@/domains/artwork/use-artwork';
 import type { Settings } from '@/domains/settings/settings';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Text } from '@/shared/ui/Text';
@@ -79,13 +79,14 @@ function PrayerLines({
 /** The body of the current step: the prayer's words, the mystery, the reading or the litany. */
 export function StepContent({ step, locale, textSize }: StepContentProperties) {
   const { t } = useTranslation();
+  const announceArtwork = useArtwork(step.kind === 'announce' ? step.mystery.id : '');
   const { size, line } = sizes[textSize];
 
   if (step.kind === 'announce') {
-    const artwork = artworks[step.mystery.id];
+    const artwork = announceArtwork;
     return (
       <View className="items-center gap-6">
-        {artwork !== undefined && (
+        {artwork !== null && (
           <View
             className="overflow-hidden rounded-card"
             style={{ width: 168, height: 210, backgroundColor: artwork.color, borderCurve: 'continuous' }}

@@ -1,6 +1,8 @@
 import { View, type ViewProps } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { ScreenTexture } from '@/shared/theme/SkinProvider';
+
 type SafeScreenProperties = ViewProps & {
   /** Extra space beyond the safe area, top and bottom. */
   extraTop?: number;
@@ -24,6 +26,9 @@ export function SafeScreen({
         style,
       ]}
       {...rest}
-    />
+    >
+      <ScreenTexture />
+      {rest.children}
+    </View>
   );
 }

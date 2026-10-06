@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View, useWindowDimensions } from 'react-native';
 
-import { artworks } from '@/domains/artwork/artworks';
+import { useArtwork } from '@/domains/artwork/use-artwork';
 import { useContentLocale } from '@/shared/i18n/use-content-locale';
 import { Card } from '@/shared/ui/Card';
 import { Segmented } from '@/shared/ui/Segmented';
@@ -19,7 +19,7 @@ export default function MysteryScreen() {
   const { width } = useWindowDimensions();
   const mystery = findMystery(id ?? '');
   const [ref, setRef] = useState(mystery.readings[0]?.ref ?? '');
-  const artwork = artworks[mystery.id];
+  const artwork = useArtwork(mystery.id);
   const text = passage(ref, locale);
 
   const label = (value: string): string => {
@@ -34,7 +34,7 @@ export default function MysteryScreen() {
         contentInsetAdjustmentBehavior="automatic"
         contentContainerClassName="gap-6 px-5 pb-16 pt-2"
       >
-        {artwork !== undefined && (
+        {artwork !== null && (
           <Card style={{ height: (width - 40) * 1.1, backgroundColor: artwork.color }}>
             <Image
               source={artwork.source}
@@ -55,7 +55,7 @@ export default function MysteryScreen() {
             })}
           </Text>
           <Text variant="display">{mysteryTitle(mystery.id, locale)}</Text>
-          {artwork !== undefined && (
+          {artwork !== null && (
             <Text variant="caption">
               {artwork.artist}, {artwork.title}
             </Text>

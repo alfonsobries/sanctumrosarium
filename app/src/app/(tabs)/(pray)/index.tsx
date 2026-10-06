@@ -12,7 +12,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View, useWindowDimensions } from 'react-native';
 
-import { artworks } from '@/domains/artwork/artworks';
+import { useArtwork } from '@/domains/artwork/use-artwork';
 import { hasAudio } from '@/domains/audio/use-rosary-audio';
 import { weekOf } from '@/domains/calendar/dates';
 import { useJournalDays } from '@/domains/journal/queries';
@@ -72,7 +72,7 @@ export default function TodayScreen() {
   const todaySet = mysterySetFor(today);
   const mysteries = mysteriesOf(todaySet);
   const lead = mysteries[0];
-  const artwork = lead === undefined ? undefined : artworks[lead.id];
+  const artwork = useArtwork(lead?.id ?? '');
 
   const week = useMemo(() => weekOf(today), [today.year, today.month, today.day]);
   const first = week[0];
@@ -126,7 +126,7 @@ export default function TodayScreen() {
             <Text variant="display">{t(`sets.${todaySet}`)}</Text>
           </View>
 
-          {artwork !== undefined && (
+          {artwork !== null && (
             <Card style={{ height: Math.min(width - 40, 420) * 0.8, backgroundColor: artwork.color }}>
               <Image
                 source={artwork.source}

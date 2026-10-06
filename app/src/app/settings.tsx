@@ -1,4 +1,5 @@
 import type { Evangelist } from '@sanctamaria/rosary';
+import { Image } from 'expo-image';
 import { Stack, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -6,7 +7,10 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { rates, type Settings } from '@/domains/settings/settings';
 import { AccountSection } from '@/domains/sync/AccountSection';
 import { useSettings } from '@/domains/settings/use-settings';
-import { skinIds, skins, type SkinId } from '@/shared/theme/skins';
+import { artworks, type Artwork } from '@/domains/artwork/artworks';
+import { illustrated } from '@/domains/artwork/illustrated';
+import { skinIds, skins, type ArtworkStyle, type SkinId } from '@/shared/theme/skins';
+import { textures } from '@/shared/theme/textures';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Card } from '@/shared/ui/Card';
 import { Segmented } from '@/shared/ui/Segmented';
@@ -34,57 +38,81 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
   );
 }
 
+const previewArt: Record<ArtworkStyle, Artwork | undefined> = {
+  none: undefined,
+  classic: artworks['joyful-1-annunciation'],
+  glass: illustrated.glass['joyful-1-annunciation'],
+  kids: illustrated.kids['joyful-1-annunciation'],
+};
+
 function SkinPreview({ id, selected, onPress }: { id: SkinId; selected: boolean; onPress: () => void }) {
   const { t } = useTranslation();
   const { scheme } = useSkin();
   const skin = skins[id];
   const palette = skin[scheme];
+  const art = previewArt[skin.artwork];
+  const texture = skin.texture === undefined ? undefined : textures[skin.texture][scheme];
   return (
     <Pressable
       accessibilityRole="radio"
       accessibilityState={{ selected }}
       accessibilityLabel={t(`settings.skins.${id}`)}
       onPress={onPress}
-      className="flex-1 gap-2"
+      className="w-[132px] gap-2"
     >
       <View
-        className="h-36 justify-center gap-2 overflow-hidden px-4"
+        className="h-[220px] gap-2 overflow-hidden p-3"
         style={{
           backgroundColor: palette.background,
-          borderRadius: skin.radius + 4,
+          borderRadius: Math.min(skin.radius, 20) + 4,
           borderWidth: selected ? 2 : 1,
           borderColor: selected ? palette.accent : palette.border,
           borderCurve: 'continuous',
         }}
       >
-        <Text style={{ fontFamily: skin.fonts.display, color: palette.foreground, fontSize: 20 }}>
+        {texture !== undefined && (
+          <Image source={texture} contentFit="cover" style={{ position: 'absolute', inset: 0 }} />
+        )}
+        <Text
+          style={{ fontFamily: skin.fonts.display, color: palette.foreground, fontSize: 17 }}
+          numberOfLines={2}
+        >
           {t('sets.joyful')}
         </Text>
-        <Text
-          style={{ fontFamily: skin.fonts.prayer, color: palette.foreground, fontSize: 15, lineHeight: 20 }}
-        >
-          <Text
-            style={{
-              fontFamily: skin.dropCap ? skin.fonts.display : skin.fonts.prayer,
-              color: skin.dropCap ? palette.rubric : palette.foreground,
-              fontSize: skin.dropCap ? 24 : 15,
-            }}
+        {art !== undefined ? (
+          <View
+            className="flex-1 overflow-hidden"
+            style={{ borderRadius: Math.min(skin.radius, 14), backgroundColor: art.color }}
           >
-            A
-          </Text>
-          ve Maria, gratia plena
-        </Text>
-        <View className="flex-row gap-1.5">
-          {[0, 1, 2, 3, 4].map((i) => (
-            <View
-              key={i}
-              className="h-2 w-2 rounded-full"
-              style={{ backgroundColor: i < 2 ? palette['bead-done'] : palette.bead }}
+            <Image
+              source={art.source}
+              placeholder={{ thumbhash: art.thumbhash }}
+              contentFit="cover"
+              style={{ flex: 1 }}
             />
-          ))}
+          </View>
+        ) : (
+          <Text
+            style={{ fontFamily: skin.fonts.prayer, color: palette.foreground, fontSize: 14, lineHeight: 19 }}
+            className="flex-1"
+          >
+            Ave Maria, gratia plena, Dominus tecum.
+          </Text>
+        )}
+        <View className="flex-row items-center justify-between">
+          <View className="flex-row gap-1">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <View
+                key={i}
+                className="h-2 w-2 rounded-full"
+                style={{ backgroundColor: i < 2 ? palette['bead-done'] : palette.bead }}
+              />
+            ))}
+          </View>
+          <View className="h-5 w-5 rounded-full" style={{ backgroundColor: palette.accent }} />
         </View>
       </View>
-      <Text variant="footnote" className={`text-center ${selected ? 'text-foreground' : ''}`}>
+      <Text variant="footnote" className={`text-center ${selected ? 'font-semibold text-foreground' : ''}`}>
         {t(`settings.skins.${id}`)}
       </Text>
     </Pressable>
@@ -209,7 +237,11 @@ export default function SettingsScreen() {
         </Section>
 
         <Section title={t('settings.appearance')}>
-          <View className="flex-row gap-3">
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerClassName="gap-3 px-1"
+          >
             {skinIds.map((id) => (
               <SkinPreview
                 key={id}
@@ -218,7 +250,7 @@ export default function SettingsScreen() {
                 onPress={() => update({ skin: id })}
               />
             ))}
-          </View>
+          </ScrollView>
           <Card>
             <Field label={t('settings.theme')}>
               <Segmented

@@ -3,7 +3,7 @@ import { Stack } from 'expo-router';
 import { useSkin } from '@/shared/theme/SkinProvider';
 
 export default function TabStackLayout() {
-  const { colors, skin } = useSkin();
+  const { colors, skin, screenBackground } = useSkin();
   return (
     <Stack
       screenOptions={{
@@ -15,7 +15,7 @@ export default function TabStackLayout() {
         headerTitleStyle: { color: colors.foreground, fontFamily: skin.fonts.display },
         headerLargeTitleStyle: { color: colors.foreground, fontFamily: skin.fonts.display },
         headerStyle: process.env.EXPO_OS === 'ios' ? undefined : { backgroundColor: colors.background },
-        contentStyle: { backgroundColor: colors.background },
+        contentStyle: { backgroundColor: screenBackground },
       }}
     />
   );

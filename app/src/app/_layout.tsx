@@ -10,6 +10,12 @@ import {
   IMFellEnglish_400Regular,
   IMFellEnglish_400Regular_Italic,
 } from '@expo-google-fonts/im-fell-english';
+import { Cinzel_600SemiBold } from '@expo-google-fonts/cinzel';
+import {
+  Nunito_600SemiBold,
+  Nunito_600SemiBold_Italic,
+  Nunito_800ExtraBold,
+} from '@expo-google-fonts/nunito';
 import { UnifrakturMaguntia_400Regular } from '@expo-google-fonts/unifrakturmaguntia';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
@@ -50,7 +56,7 @@ function useJournalSync(): void {
 function Navigation() {
   useJournalSync();
   const { t } = useTranslation();
-  const { colors, scheme } = useSkin();
+  const { colors, scheme, screenBackground } = useSkin();
   const onboarded = useSettings((state) => state.onboarded);
 
   const theme = useMemo(() => {
@@ -60,7 +66,7 @@ function Navigation() {
       colors: {
         ...base.colors,
         primary: colors.accent,
-        background: colors.background,
+        background: screenBackground,
         card: colors.background,
         text: colors.foreground,
         border: colors.border,
@@ -71,7 +77,7 @@ function Navigation() {
   return (
     <ThemeProvider value={theme}>
       <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: screenBackground } }}>
         <Stack.Protected guard={onboarded}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen
@@ -85,12 +91,14 @@ function Navigation() {
               sheetAllowedDetents: 'fitToContents',
               sheetGrabberVisible: true,
               sheetCornerRadius: 24,
+              contentStyle: { backgroundColor: colors.background },
             }}
           />
           <Stack.Screen
             name="settings"
             options={{
               presentation: 'modal',
+              contentStyle: { backgroundColor: colors.background },
               headerShown: true,
               headerStyle: { backgroundColor: colors.background },
               headerTintColor: colors.accent,
@@ -116,6 +124,10 @@ export default function RootLayout() {
     IMFellEnglish_400Regular,
     IMFellEnglish_400Regular_Italic,
     UnifrakturMaguntia_400Regular,
+    Cinzel_600SemiBold,
+    Nunito_600SemiBold,
+    Nunito_600SemiBold_Italic,
+    Nunito_800ExtraBold,
   });
   const hydrated = useSettingsHydrated();
   const ready = (fontsLoaded || fontError !== null) && hydrated;

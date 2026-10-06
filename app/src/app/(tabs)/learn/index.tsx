@@ -5,7 +5,7 @@ import { Link, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
-import { artworks } from '@/domains/artwork/artworks';
+import { useArtwork } from '@/domains/artwork/use-artwork';
 import { useContentLocale } from '@/shared/i18n/use-content-locale';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Card } from '@/shared/ui/Card';
@@ -28,7 +28,7 @@ const listedPrayers = [
 function MysteryRow({ id, index }: { id: string; index: number }) {
   const locale = useContentLocale();
   const { colors } = useSkin();
-  const artwork = artworks[id];
+  const artwork = useArtwork(id);
   return (
     <Link href={{ pathname: '/learn/mystery/[id]', params: { id } }} asChild>
       <Pressable
@@ -39,7 +39,7 @@ function MysteryRow({ id, index }: { id: string; index: number }) {
           className="h-12 w-10 overflow-hidden rounded-md"
           style={{ backgroundColor: artwork?.color, borderCurve: 'continuous' }}
         >
-          {artwork !== undefined && (
+          {artwork !== null && (
             <Image
               source={artwork.source}
               placeholder={{ thumbhash: artwork.thumbhash }}

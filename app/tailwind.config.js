@@ -23,6 +23,7 @@ module.exports = {
       fontFamily: {
         display: 'var(--font-display)',
         prayer: 'var(--font-prayer)',
+        ui: 'var(--font-ui)',
         'prayer-italic': 'var(--font-prayer-italic)',
       },
       borderRadius: {
