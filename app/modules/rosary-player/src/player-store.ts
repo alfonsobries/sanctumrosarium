@@ -1,8 +1,4 @@
-import type {
-  RosaryPlayerNative,
-  RosaryPlayerState,
-  RosaryPlayerSubscription,
-} from './rosary-player.types';
+import type { RosaryPlayerNative, RosaryPlayerState, RosaryPlayerSubscription } from './rosary-player.types';
 
 export type RosaryPlayerStore = {
   getSnapshot: () => RosaryPlayerState;

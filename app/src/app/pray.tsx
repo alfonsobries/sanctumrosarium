@@ -160,7 +160,6 @@ export default function PrayScreen() {
   if (finished || step === undefined) {
     return (
       <SafeScreen>
-        <Stack.Screen options={{ headerShown: false }} />
         <Finished decades={decadesCompleted(steps, steps.length)} onDone={handleDone} />
       </SafeScreen>
     );
@@ -203,12 +202,6 @@ export default function PrayScreen() {
     <>
       <Stack.Screen
         options={{
-          headerShown: true,
-          headerTransparent: process.env.EXPO_OS === 'ios',
-          headerShadowVisible: false,
-          headerStyle: process.env.EXPO_OS === 'ios' ? undefined : { backgroundColor: colors.background },
-          headerTintColor: colors.foreground,
-          scrollEdgeEffects: { top: 'soft', bottom: 'soft', left: 'hidden', right: 'hidden' },
           headerTitle: () => (
             <View accessible accessibilityLabel={barTitle} className="max-w-[220px] items-center gap-1.5">
               <Text variant="footnote" numberOfLines={1} className="font-semibold text-foreground">
@@ -340,7 +333,7 @@ export default function PrayScreen() {
       <View className="flex-1 bg-background">
         <StepScroll
           stepId={step.id}
-          progress={listening && audio.status === 'playing' ? audio.progress : null}
+          followVoice={listening}
           onTap={listening ? audio.toggle : handleNext}
           onSwipe={(direction) => (direction === 'next' ? handleNext() : handlePrevious())}
           accessibilityHint={listening ? t('pray.pause') : t('pray.tapToContinue')}
@@ -367,7 +360,7 @@ export default function PrayScreen() {
               step={step}
               locale={plan.locale}
               textSize={textSize}
-              spoken={listening && audio.status !== 'idle' ? audio.spoken : null}
+              queue={listening ? audio.queue : null}
             />
           </Animated.View>
         </StepScroll>

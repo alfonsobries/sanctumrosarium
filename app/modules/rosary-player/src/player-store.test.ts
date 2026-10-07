@@ -131,9 +131,10 @@ describe('createPlayerStore', () => {
     const store = createPlayerStore(fake.native);
     let resolve: (state: RosaryPlayerState) => void = () => {};
     vi.mocked(fake.native.getState).mockImplementationOnce(
-      () => new Promise<RosaryPlayerState>((done) => {
-        resolve = done;
-      }),
+      () =>
+        new Promise<RosaryPlayerState>((done) => {
+          resolve = done;
+        }),
     );
 
     const pending = store.refresh();

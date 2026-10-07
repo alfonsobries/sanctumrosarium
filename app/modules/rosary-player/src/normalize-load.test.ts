@@ -55,7 +55,9 @@ describe('normalizeLoad', () => {
   });
 
   it('rejects a step without parts', () => {
-    expect(() => normalizeLoad([{ id: 'x', title: 'x', parts: [] }], { nowPlaying })).toThrow('"x" has no parts');
+    expect(() => normalizeLoad([{ id: 'x', title: 'x', parts: [] }], { nowPlaying })).toThrow(
+      '"x" has no parts',
+    );
   });
 
   it('rejects negative or non-finite gaps', () => {

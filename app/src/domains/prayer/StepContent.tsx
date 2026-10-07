@@ -16,7 +16,8 @@ import { Text as NativeText, ScrollView, View, useWindowDimensions } from 'react
 
 import { ArtworkFrame } from '@/domains/artwork/ArtworkFrame';
 import { useArtwork } from '@/domains/artwork/use-artwork';
-import type { Spoken } from '@/domains/audio/queue';
+import type { QueueStep, Spoken } from '@/domains/audio/queue';
+import { useSpoken, useStepProgress } from '@/domains/audio/use-rosary-audio';
 import type { Settings } from '@/domains/settings/settings';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Text } from '@/shared/ui/Text';
@@ -31,7 +32,8 @@ type StepContentProperties = {
   step: Step;
   locale: Locale;
   textSize: Settings['textSize'];
-  spoken?: Spoken | null;
+  /** When the voice is reading, the queue it plays; the text then lights up with it. */
+  queue?: QueueStep[] | null;
 };
 
 type PrayerLinesProperties = {
@@ -96,8 +98,16 @@ function PrayerLines({ id, locale, textSize, spoken }: PrayerLinesProperties) {
   );
 }
 
+function VoicedPrayerLines({
+  queue,
+  ...rest
+}: Omit<PrayerLinesProperties, 'spoken'> & { queue: QueueStep[] }) {
+  const spoken = useSpoken(queue);
+  return <PrayerLines {...rest} spoken={spoken} />;
+}
+
 /** The body of the current step: the prayer's words, the mystery, the reading or the litany. */
-export function StepContent({ step, locale, textSize, spoken = null }: StepContentProperties) {
+export function StepContent({ step, locale, textSize, queue = null }: StepContentProperties) {
   const { t } = useTranslation();
   const announceArtwork = useArtwork(step.kind === 'announce' ? step.mystery.id : '');
   const { width } = useWindowDimensions();
@@ -158,7 +168,11 @@ export function StepContent({ step, locale, textSize, spoken = null }: StepConte
     return null;
   }
 
-  return <PrayerLines id={step.prayer} locale={locale} textSize={textSize} spoken={spoken} />;
+  return queue === null ? (
+    <PrayerLines id={step.prayer} locale={locale} textSize={textSize} spoken={null} />
+  ) : (
+    <VoicedPrayerLines id={step.prayer} locale={locale} textSize={textSize} queue={queue} />
+  );
 }
 
 /** Heading over the step: which prayer, and the count for the Hail Marys. */
@@ -185,8 +199,8 @@ export function stepHeading(
 
 type StepScrollProperties = {
   children: React.ReactNode;
-  /** When the voice is reading, how far through the step it is; the text follows it. */
-  progress: number | null;
+  /** While the voice reads, the text scrolls along with it. */
+  followVoice: boolean;
   stepId: string;
   /** A tap that did not move: advances, or pauses the voice. Dragging only scrolls. */
   onTap: () => void;
@@ -197,13 +211,14 @@ type StepScrollProperties = {
 
 export function StepScroll({
   children,
-  progress,
+  followVoice,
   stepId,
   onTap,
   onSwipe,
   accessibilityHint,
 }: StepScrollProperties) {
   const scroll = useRef<ScrollView>(null);
+  const progress = useStepProgress(followVoice);
   const [viewport, setViewport] = useState(0);
   const [content, setContent] = useState(0);
   const overflow = Math.max(0, content - viewport);

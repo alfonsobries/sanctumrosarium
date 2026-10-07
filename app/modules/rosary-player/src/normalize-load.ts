@@ -1,8 +1,4 @@
-import type {
-  RosaryLoadOptions,
-  RosaryNativeLoadOptions,
-  RosaryStep,
-} from './rosary-player.types';
+import type { RosaryLoadOptions, RosaryNativeLoadOptions, RosaryStep } from './rosary-player.types';
 
 export const MIN_RATE = 0.5;
 export const MAX_RATE = 2;

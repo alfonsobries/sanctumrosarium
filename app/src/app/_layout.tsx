@@ -27,6 +27,7 @@ import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useTranslation } from 'react-i18next';
 
+import { prepareAudio } from '@/domains/audio/use-rosary-audio';
 import { journalKeys } from '@/domains/journal/queries';
 import { useSettings, useSettingsHydrated } from '@/domains/settings/use-settings';
 import { syncNow } from '@/domains/sync/account';
@@ -57,6 +58,11 @@ function useJournalSync(): void {
 
 function Navigation() {
   useJournalSync();
+  const prayerLocale = useSettings((state) => state.prayerLocale);
+  useEffect(() => {
+    // Resolve the voice files in the background so pressing Pray starts at once.
+    void prepareAudio(prayerLocale);
+  }, [prayerLocale]);
   useWatchSync(() => queryClient.invalidateQueries({ queryKey: journalKeys.all }));
   const { t } = useTranslation();
   const { colors, scheme, screenBackground } = useSkin();
@@ -85,7 +91,18 @@ function Navigation() {
           <Stack.Screen name="(tabs)" />
           <Stack.Screen
             name="pray"
-            options={{ presentation: 'fullScreenModal', gestureEnabled: false, animation: 'fade' }}
+            options={{
+              presentation: 'fullScreenModal',
+              gestureEnabled: false,
+              animation: 'fade',
+              headerShown: true,
+              headerTransparent: process.env.EXPO_OS === 'ios',
+              headerShadowVisible: false,
+              headerStyle: process.env.EXPO_OS === 'ios' ? undefined : { backgroundColor: colors.background },
+              headerTintColor: colors.foreground,
+              headerTitle: '',
+              scrollEdgeEffects: { top: 'soft', bottom: 'soft', left: 'hidden', right: 'hidden' },
+            }}
           />
           <Stack.Screen
             name="begin"

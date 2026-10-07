@@ -11,7 +11,7 @@ import {
   skipTo,
   toggle,
   unload,
-  useRosaryPlayer,
+  useRosaryPlayerSelector,
   type RosaryPlaybackStatus,
 } from '../../../modules/rosary-player';
 
@@ -31,21 +31,65 @@ export function hasAudio(locale: Locale): boolean {
   return packFor(locale) !== null;
 }
 
-async function uriOf(module: number): Promise<string> {
-  const asset = Asset.fromModule(module);
-  if (asset.localUri === null) {
-    await asset.downloadAsync();
+const resolved = new Map<number, Promise<string>>();
+
+/** Local file URI of a bundled asset, resolved once per app run. */
+function uriOf(module: number): Promise<string> {
+  let uri = resolved.get(module);
+  if (uri === undefined) {
+    uri = (async () => {
+      const asset = Asset.fromModule(module);
+      if (asset.localUri === null) {
+        await asset.downloadAsync();
+      }
+      return asset.localUri ?? asset.uri;
+    })();
+    resolved.set(module, uri);
   }
-  return asset.localUri ?? asset.uri;
+  return uri;
+}
+
+/** Resolves every file of a pack ahead of time, so starting to pray never waits on it. */
+export async function prepareAudio(locale: Locale): Promise<void> {
+  const pack = packFor(locale);
+  if (pack === null) {
+    return;
+  }
+  await uriOf(silence);
+  for (const module of Object.values(pack.files)) {
+    await uriOf(module);
+  }
+}
+
+/** How much of the current prayer the voice has said; only the component that asks redraws. */
+export function useSpoken(queue: QueueStep[] | null): Spoken | null {
+  // A string snapshot keeps the subscription stable: equal values never trigger a redraw.
+  const key = useRosaryPlayerSelector((state) => {
+    const entry = queue?.[state.index];
+    const spoken = entry === undefined ? null : spokenAt(entry.parts, state.positionMs);
+    return spoken === null ? '' : `${spoken.role}:${spoken.chars}`;
+  });
+  if (key === '') {
+    return null;
+  }
+  const [role, chars] = key.split(':');
+  return { role: role === 'response' ? 'response' : 'leader', chars: Number(chars) };
+}
+
+/** How far through the current step the voice is, in tenths, or null when not playing. */
+export function useStepProgress(enabled: boolean): number | null {
+  return useRosaryPlayerSelector((state) =>
+    !enabled || state.status !== 'playing' || state.durationMs <= 0
+      ? null
+      : Math.round((state.positionMs / state.durationMs) * 10) / 10,
+  );
 }
 
 export type RosaryAudio = {
   availability: 'unavailable' | 'loading' | 'ready';
   status: RosaryPlaybackStatus;
-  /** How far through the current step the voice is, 0 to 1. */
-  progress: number;
-  /** How much of the current prayer the voice has said, for lighting up the text. */
-  spoken: Spoken | null;
+  /** The steps as the player holds them; leaf components read progress against it. */
+  queue: QueueStep[] | null;
   toggle: () => void;
   skipTo: (index: number) => void;
 };
@@ -66,12 +110,12 @@ type Options = {
  * Drives the native player for a session: loads the queue once, follows the player as it
  * moves on by itself (including from the lock screen and headphones), and hands taps on
  * screen back to it. Playback lives in the native player, not in this component; leaving
- * the session unloads it.
+ * the session unloads it. The screen using it redraws on status changes only.
  */
 export function useRosaryAudio(options: Options): RosaryAudio {
   const { enabled, sessionId, steps, locale, rate, pauseSeconds } = options;
   const [availability, setAvailability] = useState<RosaryAudio['availability']>('loading');
-  const player = useRosaryPlayer();
+  const status = useRosaryPlayerSelector((state) => state.status);
   const [queue, setQueue] = useState<QueueStep[] | null>(null);
   const latest = useRef(options);
   latest.current = options;
@@ -81,7 +125,7 @@ export function useRosaryAudio(options: Options): RosaryAudio {
       return;
     }
     const pack = packFor(locale);
-    const queue =
+    const built =
       pack === null
         ? null
         : buildQueue(
@@ -90,18 +134,19 @@ export function useRosaryAudio(options: Options): RosaryAudio {
             { pauseMs: pauseSeconds * 1000, responseGapMs: 450, afterAnnounceMs: 4000 },
             (ref) => passage(ref, locale)?.text ?? '',
           );
-    if (pack === null || queue === null) {
+    if (pack === null || built === null) {
       setAvailability('unavailable');
       return;
     }
-    setQueue(queue);
+    setQueue(built);
 
     let cancelled = false;
     setAvailability('loading');
     void (async () => {
+      await prepareAudio(locale);
       const silenceUri = await uriOf(silence);
-      const resolved = await Promise.all(
-        queue.map(async (entry, index) => {
+      const entries = await Promise.all(
+        built.map(async (entry, index) => {
           const step = steps[index];
           return {
             id: entry.id,
@@ -118,7 +163,7 @@ export function useRosaryAudio(options: Options): RosaryAudio {
       if (cancelled) {
         return;
       }
-      await load(resolved, {
+      await load(entries, {
         startIndex: latest.current.position,
         rate,
         nowPlaying: { album: latest.current.nowPlaying.album, artist: latest.current.nowPlaying.artist },
@@ -148,10 +193,8 @@ export function useRosaryAudio(options: Options): RosaryAudio {
 
   return {
     availability: enabled ? availability : 'unavailable',
-    status: player.status,
-    progress: player.durationMs > 0 ? Math.min(1, player.positionMs / player.durationMs) : 0,
-    spoken:
-      queue?.[player.index] === undefined ? null : spokenAt(queue[player.index].parts, player.positionMs),
+    status,
+    queue,
     toggle: () => void toggle(),
     skipTo: (index) => void skipTo(index),
   };
