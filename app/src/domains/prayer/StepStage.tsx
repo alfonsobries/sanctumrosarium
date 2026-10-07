@@ -1,8 +1,10 @@
 import { createContext, use, useEffect, useMemo, useRef, type ReactNode } from 'react';
-import { ScrollView, useWindowDimensions, type View as NativeView } from 'react-native';
+import { View, useWindowDimensions, type View as NativeView } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Easing,
+  useAnimatedRef,
+  useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -11,8 +13,11 @@ import Animated, {
 import { scheduleOnRN } from 'react-native-worklets';
 
 type Reveal = {
-  /** Keeps a line in view: called with the line's view when the voice reaches it. */
-  reveal: (line: NativeView | null) => void;
+  /**
+   * Keeps a line in view: called with the line's view when the voice reaches it, or with
+   * a block of text and where the line sits inside it.
+   */
+  reveal: (line: NativeView | null, within?: { y: number; height: number }) => void;
 };
 
 const RevealContext = createContext<Reveal | null>(null);
@@ -32,6 +37,14 @@ type StepStageProperties = {
   topInset: number;
   bottomInset: number;
   accessibilityHint: string;
+  /** Short pages (a mystery and its image) sit in the middle of the screen when they fit. */
+  centered?: boolean;
+  /**
+   * The skin's material, held still behind the words. It lives inside the scroll view so
+   * the scroll view stays the screen's first view, which is how the system bars find it
+   * to soften what passes under them.
+   */
+  backdrop?: ReactNode;
   children: ReactNode;
 };
 
@@ -51,11 +64,13 @@ export function StepStage({
   topInset,
   bottomInset,
   accessibilityHint,
+  centered = false,
+  backdrop,
   children,
 }: StepStageProperties) {
   const { width, height } = useWindowDimensions();
-  const scroll = useRef<ScrollView>(null);
-  const offset = useRef(0);
+  const scroll = useAnimatedRef<Animated.ScrollView>();
+  const scrollY = useSharedValue(0);
   const viewport = useRef(height);
   const userScrolled = useRef(false);
   const translateX = useSharedValue(0);
@@ -66,8 +81,6 @@ export function StepStage({
   // A new page arrives from the side it was swiped toward, the way a leaf turns.
   useEffect(() => {
     userScrolled.current = false;
-    offset.current = 0;
-    scroll.current?.scrollTo({ y: 0, animated: false });
     translateX.set(direction * Math.min(48, width * 0.12));
     opacity.set(0);
     translateX.set(withTiming(0, { duration: 260, easing: out }));
@@ -118,6 +131,11 @@ export function StepStage({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width]);
 
+  const onScroll = useAnimatedScrollHandler((event) => {
+    scrollY.set(event.contentOffset.y);
+  });
+  const still = useAnimatedStyle(() => ({ transform: [{ translateY: scrollY.get() }] }));
+
   const moving = useAnimatedStyle(() => ({
     opacity: opacity.get(),
     transform: [{ translateX: translateX.get() }],
@@ -125,23 +143,26 @@ export function StepStage({
 
   const reveal = useMemo<Reveal>(
     () => ({
-      reveal: (line) => {
+      reveal: (line, within) => {
         if (line === null || userScrolled.current) {
           return;
         }
-        line.measureInWindow((_x, top, _w, h) => {
+        line.measureInWindow((_x, blockTop, _w, blockHeight) => {
+          const top = blockTop + (within?.y ?? 0);
+          const h = within?.height ?? blockHeight;
           const screenBottom = viewport.current - bottomInset - 24;
           // Only when the words being said are about to leave the screen: then bring them
           // up to just under the title bar.
           if (top + h > screenBottom) {
-            const target = Math.max(0, offset.current + (top - (topInset + 16)));
-            offset.current = target;
-            scroll.current?.scrollTo({ y: target, animated: true });
+            const target = scrollY.get() + (top - (topInset + 16));
+            if (target > scrollY.get()) {
+              scroll.current?.scrollTo({ y: target, animated: true });
+            }
           }
         });
       },
     }),
-    [topInset, bottomInset],
+    [topInset, bottomInset, scroll, scrollY],
   );
 
   return (
@@ -154,23 +175,37 @@ export function StepStage({
           accessibilityHint={accessibilityHint}
           onAccessibilityTap={onTap}
         >
-          <ScrollView
+          {/* A fresh scroll per page starts at its top; the system insets it under the
+              title bar, which is what lets the bar soften the words passing beneath it. */}
+          <Animated.ScrollView
+            key={stepKey}
             ref={scroll}
             className="flex-1"
-            contentInsetAdjustmentBehavior="never"
+            contentInsetAdjustmentBehavior="automatic"
             contentContainerStyle={{
               paddingHorizontal: 24,
-              paddingTop: topInset,
-              paddingBottom: bottomInset + 32,
+              paddingTop: 12,
+              // A centred page grows to the whole scroll view, which also runs under the
+              // title bar; the same room at the bottom keeps it centred in what is visible.
+              paddingBottom: centered ? bottomInset + topInset + 12 : bottomInset + 32,
+              ...(centered ? { flexGrow: 1, justifyContent: 'center' } : null),
             }}
             showsVerticalScrollIndicator={false}
-            scrollEventThrottle={64}
+            scrollEventThrottle={16}
             onLayout={(event) => (viewport.current = event.nativeEvent.layout.height)}
-            onScroll={(event) => (offset.current = event.nativeEvent.contentOffset.y)}
+            onScroll={onScroll}
             onScrollBeginDrag={() => (userScrolled.current = true)}
           >
-            {children}
-          </ScrollView>
+            {backdrop !== undefined && (
+              <Animated.View
+                pointerEvents="none"
+                style={[{ position: 'absolute', left: 0, top: 0, width, height }, still]}
+              >
+                {backdrop}
+              </Animated.View>
+            )}
+            <View>{children}</View>
+          </Animated.ScrollView>
         </Animated.View>
       </GestureDetector>
     </RevealContext>

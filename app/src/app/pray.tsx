@@ -132,7 +132,7 @@ export default function PrayScreen() {
   useKeepAwake();
   const { t } = useTranslation();
   const router = useRouter();
-  const { colors } = useSkin();
+  const { colors, texture } = useSkin();
   const headingLocale = useContentLocale();
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
@@ -363,6 +363,8 @@ export default function PrayScreen() {
           topInset={insets.top + 64}
           bottomInset={panelHeight + Math.max(insets.bottom, 12)}
           accessibilityHint={listening ? t('pray.pause') : t('pray.tapToContinue')}
+          centered={step.kind === 'announce'}
+          backdrop={texture === undefined ? undefined : <ScreenTexture />}
         >
           <StepPage
             step={step}
@@ -398,9 +400,6 @@ export default function PrayScreen() {
               pause: t('pray.pause'),
             }}
           />
-        </View>
-        <View style={{ position: 'absolute', inset: 0, zIndex: -1 }} pointerEvents="none">
-          <ScreenTexture />
         </View>
       </View>
     </>
