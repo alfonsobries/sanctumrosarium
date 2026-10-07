@@ -10,6 +10,7 @@
     "api:test": "cd api && composer test",
     "api:check": "cd api && composer lint && composer analyse && composer test",
     "audio:generate": "tsx scripts/generate-audio.mts",
+    "icons:generate": "tsx scripts/generate-icons.mts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "watch:content": "tsx scripts/build-watch-content.mts",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "sharp": "^0.35.5",
     "tsx": "^4.23.15"
   }
 }

@@ -1,0 +1,44 @@
+{
+  "fill": {
+    "automatic-gradient": "extended-srgb:0.05882,0.07843,0.12549,1.00000"
+  },
+  "groups": [
+    {
+      "layers": [
+        {
+          "image-name": "our-lady.svg",
+          "name": "our-lady",
+          "glass": true
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.3
+      }
+    },
+    {
+      "layers": [
+        {
+          "image-name": "ring.svg",
+          "name": "ring",
+          "glass": true
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.3
+      }
+    }
+  ],
+  "supported-platforms": {
+    "squares": "shared"
+  }
+}
