@@ -13,7 +13,9 @@ import {
   User,
   CalendarDays,
   Check,
+  ChevronDown,
   ChevronRight,
+  ChevronUp,
   Ellipsis,
   Hand,
   Icon as LucideIcon,
@@ -33,6 +35,8 @@ import { DecadeIcon, LatinCrossIcon, RosaryIcon } from './custom-icons';
 
 const library = {
   chevron: ChevronRight,
+  collapse: ChevronDown,
+  expand: ChevronUp,
   settings: Settings,
   play: Play,
   pause: Pause,

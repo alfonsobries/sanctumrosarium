@@ -53,9 +53,9 @@ function Glass({ style, children }: { style: object; children?: React.ReactNode 
     >
       {glass && (
         <GlassView
-          glassEffectStyle="regular"
-          // Tinted with the page color so text passing underneath reads as frosted, not sharp.
-          tintColor={`${colors.background}66`}
+          glassEffectStyle="clear"
+          // A breath of the page color keeps the beads readable over the text the lens shows.
+          tintColor={`${colors.background}4D`}
           isInteractive
           style={{ position: 'absolute', inset: 0 }}
         />
@@ -200,18 +200,20 @@ export function ControlDock(props: ControlDockProperties) {
       exiting={FadeOut.duration(120)}
       className="w-full items-center gap-1"
     >
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={labels.minimize}
-        onPress={() => {
-          void Haptics.selectionAsync();
-          onExpandedChange(false);
-        }}
-        hitSlop={12}
-        className="h-6 w-16 items-center justify-center"
-      >
-        <View className="h-1.5 w-9 rounded-full bg-faint" />
-      </Pressable>
+      <Glass style={{ width: 44, height: 28, borderRadius: 14 }}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={labels.minimize}
+          onPress={() => {
+            void Haptics.selectionAsync();
+            onExpandedChange(false);
+          }}
+          hitSlop={10}
+          className="flex-1 items-center justify-center active:opacity-60"
+        >
+          <Icon name="collapse" size={18} color={colors.muted} />
+        </Pressable>
+      </Glass>
       <View className="w-full flex-row items-center justify-center gap-6">
         <RoundButton
           icon="previous"

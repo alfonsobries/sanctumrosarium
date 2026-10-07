@@ -270,6 +270,7 @@ export default function PrayScreen() {
       <Stack.Toolbar placement="left">
         <Stack.Toolbar.Button
           icon={require('@/assets/images/toolbar/close.png')}
+          tintColor={colors.foreground}
           accessibilityLabel={t('pray.close')}
           onPress={handleClose}
         />
@@ -277,9 +278,10 @@ export default function PrayScreen() {
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.Menu
           icon={require('@/assets/images/toolbar/display.png')}
+          tintColor={colors.foreground}
           accessibilityLabel={t('display.title')}
         >
-          <Stack.Toolbar.Menu title={t('pray.goToDecade')}>
+          <Stack.Toolbar.Menu title={t('pray.goToDecade')} icon="list.number">
             {[1, 2, 3, 4, 5].map((decade) => (
               <Stack.Toolbar.MenuAction
                 key={decade}
@@ -296,7 +298,7 @@ export default function PrayScreen() {
             ))}
           </Stack.Toolbar.Menu>
           {audioAvailable && (
-            <Stack.Toolbar.Menu title={t('options.mode')}>
+            <Stack.Toolbar.Menu title={t('options.mode')} icon="speaker.wave.2">
               <Stack.Toolbar.MenuAction
                 isOn={mode === 'listen'}
                 onPress={() => updateSettings({ mode: 'listen' })}
@@ -309,7 +311,7 @@ export default function PrayScreen() {
             </Stack.Toolbar.Menu>
           )}
           {listening && (
-            <Stack.Toolbar.Menu title={t('settings.rate')}>
+            <Stack.Toolbar.Menu title={t('settings.rate')} icon="gauge.with.dots.needle.50percent">
               {rates.map((value) => (
                 <Stack.Toolbar.MenuAction
                   key={value}
@@ -321,7 +323,7 @@ export default function PrayScreen() {
               ))}
             </Stack.Toolbar.Menu>
           )}
-          <Stack.Toolbar.Menu title={t('settings.theme')}>
+          <Stack.Toolbar.Menu title={t('settings.theme')} icon="circle.lefthalf.filled">
             {(['system', 'light', 'dark'] as const).map((value) => (
               <Stack.Toolbar.MenuAction
                 key={value}
@@ -332,7 +334,7 @@ export default function PrayScreen() {
               </Stack.Toolbar.MenuAction>
             ))}
           </Stack.Toolbar.Menu>
-          <Stack.Toolbar.Menu title={t('settings.textSize')}>
+          <Stack.Toolbar.Menu title={t('settings.textSize')} icon="textformat.size">
             {(['regular', 'large', 'larger'] as const).map((value) => (
               <Stack.Toolbar.MenuAction
                 key={value}
