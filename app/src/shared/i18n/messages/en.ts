@@ -186,5 +186,6 @@ export const en: Messages<typeof es> = {
     learn: 'I want to learn',
     language: 'Prayer language',
   },
+  display: { title: 'Reading and sound' },
   common: { cancel: 'Cancel', close: 'Close', error: 'Something went wrong.', retry: 'Try again' },
 };

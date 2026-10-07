@@ -101,6 +101,7 @@ export default function PrayScreen() {
   const moveTo = useSession((state) => state.moveTo);
   const clear = useSession((state) => state.clear);
   const [finished, setFinished] = useState(false);
+  const [headingHidden, setHeadingHidden] = useState(false);
 
   const steps = useMemo(() => (plan === null ? [] : stepsFor(plan, mysteryRefsOf(plan.set))), [plan]);
   useSessionJournal(plan, steps, finished ? steps.length - 1 : position);
@@ -187,6 +188,33 @@ export default function PrayScreen() {
       ? null
       : (steps.find((s) => s.kind === 'announce' && s.decade === step.decade) ?? null);
   const guide = guided ? guideFor(steps, position) : null;
+  const compactTitle =
+    mystery !== null && mystery.kind === 'announce'
+      ? mysteryTitle(mystery.mystery.id, headingLocale)
+      : t(`sets.${plan.set}`);
+  const heading = (
+    <View className="min-h-[52px] gap-0.5 pb-4 pt-2">
+      {mystery !== null && mystery.kind === 'announce' ? (
+        <>
+          <Text variant="eyebrow" className="text-accent">
+            {t('pray.mystery', {
+              ordinal: t(`ordinal.${mystery.mystery.order - 1}`),
+              set: t(`setAdjective.${mystery.mystery.set}`),
+            })}
+          </Text>
+          {step.kind !== 'announce' && (
+            <Text variant="headline" className="font-prayer text-[20px] leading-[26px]" numberOfLines={2}>
+              {mysteryTitle(mystery.mystery.id, headingLocale)}
+            </Text>
+          )}
+        </>
+      ) : (
+        <Text variant="headline" className="font-prayer text-[20px] leading-[26px]">
+          {t(`sets.${plan.set}`)}
+        </Text>
+      )}
+    </View>
+  );
   const ringSize = Math.min(168, width * 0.44);
 
   return (
@@ -202,106 +230,70 @@ export default function PrayScreen() {
           >
             <Icon name="close" color={colors.muted} />
           </Pressable>
-          <Text variant="footnote">
-            {step.decade === null
-              ? step.section === 'closing'
-                ? t('pray.closing')
-                : t('pray.opening')
-              : t('pray.decadeOf', { decade: step.decade })}
-          </Text>
-          {listening && (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t('settings.rate')}
-              accessibilityValue={{ text: `${rate}×` }}
-              onPress={() => updateSettings({ rate: nextRate(rate) })}
-              hitSlop={8}
-              className="absolute right-14 h-11 min-w-[44px] items-center justify-center rounded-full px-2 active:bg-surface"
+          <Animated.View
+            key={headingHidden ? 'title' : 'decade'}
+            entering={FadeIn.duration(180)}
+            className="flex-1 items-center px-2"
+          >
+            <Text
+              variant="footnote"
+              numberOfLines={1}
+              className={headingHidden ? 'font-semibold text-foreground' : undefined}
             >
-              <Text
-                variant="footnote"
-                className="font-semibold text-accent"
-                style={{ fontVariant: ['tabular-nums'] }}
-              >
-                {rate}×
-              </Text>
-            </Pressable>
-          )}
-          {hasAudio(plan.locale) ? (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={mode === 'listen' ? t('options.tap') : t('options.listen')}
-              onPress={() => updateSettings({ mode: mode === 'listen' ? 'tap' : 'listen' })}
-              hitSlop={10}
-              className="h-11 w-11 items-center justify-center rounded-full active:bg-surface"
-            >
-              <Icon
-                name={mode === 'listen' ? 'listen' : 'tap'}
-                color={mode === 'listen' ? colors.accent : colors.muted}
-              />
-            </Pressable>
-          ) : (
-            <View className="h-11 w-11" />
-          )}
+              {headingHidden
+                ? compactTitle
+                : step.decade === null
+                  ? step.section === 'closing'
+                    ? t('pray.closing')
+                    : t('pray.opening')
+                  : t('pray.decadeOf', { decade: step.decade })}
+            </Text>
+          </Animated.View>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t('display.title')}
+            onPress={() => router.push('/display')}
+            hitSlop={10}
+            className="h-11 w-11 items-center justify-center rounded-full active:bg-surface"
+          >
+            <Icon name="text" color={colors.muted} />
+          </Pressable>
         </View>
         <DecadeProgress
           fills={decadeFills(steps, position)}
           label={step.decade === null ? t('pray.opening') : t('pray.progress', { decade: step.decade })}
         />
-        <View className="min-h-[52px] gap-0.5">
-          {mystery !== null && mystery.kind === 'announce' ? (
-            <>
-              <Text variant="eyebrow" className="text-accent">
-                {t('pray.mystery', {
-                  ordinal: t(`ordinal.${mystery.mystery.order - 1}`),
-                  set: t(`setAdjective.${mystery.mystery.set}`),
-                })}
-              </Text>
-              {step.kind !== 'announce' && (
-                <Text variant="headline" className="font-prayer text-[20px] leading-[26px]" numberOfLines={2}>
-                  {mysteryTitle(mystery.mystery.id, headingLocale)}
-                </Text>
-              )}
-            </>
-          ) : (
-            <Text variant="headline" className="font-prayer text-[20px] leading-[26px]">
-              {t(`sets.${plan.set}`)}
-            </Text>
-          )}
-        </View>
       </View>
 
-      <Pressable
-        accessibilityRole="button"
-        accessibilityHint={listening ? undefined : t('pray.tapToContinue')}
-        onPress={listening ? audio.toggle : handleNext}
-        className="flex-1"
+      <StepScroll
+        stepId={step.id}
+        progress={listening && audio.status === 'playing' ? audio.progress : null}
+        onTap={listening ? audio.toggle : handleNext}
+        onSwipe={(direction) => (direction === 'next' ? handleNext() : handlePrevious())}
+        header={heading}
+        onHeaderHidden={setHeadingHidden}
+        accessibilityHint={listening ? t('pray.pause') : t('pray.tapToContinue')}
       >
-        <StepScroll
-          stepId={step.id}
-          progress={listening && audio.status === 'playing' ? audio.progress : null}
+        <Animated.View
+          key={step.id}
+          entering={FadeIn.duration(220)}
+          exiting={FadeOut.duration(120)}
+          className="gap-4"
         >
-          <Animated.View
-            key={step.id}
-            entering={FadeIn.duration(220)}
-            exiting={FadeOut.duration(120)}
-            className="gap-4"
-          >
-            {guide !== null && (
-              <Text variant="footnote" className="font-prayer-italic text-[16px] leading-[22px] text-rubric">
-                {t(`guide.${guide}`)}
-              </Text>
-            )}
-            {listening && audio.status === 'interrupted' && (
-              <Text variant="footnote" className="text-accent">
-                {t('pray.interrupted')}
-              </Text>
-            )}
-            {step.kind === 'prayer' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
-            <StepContent step={step} locale={plan.locale} textSize={textSize} />
-          </Animated.View>
-        </StepScroll>
-      </Pressable>
+          {guide !== null && (
+            <Text variant="footnote" className="font-prayer-italic text-[16px] leading-[22px] text-rubric">
+              {t(`guide.${guide}`)}
+            </Text>
+          )}
+          {listening && audio.status === 'interrupted' && (
+            <Text variant="footnote" className="text-accent">
+              {t('pray.interrupted')}
+            </Text>
+          )}
+          {step.kind === 'prayer' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
+          <StepContent step={step} locale={plan.locale} textSize={textSize} />
+        </Animated.View>
+      </StepScroll>
 
       <View className="flex-row items-center justify-between px-6 pb-2 pt-3">
         <ControlButton

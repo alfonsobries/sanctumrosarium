@@ -24,6 +24,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo } from 'react';
 import { AppState } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useTranslation } from 'react-i18next';
 
 import { journalKeys } from '@/domains/journal/queries';
@@ -97,6 +98,16 @@ function Navigation() {
             }}
           />
           <Stack.Screen
+            name="display"
+            options={{
+              presentation: 'formSheet',
+              sheetAllowedDetents: 'fitToContents',
+              sheetGrabberVisible: true,
+              sheetCornerRadius: 24,
+              contentStyle: { backgroundColor: colors.background },
+            }}
+          />
+          <Stack.Screen
             name="settings"
             options={{
               presentation: 'modal',
@@ -145,10 +156,12 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <SkinProvider>
-        <Navigation />
-      </SkinProvider>
-    </QueryClientProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <QueryClientProvider client={queryClient}>
+        <SkinProvider>
+          <Navigation />
+        </SkinProvider>
+      </QueryClientProvider>
+    </GestureHandlerRootView>
   );
 }

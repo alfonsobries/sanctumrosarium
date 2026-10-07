@@ -25,6 +25,7 @@ export default function BeginSheet() {
   const guided = useSettings((state) => state.guided);
   const reading = useSettings((state) => state.reading);
   const prayerLocale = useSettings((state) => state.prayerLocale);
+  const appearance = useSettings((state) => state.appearance);
   const update = useSettings((state) => state.update);
 
   async function handleStart() {
@@ -71,6 +72,19 @@ export default function BeginSheet() {
           options={(['es-MX', 'en-US', 'la'] as const).map((value) => ({
             value,
             label: value === 'es-MX' ? 'Español' : value === 'en-US' ? 'English' : 'Latina',
+          }))}
+        />
+      </View>
+
+      <View className="gap-2">
+        <Text variant="eyebrow">{t('settings.theme')}</Text>
+        <Segmented
+          accessibilityLabel={t('settings.theme')}
+          value={appearance}
+          onChange={(value) => update({ appearance: value })}
+          options={(['system', 'light', 'dark'] as const).map((value) => ({
+            value,
+            label: t(`settings.themes.${value}`),
           }))}
         />
       </View>

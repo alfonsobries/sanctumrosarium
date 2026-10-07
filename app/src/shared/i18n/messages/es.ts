@@ -176,5 +176,6 @@ export const es = {
     learn: 'Quiero aprender',
     language: 'Idioma de las oraciones',
   },
+  display: { title: 'Lectura y sonido' },
   common: { cancel: 'Cancelar', close: 'Cerrar', error: 'Algo salió mal.', retry: 'Reintentar' },
 } as const;
