@@ -42,6 +42,8 @@ export const es = {
     close: 'Terminar',
     next: 'Siguiente',
     dial: 'Cuentas: gira para avanzar',
+    minimize: 'Minimizar controles',
+    expand: 'Mostrar las cuentas',
     goToDecade: 'Ir a la decena',
     nextDecade: 'Siguiente decena',
     previous: 'Anterior',

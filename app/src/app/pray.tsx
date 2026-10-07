@@ -13,12 +13,12 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useArtwork } from '@/domains/artwork/use-artwork';
 import { hasAudio, useRosaryAudio } from '@/domains/audio/use-rosary-audio';
 import { beadRingState } from '@/domains/prayer/bead-state';
-import { BeadDial } from '@/domains/prayer/BeadDial';
+import { ControlDock } from '@/domains/prayer/ControlDock';
+import { StepStage } from '@/domains/prayer/StepStage';
 import { BeadRow } from '@/domains/prayer/BeadRow';
-import { StepPager } from '@/domains/prayer/StepPager';
 import { guideFor } from '@/domains/prayer/guide';
 import { stepsFor } from '@/domains/prayer/session';
-import { StepContent, StepScroll, stepHeading } from '@/domains/prayer/StepContent';
+import { StepContent, stepHeading } from '@/domains/prayer/StepContent';
 import { useSession } from '@/domains/prayer/use-session';
 import { useSessionJournal } from '@/domains/prayer/use-session-journal';
 import { rates, type Settings } from '@/domains/settings/settings';
@@ -42,60 +42,27 @@ function hapticFor(step: Step | undefined): void {
   void Haptics.selectionAsync();
 }
 
-function ArrowButton({
-  label,
-  icon,
-  onPress,
-  disabled,
-}: {
-  label: string;
-  icon: 'previous' | 'next';
-  onPress: () => void;
-  disabled?: boolean;
-}) {
-  const { colors } = useSkin();
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      disabled={disabled}
-      onPress={onPress}
-      hitSlop={8}
-      className="h-12 w-12 items-center justify-center rounded-full active:bg-surface"
-      style={{ opacity: disabled ? 0.3 : 1 }}
-    >
-      <Icon name={icon} size={24} color={colors.foreground} />
-    </Pressable>
-  );
-}
-
 type StepPageProperties = {
   step: Step;
   steps: readonly Step[];
-  active: boolean;
   locale: Locale;
   headingLocale: Locale;
   textSize: Settings['textSize'];
   guided: boolean;
   queue: QueueStep[] | null;
   interrupted: boolean;
-  onTap: () => void;
-  hint: string;
 };
 
 /** One leaf of the prayer: which mystery, a note for those learning, and the words. */
 function StepPage({
   step,
   steps,
-  active,
   locale,
   headingLocale,
   textSize,
   guided,
   queue,
   interrupted,
-  onTap,
-  hint,
 }: StepPageProperties) {
   const { t } = useTranslation();
   const index = steps.indexOf(step);
@@ -107,46 +74,39 @@ function StepPage({
   const guide = guided ? guideFor(steps, index) : null;
 
   return (
-    <StepScroll
-      stepId={step.id}
-      followVoice={active && queue !== null}
-      onTap={onTap}
-      accessibilityHint={hint}
-    >
-      <View className="gap-4">
-        {announce?.kind === 'announce' && step.kind !== 'announce' && (
-          <View className="flex-row items-center gap-3 pb-2">
-            {thumbnail !== null && (
-              <Image
-                source={thumbnail.source}
-                placeholder={{ thumbhash: thumbnail.thumbhash }}
-                contentFit="cover"
-                accessible={false}
-                style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: thumbnail.color }}
-              />
-            )}
-            <Text variant="eyebrow" className="flex-1 text-accent">
-              {t('pray.mystery', {
-                ordinal: t(`ordinal.${announce.mystery.order - 1}`),
-                set: t(`setAdjective.${announce.mystery.set}`),
-              })}
-            </Text>
-          </View>
-        )}
-        {guide !== null && (
-          <Text variant="footnote" className="font-prayer-italic text-[16px] leading-[22px] text-rubric">
-            {t(`guide.${guide}`)}
+    <View className="gap-4">
+      {announce?.kind === 'announce' && step.kind !== 'announce' && (
+        <View className="flex-row items-center gap-3 pb-2">
+          {thumbnail !== null && (
+            <Image
+              source={thumbnail.source}
+              placeholder={{ thumbhash: thumbnail.thumbhash }}
+              contentFit="cover"
+              accessible={false}
+              style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: thumbnail.color }}
+            />
+          )}
+          <Text variant="eyebrow" className="flex-1 text-accent">
+            {t('pray.mystery', {
+              ordinal: t(`ordinal.${announce.mystery.order - 1}`),
+              set: t(`setAdjective.${announce.mystery.set}`),
+            })}
           </Text>
-        )}
-        {interrupted && (
-          <Text variant="footnote" className="text-accent">
-            {t('pray.interrupted')}
-          </Text>
-        )}
-        {step.kind === 'prayer' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
-        <StepContent step={step} locale={locale} textSize={textSize} queue={queue} />
-      </View>
-    </StepScroll>
+        </View>
+      )}
+      {guide !== null && (
+        <Text variant="footnote" className="font-prayer-italic text-[16px] leading-[22px] text-rubric">
+          {t(`guide.${guide}`)}
+        </Text>
+      )}
+      {interrupted && (
+        <Text variant="footnote" className="text-accent">
+          {t('pray.interrupted')}
+        </Text>
+      )}
+      {step.kind === 'prayer' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
+      <StepContent step={step} locale={locale} textSize={textSize} queue={queue} />
+    </View>
   );
 }
 
@@ -184,11 +144,13 @@ export default function PrayScreen() {
   const rate = useSettings((state) => state.rate);
   const pauseSeconds = useSettings((state) => state.pauseSeconds);
   const appearance = useSettings((state) => state.appearance);
+  const compactControls = useSettings((state) => state.compactControls);
   const plan = useSession((state) => state.plan);
   const position = useSession((state) => state.position);
   const moveTo = useSession((state) => state.moveTo);
   const clear = useSession((state) => state.clear);
   const [finished, setFinished] = useState(false);
+  const [direction, setDirection] = useState<1 | -1>(1);
 
   const steps = useMemo(() => (plan === null ? [] : stepsFor(plan, mysteryRefsOf(plan.set))), [plan]);
   const currentDecade = steps[position]?.decade ?? null;
@@ -227,6 +189,7 @@ export default function PrayScreen() {
   const last = steps.length - 1;
 
   function goTo(target: number) {
+    setDirection(target >= position ? 1 : -1);
     moveTo(target);
     hapticFor(steps[target]);
     if (listening) {
@@ -284,7 +247,8 @@ export default function PrayScreen() {
         ? t('pray.closing')
         : t('pray.opening');
   const audioAvailable = hasAudio(plan.locale);
-  const dialSize = Math.min(176, width * 0.46);
+  const dialSize = Math.min(190, width * 0.48);
+  const panelHeight = compactControls ? 64 : dialSize + 52;
 
   return (
     <>
@@ -383,43 +347,45 @@ export default function PrayScreen() {
       </Stack.Toolbar>
 
       <View className="flex-1 bg-background">
-        <View className="flex-1">
-          <StepPager
+        <StepStage
+          stepKey={step.id}
+          direction={direction}
+          canGoBack={position > 0}
+          onSwipe={(towards) => (towards === 1 ? handleNext() : handlePrevious())}
+          onTap={listening ? audio.toggle : handleNext}
+          topInset={insets.top + 64}
+          bottomInset={panelHeight + Math.max(insets.bottom, 12)}
+          accessibilityHint={listening ? t('pray.pause') : t('pray.tapToContinue')}
+        >
+          <StepPage
+            step={step}
             steps={steps}
-            position={position}
-            onSettle={(index) => goTo(index)}
-            renderStep={(page, active) => (
-              <StepPage
-                step={page}
-                steps={steps}
-                active={active}
-                locale={plan.locale}
-                headingLocale={headingLocale}
-                textSize={textSize}
-                guided={guided}
-                queue={active && listening ? audio.queue : null}
-                interrupted={active && listening && audio.status === 'interrupted'}
-                onTap={listening ? audio.toggle : handleNext}
-                hint={listening ? t('pray.pause') : t('pray.tapToContinue')}
-              />
-            )}
+            locale={plan.locale}
+            headingLocale={headingLocale}
+            textSize={textSize}
+            guided={guided}
+            queue={listening ? audio.queue : null}
+            interrupted={listening && audio.status === 'interrupted'}
           />
-        </View>
+        </StepStage>
 
         <View
-          className="flex-row items-center justify-between px-6 pt-2"
-          style={{ paddingBottom: Math.max(insets.bottom, 12) }}
+          pointerEvents="box-none"
+          style={{ position: 'absolute', left: 0, right: 0, bottom: Math.max(insets.bottom, 12) }}
+          className="items-center"
         >
-          <ArrowButton
-            label={t('pray.previous')}
-            icon="previous"
-            onPress={handlePrevious}
-            disabled={position === 0}
-          />
-          <BeadDial
-            state={beadRingState(steps, position)}
-            size={dialSize}
-            accessibilityLabel={t('pray.dial')}
+          <ControlDock
+            expanded={!compactControls}
+            onExpandedChange={(expanded) => updateSettings({ compactControls: !expanded })}
+            ring={beadRingState(steps, position)}
+            dialSize={dialSize}
+            listening={listening}
+            playing={audio.status === 'playing'}
+            loading={audio.availability === 'loading'}
+            canGoBack={position > 0}
+            onToggle={listening ? audio.toggle : handleNext}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
             onTurn={(direction) => (direction === 1 ? handleNext() : handlePrevious())}
             isMajor={(direction) => {
               const target = steps[position + direction];
@@ -427,27 +393,16 @@ export default function PrayScreen() {
                 target?.kind === 'announce' || (target?.kind === 'prayer' && target.prayer === 'our-father')
               );
             }}
-          >
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={
-                listening ? (audio.status === 'playing' ? t('pray.pause') : t('pray.play')) : t('pray.next')
-              }
-              onPress={listening ? audio.toggle : handleNext}
-              className="h-16 w-16 items-center justify-center rounded-full bg-accent active:scale-95"
-            >
-              {listening && audio.availability === 'loading' ? (
-                <ActivityIndicator color={colors['accent-foreground']} />
-              ) : (
-                <Icon
-                  name={listening ? (audio.status === 'playing' ? 'pause' : 'play') : 'chevron'}
-                  size={28}
-                  color={colors['accent-foreground']}
-                />
-              )}
-            </Pressable>
-          </BeadDial>
-          <ArrowButton label={t('pray.next')} icon="next" onPress={handleNext} />
+            labels={{
+              previous: t('pray.previous'),
+              next: t('pray.next'),
+              play: t('pray.play'),
+              pause: t('pray.pause'),
+              dial: t('pray.dial'),
+              minimize: t('pray.minimize'),
+              expand: t('pray.expand'),
+            }}
+          />
         </View>
         <View style={{ position: 'absolute', inset: 0, zIndex: -1 }} pointerEvents="none">
           <ScreenTexture />

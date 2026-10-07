@@ -47,6 +47,7 @@ export function BeadRow({ state, colors }: BeadRowProperties) {
             borderRadius: 99,
             marginRight: index === 0 && state.kind === 'decade' ? 4 : 0,
             backgroundColor: bead.current ? colors.current : bead.done ? colors.done : colors.pending,
+            opacity: bead.done && !bead.current ? 0.4 : 1,
           }}
         />
       ))}

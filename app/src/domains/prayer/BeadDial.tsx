@@ -1,39 +1,56 @@
 import * as Haptics from 'expo-haptics';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useSharedValue, withSpring } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import { BeadRing, type BeadRingState } from './BeadRing';
-
-/** One bead per this many degrees of turn, like the spacing of beads on the ring. */
-const detent = 30;
+import { BeadRing, beadSpacing, beadUnderMarker, type BeadRingState } from './BeadRing';
 
 type BeadDialProperties = {
   state: BeadRingState;
   size: number;
-  /** Called once per bead the finger passes: +1 forward (clockwise), -1 back. */
+  /** Called once per bead that passes the marker: +1 forward, -1 back. */
   onTurn: (direction: 1 | -1) => void;
-  /** Our Father or a new mystery: the tick under the finger is firmer. */
+  /** Our Father or a new mystery: the click under the finger is firmer. */
   isMajor: (direction: 1 | -1) => boolean;
   accessibilityLabel: string;
   children?: React.ReactNode;
 };
 
+const settle = { duration: 450, dampingRatio: 0.85 };
+
+/** The angle equivalent to `target` that is closest to `from`, so the ring never spins the long way. */
+function nearest(from: number, target: number): number {
+  const delta = ((((target - from) % 360) + 540) % 360) - 180;
+  return from + delta;
+}
+
 /**
- * The beads as a wheel the thumb can turn: each bead that passes clicks under the
- * finger and moves the prayer on by one, the way beads slip through the fingers.
+ * The beads as a wheel the thumb can turn, like a rosary slipping through the fingers:
+ * the ring follows the finger, each bead that passes the mark at the top clicks and moves
+ * the prayer on, and when the prayer moves by itself the ring turns to the new bead.
  */
 export function BeadDial({ state, size, onTurn, isMajor, accessibilityLabel, children }: BeadDialProperties) {
-  const rotation = useSharedValue(0);
+  const target = beadUnderMarker(state) * beadSpacing;
+  const rotation = useSharedValue(target);
+  const dragging = useSharedValue(false);
   const lastAngle = useSharedValue(0);
+  const passed = useSharedValue(0);
   const latest = useRef({ onTurn, isMajor });
   latest.current = { onTurn, isMajor };
 
+  // Follow the prayer when it moves without a finger on the ring (voice, arrows, swipes).
+  useEffect(() => {
+    if (!dragging.get()) {
+      rotation.set(withSpring(nearest(rotation.get(), target), settle));
+    }
+  }, [target, rotation, dragging]);
+
   const turn = (direction: 1 | -1) => {
-    const major = latest.current.isMajor(direction);
-    void (major ? Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium) : Haptics.selectionAsync());
+    void (latest.current.isMajor(direction)
+      ? Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+      : Haptics.selectionAsync());
     latest.current.onTurn(direction);
   };
 
@@ -48,6 +65,11 @@ export function BeadDial({ state, size, onTurn, isMajor, accessibilityLabel, chi
       .onBegin((event) => {
         'worklet';
         lastAngle.set(angleOf(event.x, event.y));
+        passed.set(0);
+      })
+      .onStart(() => {
+        'worklet';
+        dragging.set(true);
       })
       .onUpdate((event) => {
         'worklet';
@@ -59,23 +81,33 @@ export function BeadDial({ state, size, onTurn, isMajor, accessibilityLabel, chi
           delta += 360;
         }
         lastAngle.set(angle);
-        let next = rotation.get() + delta;
-        while (next >= detent) {
-          next -= detent;
+        rotation.set(rotation.get() + delta);
+        // A bead clicks each time a full spacing has passed under the mark.
+        let moved = passed.get() + delta;
+        while (moved >= beadSpacing) {
+          moved -= beadSpacing;
           scheduleOnRN(turn, 1);
         }
-        while (next <= -detent) {
-          next += detent;
+        while (moved <= -beadSpacing) {
+          moved += beadSpacing;
           scheduleOnRN(turn, -1);
         }
-        rotation.set(next);
+        passed.set(moved);
       })
       .onFinalize(() => {
         'worklet';
-        rotation.set(withSpring(0, { duration: 400, dampingRatio: 1 }));
+        dragging.set(false);
+        scheduleOnRN(snapHome);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [size]);
+
+  // After the finger lifts, rest exactly on the bead the prayer is on.
+  const latestTarget = useRef(target);
+  latestTarget.current = target;
+  function snapHome() {
+    rotation.set(withSpring(nearest(rotation.get(), latestTarget.current), settle));
+  }
 
   return (
     <GestureDetector gesture={gesture}>

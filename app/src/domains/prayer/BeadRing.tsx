@@ -19,11 +19,29 @@ export type BeadRingState =
   /** Positions: 0 the cross, 1 the Our Father bead, 2-4 the three Hail Marys. */
   | { kind: 'opening'; prayed: number; current: number | null };
 
+/** Degrees between beads on the ring; also one click of the wheel. */
+export const beadSpacing = 30;
+
+/**
+ * Which bead sits under the marker at the top: the one being prayed, or the last one
+ * prayed while the Glory Be closes the decade. Beads follow each other counterclockwise,
+ * so turning the ring clockwise brings the next one up.
+ */
+export function beadUnderMarker(state: BeadRingState): number {
+  if (state.kind === 'opening') {
+    return state.current ?? state.prayed;
+  }
+  if (state.ourFather === 'current' || state.ourFather === 'pending') {
+    return 0;
+  }
+  return state.current ?? state.prayed;
+}
+
 type BeadRingProperties = {
   state: BeadRingState;
   size: number;
   children?: React.ReactNode;
-  /** Degrees the beads are turned while a finger drags them; the center stays still. */
+  /** How far the ring is turned, in degrees; it rests with the current bead at the top. */
   rotation?: SharedValue<number>;
 };
 
@@ -42,17 +60,15 @@ function CurrentHalo({ cx, cy, r, color }: { cx: number; cy: number; r: number; 
 const toRadians = (degrees: number): number => ((degrees - 90) * Math.PI) / 180;
 
 /**
- * The beads drawn as a circle around whatever sits in the middle (the play button):
- * for a decade, its Our Father bead at the top and ten Hail Marys around; during the
- * opening, the crucifix at the top and the four beads that follow it. Prayed beads are
- * filled, the current one carries a halo.
+ * The beads as a ring around whatever sits in the middle (the play button). The bead
+ * being prayed rests at the top, beside a fixed mark: the crucifix during the opening, a
+ * small notch during the decades, both just inside the ring. Prayed beads stay softly filled.
  */
 export function BeadRing({ state, size, children, rotation }: BeadRingProperties) {
   const { colors } = useSkin();
   const turned = useAnimatedStyle(() => ({ transform: [{ rotate: `${rotation?.get() ?? 0}deg` }] }));
   const center = size / 2;
-  // Leave room above the top slot for the crucifix, which is taller than a bead.
-  const ringRadius = size * 0.39;
+  const ringRadius = size * 0.42;
   const bead = size * 0.04;
   const at = (degrees: number) => ({
     x: center + ringRadius * Math.cos(toRadians(degrees)),
@@ -60,32 +76,28 @@ export function BeadRing({ state, size, children, rotation }: BeadRingProperties
   });
 
   const slots: { key: string; x: number; y: number; r: number; done: boolean; current: boolean }[] = [];
-  let cross: { x: number; y: number; done: boolean; current: boolean } | null = null;
-
   if (state.kind === 'opening') {
-    cross = { ...at(0), done: state.prayed > 0 || state.current !== 0, current: state.current === 0 };
-    [72, 144, 216, 288].forEach((degrees, i) => {
-      const position = i + 1;
+    for (let position = 1; position <= 4; position++) {
       slots.push({
         key: `o${position}`,
-        ...at(degrees),
+        ...at(-beadSpacing * position),
         r: position === 1 ? bead * 1.45 : bead,
         done: position <= state.prayed,
         current: state.current === position,
       });
-    });
+    }
   } else {
     slots.push({
       key: 'of',
       ...at(0),
       r: bead * 1.45,
-      done: state.ourFather !== 'pending',
+      done: state.ourFather === 'done',
       current: state.ourFather === 'current',
     });
     for (let index = 1; index <= 10; index++) {
       slots.push({
         key: `hm${index}`,
-        ...at(30 + ((index - 1) * 300) / 9),
+        ...at(-beadSpacing * index),
         r: bead,
         done: index <= state.prayed,
         current: state.current === index,
@@ -93,38 +105,50 @@ export function BeadRing({ state, size, children, rotation }: BeadRingProperties
     }
   }
 
-  const arm = bead * 1.3;
+  // Inside the ring, just under the current bead, clear of its halo.
+  const markerY = center - ringRadius + bead * 4.6;
+  const arm = bead * 1.15;
+  const onCross = state.kind === 'opening' && state.current === 0;
 
   return (
     <View style={{ width: size, height: size }} className="items-center justify-center">
       <Animated.View accessible={false} style={[{ position: 'absolute', inset: 0 }, turned]}>
         <Svg width={size} height={size}>
-          <Circle cx={center} cy={center} r={ringRadius} fill="none" stroke={colors.border} strokeWidth={1} />
-          {cross !== null && (
-            <>
-              <Circle cx={cross.x} cy={cross.y} r={arm * 1.6} fill={colors.background} />
-              <Path
-                d={`M${cross.x} ${cross.y - arm * 1.3} V${cross.y + arm * 1.4} M${cross.x - arm} ${cross.y - arm * 0.35} H${cross.x + arm}`}
-                stroke={cross.done || cross.current ? colors['bead-done'] : colors.bead}
-                strokeWidth={bead * 0.55}
-                strokeLinecap="round"
-              />
-              {cross.current && <CurrentHalo cx={cross.x} cy={cross.y} r={arm * 2} color={colors.accent} />}
-            </>
-          )}
           {slots.map((slot) => (
             <G key={slot.key}>
               <Circle
                 cx={slot.x}
                 cy={slot.y}
-                r={slot.r}
-                fill={slot.done ? colors['bead-done'] : colors.bead}
+                r={slot.current ? slot.r * 1.3 : slot.r}
+                fill={slot.current ? colors.accent : slot.done ? colors['bead-done'] : colors.bead}
+                fillOpacity={slot.done && !slot.current ? 0.4 : 1}
               />
-              {slot.current && <CurrentHalo cx={slot.x} cy={slot.y} r={slot.r * 1.9} color={colors.accent} />}
+              {slot.current && <CurrentHalo cx={slot.x} cy={slot.y} r={slot.r * 2.1} color={colors.accent} />}
             </G>
           ))}
         </Svg>
       </Animated.View>
+      <View
+        accessible={false}
+        pointerEvents="none"
+        style={{ position: 'absolute', inset: 0, overflow: 'visible' }}
+      >
+        <Svg width={size} height={size} style={{ overflow: 'visible' }}>
+          {state.kind === 'opening' ? (
+            <Path
+              d={`M${center} ${markerY - arm * 1.2} V${markerY + arm * 1.3} M${center - arm * 0.8} ${markerY - arm * 0.35} H${center + arm * 0.8}`}
+              stroke={onCross ? colors.accent : colors.muted}
+              strokeWidth={bead * 0.55}
+              strokeLinecap="round"
+            />
+          ) : (
+            <Path
+              d={`M${center - bead} ${markerY + bead * 0.6} L${center} ${markerY - bead * 0.8} L${center + bead} ${markerY + bead * 0.6} Z`}
+              fill={colors.accent}
+            />
+          )}
+        </Svg>
+      </View>
       {children}
     </View>
   );

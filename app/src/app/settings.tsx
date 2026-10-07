@@ -15,6 +15,7 @@ import { useSkin } from '@/shared/theme/SkinProvider';
 import { Card } from '@/shared/ui/Card';
 import { Segmented } from '@/shared/ui/Segmented';
 import { SwitchRow } from '@/shared/ui/SwitchRow';
+import { Icon, type IconName } from '@/shared/ui/Icon';
 import { Text } from '@/shared/ui/Text';
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -28,10 +29,24 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+function Field({
+  label,
+  icon,
+  hint,
+  children,
+}: {
+  label: string;
+  icon: IconName;
+  hint?: string;
+  children: React.ReactNode;
+}) {
+  const { colors } = useSkin();
   return (
     <View className="gap-2 px-4 py-3">
-      <Text variant="callout">{label}</Text>
+      <View className="flex-row items-center gap-3">
+        <Icon name={icon} size={20} color={colors.accent} />
+        <Text variant="callout">{label}</Text>
+      </View>
       {children}
       {hint !== undefined && <Text variant="footnote">{hint}</Text>}
     </View>
@@ -145,7 +160,7 @@ export default function SettingsScreen() {
       >
         <Section title={t('settings.prayer')}>
           <Card>
-            <Field label={t('settings.language')}>
+            <Field icon="language" label={t('settings.language')}>
               <Segmented
                 accessibilityLabel={t('settings.language')}
                 value={settings.prayerLocale}
@@ -158,7 +173,7 @@ export default function SettingsScreen() {
               />
               <Text variant="footnote">{t(`locales.${settings.prayerLocale}`)}</Text>
             </Field>
-            <Field label={t('settings.mode')}>
+            <Field icon="listen" label={t('settings.mode')}>
               <Segmented
                 accessibilityLabel={t('settings.mode')}
                 value={settings.mode}
@@ -169,7 +184,7 @@ export default function SettingsScreen() {
                 ]}
               />
             </Field>
-            <Field label={t('settings.pause')}>
+            <Field icon="silence" label={t('settings.pause')}>
               <Segmented
                 accessibilityLabel={t('settings.pause')}
                 value={String(settings.pauseSeconds)}
@@ -180,7 +195,7 @@ export default function SettingsScreen() {
                 }))}
               />
             </Field>
-            <Field label={t('settings.rate')}>
+            <Field icon="speed" label={t('settings.rate')}>
               <Segmented
                 accessibilityLabel={t('settings.rate')}
                 value={String(settings.rate)}
@@ -188,7 +203,7 @@ export default function SettingsScreen() {
                 options={rates.map((value) => ({ value: String(value), label: `${value}×` }))}
               />
             </Field>
-            <Field label={t('settings.gospel')} hint={t('settings.gospelHint')}>
+            <Field icon="gospel" label={t('settings.gospel')} hint={t('settings.gospelHint')}>
               <Segmented<Settings['gospel']>
                 accessibilityLabel={t('settings.gospel')}
                 value={settings.gospel}
@@ -208,27 +223,32 @@ export default function SettingsScreen() {
               </Text>
             </Field>
             <SwitchRow
+              icon="gospel"
               title={t('options.reading')}
               value={settings.reading}
               onChange={(value) => update({ reading: value })}
             />
             <SwitchRow
+              icon="guided"
               title={t('options.guided')}
               detail={t('options.guidedDetail')}
               value={settings.guided}
               onChange={(value) => update({ guided: value })}
             />
             <SwitchRow
+              icon="prayer"
               title={t('settings.fatima')}
               value={settings.fatimaPrayer}
               onChange={(value) => update({ fatimaPrayer: value })}
             />
             <SwitchRow
+              icon="pope"
               title={t('settings.pope')}
               value={settings.prayerForThePope}
               onChange={(value) => update({ prayerForThePope: value })}
             />
             <SwitchRow
+              icon="litany"
               title={t('settings.litany')}
               value={settings.litany}
               onChange={(value) => update({ litany: value })}
@@ -252,7 +272,7 @@ export default function SettingsScreen() {
             ))}
           </ScrollView>
           <Card>
-            <Field label={t('settings.theme')}>
+            <Field icon="theme" label={t('settings.theme')}>
               <Segmented
                 accessibilityLabel={t('settings.theme')}
                 value={settings.appearance}
@@ -263,7 +283,7 @@ export default function SettingsScreen() {
                 }))}
               />
             </Field>
-            <Field label={t('settings.textSize')}>
+            <Field icon="text" label={t('settings.textSize')}>
               <Segmented
                 accessibilityLabel={t('settings.textSize')}
                 value={settings.textSize}

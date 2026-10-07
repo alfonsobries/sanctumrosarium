@@ -10,14 +10,15 @@ import {
 } from '@sanctamaria/content';
 import { evangelistOf, type Step } from '@sanctamaria/rosary';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { Text as NativeText, ScrollView, View, useWindowDimensions } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { Text as NativeText, View, useWindowDimensions } from 'react-native';
 
 import { ArtworkFrame } from '@/domains/artwork/ArtworkFrame';
 import { useArtwork } from '@/domains/artwork/use-artwork';
 import type { QueueStep, Spoken } from '@/domains/audio/queue';
-import { useSpoken, useStepProgress } from '@/domains/audio/use-rosary-audio';
+import { useSpoken } from '@/domains/audio/use-rosary-audio';
+
+import { useReveal } from './StepStage';
 import type { Settings } from '@/domains/settings/settings';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Text } from '@/shared/ui/Text';
@@ -36,6 +37,23 @@ type StepContentProperties = {
   queue?: QueueStep[] | null;
 };
 
+/** The line the voice is on: the first one not yet fully said. */
+function activeLine(lines: readonly string[], split: number, spoken: Spoken | null): number | null {
+  if (spoken === null) {
+    return null;
+  }
+  let consumed = 0;
+  const first = spoken.role === 'leader' ? 0 : split;
+  const last = spoken.role === 'leader' ? split : lines.length;
+  for (let index = first; index < last; index++) {
+    consumed += (lines[index]?.length ?? 0) + 1;
+    if (spoken.chars < consumed) {
+      return index;
+    }
+  }
+  return last - 1;
+}
+
 type PrayerLinesProperties = {
   id: string;
   locale: Locale;
@@ -46,10 +64,19 @@ type PrayerLinesProperties = {
 
 function PrayerLines({ id, locale, textSize, spoken }: PrayerLinesProperties) {
   const { skin, colors } = useSkin();
+  const reveal = useReveal();
+  const lineRefs = useRef<(View | null)[]>([]);
   const text = prayerText(id, locale);
   const { size, line } = sizes[textSize];
   const split = text.responseFrom ?? text.lines.length;
   const firstLetter = text.lines[0]?.charAt(0) ?? '';
+
+  const active = activeLine(text.lines, split, spoken);
+  useEffect(() => {
+    if (active !== null) {
+      reveal(lineRefs.current[active] ?? null);
+    }
+  }, [active, reveal]);
 
   let leaderOffset = 0;
   let responseOffset = 0;
@@ -81,17 +108,25 @@ function PrayerLines({ id, locale, textSize, spoken }: PrayerLinesProperties) {
         const settled = spoken === null ? (isResponse ? 'text-muted' : 'text-foreground') : 'text-foreground';
 
         return (
-          <Text key={index} className={`${base} ${settled}`} style={{ fontSize: size, lineHeight: line }}>
-            {dropCap && (
-              <Text className="font-display text-rubric" style={{ fontSize: size * 1.6, lineHeight: line }}>
-                {firstLetter}
-              </Text>
-            )}
-            {body.slice(0, saidInBody)}
-            {saidInBody < body.length && (
-              <NativeText style={{ color: colors.faint }}>{body.slice(saidInBody)}</NativeText>
-            )}
-          </Text>
+          <View
+            key={index}
+            collapsable={false}
+            ref={(node) => {
+              lineRefs.current[index] = node;
+            }}
+          >
+            <Text className={`${base} ${settled}`} style={{ fontSize: size, lineHeight: line }}>
+              {dropCap && (
+                <Text className="font-display text-rubric" style={{ fontSize: size * 1.6, lineHeight: line }}>
+                  {firstLetter}
+                </Text>
+              )}
+              {body.slice(0, saidInBody)}
+              {saidInBody < body.length && (
+                <NativeText style={{ color: colors.faint }}>{body.slice(saidInBody)}</NativeText>
+              )}
+            </Text>
+          </View>
         );
       })}
     </View>
@@ -110,7 +145,7 @@ function VoicedPrayerLines({
 export function StepContent({ step, locale, textSize, queue = null }: StepContentProperties) {
   const { t } = useTranslation();
   const announceArtwork = useArtwork(step.kind === 'announce' ? step.mystery.id : '');
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const { size, line } = sizes[textSize];
 
   if (step.kind === 'announce') {
@@ -118,7 +153,10 @@ export function StepContent({ step, locale, textSize, queue = null }: StepConten
     return (
       <View className="items-center gap-6">
         {artwork !== null && (
-          <ArtworkFrame artwork={artwork} style={{ width: '100%', height: Math.min(width * 1.05, 460) }} />
+          <ArtworkFrame
+            artwork={artwork}
+            style={{ width: '100%', height: Math.min(width * 1.0, height * 0.4) }}
+          />
         )}
         <Text
           className="text-center font-prayer text-foreground"
@@ -195,84 +233,4 @@ export function stepHeading(
       ? `${t('pray.forThePope')} · ${prayerTitle(step.prayer, locale)}`
       : prayerTitle(step.prayer, locale);
   return step.count === null ? title : `${title} · ${t('pray.hailMaryCount', step.count)}`;
-}
-
-type StepScrollProperties = {
-  children: React.ReactNode;
-  /** While the voice reads, the text scrolls along with it. */
-  followVoice: boolean;
-  stepId: string;
-  /** A tap that did not move: advances, or pauses the voice. Dragging only scrolls. */
-  onTap: () => void;
-  accessibilityHint?: string;
-};
-
-export function StepScroll({
-  children,
-  followVoice,
-  stepId,
-  onTap,
-  accessibilityHint,
-}: StepScrollProperties) {
-  const scroll = useRef<ScrollView>(null);
-  const progress = useStepProgress(followVoice);
-  const [viewport, setViewport] = useState(0);
-  const [content, setContent] = useState(0);
-  const overflow = Math.max(0, content - viewport);
-  // Once the person scrolls by hand, the text stops following the voice for this step.
-  const [following, setFollowing] = useState(true);
-  const latest = useRef({ onTap });
-  latest.current = { onTap };
-
-  const gesture = useMemo(() => {
-    const tap = Gesture.Tap()
-      .maxDistance(10)
-      .runOnJS(true)
-      .onEnd((_event, success) => {
-        if (success) {
-          latest.current.onTap();
-        }
-      });
-    return tap;
-  }, []);
-
-  useEffect(() => {
-    setFollowing(true);
-    scroll.current?.scrollTo({ y: 0, animated: false });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stepId]);
-
-  useEffect(() => {
-    if (progress === null || overflow === 0 || !following) {
-      return;
-    }
-    // Keep the line being said a little above the middle: start moving after a fifth of the step.
-    const eased = Math.min(1, Math.max(0, (progress - 0.2) / 0.7));
-    scroll.current?.scrollTo({ y: eased * overflow, animated: true });
-  }, [progress, overflow, following]);
-
-  return (
-    <GestureDetector gesture={gesture}>
-      <View
-        className="flex-1"
-        accessible
-        accessibilityRole="button"
-        accessibilityHint={accessibilityHint}
-        onAccessibilityTap={onTap}
-      >
-        <ScrollView
-          ref={scroll}
-          className="flex-1"
-          contentContainerClassName="flex-grow justify-center px-6 py-6"
-          contentInsetAdjustmentBehavior="automatic"
-          showsVerticalScrollIndicator={false}
-          onLayout={(event) => setViewport(event.nativeEvent.layout.height)}
-          onContentSizeChange={(_, height) => setContent(height)}
-          onScrollBeginDrag={() => setFollowing(false)}
-        >
-          {children}
-        </ScrollView>
-      </View>
-    </GestureDetector>
-  );
 }

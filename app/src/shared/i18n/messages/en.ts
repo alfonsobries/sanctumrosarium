@@ -52,6 +52,8 @@ export const en: Messages<typeof es> = {
     close: 'End',
     next: 'Next',
     dial: 'Beads: turn to move on',
+    minimize: 'Minimize controls',
+    expand: 'Show the beads',
     goToDecade: 'Go to decade',
     nextDecade: 'Next decade',
     previous: 'Previous',
