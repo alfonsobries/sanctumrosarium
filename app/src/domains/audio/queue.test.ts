@@ -93,6 +93,21 @@ describe('buildQueue', () => {
     expect(buildQueue(steps({ fatima: true }), manifest, timing, () => '')).toBeNull();
   });
 
+  it('reads a recorded passage aloud, its words lighting the text', () => {
+    const words: WordMark[] = [[0, 2, 0]];
+    const queue = buildQueue(
+      steps({ reading: true }),
+      manifest,
+      timing,
+      () => 'a'.repeat(280),
+      (ref) => (ref === 'Lk 1' ? { file: 'reading-lk-1.mp3', durationMs: 30_000, words } : undefined),
+    )!;
+    expect(queue.find((entry) => entry.id === 'd1-reading')?.parts).toMatchObject([
+      { file: 'reading-lk-1.mp3', durationMs: 30_000, role: 'leader', words },
+    ]);
+    expect(queue.find((entry) => entry.id === 'd2-reading')?.parts[0]?.file).toBeNull();
+  });
+
   it('bounds the reading silence', () => {
     expect(readingSilenceMs('')).toBe(8000);
     expect(readingSilenceMs('a'.repeat(10_000))).toBe(90_000);

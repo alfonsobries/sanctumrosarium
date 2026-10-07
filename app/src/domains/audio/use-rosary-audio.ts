@@ -15,16 +15,31 @@ import {
   type RosaryPlaybackStatus,
 } from '../../../modules/rosary-player';
 
-import { audioPacks } from './packs.gen';
-import { buildQueue, spokenAt, type AudioManifest, type QueueStep, type Spoken } from './queue';
+import { audioPacks, scripturePacks } from './packs.gen';
+import {
+  buildQueue,
+  spokenAt,
+  type AudioManifest,
+  type ManifestTrack,
+  type QueueStep,
+  type Spoken,
+} from './queue';
 
 const silence = require('@/assets/audio/silence.mp3') as number;
 
 type Pack = { manifest: AudioManifest; files: Record<string, number> };
+type ScripturePack = { manifest: { tracks: Record<string, ManifestTrack> }; files: Record<string, number> };
 
 function packFor(locale: Locale): Pack | null {
   const packs = audioPacks as unknown as Partial<Record<Locale, Pack>>;
   return packs[locale] ?? null;
+}
+
+/** The Gospel read aloud, one pack per translation: both Spanish locales share it. */
+function scripturePackFor(locale: Locale): ScripturePack | null {
+  const language = locale === 'la' ? 'la' : locale === 'en-US' ? 'en' : 'es';
+  const packs = scripturePacks as unknown as Partial<Record<'es' | 'en' | 'la', ScripturePack>>;
+  return packs[language] ?? null;
 }
 
 export function hasAudio(locale: Locale): boolean {
@@ -125,6 +140,7 @@ export function useRosaryAudio(options: Options): RosaryAudio {
       return;
     }
     const pack = packFor(locale);
+    const scripture = scripturePackFor(locale);
     const built =
       pack === null
         ? null
@@ -133,6 +149,7 @@ export function useRosaryAudio(options: Options): RosaryAudio {
             pack.manifest,
             { pauseMs: pauseSeconds * 1000, responseGapMs: 450, afterAnnounceMs: 4000 },
             (ref) => passage(ref, locale)?.text ?? '',
+            (ref) => scripture?.manifest.tracks[ref],
           );
     if (pack === null || built === null) {
       setAvailability('unavailable');
@@ -153,7 +170,10 @@ export function useRosaryAudio(options: Options): RosaryAudio {
             title: step === undefined ? '' : latest.current.nowPlaying.titles(step),
             parts: await Promise.all(
               entry.parts.map(async (part) => ({
-                uri: part.file === null ? silenceUri : await uriOf(pack.files[part.file] ?? silence),
+                uri:
+                  part.file === null
+                    ? silenceUri
+                    : await uriOf(pack.files[part.file] ?? scripture?.files[part.file] ?? silence),
                 gapAfterMs: part.gapAfterMs,
               })),
             ),
@@ -168,9 +188,19 @@ export function useRosaryAudio(options: Options): RosaryAudio {
         rate,
         nowPlaying: { album: latest.current.nowPlaying.album, artist: latest.current.nowPlaying.artist },
       });
+      if (cancelled) {
+        return;
+      }
       setAvailability('ready');
       await play();
-    })();
+    })().catch((error: unknown) => {
+      // A recording that cannot be read leaves the prayer as it is without audio: the
+      // person keeps praying by tapping instead of facing an error.
+      console.error('Rosary audio failed to load', error);
+      if (!cancelled) {
+        setAvailability('unavailable');
+      }
+    });
 
     const subscription = addRosaryPlayerListener('onStepChange', (event) => {
       latest.current.onStep(event.index);

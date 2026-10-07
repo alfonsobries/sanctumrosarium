@@ -141,6 +141,62 @@ function VoicedPrayerLines({
   return <PrayerLines {...rest} spoken={spoken} />;
 }
 
+type PassageTextProperties = {
+  text: string;
+  textSize: Settings['textSize'];
+  spoken: Spoken | null;
+};
+
+/** A Gospel passage as one paragraph; while it is read aloud the words light up and the page follows. */
+function PassageText({ text, textSize, spoken }: PassageTextProperties) {
+  const { colors } = useSkin();
+  const reveal = useReveal();
+  const block = useRef<View>(null);
+  const lines = useRef<{ start: number; y: number; height: number }[]>([]);
+  const { size, line } = sizes[textSize];
+  const said = spoken === null ? text.length : Math.min(text.length, spoken.chars);
+
+  // Which laid-out line the voice is on, so only a new line moves the page.
+  let current = 0;
+  for (const [index, laid] of lines.current.entries()) {
+    if (laid.start <= said) {
+      current = index;
+    }
+  }
+  useEffect(() => {
+    const laid = lines.current[current];
+    if (spoken !== null && laid !== undefined) {
+      reveal(block.current, { y: laid.y, height: laid.height });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, spoken === null, reveal]);
+
+  return (
+    <View ref={block} collapsable={false}>
+      <Text
+        className="font-prayer text-foreground"
+        style={{ fontSize: size - 2, lineHeight: line - 2 }}
+        onTextLayout={(event) => {
+          let start = 0;
+          lines.current = event.nativeEvent.lines.map((laid) => {
+            const entry = { start, y: laid.y, height: laid.height };
+            start += laid.text.length;
+            return entry;
+          });
+        }}
+      >
+        {text.slice(0, said)}
+        {said < text.length && <NativeText style={{ color: colors.faint }}>{text.slice(said)}</NativeText>}
+      </Text>
+    </View>
+  );
+}
+
+function VoicedPassageText({ queue, ...rest }: Omit<PassageTextProperties, 'spoken'> & { queue: QueueStep[] }) {
+  const spoken = useSpoken(queue);
+  return <PassageText {...rest} spoken={spoken} />;
+}
+
 /** The body of the current step: the prayer's words, the mystery, the reading or the litany. */
 export function StepContent({ step, locale, textSize, queue = null }: StepContentProperties) {
   const { t } = useTranslation();
@@ -155,7 +211,7 @@ export function StepContent({ step, locale, textSize, queue = null }: StepConten
         {artwork !== null && (
           <ArtworkFrame
             artwork={artwork}
-            style={{ width: '100%', height: Math.min(width * 1.0, height * 0.4) }}
+            style={{ width: '100%', height: Math.min(width * 1.1, height * 0.46) }}
           />
         )}
         <Text
@@ -178,9 +234,15 @@ export function StepContent({ step, locale, textSize, queue = null }: StepConten
             ? (text?.displayRef ?? step.reading.ref)
             : `${t('pray.readingFrom', { evangelist: t(`evangelists.${evangelist}`) })} · ${text?.displayRef ?? step.reading.ref}`}
         </Text>
-        <Text className="font-prayer text-foreground" style={{ fontSize: size - 2, lineHeight: line - 2 }}>
-          {text?.text ?? bookOf(step.reading.ref)}
-        </Text>
+        {text === null ? (
+          <Text className="font-prayer text-foreground" style={{ fontSize: size - 2, lineHeight: line - 2 }}>
+            {bookOf(step.reading.ref)}
+          </Text>
+        ) : queue === null ? (
+          <PassageText text={text.text} textSize={textSize} spoken={null} />
+        ) : (
+          <VoicedPassageText text={text.text} textSize={textSize} queue={queue} />
+        )}
       </View>
     );
   }

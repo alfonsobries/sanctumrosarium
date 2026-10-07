@@ -3,7 +3,7 @@ import type { Step } from '@sanctamaria/rosary';
 /** [first character, character after the last, start in ms] of a word within the track's text. */
 export type WordMark = [number, number, number];
 
-type ManifestTrack = { file: string; durationMs: number; words?: WordMark[] };
+export type ManifestTrack = { file: string; durationMs: number; words?: WordMark[] };
 
 export type AudioManifest = {
   version: 1;
@@ -70,14 +70,15 @@ function litanyParts(manifest: AudioManifest, timing: QueueTiming): QueuePart[] 
 
 /**
  * Turns the steps of a session into what the player plays: one entry per step so the
- * player and the screen always share the same index. A step without a recording (a
- * Gospel passage) becomes silence long enough to read it.
+ * player and the screen always share the same index. A Gospel passage is read aloud
+ * when its recording exists; otherwise it becomes silence long enough to read it.
  */
 export function buildQueue(
   steps: readonly Step[],
   manifest: AudioManifest,
   timing: QueueTiming,
   passageText: (ref: string) => string,
+  readingTrack: (ref: string) => ManifestTrack | undefined = () => undefined,
 ): QueueStep[] | null {
   const queue: QueueStep[] = [];
   for (const step of steps) {
@@ -87,8 +88,19 @@ export function buildQueue(
       parts =
         track === undefined ? null : [part(track, 'other', Math.max(timing.afterAnnounceMs, timing.pauseMs))];
     } else if (step.kind === 'reading') {
-      const silence = readingSilenceMs(passageText(step.reading.ref));
-      parts = [{ file: null, gapAfterMs: silence, durationMs: 0, role: 'other', words: [] }];
+      const track = readingTrack(step.reading.ref);
+      parts =
+        track === undefined
+          ? [
+              {
+                file: null,
+                gapAfterMs: readingSilenceMs(passageText(step.reading.ref)),
+                durationMs: 0,
+                role: 'other',
+                words: [],
+              },
+            ]
+          : [part(track, 'leader', Math.max(timing.pauseMs, 1500))];
     } else if (step.prayer === 'litany-of-loreto') {
       parts = litanyParts(manifest, timing);
     } else {

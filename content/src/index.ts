@@ -175,6 +175,11 @@ export function mysterySlug(id: string): string {
   return id.replace(/^(joyful|luminous|sorrowful|glorious)-\d-/, '');
 }
 
+/** Every passage of one translation, by reference. */
+export function passagesOf(language: 'es' | 'en' | 'la'): Readonly<Record<string, Passage>> {
+  return passages[language];
+}
+
 export function passage(ref: string, locale: Locale): Passage | null {
   const language = locale === 'la' ? 'la' : locale === 'en-US' ? 'en' : 'es';
   return passages[language][ref] ?? null;
