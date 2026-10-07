@@ -363,7 +363,12 @@ export default function PrayScreen() {
               </Text>
             )}
             {step.kind === 'prayer' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
-            <StepContent step={step} locale={plan.locale} textSize={textSize} />
+            <StepContent
+              step={step}
+              locale={plan.locale}
+              textSize={textSize}
+              spoken={listening && audio.status !== 'idle' ? audio.spoken : null}
+            />
           </Animated.View>
         </StepScroll>
         <View style={{ position: 'absolute', inset: 0, zIndex: -1 }} pointerEvents="none">

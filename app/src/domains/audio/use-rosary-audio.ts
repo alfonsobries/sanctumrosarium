@@ -16,7 +16,7 @@ import {
 } from '../../../modules/rosary-player';
 
 import { audioPacks } from './packs.gen';
-import { buildQueue, type AudioManifest } from './queue';
+import { buildQueue, spokenAt, type AudioManifest, type QueueStep, type Spoken } from './queue';
 
 const silence = require('@/assets/audio/silence.mp3') as number;
 
@@ -44,6 +44,8 @@ export type RosaryAudio = {
   status: RosaryPlaybackStatus;
   /** How far through the current step the voice is, 0 to 1. */
   progress: number;
+  /** How much of the current prayer the voice has said, for lighting up the text. */
+  spoken: Spoken | null;
   toggle: () => void;
   skipTo: (index: number) => void;
 };
@@ -70,6 +72,7 @@ export function useRosaryAudio(options: Options): RosaryAudio {
   const { enabled, sessionId, steps, locale, rate, pauseSeconds } = options;
   const [availability, setAvailability] = useState<RosaryAudio['availability']>('loading');
   const player = useRosaryPlayer();
+  const [queue, setQueue] = useState<QueueStep[] | null>(null);
   const latest = useRef(options);
   latest.current = options;
 
@@ -91,6 +94,7 @@ export function useRosaryAudio(options: Options): RosaryAudio {
       setAvailability('unavailable');
       return;
     }
+    setQueue(queue);
 
     let cancelled = false;
     setAvailability('loading');
@@ -146,6 +150,8 @@ export function useRosaryAudio(options: Options): RosaryAudio {
     availability: enabled ? availability : 'unavailable',
     status: player.status,
     progress: player.durationMs > 0 ? Math.min(1, player.positionMs / player.durationMs) : 0,
+    spoken:
+      queue?.[player.index] === undefined ? null : spokenAt(queue[player.index].parts, player.positionMs),
     toggle: () => void toggle(),
     skipTo: (index) => void skipTo(index),
   };

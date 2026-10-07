@@ -12,10 +12,11 @@ import { evangelistOf, type Step } from '@sanctamaria/rosary';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { ScrollView, View, useWindowDimensions } from 'react-native';
+import { Text as NativeText, ScrollView, View, useWindowDimensions } from 'react-native';
 
 import { ArtworkFrame } from '@/domains/artwork/ArtworkFrame';
 import { useArtwork } from '@/domains/artwork/use-artwork';
+import type { Spoken } from '@/domains/audio/queue';
 import type { Settings } from '@/domains/settings/settings';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Text } from '@/shared/ui/Text';
@@ -30,44 +31,63 @@ type StepContentProperties = {
   step: Step;
   locale: Locale;
   textSize: Settings['textSize'];
+  spoken?: Spoken | null;
 };
 
-function PrayerLines({
-  id,
-  locale,
-  textSize,
-}: {
+type PrayerLinesProperties = {
   id: string;
   locale: Locale;
   textSize: Settings['textSize'];
-}) {
-  const { skin } = useSkin();
+  /** While the voice reads, the words already said light up and the rest wait dimmed. */
+  spoken: Spoken | null;
+};
+
+function PrayerLines({ id, locale, textSize, spoken }: PrayerLinesProperties) {
+  const { skin, colors } = useSkin();
   const text = prayerText(id, locale);
   const { size, line } = sizes[textSize];
-  const response = text.responseFrom ?? text.lines.length;
-  const first = text.lines[0];
-  const firstLetter = first?.charAt(0) ?? '';
+  const split = text.responseFrom ?? text.lines.length;
+  const firstLetter = text.lines[0]?.charAt(0) ?? '';
+
+  let leaderOffset = 0;
+  let responseOffset = 0;
 
   return (
     <View className="gap-1">
       {text.lines.map((value, index) => {
-        const isResponse = index >= response;
+        const isResponse = index >= split;
+        const offset = isResponse ? responseOffset : leaderOffset;
+        if (isResponse) {
+          responseOffset += value.length + 1;
+        } else {
+          leaderOffset += value.length + 1;
+        }
+
+        let said = value.length;
+        if (spoken !== null) {
+          if (spoken.role === 'leader') {
+            said = isResponse ? 0 : Math.max(0, Math.min(value.length, spoken.chars - offset));
+          } else if (isResponse) {
+            said = Math.max(0, Math.min(value.length, spoken.chars - offset));
+          }
+        }
+
         const dropCap = skin.dropCap && index === 0 && firstLetter !== '';
+        const body = dropCap ? value.slice(1) : value;
+        const saidInBody = dropCap ? Math.max(0, said - 1) : said;
+        const base = isResponse ? 'font-prayer-italic' : 'font-prayer';
+        const settled = spoken === null ? (isResponse ? 'text-muted' : 'text-foreground') : 'text-foreground';
+
         return (
-          <Text
-            key={index}
-            className={`${isResponse ? 'font-prayer-italic text-muted' : 'font-prayer text-foreground'}`}
-            style={{ fontSize: size, lineHeight: line }}
-          >
-            {dropCap ? (
-              <>
-                <Text className="font-display text-rubric" style={{ fontSize: size * 1.6, lineHeight: line }}>
-                  {firstLetter}
-                </Text>
-                {value.slice(1)}
-              </>
-            ) : (
-              value
+          <Text key={index} className={`${base} ${settled}`} style={{ fontSize: size, lineHeight: line }}>
+            {dropCap && (
+              <Text className="font-display text-rubric" style={{ fontSize: size * 1.6, lineHeight: line }}>
+                {firstLetter}
+              </Text>
+            )}
+            {body.slice(0, saidInBody)}
+            {saidInBody < body.length && (
+              <NativeText style={{ color: colors.faint }}>{body.slice(saidInBody)}</NativeText>
             )}
           </Text>
         );
@@ -77,7 +97,7 @@ function PrayerLines({
 }
 
 /** The body of the current step: the prayer's words, the mystery, the reading or the litany. */
-export function StepContent({ step, locale, textSize }: StepContentProperties) {
+export function StepContent({ step, locale, textSize, spoken = null }: StepContentProperties) {
   const { t } = useTranslation();
   const announceArtwork = useArtwork(step.kind === 'announce' ? step.mystery.id : '');
   const { width } = useWindowDimensions();
@@ -138,7 +158,7 @@ export function StepContent({ step, locale, textSize }: StepContentProperties) {
     return null;
   }
 
-  return <PrayerLines id={step.prayer} locale={locale} textSize={textSize} />;
+  return <PrayerLines id={step.prayer} locale={locale} textSize={textSize} spoken={spoken} />;
 }
 
 /** Heading over the step: which prayer, and the count for the Hail Marys. */

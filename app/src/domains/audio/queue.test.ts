@@ -1,7 +1,7 @@
 import { buildSequence, type MysteryRef } from '@sanctamaria/rosary';
 import { describe, expect, it } from 'vitest';
 
-import { buildQueue, readingSilenceMs, type AudioManifest } from './queue';
+import { buildQueue, readingSilenceMs, spokenAt, type AudioManifest, type WordMark } from './queue';
 
 const mysteries: MysteryRef[] = [1, 2, 3, 4, 5].map((order) => ({
   id: `m${order}`,
@@ -61,9 +61,9 @@ describe('buildQueue', () => {
   it('plays the leader, a breath, then the response, then the chosen silence', () => {
     const queue = buildQueue(steps(), manifest, timing, () => '')!;
     const hailMary = queue.find((entry) => entry.id === 'd1-hail-mary-1');
-    expect(hailMary?.parts).toEqual([
-      { file: 'hail-mary.leader.mp3', gapAfterMs: 500 },
-      { file: 'hail-mary.response.mp3', gapAfterMs: 1000 },
+    expect(hailMary?.parts.map(({ file, gapAfterMs, role }) => ({ file, gapAfterMs, role }))).toEqual([
+      { file: 'hail-mary.leader.mp3', gapAfterMs: 500, role: 'leader' },
+      { file: 'hail-mary.response.mp3', gapAfterMs: 1000, role: 'response' },
     ]);
   });
 
@@ -74,7 +74,7 @@ describe('buildQueue', () => {
 
   it('turns an unrecorded reading into silence to read it', () => {
     const queue = buildQueue(steps({ reading: true }), manifest, timing, () => 'a'.repeat(280))!;
-    expect(queue.find((entry) => entry.id === 'd1-reading')?.parts).toEqual([
+    expect(queue.find((entry) => entry.id === 'd1-reading')?.parts).toMatchObject([
       { file: null, gapAfterMs: 20_000 },
     ]);
   });
@@ -96,5 +96,48 @@ describe('buildQueue', () => {
   it('bounds the reading silence', () => {
     expect(readingSilenceMs('')).toBe(8000);
     expect(readingSilenceMs('a'.repeat(10_000))).toBe(90_000);
+  });
+});
+
+describe('spokenAt', () => {
+  const words = (marks: WordMark[]) => marks;
+  const parts = [
+    {
+      file: 'l',
+      gapAfterMs: 500,
+      durationMs: 2000,
+      role: 'leader' as const,
+      words: words([
+        [0, 4, 0],
+        [5, 7, 600],
+        [8, 14, 1200],
+      ]),
+    },
+    {
+      file: 'r',
+      gapAfterMs: 1000,
+      durationMs: 1500,
+      role: 'response' as const,
+      words: words([
+        [0, 5, 0],
+        [6, 11, 700],
+      ]),
+    },
+  ];
+
+  it('lights the words already begun in the leader half', () => {
+    expect(spokenAt(parts, 700)).toEqual({ role: 'leader', chars: 7 });
+  });
+
+  it('treats the leader as fully said once its audio ends', () => {
+    expect(spokenAt(parts, 2200)).toEqual({ role: 'leader', chars: Number.POSITIVE_INFINITY });
+  });
+
+  it('moves on to the response after the breath', () => {
+    expect(spokenAt(parts, 2500 + 800)).toEqual({ role: 'response', chars: 11 });
+  });
+
+  it('says nothing for steps without word marks', () => {
+    expect(spokenAt([{ ...parts[0]!, role: 'other' }], 100)).toBeNull();
   });
 });

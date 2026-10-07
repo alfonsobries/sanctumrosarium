@@ -101,7 +101,9 @@ const rosaryPrayers = [
   'rosary-closing-prayer',
 ];
 
-type Track = { file: string; durationMs: number };
+/** Each word as [first character, character after the last, start in ms] within the synthesized text. */
+type WordMark = [number, number, number];
+type Track = { file: string; durationMs: number; words?: WordMark[] };
 type Manifest = {
   version: 1;
   locale: Locale;
@@ -230,6 +232,41 @@ function litanyResponses(pack: PackSpec): string[] {
   });
 }
 
+type AlignedWord = { text: string; start: number; end: number };
+
+/**
+ * Where each word starts in a recording, from ElevenLabs forced alignment of the audio
+ * against the exact text it was made from. Drives the text lighting up with the voice.
+ */
+async function align(path: string, text: string): Promise<WordMark[]> {
+  const form = new FormData();
+  form.append('file', new Blob([readFileSync(path)], { type: 'audio/mpeg' }), 'track.mp3');
+  form.append('text', text);
+  const response = await fetch('https://api.elevenlabs.io/v1/forced-alignment', {
+    method: 'POST',
+    headers: { 'xi-api-key': apiKey() },
+    body: form,
+  });
+  if (!response.ok) {
+    throw new Error(`Alignment ${response.status}: ${await response.text()}`);
+  }
+  const { words } = (await response.json()) as { words: AlignedWord[] };
+  const marks: WordMark[] = [];
+  let cursor = 0;
+  for (const word of words) {
+    if (word.text.trim() === '') {
+      continue;
+    }
+    const at = text.indexOf(word.text, cursor);
+    if (at === -1) {
+      continue;
+    }
+    marks.push([at, at + word.text.length, Math.round(word.start * 1000)]);
+    cursor = at + word.text.length;
+  }
+  return marks;
+}
+
 async function buildPack(pack: PackSpec): Promise<number> {
   const dir = join(audioRoot, pack.locale);
   mkdirSync(dir, { recursive: true });
@@ -250,7 +287,9 @@ async function buildPack(pack: PackSpec): Promise<number> {
     const file = fileFor(job.key, job.text, job.voice);
     const path = join(dir, file);
     if (!force && existsSync(path) && previous?.tracks[job.key]?.file === file) {
-      manifest.tracks[job.key] = previous.tracks[job.key]!;
+      const kept = previous.tracks[job.key]!;
+      manifest.tracks[job.key] =
+        kept.words === undefined && !dryRun ? { ...kept, words: await align(path, job.text) } : kept;
       continue;
     }
     characters += job.text.length;
@@ -259,7 +298,7 @@ async function buildPack(pack: PackSpec): Promise<number> {
     }
     process.stdout.write(`${pack.locale} ${job.key}\n`);
     await synthesize(job.text, job.voice, pack.languageCode, path);
-    manifest.tracks[job.key] = { file, durationMs: durationMs(path) };
+    manifest.tracks[job.key] = { file, durationMs: durationMs(path), words: await align(path, job.text) };
   }
 
   if (!dryRun) {
