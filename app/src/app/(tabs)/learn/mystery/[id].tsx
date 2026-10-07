@@ -1,14 +1,13 @@
 import { bookOf, mystery as findMystery, mysteryTitle, passage } from '@sanctamaria/content';
 import { evangelistOf } from '@sanctamaria/rosary';
-import { Image } from 'expo-image';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View, useWindowDimensions } from 'react-native';
 
+import { ArtworkFrame } from '@/domains/artwork/ArtworkFrame';
 import { useArtwork } from '@/domains/artwork/use-artwork';
 import { useContentLocale } from '@/shared/i18n/use-content-locale';
-import { Card } from '@/shared/ui/Card';
 import { Segmented } from '@/shared/ui/Segmented';
 import { Text } from '@/shared/ui/Text';
 
@@ -34,19 +33,7 @@ export default function MysteryScreen() {
         contentInsetAdjustmentBehavior="automatic"
         contentContainerClassName="gap-6 px-5 pb-16 pt-2"
       >
-        {artwork !== null && (
-          <Card style={{ height: (width - 40) * 1.1, backgroundColor: artwork.color }}>
-            <Image
-              source={artwork.source}
-              placeholder={{ thumbhash: artwork.thumbhash }}
-              contentFit="cover"
-              contentPosition="top"
-              transition={200}
-              style={{ flex: 1 }}
-              accessibilityLabel={`${artwork.title}, ${artwork.artist}`}
-            />
-          </Card>
-        )}
+        {artwork !== null && <ArtworkFrame artwork={artwork} style={{ height: (width - 40) * 1.15 }} />}
         <View className="gap-1">
           <Text variant="eyebrow">
             {t('pray.mystery', {

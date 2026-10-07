@@ -1,6 +1,7 @@
 import { mysteryRefsOf, mysteryTitle } from '@sanctamaria/content';
 import { decadesCompleted, type Step } from '@sanctamaria/rosary';
 import * as Haptics from 'expo-haptics';
+import { Image } from 'expo-image';
 import { useKeepAwake } from 'expo-keep-awake';
 import { Redirect, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
@@ -8,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { Alert, Pressable, View, useWindowDimensions } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
+import { useArtwork } from '@/domains/artwork/use-artwork';
 import { hasAudio, useRosaryAudio } from '@/domains/audio/use-rosary-audio';
 import { beadRingState, decadeFills } from '@/domains/prayer/bead-state';
 import { BeadRing } from '@/domains/prayer/BeadRing';
@@ -104,6 +106,9 @@ export default function PrayScreen() {
   const [headingHidden, setHeadingHidden] = useState(false);
 
   const steps = useMemo(() => (plan === null ? [] : stepsFor(plan, mysteryRefsOf(plan.set))), [plan]);
+  const currentDecade = steps[position]?.decade ?? null;
+  const currentAnnounce = steps.find((s) => s.kind === 'announce' && s.decade === currentDecade);
+  const thumbnail = useArtwork(currentAnnounce?.kind === 'announce' ? currentAnnounce.mystery.id : '');
   useSessionJournal(plan, steps, finished ? steps.length - 1 : position);
 
   const audio = useRosaryAudio({
@@ -195,19 +200,30 @@ export default function PrayScreen() {
   const heading = (
     <View className="min-h-[52px] gap-0.5 pb-4 pt-2">
       {mystery !== null && mystery.kind === 'announce' ? (
-        <>
-          <Text variant="eyebrow" className="text-accent">
-            {t('pray.mystery', {
-              ordinal: t(`ordinal.${mystery.mystery.order - 1}`),
-              set: t(`setAdjective.${mystery.mystery.set}`),
-            })}
-          </Text>
-          {step.kind !== 'announce' && (
-            <Text variant="headline" className="font-prayer text-[20px] leading-[26px]" numberOfLines={2}>
-              {mysteryTitle(mystery.mystery.id, headingLocale)}
-            </Text>
+        <View className="flex-row items-center gap-3">
+          {thumbnail !== null && step.kind !== 'announce' && (
+            <Image
+              source={thumbnail.source}
+              placeholder={{ thumbhash: thumbnail.thumbhash }}
+              contentFit="cover"
+              accessible={false}
+              style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: thumbnail.color }}
+            />
           )}
-        </>
+          <View className="flex-1 gap-0.5">
+            <Text variant="eyebrow" className="text-accent">
+              {t('pray.mystery', {
+                ordinal: t(`ordinal.${mystery.mystery.order - 1}`),
+                set: t(`setAdjective.${mystery.mystery.set}`),
+              })}
+            </Text>
+            {step.kind !== 'announce' && (
+              <Text variant="headline" className="font-prayer text-[20px] leading-[26px]" numberOfLines={2}>
+                {mysteryTitle(mystery.mystery.id, headingLocale)}
+              </Text>
+            )}
+          </View>
+        </View>
       ) : (
         <Text variant="headline" className="font-prayer text-[20px] leading-[26px]">
           {t(`sets.${plan.set}`)}

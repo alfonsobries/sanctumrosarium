@@ -6,12 +6,12 @@ import {
   mysterySets,
   type MysterySet,
 } from '@sanctamaria/rosary';
-import { Image } from 'expo-image';
 import { Link, Stack, useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View, useWindowDimensions } from 'react-native';
 
+import { ArtworkFrame } from '@/domains/artwork/ArtworkFrame';
 import { useArtwork } from '@/domains/artwork/use-artwork';
 import { hasAudio } from '@/domains/audio/use-rosary-audio';
 import { weekOf } from '@/domains/calendar/dates';
@@ -24,7 +24,6 @@ import { capitalizeFirst } from '@/shared/format';
 import { useContentLocale } from '@/shared/i18n/use-content-locale';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Button } from '@/shared/ui/Button';
-import { Card } from '@/shared/ui/Card';
 import { Icon } from '@/shared/ui/Icon';
 import { Text } from '@/shared/ui/Text';
 
@@ -127,17 +126,7 @@ export default function TodayScreen() {
           </View>
 
           {artwork !== null && (
-            <Card style={{ height: Math.min(width - 40, 420) * 0.8, backgroundColor: artwork.color }}>
-              <Image
-                source={artwork.source}
-                placeholder={{ thumbhash: artwork.thumbhash }}
-                contentFit="cover"
-                contentPosition="center"
-                transition={200}
-                accessibilityLabel={`${artwork.title}, ${artwork.artist}`}
-                style={{ flex: 1 }}
-              />
-            </Card>
+            <ArtworkFrame artwork={artwork} style={{ height: Math.min(width - 40, 460) * 0.95 }} />
           )}
 
           <View className="gap-2.5">

@@ -9,13 +9,13 @@ import {
   type Locale,
 } from '@sanctamaria/content';
 import { evangelistOf, type Step } from '@sanctamaria/rosary';
-import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, useWindowDimensions } from 'react-native';
 
+import { ArtworkFrame } from '@/domains/artwork/ArtworkFrame';
 import { useArtwork } from '@/domains/artwork/use-artwork';
 import type { Settings } from '@/domains/settings/settings';
 import { useSkin } from '@/shared/theme/SkinProvider';
@@ -81,6 +81,7 @@ function PrayerLines({
 export function StepContent({ step, locale, textSize }: StepContentProperties) {
   const { t } = useTranslation();
   const announceArtwork = useArtwork(step.kind === 'announce' ? step.mystery.id : '');
+  const { width } = useWindowDimensions();
   const { size, line } = sizes[textSize];
 
   if (step.kind === 'announce') {
@@ -88,20 +89,7 @@ export function StepContent({ step, locale, textSize }: StepContentProperties) {
     return (
       <View className="items-center gap-6">
         {artwork !== null && (
-          <View
-            className="overflow-hidden rounded-card"
-            style={{ width: 168, height: 210, backgroundColor: artwork.color, borderCurve: 'continuous' }}
-          >
-            <Image
-              source={artwork.source}
-              placeholder={{ thumbhash: artwork.thumbhash }}
-              contentFit="cover"
-              contentPosition="top"
-              transition={200}
-              accessibilityLabel={`${artwork.title}, ${artwork.artist}`}
-              style={{ flex: 1 }}
-            />
-          </View>
+          <ArtworkFrame artwork={artwork} style={{ width: '100%', height: Math.min(width * 1.05, 460) }} />
         )}
         <Text
           className="text-center font-prayer text-foreground"
