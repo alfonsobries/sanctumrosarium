@@ -4,7 +4,9 @@
  * announcement of each mystery. Writes MP3s, a manifest with durations and a registry
  * the app can require.
  *
- * Voices are ElevenLabs v4 with a calm, even delivery. Tracks that already exist are
+ * Voices are ElevenLabs v4 read as evenly as the model allows: the most stable setting, no
+ * style, and a spoken text without exclamations or hard breaks, which pull it toward
+ * declaiming. The words on screen keep their punctuation; alignment runs against them. Tracks that already exist are
  * kept; delete a file (or pass --force) to regenerate it.
  *
  * The Gospel passages are their own packs, one per language (both Spanish locales read
@@ -16,7 +18,7 @@
  */
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
@@ -163,8 +165,45 @@ function durationMs(file: string): number {
   return Math.round(Number.parseFloat(output.trim()) * 1000);
 }
 
+const delivery = { stability: 1, similarity_boost: 0.6, style: 0, use_speaker_boost: false, speed: 0.92 };
+/** Changes whenever the delivery or the spoken text rules change, so every track is made again. */
+const deliveryVersion = 'even-1';
+
+/** What the voice is given to say: the same words, without what makes it declaim. */
+function spoken(text: string): string {
+  return text
+    .replace(/[¡!]/g, '')
+    .replaceAll(';', ',')
+    .replace(/\s*\n\s*/g, ' ')
+    .replace(/\s+([,.:])/g, '$1')
+    .replace(/ {2,}/g, ' ')
+    .trim();
+}
+
+/** A request to ElevenLabs, tried again with growing waits when the network drops or the API is busy. */
+async function request(url: string, init: RequestInit): Promise<Response> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const response = await fetch(url, init);
+      if ((response.status === 429 || response.status >= 500) && attempt < 5) {
+        await new Promise((resolve) => setTimeout(resolve, 2000 * 2 ** attempt));
+        continue;
+      }
+      return response;
+    } catch (error) {
+      if (attempt >= 5) {
+        throw error;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 2000 * 2 ** attempt));
+    }
+  }
+}
+
 function fileFor(key: string, text: string, voice: Voice): string {
-  const hash = createHash('sha1').update(`${model}|${voice.id}|${text}`).digest('hex').slice(0, 8);
+  const hash = createHash('sha1')
+    .update(`${model}|${deliveryVersion}|${voice.id}|${text}`)
+    .digest('hex')
+    .slice(0, 8);
   return `${key}-${hash}.mp3`;
 }
 
@@ -175,16 +214,16 @@ async function synthesize(
   out: string,
   bitrate = '64k',
 ): Promise<void> {
-  const response = await fetch(
+  const response = await request(
     `https://api.elevenlabs.io/v1/text-to-speech/${voice.id}?output_format=mp3_44100_128`,
     {
       method: 'POST',
       headers: { 'xi-api-key': apiKey(), 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        text,
+        text: spoken(text),
         model_id: model,
         language_code: languageCode,
-        voice_settings: { stability: 0.7, similarity_boost: 0.8, speed: 0.95 },
+        voice_settings: delivery,
       }),
     },
   );
@@ -269,7 +308,7 @@ async function align(path: string, text: string): Promise<WordMark[]> {
   const form = new FormData();
   form.append('file', new Blob([readFileSync(path)], { type: 'audio/mpeg' }), 'track.mp3');
   form.append('text', text);
-  const response = await fetch('https://api.elevenlabs.io/v1/forced-alignment', {
+  const response = await request('https://api.elevenlabs.io/v1/forced-alignment', {
     method: 'POST',
     headers: { 'xi-api-key': apiKey() },
     body: form,
@@ -333,6 +372,7 @@ async function buildPack(pack: PackSpec): Promise<number> {
       manifestPath,
       `${JSON.stringify({ ...manifest, litanyResponses: litanyResponses(pack) }, null, 2)}\n`,
     );
+    prune(dir, manifest.tracks);
   }
   return characters;
 }
@@ -380,8 +420,19 @@ async function buildScripture(spec: ScriptureSpec): Promise<number> {
   }
   if (!dryRun) {
     writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+    prune(dir, manifest.tracks);
   }
   return characters;
+}
+
+/** Drops recordings no manifest points to any more, so the app never bundles them. */
+function prune(dir: string, tracks: Record<string, Track>): void {
+  const kept = new Set(Object.values(tracks).map((track) => track.file));
+  for (const file of readdirSync(dir)) {
+    if (file.endsWith('.mp3') && !kept.has(file)) {
+      unlinkSync(join(dir, file));
+    }
+  }
 }
 
 function writeRegistry(): void {
