@@ -12,10 +12,9 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { useArtwork } from '@/domains/artwork/use-artwork';
 import { hasAudio, useRosaryAudio } from '@/domains/audio/use-rosary-audio';
-import { beadRingState } from '@/domains/prayer/bead-state';
-import { ControlDock } from '@/domains/prayer/ControlDock';
+import { beadState } from '@/domains/prayer/bead-state';
+import { ControlDock, dockHeight } from '@/domains/prayer/ControlDock';
 import { StepStage } from '@/domains/prayer/StepStage';
-import { BeadRow } from '@/domains/prayer/BeadRow';
 import { guideFor } from '@/domains/prayer/guide';
 import { stepsFor } from '@/domains/prayer/session';
 import { StepContent, stepHeading } from '@/domains/prayer/StepContent';
@@ -144,7 +143,6 @@ export default function PrayScreen() {
   const rate = useSettings((state) => state.rate);
   const pauseSeconds = useSettings((state) => state.pauseSeconds);
   const appearance = useSettings((state) => state.appearance);
-  const compactControls = useSettings((state) => state.compactControls);
   const plan = useSession((state) => state.plan);
   const position = useSession((state) => state.position);
   const moveTo = useSession((state) => state.moveTo);
@@ -247,22 +245,29 @@ export default function PrayScreen() {
         ? t('pray.closing')
         : t('pray.opening');
   const audioAvailable = hasAudio(plan.locale);
-  const dialSize = Math.min(190, width * 0.48);
-  const panelHeight = compactControls ? 64 : dialSize + 52;
+  const dockWidth = Math.min(width - 32, 440);
+  const panelHeight = dockHeight + 12;
 
   return (
     <>
       <Stack.Screen
         options={{
           headerTitle: () => (
-            <View accessible accessibilityLabel={barTitle} className="max-w-[220px] items-center gap-1.5">
+            <View
+              accessible
+              accessibilityRole="header"
+              accessibilityLabel={`${barTitle}, ${t(`sets.${plan.set}`)}`}
+              className="max-w-[220px] items-center"
+            >
               <Text variant="footnote" numberOfLines={1} className="font-semibold text-foreground">
                 {barTitle}
               </Text>
-              <BeadRow
-                state={beadRingState(steps, position)}
-                colors={{ done: colors['bead-done'], pending: colors.bead, current: colors.accent }}
-              />
+              <Text
+                numberOfLines={1}
+                className="text-[11px] uppercase leading-[15px] tracking-[1.2px] text-muted"
+              >
+                {t(`sets.${plan.set}`)}
+              </Text>
             </View>
           ),
         }}
@@ -377,10 +382,8 @@ export default function PrayScreen() {
           className="items-center"
         >
           <ControlDock
-            expanded={!compactControls}
-            onExpandedChange={(expanded) => updateSettings({ compactControls: !expanded })}
-            ring={beadRingState(steps, position)}
-            dialSize={dialSize}
+            beads={beadState(steps, position)}
+            width={dockWidth}
             listening={listening}
             playing={audio.status === 'playing'}
             loading={audio.availability === 'loading'}
@@ -388,21 +391,11 @@ export default function PrayScreen() {
             onToggle={listening ? audio.toggle : handleNext}
             onNext={handleNext}
             onPrevious={handlePrevious}
-            onTurn={(direction) => (direction === 1 ? handleNext() : handlePrevious())}
-            isMajor={(direction) => {
-              const target = steps[position + direction];
-              return (
-                target?.kind === 'announce' || (target?.kind === 'prayer' && target.prayer === 'our-father')
-              );
-            }}
             labels={{
               previous: t('pray.previous'),
               next: t('pray.next'),
               play: t('pray.play'),
               pause: t('pray.pause'),
-              dial: t('pray.dial'),
-              minimize: t('pray.minimize'),
-              expand: t('pray.expand'),
             }}
           />
         </View>

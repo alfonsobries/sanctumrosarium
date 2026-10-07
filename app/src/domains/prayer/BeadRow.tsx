@@ -1,56 +1,76 @@
-import { View } from 'react-native';
+import Svg, { Circle, Line, Path } from 'react-native-svg';
 
-import type { BeadRingState } from './BeadRing';
+import { useSkin } from '@/shared/theme/SkinProvider';
+
+import { crossPath, placesFor, type BeadState } from './bead-places';
 
 type BeadRowProperties = {
-  state: BeadRingState;
-  colors: { done: string; pending: string; current: string };
+  state: BeadState;
+  /** Drawn larger for illustrations; the folded controls use 1. */
+  scale?: number;
 };
 
-/** The beads of the current decade (or of the opening) laid out in a line, for the title bar. */
-export function BeadRow({ state, colors }: BeadRowProperties) {
-  const beads: { key: string; size: number; done: boolean; current: boolean }[] = [];
-  if (state.kind === 'opening') {
-    [0, 1, 2, 3, 4].forEach((position) => {
-      beads.push({
-        key: `o${position}`,
-        size: position <= 1 ? 7 : 5,
-        done: position < state.prayed || (position === 0 && state.prayed > 0),
-        current: state.current === position,
-      });
-    });
-  } else {
-    beads.push({
-      key: 'of',
-      size: 7,
-      done: state.ourFather === 'done',
-      current: state.ourFather === 'current',
-    });
-    for (let index = 1; index <= 10; index++) {
-      beads.push({
-        key: `h${index}`,
-        size: 5,
-        done: index <= state.prayed,
-        current: state.current === index,
-      });
+const small = 3;
+const large = 4.5;
+const step = 11;
+const height = 22;
+
+/** The beads of the current decade (or the opening) strung in a line, for the folded controls. */
+export function BeadRow({ state, scale = 1 }: BeadRowProperties) {
+  const { colors } = useSkin();
+  const places = placesFor(state);
+  const xs: number[] = [];
+  let x = 6;
+  places.forEach((place, index) => {
+    // The Our Father bead stands a little apart from the Hail Marys, as on the cord.
+    if (index > 0 && (places[index - 1]?.shape !== 'small' || place.shape !== 'small')) {
+      x += 4;
     }
-  }
+    xs.push(x);
+    x += step;
+  });
+  const width = x - step + 6;
+  const y = height / 2;
 
   return (
-    <View accessible={false} className="flex-row items-center gap-[5px]">
-      {beads.map((bead, index) => (
-        <View
-          key={bead.key}
-          style={{
-            width: bead.current ? bead.size + 3 : bead.size,
-            height: bead.current ? bead.size + 3 : bead.size,
-            borderRadius: 99,
-            marginRight: index === 0 && state.kind === 'decade' ? 4 : 0,
-            backgroundColor: bead.current ? colors.current : bead.done ? colors.done : colors.pending,
-            opacity: bead.done && !bead.current ? 0.4 : 1,
-          }}
-        />
-      ))}
-    </View>
+    <Svg accessible={false} width={width * scale} height={height * scale} viewBox={`0 0 ${width} ${height}`}>
+      <Line
+        x1={xs[0]}
+        y1={y}
+        x2={xs.at(-1)}
+        y2={y}
+        stroke={colors.faint}
+        strokeOpacity={0.55}
+        strokeWidth={1}
+      />
+      {places.map((place, index) => {
+        const cx = xs[index] ?? 0;
+        const color = place.current ? colors.accent : place.done ? colors['bead-done'] : colors.bead;
+        if (place.shape === 'cross') {
+          return (
+            <Path
+              key={place.key}
+              d={crossPath(cx, y, 12)}
+              stroke={place.current ? colors.accent : place.done ? colors['bead-done'] : colors.muted}
+              strokeWidth={1.75}
+              strokeLinecap="round"
+            />
+          );
+        }
+        const r = (place.shape === 'large' ? large : small) + (place.current ? 1 : 0);
+        return (
+          <Circle
+            key={place.key}
+            cx={cx}
+            cy={y}
+            r={r}
+            fill={color}
+            stroke={place.current ? colors.accent : undefined}
+            strokeOpacity={0.35}
+            strokeWidth={place.current ? 5 : 0}
+          />
+        );
+      })}
+    </Svg>
   );
 }

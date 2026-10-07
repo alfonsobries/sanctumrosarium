@@ -13,9 +13,8 @@ import {
   User,
   CalendarDays,
   Check,
-  ChevronDown,
+  ChevronLeft,
   ChevronRight,
-  ChevronUp,
   Ellipsis,
   Hand,
   Icon as LucideIcon,
@@ -35,8 +34,7 @@ import { DecadeIcon, LatinCrossIcon, RosaryIcon } from './custom-icons';
 
 const library = {
   chevron: ChevronRight,
-  collapse: ChevronDown,
-  expand: ChevronUp,
+  back: ChevronLeft,
   settings: Settings,
   play: Play,
   pause: Pause,
@@ -76,9 +74,11 @@ type IconProperties = {
   size?: number;
   color: string;
   strokeWidth?: number;
+  /** Solid glyphs (play, pause) take the colour inside as well. */
+  fill?: string;
 };
 
-export function Icon({ name, size = 22, color, strokeWidth = 1.75 }: IconProperties) {
+export function Icon({ name, size = 22, color, strokeWidth = 1.75, fill }: IconProperties) {
   if (name in custom) {
     return (
       <LucideIcon
@@ -86,9 +86,10 @@ export function Icon({ name, size = 22, color, strokeWidth = 1.75 }: IconPropert
         size={size}
         color={color}
         strokeWidth={strokeWidth}
+        fill={fill ?? 'none'}
       />
     );
   }
   const Component = library[name as keyof typeof library];
-  return <Component size={size} color={color} strokeWidth={strokeWidth} />;
+  return <Component size={size} color={color} strokeWidth={strokeWidth} fill={fill ?? 'none'} />;
 }

@@ -6,7 +6,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
 import { lesson, type Figure } from '@/domains/learn/lessons';
-import { BeadRing } from '@/domains/prayer/BeadRing';
+import { BeadRow } from '@/domains/prayer/BeadRow';
 import { startSession } from '@/domains/prayer/start';
 import { useSettings } from '@/domains/settings/use-settings';
 import { useSkin } from '@/shared/theme/SkinProvider';
@@ -22,9 +22,9 @@ function LessonFigure({ figure }: { figure: Figure }) {
     case 'cross':
       return <Icon name="cross" size={72} color={colors.accent} />;
     case 'opening':
-      return <BeadRing size={180} state={{ kind: 'opening', prayed: 4, current: null }} />;
+      return <BeadRow scale={2.4} state={{ kind: 'opening', prayed: 4, current: null }} />;
     case 'decade':
-      return <BeadRing size={180} state={{ kind: 'decade', ourFather: 'done', prayed: 10, current: null }} />;
+      return <BeadRow scale={2} state={{ kind: 'decade', ourFather: 'done', prayed: 10, current: null }} />;
     case 'sets':
       return (
         <View className="w-full gap-2">

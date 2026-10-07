@@ -24,7 +24,6 @@ export type Settings = {
   litany: boolean;
   textSize: 'regular' | 'large' | 'larger';
   /** The bead wheel folded into a slim bar while praying. */
-  compactControls: boolean;
   onboarded: boolean;
 };
 
@@ -50,7 +49,6 @@ export const defaultSettings: Settings = {
   prayerForThePope: true,
   litany: false,
   textSize: 'regular',
-  compactControls: false,
   onboarded: false,
 };
 

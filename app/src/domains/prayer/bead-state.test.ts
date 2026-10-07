@@ -1,7 +1,7 @@
 import { buildSequence, type MysteryRef } from '@sanctamaria/rosary';
 import { describe, expect, it } from 'vitest';
 
-import { beadRingState, decadeFills } from './bead-state';
+import { beadState, decadeFills } from './bead-state';
 
 const steps = buildSequence({
   set: 'joyful',
@@ -22,13 +22,13 @@ const steps = buildSequence({
 });
 const at = (id: string): number => steps.findIndex((step) => step.id === id);
 
-describe('beadRingState', () => {
+describe('beadState', () => {
   it('starts on the cross', () => {
-    expect(beadRingState(steps, 0)).toEqual({ kind: 'opening', prayed: 0, current: 0 });
+    expect(beadState(steps, 0)).toEqual({ kind: 'opening', prayed: 0, current: 0 });
   });
 
   it('walks the three opening Hail Marys', () => {
-    expect(beadRingState(steps, at('opening-hail-mary-2'))).toEqual({
+    expect(beadState(steps, at('opening-hail-mary-2'))).toEqual({
       kind: 'opening',
       prayed: 2,
       current: 3,
@@ -36,11 +36,11 @@ describe('beadRingState', () => {
   });
 
   it('marks the Our Father bead of a decade', () => {
-    expect(beadRingState(steps, at('d3-our-father'))).toMatchObject({ ourFather: 'current', prayed: 0 });
+    expect(beadState(steps, at('d3-our-father'))).toMatchObject({ ourFather: 'current', prayed: 0 });
   });
 
   it('fills the beads already prayed', () => {
-    expect(beadRingState(steps, at('d3-hail-mary-7'))).toEqual({
+    expect(beadState(steps, at('d3-hail-mary-7'))).toEqual({
       kind: 'decade',
       ourFather: 'done',
       prayed: 6,
@@ -49,7 +49,7 @@ describe('beadRingState', () => {
   });
 
   it('shows the whole decade prayed at the Glory Be', () => {
-    expect(beadRingState(steps, at('d3-glory-be'))).toMatchObject({ prayed: 10, current: null });
+    expect(beadState(steps, at('d3-glory-be'))).toMatchObject({ prayed: 10, current: null });
   });
 });
 

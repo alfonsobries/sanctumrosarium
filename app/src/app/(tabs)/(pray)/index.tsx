@@ -214,21 +214,6 @@ export default function TodayScreen() {
             onPress={() => void handleStart(todaySet, 'decade')}
           />
         </View>
-
-        <Link href="/lesson/how-to-pray" asChild>
-          <Pressable
-            accessibilityRole="button"
-            className="flex-row items-center gap-4 rounded-card border border-border p-4 active:bg-surface"
-            style={{ borderCurve: 'continuous' }}
-          >
-            <Icon name="learn" color={colors.accent} />
-            <View className="flex-1 gap-0.5">
-              <Text variant="headline">{t('home.learnTitle')}</Text>
-              <Text variant="footnote">{t('home.learnDetail')}</Text>
-            </View>
-            <Icon name="chevron" size={18} color={colors.faint} />
-          </Pressable>
-        </Link>
       </ScrollView>
     </>
   );

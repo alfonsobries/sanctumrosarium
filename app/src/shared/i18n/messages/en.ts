@@ -27,8 +27,6 @@ export const en: Messages<typeof es> = {
     resume: 'Pick up where you left off',
     resumeDetail: 'Decade {{decade}}, {{set}}',
     otherSets: 'Other mysteries',
-    learnTitle: 'New to the Rosary?',
-    learnDetail: 'Five short steps to begin',
     week: 'This week',
     summaryListen: 'With audio',
     summaryTap: 'At your pace',
@@ -51,9 +49,6 @@ export const en: Messages<typeof es> = {
   pray: {
     close: 'End',
     next: 'Next',
-    dial: 'Beads: turn to move on',
-    minimize: 'Minimize controls',
-    expand: 'Show the beads',
     goToDecade: 'Go to decade',
     nextDecade: 'Next decade',
     previous: 'Previous',

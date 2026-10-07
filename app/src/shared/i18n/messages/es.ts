@@ -17,8 +17,6 @@ export const es = {
     resume: 'Seguir donde te quedaste',
     resumeDetail: 'Decena {{decade}} de {{set}}',
     otherSets: 'Otros misterios',
-    learnTitle: '¿Primera vez?',
-    learnDetail: 'Cinco pasos cortos para empezar',
     week: 'Esta semana',
     summaryListen: 'Con audio',
     summaryTap: 'Avanzas tú',
@@ -41,9 +39,6 @@ export const es = {
   pray: {
     close: 'Terminar',
     next: 'Siguiente',
-    dial: 'Cuentas: gira para avanzar',
-    minimize: 'Minimizar controles',
-    expand: 'Mostrar las cuentas',
     goToDecade: 'Ir a la decena',
     nextDecade: 'Siguiente decena',
     previous: 'Anterior',

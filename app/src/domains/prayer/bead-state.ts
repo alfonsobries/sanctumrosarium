@@ -1,9 +1,9 @@
 import type { Step } from '@sanctamaria/rosary';
 
-import type { BeadRingState } from './BeadRing';
+import type { BeadState } from './bead-places';
 
 /** What the bead ring shows while `steps[position]` is being prayed. */
-export function beadRingState(steps: readonly Step[], position: number): BeadRingState {
+export function beadState(steps: readonly Step[], position: number): BeadState {
   const step = steps[position];
   if (step === undefined) {
     return { kind: 'decade', ourFather: 'done', prayed: 10, current: null };
