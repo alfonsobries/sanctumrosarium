@@ -132,3 +132,34 @@ Antes de publicar se necesita permiso o confirmar el uso permitido para todo lo 
 **Indulgencias**
 
 21. El *Enchiridion* (1999) no tiene versión oficial en español en línea. `structure.md` cita el latín y da un resumen de trabajo. Su texto habla de quince decenas porque es anterior a 2002.
+
+## Promesas del Rosario
+
+`promises.json` guarda las quince promesas atribuidas a la Virgen María para quienes recen el Rosario, consultadas el 2026-10-07. Categoría `pious-tradition`: vienen de la revelación privada que el beato Alano de la Rupe (siglo XV) dijo haber recibido, no tienen aprobación de la Iglesia como revelación auténtica y no pertenecen al depósito de la fe (CIC 67).
+
+```jsonc
+{
+  "_meta": { "generated", "editorialMarker", "context" },
+  "category": "pious-tradition",
+  "titles": { "es": { "text", "source" }, "en": { ... } },
+  "intro": { "kind": "editorial", "es", "en", "basis": [source] },  // escrito para la app
+  "origin": [{ "claim", "quote", "source" }],                       // claim en español, quote literal
+  "promises": [{
+    "n": 1,
+    "texts": {
+      "es": { "text", "source", "corroboratedBy": [source], "notes"?, "variants": [{ "label", "text", "source", "notes"? }] },
+      "en": { "text", "source", "corroboratedBy": [source], "notes"? },
+      "la": { "missing": true, "notes" }
+    }
+  }],
+  "understanding": [{ "topic", "kind": "editorial", "es", "en", "quote"?: { "es"?, "en"? }, "source" }]
+}
+```
+
+- Todo lo marcado `"kind": "editorial"` se redactó para la app a partir de las fuentes citadas. Los textos de `promises` y los `quote` son literales.
+- Inglés: Rosary Center & Confraternity (provincia dominica del Santo Nombre, con Nihil Obstat e Imprimi Potest), cotejado con dominicanfriars.org.
+- Español: ACI Prensa (recurso 530), igual palabra por palabra a EWTN en español e InfoVaticana.
+- Las versiones española e inglesa son dos tradiciones de traducción y no coinciden en todo (n. 1, 9, 11, 13; ver `notes`).
+- La variante de ACI Prensa (recurso 2961) dice "señal de profecía" en el n. 15 donde las demás dicen predestinación. No usarla para ese número.
+- Latín: no se encontró un texto con fuente citable.
+- Un Nihil Obstat o imprimatur sobre un texto de las promesas no es un juicio sobre la autenticidad de la revelación.

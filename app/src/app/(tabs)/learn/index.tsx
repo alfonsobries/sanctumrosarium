@@ -87,6 +87,12 @@ export default function LearnScreen() {
           </Pressable>
         </Link>
 
+        <Card>
+          <Link href="/learn/promises" asChild>
+            <Row title={t('learn.promises')} detail={t('learn.promisesDetail')} icon="rosary" />
+          </Link>
+        </Card>
+
         <View className="gap-3">
           <Text variant="eyebrow">{t('learn.mysteries')}</Text>
           {mysterySets.map((set) => (

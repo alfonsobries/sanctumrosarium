@@ -2,6 +2,7 @@ import type { MysteryRef, MysterySet, Reading } from '@sanctamaria/rosary';
 
 import mysteriesFile from '../mysteries.json';
 import prayersFile from '../prayers.json';
+import promisesFile from '../promises.json';
 import en from '../scripture/en.json';
 import es from '../scripture/es.json';
 import la from '../scripture/la.json';
@@ -177,4 +178,39 @@ export function mysterySlug(id: string): string {
 export function passage(ref: string, locale: Locale): Passage | null {
   const language = locale === 'la' ? 'la' : locale === 'en-US' ? 'en' : 'es';
   return passages[language][ref] ?? null;
+}
+
+type PromiseText = { text: string; source: Source };
+type PromisesFile = {
+  intro: { es: string; en: string };
+  promises: { n: number; texts: { es: PromiseText; en: PromiseText } }[];
+  understanding: { topic: string; es: string; en: string; source: Source }[];
+};
+
+const promisesData = promisesFile as unknown as PromisesFile;
+
+export type RosaryPromises = {
+  intro: string;
+  promises: { n: number; text: string; source: Source }[];
+  understanding: { topic: string; text: string; source: Source }[];
+};
+
+/**
+ * The fifteen promises attributed by tradition to Our Lady, framed as pious tradition:
+ * an editorial introduction, each promise quoted with its source, and how to read them.
+ */
+export function rosaryPromises(language: 'es' | 'en'): RosaryPromises {
+  return {
+    intro: promisesData.intro[language],
+    promises: promisesData.promises.map((promise) => ({
+      n: promise.n,
+      text: promise.texts[language].text,
+      source: promise.texts[language].source,
+    })),
+    understanding: promisesData.understanding.map((entry) => ({
+      topic: entry.topic,
+      text: entry[language],
+      source: entry.source,
+    })),
+  };
 }

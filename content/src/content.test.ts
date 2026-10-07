@@ -2,6 +2,7 @@ import { buildSequence, mysterySets, type PrayerId } from '@sanctamaria/rosary';
 import { describe, expect, it } from 'vitest';
 
 import {
+  rosaryPromises,
   hasPrayerText,
   litany,
   locales,
@@ -93,5 +94,18 @@ describe('content', () => {
   it('keeps prayer ids unique', () => {
     const ids = allPrayers().map((p) => p.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+});
+
+describe('rosary promises', () => {
+  it.each(['es', 'en'] as const)('has fifteen sourced promises and a framing in %s', (language) => {
+    const promises = rosaryPromises(language);
+    expect(promises.promises.map((p) => p.n)).toEqual(Array.from({ length: 15 }, (_, i) => i + 1));
+    for (const promise of promises.promises) {
+      expect(promise.text.length).toBeGreaterThan(10);
+      expect(promise.source.url).toMatch(/^https:\/\//);
+    }
+    expect(promises.intro.length).toBeGreaterThan(100);
+    expect(promises.understanding.length).toBeGreaterThan(3);
   });
 });
