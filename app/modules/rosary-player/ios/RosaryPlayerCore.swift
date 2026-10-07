@@ -155,6 +155,9 @@ public final class RosaryPlayerCore {
     }
 
     resetQueue()
+    // Compositions are cached by position; a new queue puts different audio at the same
+    // positions (a Gospel reading where a Hail Mary was), so the cache starts over.
+    compositions.removeAll()
     self.steps = steps
     self.nowPlaying = nowPlaying
     self.artwork = nil
@@ -295,6 +298,7 @@ public final class RosaryPlayerCore {
 
   public func unload() {
     resetQueue()
+    compositions.removeAll()
     steps = []
     nowPlaying = nil
     artwork = nil
