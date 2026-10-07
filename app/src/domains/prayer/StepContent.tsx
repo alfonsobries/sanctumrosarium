@@ -9,7 +9,6 @@ import {
   type Locale,
 } from '@sanctamaria/content';
 import { evangelistOf, type Step } from '@sanctamaria/rosary';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -173,24 +172,8 @@ type StepScrollProperties = {
   onTap: () => void;
   /** Horizontal swipe: to the left moves on, to the right goes back. */
   onSwipe: (direction: 'next' | 'previous') => void;
-  /** Scrolls with the text; reports when it has left the view so the bar can show it compact. */
-  header: React.ReactNode;
-  onHeaderHidden: (hidden: boolean) => void;
   accessibilityHint?: string;
 };
-
-function Fade({ edge }: { edge: 'top' | 'bottom' }) {
-  const { colors } = useSkin();
-  const solid = colors.background;
-  const clear = `${solid}00`;
-  return (
-    <LinearGradient
-      pointerEvents="none"
-      colors={edge === 'top' ? [solid, clear] : [clear, solid]}
-      style={{ position: 'absolute', left: 0, right: 0, height: 28, [edge]: 0 }}
-    />
-  );
-}
 
 export function StepScroll({
   children,
@@ -198,12 +181,8 @@ export function StepScroll({
   stepId,
   onTap,
   onSwipe,
-  header,
-  onHeaderHidden,
   accessibilityHint,
 }: StepScrollProperties) {
-  const headerHeight = useRef(0);
-  const hidden = useRef(false);
   const scroll = useRef<ScrollView>(null);
   const [viewport, setViewport] = useState(0);
   const [content, setContent] = useState(0);
@@ -238,8 +217,6 @@ export function StepScroll({
   useEffect(() => {
     setFollowing(true);
     scroll.current?.scrollTo({ y: 0, animated: false });
-    hidden.current = false;
-    onHeaderHidden(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stepId]);
 
@@ -271,25 +248,15 @@ export function StepScroll({
         <ScrollView
           ref={scroll}
           className="flex-1"
-          contentContainerClassName="flex-grow px-6 pb-8"
+          contentContainerClassName="flex-grow justify-center px-6 py-6"
+          contentInsetAdjustmentBehavior="automatic"
           showsVerticalScrollIndicator={false}
           onLayout={(event) => setViewport(event.nativeEvent.layout.height)}
           onContentSizeChange={(_, height) => setContent(height)}
           onScrollBeginDrag={() => setFollowing(false)}
-          scrollEventThrottle={32}
-          onScroll={(event) => {
-            const now = event.nativeEvent.contentOffset.y > headerHeight.current - 12;
-            if (now !== hidden.current) {
-              hidden.current = now;
-              onHeaderHidden(now);
-            }
-          }}
         >
-          <View onLayout={(event) => (headerHeight.current = event.nativeEvent.layout.height)}>{header}</View>
-          <View className="flex-1 justify-center">{children}</View>
+          {children}
         </ScrollView>
-        {overflow > 0 && <Fade edge="top" />}
-        {overflow > 0 && <Fade edge="bottom" />}
       </View>
     </GestureDetector>
   );

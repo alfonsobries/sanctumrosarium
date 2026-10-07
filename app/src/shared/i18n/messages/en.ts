@@ -51,6 +51,7 @@ export const en: Messages<typeof es> = {
   pray: {
     close: 'End',
     next: 'Next',
+    goToDecade: 'Go to decade',
     nextDecade: 'Next decade',
     previous: 'Previous',
     play: 'Play',

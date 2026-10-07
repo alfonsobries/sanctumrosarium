@@ -98,16 +98,6 @@ function Navigation() {
             }}
           />
           <Stack.Screen
-            name="display"
-            options={{
-              presentation: 'formSheet',
-              sheetAllowedDetents: 'fitToContents',
-              sheetGrabberVisible: true,
-              sheetCornerRadius: 24,
-              contentStyle: { backgroundColor: colors.background },
-            }}
-          />
-          <Stack.Screen
             name="settings"
             options={{
               presentation: 'modal',
