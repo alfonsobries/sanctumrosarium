@@ -615,12 +615,23 @@ public final class RosaryPlayerCore {
 
   // MARK: - Session
 
+  // Session calls are synchronous and can take hundreds of milliseconds on a device
+  // (the audio server is another process), so they never run on the main thread.
+  private nonisolated static let sessionQueue = DispatchQueue(label: "rosary-player.session", qos: .userInitiated)
+
+  private nonisolated static func applyCategory() throws {
+    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio, policy: .longFormAudio, options: [])
+  }
+
   private func configureSession() {
-    let session = AVAudioSession.sharedInstance()
-    do {
-      try session.setCategory(.playback, mode: .spokenAudio, policy: .longFormAudio, options: [])
-    } catch {
-      report(error)
+    Self.sessionQueue.async {
+      do {
+        try Self.applyCategory()
+      } catch {
+        Task { @MainActor [weak self] in
+          self?.report(error)
+        }
+      }
     }
   }
 
@@ -664,8 +675,8 @@ public final class RosaryPlayerCore {
 
   private func activateSession(_ completion: @escaping @MainActor (Bool) -> Void) {
     let session = AVAudioSession.sharedInstance()
-    configureSession()
     #if os(watchOS)
+    configureSession()
     // Long-form audio on watchOS must activate asynchronously so the system can
     // route it to Bluetooth headphones.
     session.activate(options: []) { success, _ in
@@ -674,22 +685,31 @@ public final class RosaryPlayerCore {
       }
     }
     #else
-    do {
-      try session.setActive(true)
-      completion(true)
-    } catch {
-      report(error)
-      completion(false)
+    Self.sessionQueue.async {
+      do {
+        try Self.applyCategory()
+        try session.setActive(true)
+        Task { @MainActor in
+          completion(true)
+        }
+      } catch {
+        Task { @MainActor [weak self] in
+          self?.report(error)
+          completion(false)
+        }
+      }
     }
     #endif
   }
 
   private func deactivateSession() {
-    #if !os(watchOS)
-    try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
-    #else
-    try? AVAudioSession.sharedInstance().setActive(false)
-    #endif
+    Self.sessionQueue.async {
+      #if !os(watchOS)
+      try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+      #else
+      try? AVAudioSession.sharedInstance().setActive(false)
+      #endif
+    }
   }
 
   private func observeNotifications() {
