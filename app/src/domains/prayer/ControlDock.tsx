@@ -1,6 +1,6 @@
 import { GlassView, isLiquidGlassAvailable } from 'expo-glass-effect';
 import * as Haptics from 'expo-haptics';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { ActivityIndicator, Pressable, View, type ViewStyle } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { useSkin } from '@/shared/theme/SkinProvider';
@@ -9,6 +9,7 @@ import { Icon } from '@/shared/ui/Icon';
 import { BeadDial } from './BeadDial';
 import type { BeadRingState } from './BeadRing';
 import { BeadRow } from './BeadRow';
+import { GlassButton } from './GlassButton';
 
 type Labels = {
   previous: string;
@@ -37,95 +38,25 @@ type ControlDockProperties = {
   labels: Labels;
 };
 
-/** Liquid Glass where the system has it; a translucent surface elsewhere. */
-function Glass({ style, children }: { style: object; children?: React.ReactNode }) {
+/** Liquid Glass where the system has it (the effect view itself carries the shape, so its rim is not clipped); a translucent surface elsewhere. */
+function Glass({ style, children }: { style: ViewStyle; children?: React.ReactNode }) {
   const { colors } = useSkin();
-  const glass = isLiquidGlassAvailable();
+  if (isLiquidGlassAvailable()) {
+    return (
+      <GlassView glassEffectStyle="clear" tintColor={`${colors.background}4D`} style={style}>
+        {children}
+      </GlassView>
+    );
+  }
   return (
     <View
       style={[
-        { overflow: 'hidden', borderCurve: 'continuous' },
-        glass
-          ? { borderWidth: 0.5, borderColor: `${colors.foreground}1F` }
-          : { backgroundColor: `${colors['surface-raised']}E6`, borderWidth: 1, borderColor: colors.border },
+        { backgroundColor: `${colors['surface-raised']}E6`, borderWidth: 1, borderColor: colors.border },
         style,
       ]}
     >
-      {glass && (
-        <GlassView
-          glassEffectStyle="clear"
-          // A breath of the page color keeps the beads readable over the text the lens shows.
-          tintColor={`${colors.background}4D`}
-          isInteractive
-          style={{ position: 'absolute', inset: 0 }}
-        />
-      )}
       {children}
     </View>
-  );
-}
-
-function RoundButton({
-  icon,
-  label,
-  onPress,
-  disabled,
-}: {
-  icon: 'previous' | 'next';
-  label: string;
-  onPress: () => void;
-  disabled?: boolean;
-}) {
-  const { colors } = useSkin();
-  return (
-    <Glass style={{ width: 52, height: 52, borderRadius: 26, opacity: disabled ? 0.4 : 1 }}>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={label}
-        disabled={disabled}
-        onPress={onPress}
-        className="flex-1 items-center justify-center active:opacity-60"
-      >
-        <Icon name={icon} size={22} color={colors.foreground} />
-      </Pressable>
-    </Glass>
-  );
-}
-
-function MainButton({
-  listening,
-  playing,
-  loading,
-  onPress,
-  labels,
-  size,
-}: {
-  listening: boolean;
-  playing: boolean;
-  loading: boolean;
-  onPress: () => void;
-  labels: Labels;
-  size: number;
-}) {
-  const { colors } = useSkin();
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={listening ? (playing ? labels.pause : labels.play) : labels.next}
-      onPress={onPress}
-      style={{ width: size, height: size, borderRadius: size / 2 }}
-      className="items-center justify-center bg-accent active:scale-95"
-    >
-      {listening && loading ? (
-        <ActivityIndicator color={colors['accent-foreground']} />
-      ) : (
-        <Icon
-          name={listening ? (playing ? 'pause' : 'play') : 'chevron'}
-          size={size * 0.42}
-          color={colors['accent-foreground']}
-        />
-      )}
-    </Pressable>
   );
 }
 
@@ -137,6 +68,20 @@ export function ControlDock(props: ControlDockProperties) {
   const { expanded, onExpandedChange, ring, dialSize, labels } = props;
   const { colors } = useSkin();
 
+  const main = (size: 'regular' | 'large') =>
+    props.listening && props.loading ? (
+      <ActivityIndicator color={colors.accent} />
+    ) : (
+      <GlassButton
+        symbol={props.listening ? (props.playing ? 'pause.fill' : 'play.fill') : 'chevron.forward'}
+        icon={props.listening ? (props.playing ? 'pause' : 'play') : 'chevron'}
+        label={props.listening ? (props.playing ? labels.pause : labels.play) : labels.next}
+        onPress={props.onToggle}
+        size={size}
+        prominent
+      />
+    );
+
   if (!expanded) {
     return (
       <Animated.View
@@ -147,16 +92,14 @@ export function ControlDock(props: ControlDockProperties) {
       >
         <Glass style={{ borderRadius: 30, height: 60, width: '88%', maxWidth: 420 }}>
           <View className="flex-1 flex-row items-center gap-1 px-2">
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={labels.previous}
-              disabled={!props.canGoBack}
+            <GlassButton
+              symbol="backward.end.fill"
+              icon="previous"
+              label={labels.previous}
               onPress={props.onPrevious}
-              className="h-11 w-11 items-center justify-center active:opacity-60"
-              style={{ opacity: props.canGoBack ? 1 : 0.35 }}
-            >
-              <Icon name="previous" size={20} color={colors.foreground} />
-            </Pressable>
+              disabled={!props.canGoBack}
+              size="small"
+            />
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={labels.expand}
@@ -171,22 +114,14 @@ export function ControlDock(props: ControlDockProperties) {
                 colors={{ done: colors['bead-done'], pending: colors.bead, current: colors.accent }}
               />
             </Pressable>
-            <MainButton
-              listening={props.listening}
-              playing={props.playing}
-              loading={props.loading}
-              onPress={props.onToggle}
-              labels={labels}
-              size={44}
-            />
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={labels.next}
+            {main('regular')}
+            <GlassButton
+              symbol="forward.end.fill"
+              icon="next"
+              label={labels.next}
               onPress={props.onNext}
-              className="h-11 w-11 items-center justify-center active:opacity-60"
-            >
-              <Icon name="next" size={20} color={colors.foreground} />
-            </Pressable>
+              size="small"
+            />
           </View>
         </Glass>
       </Animated.View>
@@ -200,26 +135,24 @@ export function ControlDock(props: ControlDockProperties) {
       exiting={FadeOut.duration(120)}
       className="w-full items-center gap-1"
     >
-      <Glass style={{ width: 44, height: 28, borderRadius: 14 }}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={labels.minimize}
-          onPress={() => {
-            void Haptics.selectionAsync();
-            onExpandedChange(false);
-          }}
-          hitSlop={10}
-          className="flex-1 items-center justify-center active:opacity-60"
-        >
-          <Icon name="collapse" size={18} color={colors.muted} />
-        </Pressable>
-      </Glass>
+      <GlassButton
+        symbol="chevron.down"
+        icon="collapse"
+        label={labels.minimize}
+        onPress={() => {
+          void Haptics.selectionAsync();
+          onExpandedChange(false);
+        }}
+        size="small"
+      />
       <View className="w-full flex-row items-center justify-center gap-6">
-        <RoundButton
+        <GlassButton
+          symbol="backward.end.fill"
           icon="previous"
           label={labels.previous}
           onPress={props.onPrevious}
           disabled={!props.canGoBack}
+          size="regular"
         />
         <Glass style={{ width: dialSize + 16, height: dialSize + 16, borderRadius: (dialSize + 16) / 2 }}>
           <View className="flex-1 items-center justify-center">
@@ -230,18 +163,17 @@ export function ControlDock(props: ControlDockProperties) {
               isMajor={props.isMajor}
               accessibilityLabel={labels.dial}
             >
-              <MainButton
-                listening={props.listening}
-                playing={props.playing}
-                loading={props.loading}
-                onPress={props.onToggle}
-                labels={labels}
-                size={56}
-              />
+              {main('large')}
             </BeadDial>
           </View>
         </Glass>
-        <RoundButton icon="next" label={labels.next} onPress={props.onNext} />
+        <GlassButton
+          symbol="forward.end.fill"
+          icon="next"
+          label={labels.next}
+          onPress={props.onNext}
+          size="regular"
+        />
       </View>
     </Animated.View>
   );
