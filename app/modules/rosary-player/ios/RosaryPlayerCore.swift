@@ -103,7 +103,8 @@ public final class RosaryPlayerCore {
   // apps that play short voice cues often deactivate without notifying others.
   private static let resumeWindow: TimeInterval = 180
   private static let lookahead = 2
-  private static let progressInterval = CMTime(value: 1, timescale: 4)
+  // Fine enough for the words to light up as they are said; only runs while the text is on screen.
+  private static let progressInterval = CMTime(value: 1, timescale: 20)
   private static let timescale: CMTimeScale = 44_100
 
   public var onStepChange: ((Int, String) -> Void)?

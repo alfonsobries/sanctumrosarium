@@ -29,6 +29,8 @@ struct LoadOptionsRecord: Record {
 @MainActor
 private enum SharedPlayer {
   static let core = RosaryPlayerCore()
+  /// Whether JavaScript listens to progress, so it can resume after the app returns.
+  @MainActor static var progressObserved = false
 }
 
 public final class RosaryPlayerModule: Module {
@@ -58,13 +60,29 @@ public final class RosaryPlayerModule: Module {
 
     OnStartObserving("onProgress") {
       Task { @MainActor in
+        SharedPlayer.progressObserved = true
         SharedPlayer.core.progressEnabled = true
       }
     }
 
     OnStopObserving("onProgress") {
       Task { @MainActor in
+        SharedPlayer.progressObserved = false
         SharedPlayer.core.progressEnabled = false
+      }
+    }
+
+    // Progress only lights up words on screen; with the screen off it would wake
+    // JavaScript twenty times a second for nobody.
+    OnAppEntersBackground {
+      Task { @MainActor in
+        SharedPlayer.core.progressEnabled = false
+      }
+    }
+
+    OnAppBecomesActive {
+      Task { @MainActor in
+        SharedPlayer.core.progressEnabled = SharedPlayer.progressObserved
       }
     }
 

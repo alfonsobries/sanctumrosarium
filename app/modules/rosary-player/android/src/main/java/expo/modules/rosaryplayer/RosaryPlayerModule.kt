@@ -39,6 +39,9 @@ private class InvalidQueueException(message: String) : CodedException(message)
 
 @OptIn(UnstableApi::class)
 class RosaryPlayerModule : Module() {
+  /** Whether JavaScript listens to progress, so it can resume after the app returns. */
+  private var progressObserved = false
+
   private val context: Context
     get() = appContext.reactContext?.applicationContext ?: throw CodedException("React context is not available")
 
@@ -79,11 +82,23 @@ class RosaryPlayerModule : Module() {
     }
 
     OnStartObserving("onProgress") {
+      progressObserved = true
       RosaryPlayerEngine.progressEnabled = true
     }
 
     OnStopObserving("onProgress") {
+      progressObserved = false
       RosaryPlayerEngine.progressEnabled = false
+    }
+
+    // Progress only lights up words on screen; with the screen off it would wake
+    // JavaScript twenty times a second for nobody.
+    OnActivityEntersBackground {
+      RosaryPlayerEngine.progressEnabled = false
+    }
+
+    OnActivityEntersForeground {
+      RosaryPlayerEngine.progressEnabled = progressObserved
     }
 
     AsyncFunction("load") { records: List<StepRecord>, options: LoadOptionsRecord, promise: Promise ->
