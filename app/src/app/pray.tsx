@@ -1,25 +1,28 @@
-import { mysteryRefsOf, mysteryTitle } from '@sanctamaria/content';
+import { mysteryRefsOf, mysteryTitle, type Locale } from '@sanctamaria/content';
 import { decadesCompleted, type Step } from '@sanctamaria/rosary';
 import * as Haptics from 'expo-haptics';
 import { Image } from 'expo-image';
 import { useKeepAwake } from 'expo-keep-awake';
-import type { SFSymbol } from 'sf-symbols-typescript';
 import { Redirect, Stack, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, View, useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { useArtwork } from '@/domains/artwork/use-artwork';
 import { hasAudio, useRosaryAudio } from '@/domains/audio/use-rosary-audio';
 import { beadRingState } from '@/domains/prayer/bead-state';
+import { BeadDial } from '@/domains/prayer/BeadDial';
 import { BeadRow } from '@/domains/prayer/BeadRow';
+import { StepPager } from '@/domains/prayer/StepPager';
 import { guideFor } from '@/domains/prayer/guide';
 import { stepsFor } from '@/domains/prayer/session';
 import { StepContent, StepScroll, stepHeading } from '@/domains/prayer/StepContent';
 import { useSession } from '@/domains/prayer/use-session';
 import { useSessionJournal } from '@/domains/prayer/use-session-journal';
-import { rates } from '@/domains/settings/settings';
+import { rates, type Settings } from '@/domains/settings/settings';
+import type { QueueStep } from '@/domains/audio/queue';
 import { useSettings } from '@/domains/settings/use-settings';
 import { useContentLocale } from '@/shared/i18n/use-content-locale';
 import { ScreenTexture, useSkin } from '@/shared/theme/SkinProvider';
@@ -39,9 +42,112 @@ function hapticFor(step: Step | undefined): void {
   void Haptics.selectionAsync();
 }
 
-/** Bottom toolbar icons: SF Symbols in the iOS system bar, the same Lucide glyphs elsewhere. */
-function toolbarIcon(symbol: SFSymbol, fallback: number): SFSymbol | number {
-  return process.env.EXPO_OS === 'ios' ? symbol : fallback;
+function ArrowButton({
+  label,
+  icon,
+  onPress,
+  disabled,
+}: {
+  label: string;
+  icon: 'previous' | 'next';
+  onPress: () => void;
+  disabled?: boolean;
+}) {
+  const { colors } = useSkin();
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      disabled={disabled}
+      onPress={onPress}
+      hitSlop={8}
+      className="h-12 w-12 items-center justify-center rounded-full active:bg-surface"
+      style={{ opacity: disabled ? 0.3 : 1 }}
+    >
+      <Icon name={icon} size={24} color={colors.foreground} />
+    </Pressable>
+  );
+}
+
+type StepPageProperties = {
+  step: Step;
+  steps: readonly Step[];
+  active: boolean;
+  locale: Locale;
+  headingLocale: Locale;
+  textSize: Settings['textSize'];
+  guided: boolean;
+  queue: QueueStep[] | null;
+  interrupted: boolean;
+  onTap: () => void;
+  hint: string;
+};
+
+/** One leaf of the prayer: which mystery, a note for those learning, and the words. */
+function StepPage({
+  step,
+  steps,
+  active,
+  locale,
+  headingLocale,
+  textSize,
+  guided,
+  queue,
+  interrupted,
+  onTap,
+  hint,
+}: StepPageProperties) {
+  const { t } = useTranslation();
+  const index = steps.indexOf(step);
+  const announce =
+    step.decade === null ? undefined : steps.find((s) => s.kind === 'announce' && s.decade === step.decade);
+  const thumbnail = useArtwork(
+    announce?.kind === 'announce' && step.kind !== 'announce' ? announce.mystery.id : '',
+  );
+  const guide = guided ? guideFor(steps, index) : null;
+
+  return (
+    <StepScroll
+      stepId={step.id}
+      followVoice={active && queue !== null}
+      onTap={onTap}
+      accessibilityHint={hint}
+    >
+      <View className="gap-4">
+        {announce?.kind === 'announce' && step.kind !== 'announce' && (
+          <View className="flex-row items-center gap-3 pb-2">
+            {thumbnail !== null && (
+              <Image
+                source={thumbnail.source}
+                placeholder={{ thumbhash: thumbnail.thumbhash }}
+                contentFit="cover"
+                accessible={false}
+                style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: thumbnail.color }}
+              />
+            )}
+            <Text variant="eyebrow" className="flex-1 text-accent">
+              {t('pray.mystery', {
+                ordinal: t(`ordinal.${announce.mystery.order - 1}`),
+                set: t(`setAdjective.${announce.mystery.set}`),
+              })}
+            </Text>
+          </View>
+        )}
+        {guide !== null && (
+          <Text variant="footnote" className="font-prayer-italic text-[16px] leading-[22px] text-rubric">
+            {t(`guide.${guide}`)}
+          </Text>
+        )}
+        {interrupted && (
+          <Text variant="footnote" className="text-accent">
+            {t('pray.interrupted')}
+          </Text>
+        )}
+        {step.kind === 'prayer' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
+        <StepContent step={step} locale={locale} textSize={textSize} queue={queue} />
+      </View>
+    </StepScroll>
+  );
 }
 
 function Finished({ decades, onDone }: { decades: number; onDone: () => void }) {
@@ -69,6 +175,8 @@ export default function PrayScreen() {
   const router = useRouter();
   const { colors } = useSkin();
   const headingLocale = useContentLocale();
+  const { width } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   const textSize = useSettings((state) => state.textSize);
   const guided = useSettings((state) => state.guided);
   const mode = useSettings((state) => state.mode);
@@ -169,34 +277,14 @@ export default function PrayScreen() {
     step.decade === null
       ? null
       : (steps.find((s) => s.kind === 'announce' && s.decade === step.decade) ?? null);
-  const guide = guided ? guideFor(steps, position) : null;
   const barTitle =
     mystery !== null && mystery.kind === 'announce'
       ? mysteryTitle(mystery.mystery.id, headingLocale)
       : step.section === 'closing'
         ? t('pray.closing')
         : t('pray.opening');
-  const heading =
-    mystery !== null && mystery.kind === 'announce' && step.kind !== 'announce' ? (
-      <View className="flex-row items-center gap-3 pb-2">
-        {thumbnail !== null && (
-          <Image
-            source={thumbnail.source}
-            placeholder={{ thumbhash: thumbnail.thumbhash }}
-            contentFit="cover"
-            accessible={false}
-            style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: thumbnail.color }}
-          />
-        )}
-        <Text variant="eyebrow" className="flex-1 text-accent">
-          {t('pray.mystery', {
-            ordinal: t(`ordinal.${mystery.mystery.order - 1}`),
-            set: t(`setAdjective.${mystery.mystery.set}`),
-          })}
-        </Text>
-      </View>
-    ) : null;
   const audioAvailable = hasAudio(plan.locale);
+  const dialSize = Math.min(176, width * 0.46);
 
   return (
     <>
@@ -293,77 +381,74 @@ export default function PrayScreen() {
           </Stack.Toolbar.Menu>
         </Stack.Toolbar.Menu>
       </Stack.Toolbar>
-      <Stack.Toolbar>
-        <Stack.Toolbar.Button
-          icon={toolbarIcon('backward.end.fill', require('@/assets/images/toolbar/previous.png'))}
-          accessibilityLabel={t('pray.previous')}
-          disabled={position === 0}
-          onPress={handlePrevious}
-        />
-        <Stack.Toolbar.Spacer />
-        {listening ? (
-          <Stack.Toolbar.Button
-            icon={
-              audio.status === 'playing'
-                ? toolbarIcon('pause.fill', require('@/assets/images/toolbar/pause.png'))
-                : toolbarIcon('play.fill', require('@/assets/images/toolbar/play.png'))
-            }
-            accessibilityLabel={audio.status === 'playing' ? t('pray.pause') : t('pray.play')}
-            variant="prominent"
-            tintColor={colors.accent}
-            onPress={audio.toggle}
-          />
-        ) : (
-          <Stack.Toolbar.Button
-            icon={toolbarIcon('chevron.forward', require('@/assets/images/toolbar/advance.png'))}
-            accessibilityLabel={t('pray.next')}
-            variant="prominent"
-            tintColor={colors.accent}
-            onPress={handleNext}
-          />
-        )}
-        <Stack.Toolbar.Spacer />
-        <Stack.Toolbar.Button
-          icon={toolbarIcon('forward.end.fill', require('@/assets/images/toolbar/next.png'))}
-          accessibilityLabel={t('pray.next')}
-          onPress={handleNext}
-        />
-      </Stack.Toolbar>
 
       <View className="flex-1 bg-background">
-        <StepScroll
-          stepId={step.id}
-          followVoice={listening}
-          onTap={listening ? audio.toggle : handleNext}
-          onSwipe={(direction) => (direction === 'next' ? handleNext() : handlePrevious())}
-          accessibilityHint={listening ? t('pray.pause') : t('pray.tapToContinue')}
+        <View className="flex-1">
+          <StepPager
+            steps={steps}
+            position={position}
+            onSettle={(index) => goTo(index)}
+            renderStep={(page, active) => (
+              <StepPage
+                step={page}
+                steps={steps}
+                active={active}
+                locale={plan.locale}
+                headingLocale={headingLocale}
+                textSize={textSize}
+                guided={guided}
+                queue={active && listening ? audio.queue : null}
+                interrupted={active && listening && audio.status === 'interrupted'}
+                onTap={listening ? audio.toggle : handleNext}
+                hint={listening ? t('pray.pause') : t('pray.tapToContinue')}
+              />
+            )}
+          />
+        </View>
+
+        <View
+          className="flex-row items-center justify-between px-6 pt-2"
+          style={{ paddingBottom: Math.max(insets.bottom, 12) }}
         >
-          <Animated.View
-            key={step.id}
-            entering={FadeIn.duration(220)}
-            exiting={FadeOut.duration(120)}
-            className="gap-4"
+          <ArrowButton
+            label={t('pray.previous')}
+            icon="previous"
+            onPress={handlePrevious}
+            disabled={position === 0}
+          />
+          <BeadDial
+            state={beadRingState(steps, position)}
+            size={dialSize}
+            accessibilityLabel={t('pray.dial')}
+            onTurn={(direction) => (direction === 1 ? handleNext() : handlePrevious())}
+            isMajor={(direction) => {
+              const target = steps[position + direction];
+              return (
+                target?.kind === 'announce' || (target?.kind === 'prayer' && target.prayer === 'our-father')
+              );
+            }}
           >
-            {heading}
-            {guide !== null && (
-              <Text variant="footnote" className="font-prayer-italic text-[16px] leading-[22px] text-rubric">
-                {t(`guide.${guide}`)}
-              </Text>
-            )}
-            {listening && audio.status === 'interrupted' && (
-              <Text variant="footnote" className="text-accent">
-                {t('pray.interrupted')}
-              </Text>
-            )}
-            {step.kind === 'prayer' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
-            <StepContent
-              step={step}
-              locale={plan.locale}
-              textSize={textSize}
-              queue={listening ? audio.queue : null}
-            />
-          </Animated.View>
-        </StepScroll>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={
+                listening ? (audio.status === 'playing' ? t('pray.pause') : t('pray.play')) : t('pray.next')
+              }
+              onPress={listening ? audio.toggle : handleNext}
+              className="h-16 w-16 items-center justify-center rounded-full bg-accent active:scale-95"
+            >
+              {listening && audio.availability === 'loading' ? (
+                <ActivityIndicator color={colors['accent-foreground']} />
+              ) : (
+                <Icon
+                  name={listening ? (audio.status === 'playing' ? 'pause' : 'play') : 'chevron'}
+                  size={28}
+                  color={colors['accent-foreground']}
+                />
+              )}
+            </Pressable>
+          </BeadDial>
+          <ArrowButton label={t('pray.next')} icon="next" onPress={handleNext} />
+        </View>
         <View style={{ position: 'absolute', inset: 0, zIndex: -1 }} pointerEvents="none">
           <ScreenTexture />
         </View>

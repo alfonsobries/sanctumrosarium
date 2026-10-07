@@ -41,6 +41,7 @@ export const es = {
   pray: {
     close: 'Terminar',
     next: 'Siguiente',
+    dial: 'Cuentas: gira para avanzar',
     goToDecade: 'Ir a la decena',
     nextDecade: 'Siguiente decena',
     previous: 'Anterior',

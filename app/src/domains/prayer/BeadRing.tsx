@@ -1,6 +1,13 @@
 import { useEffect } from 'react';
 import { View } from 'react-native';
-import Animated, { useAnimatedProps, useSharedValue, withTiming, Easing } from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  useAnimatedProps,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+  type SharedValue,
+} from 'react-native-reanimated';
 import Svg, { Circle, G, Path } from 'react-native-svg';
 
 import { useSkin } from '@/shared/theme/SkinProvider';
@@ -16,6 +23,8 @@ type BeadRingProperties = {
   state: BeadRingState;
   size: number;
   children?: React.ReactNode;
+  /** Degrees the beads are turned while a finger drags them; the center stays still. */
+  rotation?: SharedValue<number>;
 };
 
 const ease = Easing.bezier(0.23, 1, 0.32, 1);
@@ -38,8 +47,9 @@ const toRadians = (degrees: number): number => ((degrees - 90) * Math.PI) / 180;
  * opening, the crucifix at the top and the four beads that follow it. Prayed beads are
  * filled, the current one carries a halo.
  */
-export function BeadRing({ state, size, children }: BeadRingProperties) {
+export function BeadRing({ state, size, children, rotation }: BeadRingProperties) {
   const { colors } = useSkin();
+  const turned = useAnimatedStyle(() => ({ transform: [{ rotate: `${rotation?.get() ?? 0}deg` }] }));
   const center = size / 2;
   // Leave room above the top slot for the crucifix, which is taller than a bead.
   const ringRadius = size * 0.39;
@@ -87,7 +97,7 @@ export function BeadRing({ state, size, children }: BeadRingProperties) {
 
   return (
     <View style={{ width: size, height: size }} className="items-center justify-center">
-      <View accessible={false} style={{ position: 'absolute', inset: 0 }}>
+      <Animated.View accessible={false} style={[{ position: 'absolute', inset: 0 }, turned]}>
         <Svg width={size} height={size}>
           <Circle cx={center} cy={center} r={ringRadius} fill="none" stroke={colors.border} strokeWidth={1} />
           {cross !== null && (
@@ -114,7 +124,7 @@ export function BeadRing({ state, size, children }: BeadRingProperties) {
             </G>
           ))}
         </Svg>
-      </View>
+      </Animated.View>
       {children}
     </View>
   );

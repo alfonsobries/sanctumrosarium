@@ -204,8 +204,6 @@ type StepScrollProperties = {
   stepId: string;
   /** A tap that did not move: advances, or pauses the voice. Dragging only scrolls. */
   onTap: () => void;
-  /** Horizontal swipe: to the left moves on, to the right goes back. */
-  onSwipe: (direction: 'next' | 'previous') => void;
   accessibilityHint?: string;
 };
 
@@ -214,7 +212,6 @@ export function StepScroll({
   followVoice,
   stepId,
   onTap,
-  onSwipe,
   accessibilityHint,
 }: StepScrollProperties) {
   const scroll = useRef<ScrollView>(null);
@@ -224,8 +221,8 @@ export function StepScroll({
   const overflow = Math.max(0, content - viewport);
   // Once the person scrolls by hand, the text stops following the voice for this step.
   const [following, setFollowing] = useState(true);
-  const latest = useRef({ onTap, onSwipe });
-  latest.current = { onTap, onSwipe };
+  const latest = useRef({ onTap });
+  latest.current = { onTap };
 
   const gesture = useMemo(() => {
     const tap = Gesture.Tap()
@@ -236,17 +233,7 @@ export function StepScroll({
           latest.current.onTap();
         }
       });
-    const swipe = Gesture.Pan()
-      .activeOffsetX([-24, 24])
-      .failOffsetY([-14, 14])
-      .runOnJS(true)
-      .onEnd((event) => {
-        const far = Math.abs(event.translationX) > 60 || Math.abs(event.velocityX) > 500;
-        if (far) {
-          latest.current.onSwipe(event.translationX < 0 ? 'next' : 'previous');
-        }
-      });
-    return Gesture.Race(swipe, tap);
+    return tap;
   }, []);
 
   useEffect(() => {
@@ -272,13 +259,6 @@ export function StepScroll({
         accessibilityRole="button"
         accessibilityHint={accessibilityHint}
         onAccessibilityTap={onTap}
-        accessibilityActions={[
-          { name: 'increment', label: 'next' },
-          { name: 'decrement', label: 'previous' },
-        ]}
-        onAccessibilityAction={(event) =>
-          onSwipe(event.nativeEvent.actionName === 'increment' ? 'next' : 'previous')
-        }
       >
         <ScrollView
           ref={scroll}
