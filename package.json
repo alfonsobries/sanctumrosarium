@@ -17,7 +17,8 @@
     "ios:build": "bash scripts/device-build.sh ios",
     "ios:install": "bash scripts/device-install.sh ios",
     "android:build": "bash scripts/device-build.sh android",
-    "android:install": "bash scripts/device-install.sh android"
+    "android:install": "bash scripts/device-install.sh android",
+    "ios:preview": "bash scripts/device-build.sh ios preview && bash scripts/device-install.sh ios"
   },
   "devDependencies": {
     "prettier": "^3.9.9",

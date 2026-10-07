@@ -13,6 +13,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PLATFORM="${1:-ios}"
+# local: dev client that loads JavaScript from Metro. preview: self-contained release build.
+PROFILE="${2:-local}"
 
 cd "$ROOT/app"
 mkdir -p build
@@ -38,7 +40,7 @@ export SENTRY_DISABLE_AUTO_UPLOAD=true
 echo "Compilando el dev client ($PLATFORM) → app/$ARTIFACT"
 "${EAS[@]}" build \
   --platform "$PLATFORM" \
-  --profile local \
+  --profile "$PROFILE" \
   --local \
   --freeze-credentials \
   --non-interactive \
