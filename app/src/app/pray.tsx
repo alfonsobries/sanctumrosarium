@@ -1,5 +1,5 @@
 import { mysteryRefsOf, mysteryTitle } from '@sanctamaria/content';
-import { decadesCompleted, nextDecadeStart, type Step } from '@sanctamaria/rosary';
+import { decadesCompleted, type Step } from '@sanctamaria/rosary';
 import * as Haptics from 'expo-haptics';
 import { useKeepAwake } from 'expo-keep-awake';
 import { Redirect, useRouter } from 'expo-router';
@@ -260,6 +260,13 @@ export default function PrayScreen() {
           </Pressable>
         </View>
         <DecadeProgress
+          onSelect={(decade) => {
+            const target = steps.findIndex((s) => s.kind === 'announce' && s.decade === decade);
+            if (target !== -1) {
+              goTo(target);
+            }
+          }}
+          decadeLabel={(decade) => t('pray.decadeOf', { decade })}
           fills={decadeFills(steps, position)}
           label={step.decade === null ? t('pray.opening') : t('pray.progress', { decade: step.decade })}
         />
@@ -327,17 +334,7 @@ export default function PrayScreen() {
             </Pressable>
           )}
         </BeadRing>
-        <ControlButton
-          label={t('pray.nextDecade')}
-          icon="next"
-          onPress={() => {
-            const target = nextDecadeStart(steps, position);
-            if (target !== null) {
-              goTo(target);
-            }
-          }}
-          disabled={nextDecadeStart(steps, position) === null}
-        />
+        <ControlButton label={t('pray.next')} icon="next" onPress={handleNext} />
       </View>
     </SafeScreen>
   );

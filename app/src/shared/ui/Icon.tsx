@@ -1,44 +1,49 @@
 import {
-  ArrowRight01Icon,
-  BookOpen01Icon,
-  Calendar03Icon,
-  Cancel01Icon,
-  MoreHorizontalIcon,
-  NextIcon,
-  PauseIcon,
-  PlayIcon,
-  PreviousIcon,
-  Settings02Icon,
-  TextFontIcon,
-  Tick02Icon,
-  TouchInteraction01Icon,
-  VolumeHighIcon,
-} from '@hugeicons/core-free-icons';
-import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react-native';
+  BookOpen,
+  CalendarDays,
+  Check,
+  ChevronRight,
+  Ellipsis,
+  Hand,
+  Icon as LucideIcon,
+  Pause,
+  Play,
+  Settings,
+  SkipBack,
+  SkipForward,
+  Type,
+  Volume2,
+  X,
+  type LucideIcon as LucideComponent,
+  type IconNode,
+} from 'lucide-react-native';
 
 import { DecadeIcon, LatinCrossIcon, RosaryIcon } from './custom-icons';
 
-const icons = {
-  chevron: ArrowRight01Icon,
-  settings: Settings02Icon,
-  play: PlayIcon,
-  pause: PauseIcon,
-  next: NextIcon,
-  previous: PreviousIcon,
-  close: Cancel01Icon,
-  calendar: Calendar03Icon,
-  more: MoreHorizontalIcon,
-  text: TextFontIcon,
-  check: Tick02Icon,
-  listen: VolumeHighIcon,
-  tap: TouchInteraction01Icon,
-  learn: BookOpen01Icon,
+const library = {
+  chevron: ChevronRight,
+  settings: Settings,
+  play: Play,
+  pause: Pause,
+  next: SkipForward,
+  previous: SkipBack,
+  close: X,
+  calendar: CalendarDays,
+  more: Ellipsis,
+  text: Type,
+  check: Check,
+  listen: Volume2,
+  tap: Hand,
+  learn: BookOpen,
+} satisfies Record<string, LucideComponent>;
+
+const custom = {
   cross: LatinCrossIcon,
   rosary: RosaryIcon,
   decade: DecadeIcon,
-} satisfies Record<string, IconSvgElement>;
+} satisfies Record<string, IconNode>;
 
-export type IconName = keyof typeof icons;
+export type IconName = keyof typeof library | keyof typeof custom;
 
 type IconProperties = {
   name: IconName;
@@ -47,6 +52,17 @@ type IconProperties = {
   strokeWidth?: number;
 };
 
-export function Icon({ name, size = 22, color, strokeWidth = 1.5 }: IconProperties) {
-  return <HugeiconsIcon icon={icons[name]} size={size} color={color} strokeWidth={strokeWidth} />;
+export function Icon({ name, size = 22, color, strokeWidth = 1.75 }: IconProperties) {
+  if (name in custom) {
+    return (
+      <LucideIcon
+        iconNode={custom[name as keyof typeof custom]}
+        size={size}
+        color={color}
+        strokeWidth={strokeWidth}
+      />
+    );
+  }
+  const Component = library[name as keyof typeof library];
+  return <Component size={size} color={color} strokeWidth={strokeWidth} />;
 }

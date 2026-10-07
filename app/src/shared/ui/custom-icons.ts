@@ -1,45 +1,37 @@
-import type { IconSvgElement } from '@hugeicons/react-native';
+import type { IconNode } from 'lucide-react-native';
+
+type IconElement = IconNode[number];
 
 /**
- * Icons specific to the Rosary, drawn on Hugeicons' grid (24 px, 1.5 stroke, round caps
- * and joins) so they sit next to the library's icons without standing out.
+ * Icons specific to the Rosary, drawn on Lucide's grid (24 px, 2 px stroke, round caps,
+ * radius-1 corners) so they sit next to the library's icons without standing out.
  */
 
-const stroke = {
-  stroke: 'currentColor',
-  strokeLinecap: 'round',
-  strokeLinejoin: 'round',
-  strokeWidth: '1.5',
-} as const;
-
-const bead = (cx: number, cy: number, key: string, r = 1) =>
-  ['circle', { cx, cy, r, ...stroke, key }] as const;
-
-export const LatinCrossIcon: IconSvgElement = [
+export const LatinCrossIcon: IconNode = [
   [
     'path',
     {
-      d: 'M10 3.5C10 2.67 10.67 2 11.5 2H12.5C13.33 2 14 2.67 14 3.5V6H17.5C18.33 6 19 6.67 19 7.5V8.5C19 9.33 18.33 10 17.5 10H14V20.5C14 21.33 13.33 22 12.5 22H11.5C10.67 22 10 21.33 10 20.5V10H6.5C5.67 10 5 9.33 5 8.5V7.5C5 6.67 5.67 6 6.5 6H10V3.5Z',
-      ...stroke,
-      key: '0',
+      d: 'M11 2a1 1 0 0 0-1 1v4a1 1 0 0 1-1 1H6a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-8a1 1 0 0 1 1-1h3a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-3a1 1 0 0 1-1-1V3a1 1 0 0 0-1-1z',
+      key: 'latin-cross',
     },
   ],
 ];
 
-export const RosaryIcon: IconSvgElement = [
-  bead(12, 2.5, '0', 1.5),
-  bead(17.2, 5.2, '1', 1.5),
-  bead(17.2, 10.8, '2', 1.5),
-  bead(6.8, 10.8, '3', 1.5),
-  bead(6.8, 5.2, '4', 1.5),
-  ['path', { d: 'M12 13V22M9.75 16.5H14.25', ...stroke, key: '5' }],
+const bead = (cx: number, cy: number, key: string, r = 1.5): IconElement => ['circle', { cx, cy, r, key }];
+
+export const RosaryIcon: IconNode = [
+  bead(12, 2.75, 'b0'),
+  bead(17, 5.25, 'b1'),
+  bead(17, 10.25, 'b2'),
+  bead(7, 10.25, 'b3'),
+  bead(7, 5.25, 'b4'),
+  ['path', { d: 'M12 13v9M9.5 16.5h5', key: 'cross' }],
 ];
 
 /** One decade: the Our Father bead set apart, then the Hail Marys. */
-export const DecadeIcon: IconSvgElement = [
-  ['circle', { cx: 4.5, cy: 12, r: 2.25, ...stroke, key: '0' }],
-  ['path', { d: 'M6.75 12H7.75', ...stroke, key: '1' }],
-  bead(9.75, 12, '2', 1.5),
-  bead(14.5, 12, '3', 1.5),
-  bead(19.25, 12, '4', 1.5),
+export const DecadeIcon: IconNode = [
+  ['circle', { cx: 4.5, cy: 12, r: 2.5, key: 'of' }],
+  bead(10.5, 12, 'h1'),
+  bead(15, 12, 'h2'),
+  bead(19.5, 12, 'h3'),
 ];
