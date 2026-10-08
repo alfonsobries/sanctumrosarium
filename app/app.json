@@ -12,9 +12,7 @@
       "bundleIdentifier": "app.sanctamaria",
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": [
-          "audio"
-        ],
+        "UIBackgroundModes": ["audio"],
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleDisplayName": "Rosarium"
       },
@@ -28,7 +26,15 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": true,
-      "package": "app.sanctamaria"
+      "package": "app.sanctamaria",
+      "blockedPermissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.ACCESS_WIFI_STATE",
+        "android.permission.BLUETOOTH_PRIVILEGED",
+        "android.permission.DUMP"
+      ]
     },
     "web": {
       "output": "static",
