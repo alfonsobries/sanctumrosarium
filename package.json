@@ -19,7 +19,13 @@
     "ios:install": "bash scripts/device-install.sh ios",
     "android:build": "bash scripts/device-build.sh android",
     "android:install": "bash scripts/device-install.sh android",
-    "ios:preview": "bash scripts/device-build.sh ios preview && bash scripts/device-install.sh ios"
+    "ios:preview": "bash scripts/device-build.sh ios preview && bash scripts/device-install.sh ios",
+    "ios:release": "bash scripts/release.sh ios all",
+    "ios:release:build": "bash scripts/release.sh ios build",
+    "ios:release:submit": "bash scripts/release.sh ios submit",
+    "android:release": "bash scripts/release.sh android all",
+    "android:release:build": "bash scripts/release.sh android build",
+    "android:release:submit": "bash scripts/release.sh android submit"
   },
   "devDependencies": {
     "prettier": "^3.9.9",
