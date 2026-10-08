@@ -229,7 +229,7 @@ export default function PrayScreen() {
       : (steps.find((s) => s.kind === 'announce' && s.decade === step.decade) ?? null);
   const barTitle =
     mystery !== null && mystery.kind === 'announce'
-      ? mysteryTitle(mystery.mystery.id, headingLocale)
+      ? mysteryTitle(mystery.mystery.id, plan.locale)
       : step.section === 'closing'
         ? t('pray.closing')
         : t('pray.opening');
