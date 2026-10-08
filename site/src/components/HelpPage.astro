@@ -1,5 +1,5 @@
 ---
-import { alternatesOf, repository, route, type Language } from '../i18n/routes';
+import { alternatesOf, repository, route, sponsors, type Language } from '../i18n/routes';
 import { t, type UiKey } from '../i18n/ui';
 import Base from '../layouts/Base.astro';
 import ContactLink from './ContactLink.astro';
@@ -36,7 +36,7 @@ const github: Record<string, string> = { report: `${repository}/issues`, code: r
         {costs.map((cost) => <li>{translate(`help.donate.${cost}` as UiKey)}</li>)}
       </ul>
       <p class="ask">{translate('help.donate.ask')}</p>
-      <ContactLink class="button is-solid" label={translate('help.contact')} subject="Sanctum Rosarium" />
+      <a class="button is-solid" href={sponsors} rel="noopener">{translate('help.donate.cta')}</a>
     </div>
   </section>
 
@@ -106,7 +106,7 @@ const github: Record<string, string> = { report: `${repository}/issues`, code: r
     color: var(--ink) !important;
   }
 
-  .donate-card :global(.button) {
+  .donate-card .button {
     justify-self: start;
   }
 
