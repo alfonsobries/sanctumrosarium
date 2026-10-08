@@ -51,6 +51,7 @@
       "expo-sqlite",
       "expo-localization",
       "@bacons/apple-targets",
+      "./plugins/with-gradle-memory",
       [
         "./plugins/with-android-brand-colors",
         {
