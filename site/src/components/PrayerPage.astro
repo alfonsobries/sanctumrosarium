@@ -12,6 +12,7 @@ import {
   type PrayerText as Text,
   type Source,
 } from '../lib/content';
+import { prayerCard } from '../lib/og';
 import { prayerWork } from '../lib/schema';
 import { rosarySteps } from '../lib/sequence';
 import PrayerText from './PrayerText.astro';
@@ -58,7 +59,7 @@ const accessed = new Date(`${source.accessed}T12:00:00Z`).toLocaleDateString(lan
     { name: translate('breadcrumb.home'), url: route('home', language) },
     { name: translate('prayers.title'), url: route('prayers', language) },
   ]}
-  og="prayers"
+  og={prayerCard(id)}
   schema={[prayerWork({ name, text: plain, language, source })]}
 >
   <article class="wrap prayer-page">

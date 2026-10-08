@@ -8,7 +8,7 @@ const es = {
   'site.name': 'Sanctum Rosarium',
   'site.tagline': 'Reza el Santo Rosario',
   'site.description':
-    'Reza el Santo Rosario cada día con la app Sanctum Rosarium: el misterio del día en un toque, con voz o a tu ritmo, en iPhone, Android y Apple Watch. Gratis, sin cuentas y sin anuncios.',
+    'Reza el Santo Rosario cada día con Sanctum Rosarium: el misterio del día en un toque, con voz o a tu ritmo, en iPhone, Android y Apple Watch.',
   skip: 'Ir al contenido',
   'nav.label': 'Principal',
   'nav.menu': 'Menú',
@@ -129,7 +129,7 @@ const es = {
     'Distribución que propone san Juan Pablo II en Rosarium Virginis Mariae 38, sin quitar la libertad de elegir otros.',
   'mysteries.setTitle': '{set} del Rosario',
   'mysteries.setDescription':
-    'Los cinco {set} del Santo Rosario, con el pasaje del Evangelio de cada uno. Se rezan {days}.',
+    'Los cinco {set} del Santo Rosario, con el pasaje del Evangelio y una pintura de cada uno. Se rezan {days}.',
 
   'today.title': '¿Qué misterios se rezan hoy?',
   'today.description':
@@ -140,14 +140,14 @@ const es = {
 
   'prayers.title': 'Las oraciones del Rosario',
   'prayers.description':
-    'Las oraciones del Santo Rosario completas: Padrenuestro, Avemaría, Gloria, Credo, Salve, la oración de Fátima, la Letanía lauretana y la oración final, con su fuente.',
+    'Las oraciones del Santo Rosario completas y con su fuente: Padrenuestro, Avemaría, Gloria, Credo, Salve, oración de Fátima, Letanía y oración final.',
   'prayers.kicker': 'Oraciones',
   'prayers.lead': 'Cada oración en el orden en que se reza, con el texto de una fuente de la Iglesia.',
   'prayers.latin': 'En latín',
   'prayers.source': 'Texto de',
   'prayers.accessed': 'consultado el',
   'prayers.prayerTitle': '{prayer}: oración completa',
-  'prayers.prayerDescription': '{prayer}, oración del Santo Rosario. Texto completo con su fuente{latin}.',
+  'prayers.prayerDescription': '{prayer}, oración del Santo Rosario: el texto completo con su fuente{latin}, y en qué momento del Rosario se reza.',
   'prayers.withLatin': ', en español y en latín',
   'prayers.whereInRosary': 'Dónde se reza',
   'prayers.respond': 'La segunda parte la responden todos.',
@@ -201,18 +201,18 @@ const es = {
     'Sanctum Rosarium será de código abierto. Si sabes React Native, Swift, Kotlin, diseño o ilustración, tu ayuda es bienvenida.',
   'help.contact': 'Escríbenos',
   'help.github': 'Ver en GitHub',
-  'terms.title': 'Términos y condiciones',
-  'terms.description': 'Los términos de uso de la app Sanctum Rosarium y de este sitio.',
-  'support.title': 'Soporte',
-  'support.description': 'Ayuda con la app Sanctum Rosarium: preguntas frecuentes y cómo escribirnos.',
+  'terms.title': 'Términos y condiciones de uso',
+  'terms.description': 'Los términos de uso de la app Sanctum Rosarium y de este sitio: los textos que se rezan, las imágenes, la propiedad intelectual y las garantías.',
+  'support.title': 'Soporte y preguntas frecuentes',
+  'support.description': 'Ayuda con la app Sanctum Rosarium: si funciona sin conexión, si necesita cuenta, si está en Android, de dónde salen los textos y cómo escribirnos.',
   'support.lead': 'Si algo no funciona, encontraste un error en un texto o tienes una idea, escríbenos. Leemos cada mensaje.',
   'support.write': 'Escribir a soporte',
   'support.faq': 'Preguntas frecuentes',
   'legal.updated': 'Última actualización: 8 de octubre de 2026',
   'footer.legal': 'Legal',
 
-  'privacy.title': 'Privacidad',
-  'privacy.description': 'Sanctum Rosarium no recopila datos: no tiene cuentas, servidor ni analítica.',
+  'privacy.title': 'Aviso de privacidad',
+  'privacy.description': 'Sanctum Rosarium no recopila datos: no tiene cuentas, servidor ni analítica. Lo que rezas se queda en tu teléfono y nadie más lo ve.',
 
   'footer.about':
     'Sanctum Rosarium es una app católica, gratuita y sin anuncios para rezar el Santo Rosario.',
@@ -242,7 +242,7 @@ const en: Record<Key, string> = {
   'site.name': 'Sanctum Rosarium',
   'site.tagline': 'Pray the Holy Rosary',
   'site.description':
-    "Pray the Holy Rosary every day with the Sanctum Rosarium app: the day's mystery in one tap, with a voice or at your own pace, on iPhone, Android and Apple Watch. Free, with no account and no ads.",
+    "Pray the Holy Rosary every day with Sanctum Rosarium: the day's mystery in one tap, with a voice or at your own pace, on iPhone, Android and Apple Watch.",
   skip: 'Skip to content',
   'nav.label': 'Main',
   'nav.menu': 'Menu',
@@ -359,7 +359,7 @@ const en: Record<Key, string> = {
     'The distribution Saint John Paul II proposes in Rosarium Virginis Mariae 38, leaving you free to choose others.',
   'mysteries.setTitle': '{set} of the Rosary',
   'mysteries.setDescription':
-    'The five {set} of the Holy Rosary, with the Gospel passage of each one. Prayed on {days}.',
+    'The five {set} of the Holy Rosary, with the Gospel passage and a painting for each one. Prayed on {days}.',
 
   'today.title': "Today's Rosary mysteries",
   'today.description':
@@ -370,14 +370,14 @@ const en: Record<Key, string> = {
 
   'prayers.title': 'The Prayers of the Rosary',
   'prayers.description':
-    'The prayers of the Holy Rosary in full: Our Father, Hail Mary, Glory Be, Creed, Hail Holy Queen, the Fatima Prayer, the Litany of Loreto and the closing prayer, with their source.',
+    'The prayers of the Holy Rosary in full, with their source: Our Father, Hail Mary, Glory Be, Creed, Hail Holy Queen, Fatima Prayer, Litany and closing prayer.',
   'prayers.kicker': 'Prayers',
   'prayers.lead': 'Every prayer in the order it is prayed, with the text of a Church source.',
   'prayers.latin': 'In Latin',
   'prayers.source': 'Text from',
   'prayers.accessed': 'accessed',
   'prayers.prayerTitle': '{prayer}: full prayer',
-  'prayers.prayerDescription': '{prayer}, a prayer of the Holy Rosary. Full text with its source{latin}.',
+  'prayers.prayerDescription': '{prayer}, a prayer of the Holy Rosary: the full text with its source{latin}, and where in the Rosary it is prayed.',
   'prayers.withLatin': ', in English and in Latin',
   'prayers.whereInRosary': 'Where it is prayed',
   'prayers.respond': 'Everyone answers the second part.',
@@ -432,17 +432,17 @@ const en: Record<Key, string> = {
   'help.contact': 'Write to us',
   'help.github': 'See it on GitHub',
   'terms.title': 'Terms of use',
-  'terms.description': 'The terms of use of the Sanctum Rosarium app and this website.',
-  'support.title': 'Support',
-  'support.description': 'Help with the Sanctum Rosarium app: common questions and how to reach us.',
+  'terms.description': 'The terms of use of the Sanctum Rosarium app and this website: the texts that are prayed, the images, intellectual property and warranties.',
+  'support.title': 'Support and common questions',
+  'support.description': 'Help with the Sanctum Rosarium app: whether it works offline, whether it needs an account, Android, where the texts come from and how to reach us.',
   'support.lead': 'If something does not work, you found a mistake in a text or you have an idea, write to us. We read every message.',
   'support.write': 'Write to support',
   'support.faq': 'Questions',
   'legal.updated': 'Last updated: October 8, 2026',
   'footer.legal': 'Legal',
 
-  'privacy.title': 'Privacy',
-  'privacy.description': 'Sanctum Rosarium collects no data: it has no accounts, no server and no analytics.',
+  'privacy.title': 'Privacy policy',
+  'privacy.description': 'Sanctum Rosarium collects no data: it has no accounts, no server and no analytics. What you pray stays on your phone and nobody else sees it.',
 
   'footer.about': 'Sanctum Rosarium is a free Catholic app with no ads to pray the Holy Rosary.',
   'footer.pray': 'Pray',

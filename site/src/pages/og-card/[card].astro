@@ -21,33 +21,35 @@ const { card } = Astro.props;
       html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
       body {
         position: relative;
-        display: grid;
-        grid-template-columns: 1fr 340px;
-        align-items: center;
-        gap: 40px;
-        padding: 0 80px 40px;
-        box-sizing: border-box;
         background: radial-gradient(circle at 85% 30%, rgb(214 164 143 / 0.22), transparent 55%), #0f1420;
         color: #efe8dc;
         font-family: 'Inter Variable', sans-serif;
       }
+      .copy { position: absolute; left: 80px; top: 0; bottom: 120px; width: 640px; display: flex; flex-direction: column; justify-content: center; }
+      .with-art .copy { width: 540px; }
       .kicker { font-size: 22px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #d6a48f; }
-      h1 { margin: 20px 0 0; font: 500 76px/1.04 'EB Garamond Variable', serif; letter-spacing: -0.01em; text-wrap: balance; }
-      p { margin: 24px 0 0; font-size: 26px; line-height: 1.4; color: #b4ad9f; max-width: 620px; }
+      h1 { margin: 20px 0 0; font: 500 72px/1.04 'EB Garamond Variable', serif; letter-spacing: -0.01em; text-wrap: balance; }
+      p { margin: 22px 0 0; font-size: 25px; line-height: 1.4; color: #b4ad9f; }
       .brand { position: absolute; left: 80px; bottom: 50px; display: flex; align-items: center; gap: 14px; font: 500 30px 'EB Garamond Variable', serif; }
       .medallion { display: block; aspect-ratio: 1; }
       .medallion svg { width: 100%; height: 100%; }
       .brand .medallion { width: 44px; color: #d6a48f; }
-      .art .medallion { width: 340px; color: #d6a48f; }
+      .seal { position: absolute; right: 90px; top: 50%; transform: translateY(-50%); }
+      .seal .medallion { width: 330px; color: #d6a48f; }
+      /* The painting fills the right side and dissolves into the night towards the words. */
+      .art { position: absolute; right: 0; top: 0; bottom: 0; width: 560px; background-size: cover; background-position: center 25%;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 38%); }
+      /* Many frescoes are arched: their white corners sink into the night. */
+      .art::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(15 20 32 / .7) 0%, transparent 30%, transparent 65%, rgb(15 20 32 / .5)); }
     </style>
   </head>
-  <body>
-    <div>
+  <body class:list={[{ 'with-art': card.art !== undefined }]}>
+    {card.art !== undefined ? <div class="art" style={`background-image:url('/art/${card.art}.jpg')`} /> : <div class="seal"><Medallion /></div>}
+    <div class="copy">
       <div class="kicker">{card.kicker}</div>
       <h1>{card.title}</h1>
       {card.subtitle !== undefined && <p>{card.subtitle}</p>}
     </div>
-    <div class="art"><Medallion /></div>
     <div class="brand"><Medallion /> Sanctum Rosarium</div>
   </body>
 </html>

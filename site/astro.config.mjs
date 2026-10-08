@@ -13,7 +13,8 @@ export default defineConfig({
   integrations: [
     sitemap({
       i18n: { defaultLocale: 'en', locales: { en: 'en', es: 'es' } },
-      filter: (page) => !page.includes('/404'),
+      // The social card templates are photographed at build time and never ship.
+      filter: (page) => !page.includes('/404') && !page.includes('/og-card/'),
     }),
   ],
   image: { responsiveStyles: true },
