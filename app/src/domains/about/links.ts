@@ -18,10 +18,3 @@ export function siteUrl(page: SitePage, language: SiteLanguage): string {
 export function siteLanguageOf(locale: string): SiteLanguage {
   return locale.startsWith('es') ? 'es' : 'en';
 }
-
-// Assembled at runtime so the address never sits as one string in the bundle.
-const contact = ['alfonso', ['vexilo', 'com'].join('.')].join('@');
-
-export function contactUrl(subject: string): string {
-  return `mailto:${contact}?subject=${encodeURIComponent(subject)}`;
-}

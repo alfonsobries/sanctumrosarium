@@ -1,13 +1,12 @@
 import type { Evangelist } from '@sanctamaria/rosary';
 import Constants from 'expo-constants';
 import { Image } from 'expo-image';
-import * as Linking from 'expo-linking';
 import { Stack, useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useTranslation } from 'react-i18next';
 import { Text as NativeText, Pressable, ScrollView, View } from 'react-native';
 
-import { contactUrl, siteLanguageOf, siteUrl, type SitePage } from '@/domains/about/links';
+import { siteLanguageOf, siteUrl, type SitePage } from '@/domains/about/links';
 import { rates, type Settings } from '@/domains/settings/settings';
 import { useSettings } from '@/domains/settings/use-settings';
 import { artworks, type Artwork } from '@/domains/artwork/artworks';
@@ -163,12 +162,6 @@ function AboutSection() {
           title={t('settings.aboutWebsite')}
           detail={t('settings.aboutWebsiteDetail')}
           onPress={() => handleOpen('home')}
-        />
-        <Row
-          icon="mail"
-          title={t('settings.aboutContact')}
-          detail={t('settings.aboutContactDetail')}
-          onPress={() => void Linking.openURL(contactUrl('Sanctum Rosarium'))}
         />
         <Row
           icon="help"

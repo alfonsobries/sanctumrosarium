@@ -173,8 +173,6 @@ export const en: Messages<typeof es> = {
     about: 'About',
     aboutWebsite: 'Website',
     aboutWebsiteDetail: 'How to pray, the mysteries and the prayers',
-    aboutContact: 'Write to us',
-    aboutContactDetail: 'Questions, mistakes or ideas',
     aboutSupport: 'Support',
     aboutPrivacy: 'Privacy',
     aboutTerms: 'Terms of use',

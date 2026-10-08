@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { contactUrl, siteLanguageOf, siteUrl } from './links';
+import { siteLanguageOf, siteUrl } from './links';
 
 describe('about links', () => {
   it('points each page to its localized path', () => {
@@ -13,9 +13,5 @@ describe('about links', () => {
     expect(siteLanguageOf('es-MX')).toBe('es');
     expect(siteLanguageOf('en')).toBe('en');
     expect(siteLanguageOf('la')).toBe('en');
-  });
-
-  it('builds a mailto with an encoded subject', () => {
-    expect(contactUrl('Sanctum Rosarium')).toBe('mailto:alfonso@vexilo.com?subject=Sanctum%20Rosarium');
   });
 });

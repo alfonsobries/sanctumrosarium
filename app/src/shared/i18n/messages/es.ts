@@ -163,8 +163,6 @@ export const es = {
     about: 'Información',
     aboutWebsite: 'Sitio web',
     aboutWebsiteDetail: 'Cómo se reza, los misterios y las oraciones',
-    aboutContact: 'Escríbenos',
-    aboutContactDetail: 'Dudas, errores o sugerencias',
     aboutSupport: 'Soporte',
     aboutPrivacy: 'Privacidad',
     aboutTerms: 'Términos de uso',
