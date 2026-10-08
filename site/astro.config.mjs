@@ -17,4 +17,6 @@ export default defineConfig({
     }),
   ],
   image: { responsiveStyles: true },
+  // The whole stylesheet is a few KB: inlined, the first paint waits on nothing.
+  build: { inlineStylesheets: 'always' },
 });

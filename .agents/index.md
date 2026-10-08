@@ -6,6 +6,7 @@ App para rezar el Santo Rosario, católica y de código abierto. Qué es y para 
 ## Estructura
 
 - `app/` - Expo (iOS, Android) y el reloj (`app/targets/watch`, Swift)
+- `site/` - sitio en Astro (sanctamaria.app), español e inglés; el texto litúrgico sale de `content/`
 - `packages/rosary` - el motor: secuencia de pasos, calendario, rotación de evangelios
 - `content/` - oraciones, misterios y pasajes, cada uno con su fuente
 
@@ -34,6 +35,8 @@ App para rezar el Santo Rosario, católica y de código abierto. Qué es y para 
 - `pnpm --filter app typecheck`
 - `pnpm play` - Metro en la red local para el dev client de un celular (`pnpm play 192.168.X.X` fija la IP)
 - `cd app && npx expo run:ios` - compilar el dev client
+- `pnpm site` / `pnpm site:test` - sitio en desarrollo / compila y prueba contraste, enlaces y metadatos
+- `pnpm --filter site og` - regenera las imágenes para redes de `site/public/og`
 - `pnpm update:preview` / `pnpm update:production` - publicar JavaScript y assets por OTA al canal
 
 ## Actualizaciones OTA

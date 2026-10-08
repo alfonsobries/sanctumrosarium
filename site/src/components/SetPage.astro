@@ -83,6 +83,7 @@ const pageTitle = translate('mysteries.setTitle', { set: title });
                   widths={[360, 540, 720]}
                   sizes="(max-width: 860px) 90vw, 380px"
                   loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={index === 0 ? 'high' : undefined}
                   style={`background:${art.credit.dominantColor}`}
                 />
                 <figcaption>

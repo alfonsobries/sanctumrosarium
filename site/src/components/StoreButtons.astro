@@ -1,4 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+
+import playEn from '../assets/badges/google-play-en.png';
+import playEs from '../assets/badges/google-play-es.png';
 import { stores, type Language } from '../i18n/routes';
 import { t } from '../i18n/ui';
 
@@ -20,14 +24,7 @@ const translate = t(language);
       />
     </a>
     <span class="soon" title={translate('store.playSoon')}>
-      <img
-        src={language === 'es' ? '/badges/google-play-es.png' : '/badges/google-play-en.png'}
-        alt={translate('store.playSoon')}
-        width="168"
-        height="50"
-        loading="lazy"
-        decoding="async"
-      />
+      <Image src={language === 'es' ? playEs : playEn} alt={translate('store.playSoon')} height={50} densities={[1, 2]} />
     </span>
   </div>
   {note && <p class="note">{translate('store.free')}</p>}
