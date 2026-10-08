@@ -26,7 +26,7 @@ const sections: Record<Language, LegalSection[]> = {
       heading: 'Conexiones a internet',
       paragraphs: [
         'Las oraciones, los textos del Evangelio, las imágenes y el audio vienen dentro de la app y funcionan sin conexión.',
-        'Para recibir mejoras sin pasar por la tienda, la app consulta al abrir si hay una actualización en los servidores de Expo (expo.dev), el servicio con el que se publica. Esa consulta envía solo datos técnicos, como la versión de la app y del sistema, y no incluye nada de lo que rezas.',
+        'Para recibir mejoras sin pasar por la tienda, la app consulta al abrir si hay una actualización en los servidores de Expo (expo.dev), el servicio con el que se publica. Esa consulta envía solo datos técnicos: la versión de la app y del sistema, y un identificador aleatorio que la app crea al instalarse y que Expo usa para contar dispositivos. Ese identificador no está ligado a tu nombre ni a tu cuenta, y la consulta no incluye nada de lo que rezas.',
         'Si en los ajustes de tu iPhone compartes análisis con los desarrolladores, Apple puede enviarnos informes de fallos anónimos. Eso lo controlas tú desde Ajustes.',
       ],
     },
@@ -67,7 +67,7 @@ const sections: Record<Language, LegalSection[]> = {
       heading: 'Internet connections',
       paragraphs: [
         'The prayers, the Gospel passages, the images and the audio come inside the app and work offline.',
-        'To receive improvements without going through the store, the app checks on launch whether an update is available on the servers of Expo (expo.dev), the service it is published with. That check sends only technical data, such as the app and system version, and nothing about what you pray.',
+        'To receive improvements without going through the store, the app checks on launch whether an update is available on the servers of Expo (expo.dev), the service it is published with. That check sends only technical data: the app and system version, and a random identifier the app creates when it is installed, which Expo uses to count devices. That identifier is not tied to your name or any account, and the check includes nothing about what you pray.',
         'If you share analytics with developers in your iPhone settings, Apple may send us anonymous crash reports. You control that in Settings.',
       ],
     },
