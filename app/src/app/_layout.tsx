@@ -17,6 +17,17 @@ import {
   Nunito_800ExtraBold,
 } from '@expo-google-fonts/nunito';
 import { UnifrakturMaguntia_400Regular } from '@expo-google-fonts/unifrakturmaguntia';
+import {
+  AtkinsonHyperlegible_400Regular,
+  AtkinsonHyperlegible_400Regular_Italic,
+  AtkinsonHyperlegible_700Bold,
+} from '@expo-google-fonts/atkinson-hyperlegible';
+import {
+  DMSans_400Regular,
+  DMSans_400Regular_Italic,
+  DMSans_500Medium,
+  DMSans_700Bold,
+} from '@expo-google-fonts/dm-sans';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
@@ -148,6 +159,13 @@ export default function RootLayout() {
     Nunito_600SemiBold,
     Nunito_600SemiBold_Italic,
     Nunito_800ExtraBold,
+    AtkinsonHyperlegible_400Regular,
+    AtkinsonHyperlegible_400Regular_Italic,
+    AtkinsonHyperlegible_700Bold,
+    DMSans_400Regular,
+    DMSans_400Regular_Italic,
+    DMSans_500Medium,
+    DMSans_700Bold,
   });
   const hydrated = useSettingsHydrated();
   const ready = (fontsLoaded || fontError !== null) && hydrated;

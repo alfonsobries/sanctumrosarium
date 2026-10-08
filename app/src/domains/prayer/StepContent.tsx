@@ -38,10 +38,17 @@ type PrayerLinesProperties = {
 };
 
 /** A prayer line by line; the part the others answer is set apart in italics. */
+/** The prayer's type size: the person's choice, grown by the skin when it asks for larger text. */
+function useSizes(textSize: Settings['textSize']): { size: number; line: number } {
+  const scale = useSkin().skin.textScale ?? 1;
+  const { size, line } = sizes[textSize];
+  return { size: Math.round(size * scale), line: Math.round(line * scale) };
+}
+
 function PrayerLines({ id, locale, textSize }: PrayerLinesProperties) {
   const { skin } = useSkin();
   const text = prayerText(id, locale);
-  const { size, line } = sizes[textSize];
+  const { size, line } = useSizes(textSize);
   const split = text.responseFrom ?? text.lines.length;
   const firstLetter = text.lines[0]?.charAt(0) ?? '';
 
@@ -74,7 +81,7 @@ export function StepContent({ step, locale, textSize }: StepContentProperties) {
   const { t } = useTranslation();
   const announceArtwork = useArtwork(step.kind === 'announce' ? step.mystery.id : '');
   const { width, height } = useWindowDimensions();
-  const { size, line } = sizes[textSize];
+  const { size, line } = useSizes(textSize);
 
   if (step.kind === 'announce') {
     const artwork = announceArtwork;

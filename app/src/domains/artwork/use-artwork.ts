@@ -12,6 +12,8 @@ export function useArtwork(mysteryId: string): Artwork | null {
     case 'classic':
       return classic[mysteryId] ?? null;
     case 'glass':
+    case 'guadalupana':
+    case 'trazo':
     case 'kids':
       return illustrated[skin.artwork][mysteryId] ?? classic[mysteryId] ?? null;
   }
