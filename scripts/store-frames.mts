@@ -3,7 +3,7 @@
  * in store/raw/<lang>/ (taken from a release build in the simulator), photographed by a
  * headless browser at the 6.9" size and flattened to JPEG with no alpha.
  *
- * Run: pnpm store:frames            → store/apple/{es-MX,en-US}/NN-name.jpg
+ * Run: pnpm store:frames            → store/apple/{es-MX,en-US}/screenshots/APP_IPHONE_67/NN-name.jpg
  *      pnpm store:frames --preview  → a contact sheet per language in store/preview/
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -191,7 +191,7 @@ const temp = join(root, 'store/.render');
 mkdirSync(temp, { recursive: true });
 
 for (const lang of ['es', 'en'] as const) {
-  const out = join(root, 'store/apple', folders[lang]);
+  const out = join(root, 'store/apple', folders[lang], 'screenshots/APP_IPHONE_67');
   mkdirSync(out, { recursive: true });
   const shots: string[] = [];
   for (const [index, frame] of frames.entries()) {
