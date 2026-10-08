@@ -28,7 +28,8 @@
     "site": "pnpm --filter site dev",
     "site:build": "pnpm --filter site build",
     "site:test": "pnpm --filter site test",
-    "store:frames": "tsx scripts/store-frames.mts"
+    "store:frames": "tsx scripts/store-frames.mts",
+    "store:creatives": "tsx scripts/store-creatives.mts"
   },
   "devDependencies": {
     "playwright": "^1.63.0",

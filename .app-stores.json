@@ -4,7 +4,8 @@
     "bundle_id": "app.sanctamaria",
     "app_id": "6803640796",
     "devices": [
-      "iphone"
+      "iphone",
+      "ipad"
     ],
     "urls": {
       "support": "https://sanctumrosarium.app/support/",
