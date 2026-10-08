@@ -40,8 +40,8 @@ const phone = (src: string, width: number, style = '') =>
 const hero = (src: string, style = '') => phone(src, 900, `position:relative;margin-top:110px;${style}`);
 
 /** An Apple Watch case drawn in CSS, crown included. */
-const watch = (src: string, width: number, style = '') =>
-  `<div class="watch" style="width:${width}px;${style}"><div class="case"><img src="${src}" /></div><span class="crown"></span><span class="button"></span></div>`;
+const watch = (src: string, width: number, style = '', band = false) =>
+  `<div class="watch" style="width:${width}px;${style}">${band ? '<span class="band top"></span><span class="band bottom"></span>' : ''}<div class="case"><img src="${src}" /></div><span class="crown"></span><span class="button"></span></div>`;
 
 type Frame = {
   name: string;
@@ -68,9 +68,8 @@ const frames: Frame[] = [
     ground: 'deep',
     kicker: { es: 'Apple Watch', en: 'Apple Watch' },
     title: { es: 'El Rosario completo, <em>en tu muñeca</em>', en: 'The whole Rosary, <em>on your wrist</em>' },
-    body: (lang) =>
-      hero(raw(lang, 'pray-light')) +
-      watch(raw(lang, 'watch-beads'), 700, 'position:absolute;left:50%;top:1130px;transform:translateX(-50%)'),
+    // The watch alone, as large as the frame allows, its band running off both edges.
+    body: (lang) => `<div class="solo">${watch(raw(lang, 'watch-beads'), 1000, '', true)}</div>`,
   },
   {
     name: 'voice',
@@ -162,6 +161,14 @@ function page(frame: Frame, lang: Lang, index: number): string {
     .watch img { width: 100%; height: 100%; object-fit: cover; border-radius: 24% / 20%; display: block; background: #000; }
     .watch .crown { position: absolute; right: -3.5%; top: 24%; width: 5%; height: 15%; border-radius: 8px;
       background: linear-gradient(90deg, #1c1f27, #4a505e); }
+    .solo { width: 100%; flex: 1; display: flex; justify-content: center; align-items: center; padding-bottom: 120px; }
+    .watch .band { position: absolute; left: 13%; width: 74%; height: 1400px; z-index: -1;
+      background: linear-gradient(90deg, #15181f, #2a2f3a 20%, #343a47 50%, #2a2f3a 80%, #15181f);
+      box-shadow: inset 0 0 0 2px rgb(255 255 255 / .04); }
+    .watch .band::after { content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent 0 22px, rgb(255 255 255 / .025) 22px 24px); }
+    .watch .band.top { bottom: 92%; border-radius: 40px 40px 0 0; }
+    .watch .band.bottom { top: 92%; border-radius: 0 0 40px 40px; }
     .watch .button { position: absolute; right: -2%; top: 46%; width: 3%; height: 20%; border-radius: 8px; background: #1c1f27; }
     .note { position: relative; z-index: 3; margin-top: auto; margin-bottom: 150px; font-size: 44px; color: ${g.mute}; text-align: center; padding: 0 140px; text-wrap: balance; }
   </style></head><body>
