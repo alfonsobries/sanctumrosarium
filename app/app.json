@@ -49,7 +49,14 @@
       ],
       "expo-sqlite",
       "expo-localization",
-      "@bacons/apple-targets"
+      "@bacons/apple-targets",
+      [
+        "./plugins/with-android-brand-colors",
+        {
+          "light": "#8E6E2F",
+          "dark": "#D2AE66"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
