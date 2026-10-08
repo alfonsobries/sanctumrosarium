@@ -199,5 +199,4 @@ export class Journal {
     }
     return counts;
   }
-
 }
