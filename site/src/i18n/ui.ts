@@ -36,7 +36,7 @@ const es = {
     'Para quien reza todos los días y para quien quiere aprender. Cada pantalla tiene una tarea.',
   'feature.voice.title': 'Reza con voz',
   'feature.voice.body':
-    'Dos voces rezan contigo, como en comunidad: una dirige y la otra responde. Sigue con la pantalla apagada y se controla desde los audífonos.',
+    'Dos voces rezan contigo, como en comunidad: una dirige y la otra responde. Sigue con la pantalla apagada y se controla desde los auriculares.',
   'feature.pace.title': 'A tu ritmo',
   'feature.pace.body':
     'Avanza tocando o deslizando la pantalla. Las cuentas de la decena te dicen siempre por dónde vas.',
@@ -54,9 +54,9 @@ const es = {
     'Recuerda los días que rezaste. Cuenta rosarios y decenas, sin rachas ni comparaciones.',
   'feature.styles.title': 'Ocho estilos',
   'feature.styles.body':
-    'De lo más sencillo a un manuscrito iluminado, la Guadalupana y una versión con letra grande. Claro y oscuro en cada uno.',
+    'De lo más sencillo a un manuscrito iluminado, la Virgen de Guadalupe y una versión con letra grande. Claro y oscuro en cada uno.',
   'feature.languages.title': 'Cuatro idiomas',
-  'feature.languages.body': 'Español de México y de España, inglés y latín, con voz en los cuatro.',
+  'feature.languages.body': 'Inglés, latín y español en sus formas de España y de México, con voz en los cuatro.',
   'home.privacy.title': 'Lo que rezas se queda contigo',
   'home.privacy.body':
     'Sanctum Rosarium funciona sin cuenta y sin conexión. No tiene servidor ni analítica: tu diario vive solo en tu teléfono.',
@@ -83,7 +83,7 @@ const es = {
   'faq.android.a': 'Sí. Sanctum Rosarium está en el App Store para iPhone y Apple Watch, y en Google Play para Android.',
   'faq.catholic.q': '¿De dónde salen las oraciones?',
   'faq.catholic.a':
-    'De fuentes oficiales de la Iglesia católica: la Santa Sede, la Conferencia del Episcopado Mexicano a través de Desde la fe y la USCCB. Cada oración muestra su fuente.',
+    'De fuentes oficiales de la Iglesia católica: la Santa Sede, la USCCB y Desde la fe, de la Arquidiócesis Primada de México. Cada oración muestra su fuente.',
   'faq.today.q': '¿Qué misterios se rezan hoy?',
   'faq.today.a':
     'Los lunes y sábados, los gozosos; martes y viernes, los dolorosos; miércoles y domingo, los gloriosos; los jueves, los luminosos (Rosarium Virginis Mariae 38).',
@@ -219,7 +219,7 @@ const es = {
   'footer.pray': 'Rezar',
   'footer.learn': 'Aprender',
   'footer.project': 'Proyecto',
-  'footer.sources': 'Las oraciones y citas vienen de la Santa Sede, Desde la fe y la USCCB.',
+  'footer.sources': 'Las oraciones y citas vienen de la Santa Sede, la USCCB y Desde la fe.',
   'footer.art': 'Pinturas de dominio público vía Wikimedia Commons.',
 
   'notFound.title': 'Esta página no existe',
@@ -289,7 +289,7 @@ const en: Record<Key, string> = {
   'feature.styles.body':
     'From the plainest to an illuminated manuscript, Our Lady of Guadalupe and a large print edition. Light and dark in each.',
   'feature.languages.title': 'Four languages',
-  'feature.languages.body': 'Spanish from Mexico and from Spain, English and Latin, with a voice in all four.',
+  'feature.languages.body': 'English, Latin and Spanish as prayed in Spain and in Mexico, with a voice in all four.',
   'home.privacy.title': 'What you pray stays with you',
   'home.privacy.body':
     'Sanctum Rosarium works with no account and no connection. It has no server and no analytics: your journal lives only on your phone.',
@@ -313,7 +313,7 @@ const en: Record<Key, string> = {
   'faq.android.a': 'Yes. Sanctum Rosarium is on the App Store for iPhone and Apple Watch, and on Google Play for Android.',
   'faq.catholic.q': 'Where do the prayers come from?',
   'faq.catholic.a':
-    "From official sources of the Catholic Church: the Holy See, the Mexican bishops' Desde la fe and the USCCB. Every prayer shows its source.",
+    "From official sources of the Catholic Church: the Holy See, the USCCB and Desde la fe, of the Archdiocese of Mexico. Every prayer shows its source.",
   'faq.today.q': 'Which mysteries are prayed today?',
   'faq.today.a':
     'Joyful on Monday and Saturday, sorrowful on Tuesday and Friday, glorious on Wednesday and Sunday, luminous on Thursday (Rosarium Virginis Mariae 38).',
@@ -448,7 +448,7 @@ const en: Record<Key, string> = {
   'footer.pray': 'Pray',
   'footer.learn': 'Learn',
   'footer.project': 'Project',
-  'footer.sources': 'Prayers and quotations come from the Holy See, Desde la fe and the USCCB.',
+  'footer.sources': 'Prayers and quotations come from the Holy See, the USCCB and Desde la fe.',
   'footer.art': 'Public domain paintings via Wikimedia Commons.',
 
   'notFound.title': 'This page does not exist',
