@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary        = 'Settings to the Apple Watch and prayed sessions back to the phone'
   s.description    = 'WatchConnectivity bridge: sends settings as the application context and receives journal entries from the watch.'
   s.author         = ''
-  s.homepage       = 'https://sanctamaria.app'
+  s.homepage       = 'https://sanctumrosarium.app'
   s.platforms      = {
     :ios => '16.4'
   }

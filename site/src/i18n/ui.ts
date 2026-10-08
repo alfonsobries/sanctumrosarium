@@ -5,10 +5,10 @@ import type { Language } from './routes';
  * they come from @sanctamaria/content, the same package the app prays from.
  */
 const es = {
-  'site.name': 'SanctaMaria',
+  'site.name': 'Sanctum Rosarium',
   'site.tagline': 'Reza el Santo Rosario',
   'site.description':
-    'Reza el Santo Rosario cada día con la app SanctaMaria: el misterio del día en un toque, con voz o a tu ritmo, en iPhone, Android y Apple Watch. Gratis, sin cuentas y sin anuncios.',
+    'Reza el Santo Rosario cada día con la app Sanctum Rosarium: el misterio del día en un toque, con voz o a tu ritmo, en iPhone, Android y Apple Watch. Gratis, sin cuentas y sin anuncios.',
   skip: 'Ir al contenido',
   'nav.label': 'Principal',
   'nav.menu': 'Menú',
@@ -25,7 +25,7 @@ const es = {
   'store.playSoon': 'Muy pronto en Google Play',
   'store.free': 'Gratis · iPhone, Apple Watch y Android',
 
-  'home.title': 'SanctaMaria, la app para rezar el Santo Rosario',
+  'home.title': 'Sanctum Rosarium, la app para rezar el Santo Rosario',
   'home.kicker': 'Gratis · Sin cuentas · Sin anuncios',
   'home.headline': 'Reza el Rosario cada día',
   'home.lead':
@@ -60,18 +60,18 @@ const es = {
   'feature.languages.body': 'Español de México y de España, inglés y latín, con voz en los cuatro.',
   'home.privacy.title': 'Lo que rezas se queda contigo',
   'home.privacy.body':
-    'SanctaMaria funciona sin cuenta y sin conexión. No tiene servidor ni analítica: tu diario vive solo en tu teléfono.',
+    'Sanctum Rosarium funciona sin cuenta y sin conexión. No tiene servidor ni analítica: tu diario vive solo en tu teléfono.',
   'home.learn.title': '¿Primera vez rezando el Rosario?',
   'home.learn.body':
     'Una guía paso a paso, con la corona dibujada cuenta por cuenta y cada oración completa.',
   'home.learn.cta': 'Aprende a rezarlo',
   'home.help.title': 'Gratis, para siempre',
   'home.help.body':
-    'SanctaMaria no tiene anuncios ni suscripciones. Se sostiene con donativos y con quien ayuda a mejorarla.',
+    'Sanctum Rosarium no tiene anuncios ni suscripciones. Se sostiene con donativos y con quien ayuda a mejorarla.',
   'home.help.cta': 'Cómo ayudar',
   'home.faq': 'Preguntas frecuentes',
 
-  'faq.free.q': '¿SanctaMaria es gratis?',
+  'faq.free.q': '¿Sanctum Rosarium es gratis?',
   'faq.free.a':
     'Sí. Es gratis, sin anuncios y sin compras dentro de la app. El desarrollo se sostiene con donativos.',
   'faq.offline.q': '¿Necesito internet para rezar?',
@@ -170,13 +170,13 @@ const es = {
   'promises.kicker': 'Tradición piadosa',
   'promises.understanding': 'Cómo entenderlas',
 
-  'help.title': 'Cómo ayudar a SanctaMaria',
+  'help.title': 'Cómo ayudar a Sanctum Rosarium',
   'help.description':
-    'SanctaMaria es gratis y sin anuncios. Puedes ayudar con un donativo para el desarrollo y los costos técnicos, o ayudando a mejorar la app.',
+    'Sanctum Rosarium es gratis y sin anuncios. Puedes ayudar con un donativo para el desarrollo y los costos técnicos, o ayudando a mejorar la app.',
   'help.kicker': 'Ayudar',
   'help.headline': 'Gratis para todos, sostenida por muchos',
   'help.lead':
-    'SanctaMaria es gratis y lo será siempre: sin anuncios, sin suscripciones y sin vender datos. La hacemos para que más personas recen el Rosario.',
+    'Sanctum Rosarium es gratis y lo será siempre: sin anuncios, sin suscripciones y sin vender datos. La hacemos para que más personas recen el Rosario.',
   'help.donate.title': 'Dona para el desarrollo',
   'help.donate.body': 'Tu donativo paga lo que cuesta mantener la app viva y mejorarla:',
   'help.donate.cost1': 'Las cuentas de desarrollador de Apple y Google para publicarla.',
@@ -199,15 +199,15 @@ const es = {
   'help.report.body': 'Un error en un texto, un audio que se corta, una idea para mejorar: todo ayuda.',
   'help.code.title': 'Programa o diseña',
   'help.code.body':
-    'SanctaMaria será de código abierto. Si sabes React Native, Swift, Kotlin, diseño o ilustración, tu ayuda es bienvenida.',
+    'Sanctum Rosarium será de código abierto. Si sabes React Native, Swift, Kotlin, diseño o ilustración, tu ayuda es bienvenida.',
   'help.contact': 'Escríbenos',
   'help.github': 'Ver en GitHub',
 
   'privacy.title': 'Privacidad',
-  'privacy.description': 'SanctaMaria no recopila datos: no tiene cuentas, servidor ni analítica.',
+  'privacy.description': 'Sanctum Rosarium no recopila datos: no tiene cuentas, servidor ni analítica.',
 
   'footer.about':
-    'SanctaMaria es una app católica, gratuita y sin anuncios para rezar el Santo Rosario.',
+    'Sanctum Rosarium es una app católica, gratuita y sin anuncios para rezar el Santo Rosario.',
   'footer.pray': 'Rezar',
   'footer.learn': 'Aprender',
   'footer.project': 'Proyecto',
@@ -231,10 +231,10 @@ const es = {
 type Key = keyof typeof es;
 
 const en: Record<Key, string> = {
-  'site.name': 'SanctaMaria',
+  'site.name': 'Sanctum Rosarium',
   'site.tagline': 'Pray the Holy Rosary',
   'site.description':
-    "Pray the Holy Rosary every day with the SanctaMaria app: the day's mystery in one tap, with a voice or at your own pace, on iPhone, Android and Apple Watch. Free, with no account and no ads.",
+    "Pray the Holy Rosary every day with the Sanctum Rosarium app: the day's mystery in one tap, with a voice or at your own pace, on iPhone, Android and Apple Watch. Free, with no account and no ads.",
   skip: 'Skip to content',
   'nav.label': 'Main',
   'nav.menu': 'Menu',
@@ -251,7 +251,7 @@ const en: Record<Key, string> = {
   'store.playSoon': 'Coming soon to Google Play',
   'store.free': 'Free · iPhone, Apple Watch and Android',
 
-  'home.title': 'SanctaMaria, the app to pray the Holy Rosary',
+  'home.title': 'Sanctum Rosarium, the app to pray the Holy Rosary',
   'home.kicker': 'Free · No account · No ads',
   'home.headline': 'Pray the Rosary every day',
   'home.lead':
@@ -285,17 +285,17 @@ const en: Record<Key, string> = {
   'feature.languages.body': 'Spanish from Mexico and from Spain, English and Latin, with a voice in all four.',
   'home.privacy.title': 'What you pray stays with you',
   'home.privacy.body':
-    'SanctaMaria works with no account and no connection. It has no server and no analytics: your journal lives only on your phone.',
+    'Sanctum Rosarium works with no account and no connection. It has no server and no analytics: your journal lives only on your phone.',
   'home.learn.title': 'Praying the Rosary for the first time?',
   'home.learn.body': 'A step-by-step guide, with the rosary drawn bead by bead and every prayer in full.',
   'home.learn.cta': 'Learn to pray it',
   'home.help.title': 'Free, for good',
   'home.help.body':
-    'SanctaMaria has no ads and no subscriptions. It is kept alive by donations and by those who help make it better.',
+    'Sanctum Rosarium has no ads and no subscriptions. It is kept alive by donations and by those who help make it better.',
   'home.help.cta': 'How to help',
   'home.faq': 'Questions',
 
-  'faq.free.q': 'Is SanctaMaria free?',
+  'faq.free.q': 'Is Sanctum Rosarium free?',
   'faq.free.a': 'Yes. It is free, with no ads and no in-app purchases. Its development is funded by donations.',
   'faq.offline.q': 'Do I need the internet to pray?',
   'faq.offline.a': 'No. The prayers, the Gospel passages and the audio come inside the app and work offline.',
@@ -392,13 +392,13 @@ const en: Record<Key, string> = {
   'promises.kicker': 'Pious tradition',
   'promises.understanding': 'How to read them',
 
-  'help.title': 'How to help SanctaMaria',
+  'help.title': 'How to help Sanctum Rosarium',
   'help.description':
-    'SanctaMaria is free and has no ads. You can help with a donation for its development and technical costs, or by helping make the app better.',
+    'Sanctum Rosarium is free and has no ads. You can help with a donation for its development and technical costs, or by helping make the app better.',
   'help.kicker': 'Help',
   'help.headline': 'Free for everyone, kept by many',
   'help.lead':
-    'SanctaMaria is free and always will be: no ads, no subscriptions and no selling data. We make it so more people pray the Rosary.',
+    'Sanctum Rosarium is free and always will be: no ads, no subscriptions and no selling data. We make it so more people pray the Rosary.',
   'help.donate.title': 'Donate to its development',
   'help.donate.body': 'Your donation pays for what it takes to keep the app alive and make it better:',
   'help.donate.cost1': 'The Apple and Google developer accounts to publish it.',
@@ -421,14 +421,14 @@ const en: Record<Key, string> = {
   'help.report.body': 'A mistake in a text, an audio that cuts off, an idea to make it better: it all helps.',
   'help.code.title': 'Code or design',
   'help.code.body':
-    'SanctaMaria will be open source. If you know React Native, Swift, Kotlin, design or illustration, your help is welcome.',
+    'Sanctum Rosarium will be open source. If you know React Native, Swift, Kotlin, design or illustration, your help is welcome.',
   'help.contact': 'Write to us',
   'help.github': 'See it on GitHub',
 
   'privacy.title': 'Privacy',
-  'privacy.description': 'SanctaMaria collects no data: it has no accounts, no server and no analytics.',
+  'privacy.description': 'Sanctum Rosarium collects no data: it has no accounts, no server and no analytics.',
 
-  'footer.about': 'SanctaMaria is a free Catholic app with no ads to pray the Holy Rosary.',
+  'footer.about': 'Sanctum Rosarium is a free Catholic app with no ads to pray the Holy Rosary.',
   'footer.pray': 'Pray',
   'footer.learn': 'Learn',
   'footer.project': 'Project',

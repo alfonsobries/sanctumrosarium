@@ -155,7 +155,7 @@ export default function PrayScreen() {
     pauseSeconds,
     nowPlaying: {
       album: plan === null ? '' : t(`sets.${plan.set}`),
-      artist: 'SanctaMaria',
+      artist: 'Sanctum Rosarium',
       titles: (s) => stepHeading(s, headingLocale, t),
     },
     onStep: (index) => moveTo(index),

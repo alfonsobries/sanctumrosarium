@@ -1,4 +1,4 @@
-# SanctaMaria
+# Sanctum Rosarium
 
 App para rezar el Santo Rosario, católica y de código abierto. Qué es y para quién:
 `docs/producto.md`.
@@ -6,7 +6,7 @@ App para rezar el Santo Rosario, católica y de código abierto. Qué es y para 
 ## Estructura
 
 - `app/` - Expo (iOS, Android) y el reloj (`app/targets/watch`, Swift)
-- `site/` - sitio en Astro (sanctamaria.app), español e inglés; el texto litúrgico sale de `content/`
+- `site/` - sitio en Astro (sanctumrosarium.app), español e inglés; el texto litúrgico sale de `content/`
 - `packages/rosary` - el motor: secuencia de pasos, calendario, rotación de evangelios
 - `content/` - oraciones, misterios y pasajes, cada uno con su fuente
 

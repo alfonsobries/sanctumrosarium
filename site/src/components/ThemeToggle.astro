@@ -19,7 +19,7 @@ const { label } = Astro.props;
       const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
       document.documentElement.dataset.theme = next;
       try {
-        localStorage.setItem('sanctamaria-theme', next);
+        localStorage.setItem('sanctumrosarium-theme', next);
       } catch {
         // Private browsing: the choice lasts for this page only.
       }

@@ -73,7 +73,7 @@ struct HomeView: View {
           }
         }
       }
-      .navigationTitle(Text(verbatim: "SanctaMaria"))
+      .navigationTitle(Text(verbatim: "Sanctum Rosarium"))
       .navigationDestination(for: String.self) { destination in
         if destination == Self.setList {
           SetList(content: content)

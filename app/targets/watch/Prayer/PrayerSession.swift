@@ -197,7 +197,7 @@ final class PrayerSession: Identifiable {
         self.finish()
       }
     }
-    let nowPlaying = RosaryNowPlaying(album: setTitle, artist: "SanctaMaria", artworkURL: nil)
+    let nowPlaying = RosaryNowPlaying(album: setTitle, artist: "Sanctum Rosarium", artworkURL: nil)
     Task {
       do {
         try await core.load(steps: audioSteps, startIndex: position, rate: Float(settings.rate), nowPlaying: nowPlaying)

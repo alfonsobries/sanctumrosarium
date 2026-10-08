@@ -3,7 +3,7 @@ import { repository, stores, type Language } from '../i18n/routes';
 /** schema.org nodes, joined into one @graph per page by the layout. */
 export type SchemaNode = Record<string, unknown>;
 
-export const siteUrl = 'https://sanctamaria.app';
+export const siteUrl = 'https://sanctumrosarium.app';
 
 const organizationId = `${siteUrl}/#organization`;
 const websiteId = (language: Language) => `${siteUrl}/${language === 'en' ? 'en/' : ''}#website`;
@@ -20,7 +20,7 @@ export function organization(language: Language): SchemaNode {
   return {
     '@type': 'Organization',
     '@id': organizationId,
-    name: 'SanctaMaria',
+    name: 'Sanctum Rosarium',
     url: siteUrl,
     logo: absolute('/icon.png'),
     sameAs: [stores.appStore, repository],
@@ -36,7 +36,7 @@ export function website(language: Language, description: string): SchemaNode {
     '@type': 'WebSite',
     '@id': websiteId(language),
     url: absolute(language === 'en' ? '/en/' : '/'),
-    name: 'SanctaMaria',
+    name: 'Sanctum Rosarium',
     description,
     inLanguage: inLanguage(language),
     publisher: { '@id': organizationId },
@@ -47,7 +47,7 @@ export function mobileApplication(language: Language, description: string): Sche
   return {
     '@type': 'MobileApplication',
     '@id': appId,
-    name: 'SanctaMaria',
+    name: 'Sanctum Rosarium',
     description,
     applicationCategory: 'LifestyleApplication',
     applicationSubCategory: language === 'es' ? 'Oración católica' : 'Catholic prayer',

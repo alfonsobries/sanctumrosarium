@@ -1,6 +1,6 @@
 # Contenido litúrgico
 
-Textos que se rezan en SanctaMaria: oraciones, misterios, lecturas bíblicas y estructura del Rosario. Cada texto viene de una fuente citable consultada en línea el 2026-10-06 y guarda esa fuente junto al dato. Nada está escrito de memoria.
+Textos que se rezan en Sanctum Rosarium: oraciones, misterios, lecturas bíblicas y estructura del Rosario. Cada texto viene de una fuente citable consultada en línea el 2026-10-06 y guarda esa fuente junto al dato. Nada está escrito de memoria.
 
 Idiomas: `es-MX`, `es-ES`, `en-US`, `la`.
 

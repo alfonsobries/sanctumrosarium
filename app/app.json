@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "SanctaMaria",
+    "name": "Sanctum Rosarium",
     "slug": "sanctamaria",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,8 @@
         "UIBackgroundModes": [
           "audio"
         ],
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDisplayName": "Rosarium"
       },
       "appleTeamId": "TY2LB9Y7DK"
     },

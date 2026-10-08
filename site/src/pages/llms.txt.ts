@@ -7,7 +7,7 @@ import { hasPrayerPage, mysterySets, prayerName, setTitle } from '../lib/content
 export const GET: APIRoute = ({ site }) => {
   const url = (path: string) => new URL(path, site).href;
   const lines = [
-    '# SanctaMaria',
+    '# Sanctum Rosarium',
     '',
     '> A free Catholic app with no ads to pray the Holy Rosary on iPhone, Apple Watch and Android, in Spanish, English and Latin. No account and no server: what you pray stays on your device. Every prayer comes from an official Church source.',
     '',

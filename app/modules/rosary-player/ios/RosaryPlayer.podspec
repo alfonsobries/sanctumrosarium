@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary        = 'Rosary audio queue with real silence, interruption recovery and Now Playing'
   s.description    = 'Plays a queue of prayer steps with gaps rendered as audio time, resumes after interruptions and drives the lock screen controls.'
   s.author         = ''
-  s.homepage       = 'https://sanctamaria.app'
+  s.homepage       = 'https://sanctumrosarium.app'
   s.platforms      = {
     :ios => '16.4'
   }

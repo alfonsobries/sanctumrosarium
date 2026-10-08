@@ -1,4 +1,4 @@
-# SanctaMaria
+# Sanctum Rosarium
 
 Una herramienta para rezar el Santo Rosario. Católica, gratis, de código abierto.
 

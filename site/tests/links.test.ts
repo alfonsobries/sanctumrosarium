@@ -37,7 +37,7 @@ describe.skipIf(!existsSync(dist))('built site', () => {
     for (const page of html.filter((p) => !p.file.startsWith('/404'))) {
       expect(page.text, page.file).toMatch(/<title>[^<]{10,}<\/title>/);
       expect(page.text, page.file).toMatch(/<meta name="description" content="[^"]{50,}"/);
-      expect(page.text, page.file).toMatch(/<link rel="canonical" href="https:\/\/sanctamaria\.app\//);
+      expect(page.text, page.file).toMatch(/<link rel="canonical" href="https:\/\/sanctumrosarium\.app\//);
       expect(page.text, page.file).toContain('hreflang="es"');
       expect(page.text, page.file).toContain('hreflang="en"');
     }
@@ -45,7 +45,7 @@ describe.skipIf(!existsSync(dist))('built site', () => {
 
   it('points every alternate language link at a page that exists', () => {
     for (const page of html) {
-      for (const [, href] of page.text.matchAll(/hreflang="(?:es|en|x-default)" href="https:\/\/sanctamaria\.app([^"]*)"/g)) {
+      for (const [, href] of page.text.matchAll(/hreflang="(?:es|en|x-default)" href="https:\/\/sanctumrosarium\.app([^"]*)"/g)) {
         expect(resolves(href!), `${page.file} -> ${href}`).toBe(true);
       }
     }

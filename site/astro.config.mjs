@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://sanctamaria.app',
+  site: 'https://sanctumrosarium.app',
   trailingSlash: 'always',
   i18n: {
     defaultLocale: 'es',

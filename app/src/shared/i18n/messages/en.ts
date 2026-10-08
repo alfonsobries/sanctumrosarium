@@ -172,7 +172,7 @@ export const en: Messages<typeof es> = {
     done: 'Done',
   },
   onboarding: {
-    title: 'SanctaMaria',
+    title: 'Sanctum Rosarium',
     subtitle: 'To pray the Holy Rosary',
     know: 'I know how to pray it',
     learn: 'I want to learn',

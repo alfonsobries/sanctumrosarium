@@ -1,7 +1,7 @@
 ---
-import medallion from '../../../app/assets/brand/sanctamaria-logo.svg?raw';
+import medallion from '../../../app/assets/brand/sanctumrosarium-logo.svg?raw';
 
-/** The SanctaMaria medallion, drawn in the current text colour. */
+/** The Sanctum Rosarium medallion, drawn in the current text colour. */
 type Props = { class?: string; label?: string };
 const { class: className, label } = Astro.props;
 const markup = medallion.replace(/<title>.*?<\/title>/, '').replace(/ color="[^"]*"/, '');

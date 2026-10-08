@@ -5,7 +5,7 @@
 # Apple y Google.
 #
 # Uso (raíz):
-#   pnpm ios:release:build    # solo el binario → app/build/sanctamaria.ipa
+#   pnpm ios:release:build    # solo el binario → app/build/sanctumrosarium.ipa
 #   pnpm ios:release:submit   # sube ese binario a TestFlight
 #   pnpm ios:release          # los dos
 
@@ -17,10 +17,10 @@ ACTION="${2:-all}"
 
 case "$PLATFORM" in
   ios)
-    ARTIFACT="build/sanctamaria.ipa"
+    ARTIFACT="build/sanctumrosarium.ipa"
     ;;
   android)
-    ARTIFACT="build/sanctamaria.aab"
+    ARTIFACT="build/sanctumrosarium.aab"
     ;;
   *)
     echo "Uso: scripts/release.sh <ios|android> [build|submit|all]"

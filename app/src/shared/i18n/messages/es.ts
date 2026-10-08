@@ -162,7 +162,7 @@ export const es = {
     done: 'Listo',
   },
   onboarding: {
-    title: 'SanctaMaria',
+    title: 'Sanctum Rosarium',
     subtitle: 'Para rezar el Santo Rosario',
     know: 'Ya sé rezarlo',
     learn: 'Quiero aprender',

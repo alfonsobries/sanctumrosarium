@@ -1,6 +1,6 @@
 /**
  * Every app icon, splash and favicon, generated from the brand logo
- * (app/assets/brand/sanctamaria-logo.svg) and written next to it under app/assets:
+ * (app/assets/brand/sanctumrosarium-logo.svg) and written next to it under app/assets:
  *
  * - iOS: an Icon Composer bundle (app.icon) with two layers over the night fill: the
  *   rosary ring at the back, Our Lady and her stars in front. The system renders the
@@ -22,7 +22,7 @@ import sharp from 'sharp';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const assets = join(root, 'app/assets');
-const source = readFileSync(join(assets, 'brand/sanctamaria-logo.svg'), 'utf8');
+const source = readFileSync(join(assets, 'brand/sanctumrosarium-logo.svg'), 'utf8');
 
 const palette = {
   night: '#0F1420',

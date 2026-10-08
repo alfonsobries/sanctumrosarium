@@ -2,7 +2,7 @@
   <img src="site/public/icon.png" alt="" width="112" height="112" />
 </p>
 
-<h1 align="center">SanctaMaria</h1>
+<h1 align="center">Sanctum Rosarium</h1>
 
 <p align="center">
   Pray the Holy Rosary on iPhone, Apple Watch and Android.<br />
@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://sanctamaria.app">sanctamaria.app</a> ·
+  <a href="https://sanctumrosarium.app">sanctumrosarium.app</a> ·
   <a href="https://apps.apple.com/app/id6803640796">App Store</a>
 </p>
 
@@ -96,7 +96,7 @@ The audio is regenerated with `pnpm audio:generate` (ElevenLabs, key in
 
 ## Contributing
 
-Ways to help, with or without code, are on the [help page](https://sanctamaria.app/en/help/).
+Ways to help, with or without code, are on the [help page](https://sanctumrosarium.app/en/help/).
 Open an issue for a mistake in a text, an audio problem or an idea.
 
 ## License

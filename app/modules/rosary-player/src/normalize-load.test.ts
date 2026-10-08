@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { clampRate, normalizeLoad } from './normalize-load';
 import type { RosaryStep } from './rosary-player.types';
 
-const nowPlaying = { album: 'Joyful Mysteries', artist: 'SanctaMaria' };
+const nowPlaying = { album: 'Joyful Mysteries', artist: 'Sanctum Rosarium' };
 
 const step = (id: string, gapAfterMs = 500): RosaryStep => ({
   id,

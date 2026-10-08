@@ -67,4 +67,4 @@ export const stores = {
   playStore: 'https://play.google.com/store/apps/details?id=app.sanctamaria',
 } as const;
 
-export const repository = 'https://github.com/alfonsobries/sanctamaria';
+export const repository = 'https://github.com/alfonsobries/sanctumrosarium';
