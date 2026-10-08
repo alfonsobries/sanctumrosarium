@@ -22,7 +22,9 @@
     "ios:release:submit": "bash scripts/release.sh ios submit",
     "android:release": "bash scripts/release.sh android all",
     "android:release:build": "bash scripts/release.sh android build",
-    "android:release:submit": "bash scripts/release.sh android submit"
+    "android:release:submit": "bash scripts/release.sh android submit",
+    "update:preview": "cd app && npx eas-cli@latest update --channel preview --auto",
+    "update:production": "cd app && npx eas-cli@latest update --channel production --auto"
   },
   "devDependencies": {
     "prettier": "^3.9.9",
