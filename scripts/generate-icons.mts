@@ -148,16 +148,23 @@ await png(svg(whole, palette.copper), 600, 'images/splash-icon-dark.png');
 // Web.
 await png(framed(palette.copper, 0.9), 64, 'images/favicon.png', palette.night);
 
-// The website. Favicons use a simpler mark: at 16 to 48 px the rings and stars blur into
-// a disc, while the beads, the cross and her mantle stay legible.
+// The website. Favicons use a minimal mark: at 16 to 48 px the medallion blurs into a disc,
+// so the tab shows a single decade instead, ten beads and the cross hanging below them.
 const sitePublic = join(root, 'site/public');
-const virginOnly = virgin.replace(/<g id="sun">[\s\S]*?<\/g>/, '');
-const small = [
-  beads.replaceAll('r="36.068"', 'r="58"'),
-  cross.replace('stroke-width="10.524"', 'stroke-width="40"'),
-  clip,
-  virginOnly.replace('stroke-width="13.777"', 'stroke-width="34"'),
+const decadeBeads = Array.from({ length: 10 }, (_, index) => {
+  const angle = ((-145 + (index * 290) / 9) * Math.PI) / 180;
+  const x = logoSize / 2 + 280 * Math.sin(angle);
+  const y = 360 - 280 * Math.cos(angle);
+  return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="66" fill="currentColor"/>`;
+}).join('');
+const crossTop = 615;
+const crossLength = 270;
+const crossWidth = 64;
+const decadeCross = [
+  `<rect x="${logoSize / 2 - crossWidth / 2}" y="${crossTop}" width="${crossWidth}" height="${crossLength}" rx="${crossWidth * 0.2}" fill="currentColor"/>`,
+  `<rect x="${logoSize / 2 - crossLength * 0.34}" y="${crossTop + crossLength * 0.28}" width="${crossLength * 0.68}" height="${crossWidth}" rx="${crossWidth * 0.2}" fill="currentColor"/>`,
 ].join('');
+const small = `${decadeBeads}${decadeCross}`;
 const tileCanvas = logoSize * 1.1;
 const tileOrigin = -(tileCanvas - logoSize) / 2;
 const tile = (fill: string, mark: string): string => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${tileOrigin} ${tileOrigin} ${tileCanvas} ${tileCanvas}" width="${tileCanvas}" height="${tileCanvas}">
