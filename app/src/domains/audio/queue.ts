@@ -1,9 +1,6 @@
 import type { Step } from '@sanctamaria/rosary';
 
-/** [first character, character after the last, start in ms] of a word within the track's text. */
-export type WordMark = [number, number, number];
-
-export type ManifestTrack = { file: string; durationMs: number; words?: WordMark[] };
+export type ManifestTrack = { file: string; durationMs: number };
 
 export type AudioManifest = {
   version: 1;
@@ -16,9 +13,6 @@ export type QueuePart = {
   file: string | null;
   gapAfterMs: number;
   durationMs: number;
-  /** Which half of a prayer this is, so its words map onto the right lines. */
-  role: 'leader' | 'response' | 'other';
-  words: WordMark[];
 };
 
 export type QueueStep = { id: string; parts: QueuePart[] };
@@ -37,8 +31,8 @@ export function readingSilenceMs(text: string): number {
   return Math.min(90_000, Math.max(8_000, Math.round((text.length / 14) * 1000)));
 }
 
-function part(track: ManifestTrack, role: QueuePart['role'], gapAfterMs: number): QueuePart {
-  return { file: track.file, gapAfterMs, durationMs: track.durationMs, role, words: track.words ?? [] };
+function part(track: ManifestTrack, gapAfterMs: number): QueuePart {
+  return { file: track.file, gapAfterMs, durationMs: track.durationMs };
 }
 
 function prayerParts(manifest: AudioManifest, id: string, timing: QueueTiming): QueuePart[] | null {
@@ -48,9 +42,9 @@ function prayerParts(manifest: AudioManifest, id: string, timing: QueueTiming): 
   }
   const response = manifest.tracks[`${id}.response`];
   if (response === undefined) {
-    return [part(leader, 'leader', timing.pauseMs)];
+    return [part(leader, timing.pauseMs)];
   }
-  return [part(leader, 'leader', timing.responseGapMs), part(response, 'response', timing.pauseMs)];
+  return [part(leader, timing.responseGapMs), part(response, timing.pauseMs)];
 }
 
 function litanyParts(manifest: AudioManifest, timing: QueueTiming): QueuePart[] | null {
@@ -63,7 +57,7 @@ function litanyParts(manifest: AudioManifest, timing: QueueTiming): QueuePart[] 
       return null;
     }
     const last = index === pairs.length - 1;
-    parts.push(part(call, 'other', 250), part(response, 'other', last ? timing.pauseMs : 400));
+    parts.push(part(call, 250), part(response, last ? timing.pauseMs : 400));
   }
   return parts;
 }
@@ -85,8 +79,7 @@ export function buildQueue(
     let parts: QueuePart[] | null;
     if (step.kind === 'announce') {
       const track = manifest.tracks[`announce.${step.mystery.id}`];
-      parts =
-        track === undefined ? null : [part(track, 'other', Math.max(timing.afterAnnounceMs, timing.pauseMs))];
+      parts = track === undefined ? null : [part(track, Math.max(timing.afterAnnounceMs, timing.pauseMs))];
     } else if (step.kind === 'reading') {
       const track = readingTrack(step.reading.ref);
       parts =
@@ -96,11 +89,9 @@ export function buildQueue(
                 file: null,
                 gapAfterMs: readingSilenceMs(passageText(step.reading.ref)),
                 durationMs: 0,
-                role: 'other',
-                words: [],
               },
             ]
-          : [part(track, 'leader', Math.max(timing.pauseMs, 1500))];
+          : [part(track, Math.max(timing.pauseMs, 1500))];
     } else if (step.prayer === 'litany-of-loreto') {
       parts = litanyParts(manifest, timing);
     } else {
@@ -112,34 +103,4 @@ export function buildQueue(
     queue.push({ id: step.id, parts });
   }
   return queue;
-}
-
-export type Spoken = { role: 'leader' | 'response'; chars: number };
-
-/**
- * How much of a prayer the voice has said at `positionMs` into its step: the half being
- * spoken and how many characters of that half's text are already out. A half whose
- * audio has finished counts as fully said.
- */
-export function spokenAt(parts: readonly QueuePart[], positionMs: number): Spoken | null {
-  let start = 0;
-  let current: Spoken | null = null;
-  for (const part of parts) {
-    if (part.role === 'other') {
-      return null;
-    }
-    if (positionMs < start) {
-      break;
-    }
-    const local = positionMs - start;
-    const said = part.words.filter((word) => word[2] <= local);
-    const chars = local >= part.durationMs ? Number.POSITIVE_INFINITY : (said.at(-1)?.[1] ?? 0);
-    current = { role: part.role, chars };
-    const end = start + part.durationMs + part.gapAfterMs;
-    if (positionMs < end) {
-      break;
-    }
-    start = end;
-  }
-  return current;
 }

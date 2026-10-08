@@ -21,7 +21,6 @@ import { StepContent, stepHeading } from '@/domains/prayer/StepContent';
 import { useSession } from '@/domains/prayer/use-session';
 import { useSessionJournal } from '@/domains/prayer/use-session-journal';
 import { rates, type Settings } from '@/domains/settings/settings';
-import type { QueueStep } from '@/domains/audio/queue';
 import { useSettings } from '@/domains/settings/use-settings';
 import { useContentLocale } from '@/shared/i18n/use-content-locale';
 import { ScreenTexture, useSkin } from '@/shared/theme/SkinProvider';
@@ -48,21 +47,11 @@ type StepPageProperties = {
   headingLocale: Locale;
   textSize: Settings['textSize'];
   guided: boolean;
-  queue: QueueStep[] | null;
   interrupted: boolean;
 };
 
 /** One leaf of the prayer: which mystery, a note for those learning, and the words. */
-function StepPage({
-  step,
-  steps,
-  locale,
-  headingLocale,
-  textSize,
-  guided,
-  queue,
-  interrupted,
-}: StepPageProperties) {
+function StepPage({ step, steps, locale, headingLocale, textSize, guided, interrupted }: StepPageProperties) {
   const { t } = useTranslation();
   const index = steps.indexOf(step);
   const announce =
@@ -104,7 +93,7 @@ function StepPage({
         </Text>
       )}
       {step.kind === 'prayer' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
-      <StepContent step={step} locale={locale} textSize={textSize} queue={queue} />
+      <StepContent step={step} locale={locale} textSize={textSize} />
     </View>
   );
 }
@@ -373,7 +362,6 @@ export default function PrayScreen() {
             headingLocale={headingLocale}
             textSize={textSize}
             guided={guided}
-            queue={listening ? audio.queue : null}
             interrupted={listening && audio.status === 'interrupted'}
           />
         </StepStage>
