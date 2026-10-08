@@ -1,0 +1,122 @@
+---
+import { alternatesOf, route, type Language } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import { promisesOf } from '../lib/content';
+
+type Props = { language: Language };
+const { language } = Astro.props;
+const translate = t(language);
+const promises = promisesOf(language);
+const promiseSource = promises.promises[0]?.source;
+---
+
+<Base
+  language={language}
+  title={translate('promises.title')}
+  description={translate('promises.description')}
+  alternates={alternatesOf('promises')}
+  trail={[
+    { name: translate('breadcrumb.home'), url: route('home', language) },
+    { name: translate('prayers.title'), url: route('prayers', language) },
+  ]}
+  og="prayers"
+  pageType="Article"
+>
+  <header class="wrap narrow page-head">
+    <span class="kicker">{translate('promises.kicker')}</span>
+    <h1>{translate('promises.title')}</h1>
+  </header>
+
+  <article class="wrap narrow body">
+    <p class="intro" data-speakable>{promises.intro}</p>
+
+    <ol class="promises">
+      {promises.promises.map((promise) => <li>{promise.text}</li>)}
+    </ol>
+    {
+      promiseSource !== undefined && (
+        <p class="source">
+          {translate('prayers.source')} <a href={promiseSource.url}>{promiseSource.title}</a>, {promiseSource.publisher}.
+        </p>
+      )
+    }
+
+    <h2>{translate('promises.understanding')}</h2>
+    <div class="understanding">
+      {
+        promises.understanding.map((entry) => {
+          const sources = Array.isArray(entry.source) ? entry.source : [entry.source];
+          return (
+            <div class="point">
+              <p>{entry.text}</p>
+              <p class="source">
+                {sources.map((source, index) => (
+                  <>
+                    {index > 0 && ' · '}
+                    <a href={source.url}>{source.title}</a>
+                  </>
+                ))}
+              </p>
+            </div>
+          );
+        })
+      }
+    </div>
+  </article>
+</Base>
+
+<style>
+  .body {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .intro {
+    font-size: var(--step-1);
+    color: var(--mute);
+  }
+
+  .promises {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: promise;
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .promises li {
+    counter-increment: promise;
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: var(--space-2);
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--serif);
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .promises li::before {
+    content: counter(promise);
+    font: 500 0.95rem var(--sans);
+    color: var(--accent);
+    padding-top: 0.2rem;
+  }
+
+  h2 {
+    font-size: var(--step-3);
+  }
+
+  .understanding {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .point {
+    display: grid;
+    gap: 0.4rem;
+  }
+</style>

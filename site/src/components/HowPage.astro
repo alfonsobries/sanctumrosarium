@@ -1,0 +1,311 @@
+---
+import { lesson } from '@sanctamaria/content';
+import type { Step } from '@sanctamaria/rosary';
+
+import { alternatesOf, prayerRoute, prayerSlugs, route, type Language, type PrayerPageId } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import { prayerName } from '../lib/content';
+import { howTo } from '../lib/schema';
+import { outline } from '../lib/sequence';
+import Corona from './Corona.astro';
+import StoreButtons from './StoreButtons.astro';
+
+type Props = { language: Language };
+const { language } = Astro.props;
+const translate = t(language);
+const guide = lesson('how-to-pray', language);
+const parts = outline();
+
+type Line = { label: string; href?: string; note?: string; optional?: boolean };
+
+function lineOf(step: Step): Line | null {
+  if (step.kind === 'announce') {
+    return { label: translate('how.announce') };
+  }
+  if (step.kind === 'reading') {
+    return { label: translate('how.reading'), optional: true };
+  }
+  if (step.intention === 'pope') {
+    return step.prayer === 'our-father' ? { label: translate('how.pope') } : null;
+  }
+  const id = step.prayer;
+  const href = id in prayerSlugs ? prayerRoute(id as PrayerPageId, language) : undefined;
+  return {
+    label: prayerName(id, language),
+    href,
+    optional: id === 'fatima-prayer',
+  };
+}
+
+/** Collapses the counted Hail Marys into one line each: "Ten Hail Marys". */
+function linesOf(steps: Step[]): Line[] {
+  const lines: Line[] = [];
+  let hailMarys = 0;
+  const flush = () => {
+    if (hailMarys > 0) {
+      lines.push({
+        label: hailMarys === 10 ? translate('how.tenHailMarys') : translate('how.threeHailMarys'),
+        href: prayerRoute('hail-mary', language),
+      });
+      hailMarys = 0;
+    }
+  };
+  for (const step of steps) {
+    if (step.kind === 'prayer' && step.prayer === 'hail-mary' && step.count !== null) {
+      hailMarys += 1;
+      continue;
+    }
+    flush();
+    const line = lineOf(step);
+    if (line !== null) {
+      lines.push(line);
+    }
+  }
+  flush();
+  return lines;
+}
+
+const sections = [
+  { title: translate('how.opening'), lines: linesOf(parts.opening) },
+  { title: translate('how.decade'), lines: linesOf(parts.decade), note: translate('how.decadeTimes') },
+  { title: translate('how.closing'), lines: linesOf(parts.closing) },
+];
+
+const howToSchema = howTo({
+  name: translate('how.title'),
+  description: translate('how.description'),
+  steps: sections.flatMap((section) => section.lines.map((line) => ({ name: line.label, url: line.href }))),
+});
+---
+
+<Base
+  language={language}
+  title={translate('how.title')}
+  description={translate('how.description')}
+  alternates={alternatesOf('how')}
+  trail={[{ name: translate('breadcrumb.home'), url: route('home', language) }]}
+  og="how"
+  schema={[howToSchema]}
+>
+  <header class="wrap page-head">
+    <span class="kicker">{translate('how.kicker')}</span>
+    <h1>{translate('how.title')}</h1>
+    <p class="lead" data-speakable>{translate('how.lead')}</p>
+  </header>
+
+  <section class="wrap steps">
+    {
+      guide?.pages.map((page, index) => (
+        <article class="step">
+          <span class="number">{index + 1}</span>
+          <div class="step-copy">
+            <h2>{page.title}</h2>
+            <p>{page.body}</p>
+            {page.quote !== undefined && (
+              <blockquote>
+                {page.quote.text}
+                <cite>{page.quote.cite}</cite>
+              </blockquote>
+            )}
+          </div>
+        </article>
+      ))
+    }
+    {
+      guide !== null && guide !== undefined && (
+        <p class="source">
+          {translate('how.source')}: <a href={guide.source.url}>{guide.source.title}</a>
+        </p>
+      )
+    }
+  </section>
+
+  <section class="section">
+    <div class="wrap order-grid">
+      <Corona language={language} class="corona" label={translate('how.corona')}>
+        <figcaption>{translate('how.coronaCaption')}</figcaption>
+      </Corona>
+      <div class="order">
+        <h2>{translate('how.sequence')}</h2>
+        {
+          sections.map((section) => (
+            <div class="part">
+              <h3>{section.title}</h3>
+              <ol>
+                {section.lines.map((line) => (
+                  <li>
+                    {line.href === undefined ? line.label : <a href={line.href}>{line.label}</a>}
+                    {line.optional === true && <span class="optional">{translate('how.optional')}</span>}
+                  </li>
+                ))}
+              </ol>
+              {section.note !== undefined && <p class="note">{section.note}</p>}
+            </div>
+          ))
+        }
+        <p class="source">{translate('how.otherWays')}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap app">
+    <div class="card app-card">
+      <h2>{translate('home.headline')}</h2>
+      <p>{translate('home.lead')}</p>
+      <StoreButtons language={language} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .steps {
+    display: grid;
+    gap: var(--space-4);
+    padding-bottom: var(--space-5);
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: var(--space-3);
+  }
+
+  .number {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--serif);
+    font-size: 1.3rem;
+  }
+
+  .step-copy {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .step-copy h2 {
+    font-size: var(--step-2);
+  }
+
+  .step-copy > p {
+    font-size: var(--step-1);
+    color: var(--mute);
+  }
+
+  .order-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 24rem) 1fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  .order-grid :global(.corona) {
+    position: sticky;
+    top: 6rem;
+  }
+
+  figcaption {
+    margin-top: var(--space-2);
+    color: var(--mute);
+    font-size: var(--step--1);
+    text-align: center;
+  }
+
+  .order {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .part h3 {
+    font-family: var(--sans);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: var(--space-2);
+  }
+
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: line;
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+
+  li {
+    counter-increment: line;
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--serif);
+    font-size: var(--step-1);
+  }
+
+  li::before {
+    content: counter(line);
+    min-width: 1.5rem;
+    font: 500 0.85rem var(--sans);
+    color: var(--faint);
+  }
+
+  li a {
+    text-decoration: none;
+  }
+
+  li a:hover {
+    text-decoration: underline;
+  }
+
+  .optional {
+    margin-left: auto;
+    font: 500 0.75rem var(--sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  .note {
+    margin-top: 0.75rem;
+    color: var(--mute);
+    font-style: italic;
+  }
+
+  .app {
+    padding-top: var(--space-4);
+  }
+
+  .app-card {
+    padding: var(--space-5) var(--space-4);
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+    background: linear-gradient(160deg, var(--glow), var(--surface) 55%);
+  }
+
+  .app-card p {
+    color: var(--mute);
+    max-width: var(--measure);
+  }
+
+  @media (max-width: 860px) {
+    .order-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .order-grid :global(.corona) {
+      position: static;
+      max-width: 20rem;
+      margin-inline: auto;
+    }
+  }
+</style>

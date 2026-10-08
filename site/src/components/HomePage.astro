@@ -1,0 +1,493 @@
+---
+import { lesson } from '@sanctamaria/content';
+import { Image } from 'astro:assets';
+
+import { alternatesOf, route, setRoute, type Language } from '../i18n/routes';
+import { t, type UiKey } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import { artworkOf, mysteries, mysterySets, setTitle } from '../lib/content';
+import { faq, mobileApplication } from '../lib/schema';
+import { screens } from '../lib/screens';
+import Medallion from './Medallion.astro';
+import Phone from './Phone.astro';
+import StoreButtons from './StoreButtons.astro';
+import Today from './Today.astro';
+
+type Props = { language: Language };
+const { language } = Astro.props;
+const translate = t(language);
+
+const features: { key: string; screen: keyof typeof screens }[] = [
+  { key: 'voice', screen: 'prayDark' },
+  { key: 'watch', screen: 'watch' },
+  { key: 'gospel', screen: 'gospel' },
+  { key: 'styles', screen: 'styles' },
+];
+const small: string[] = ['pace', 'learn', 'journal', 'languages'];
+const faqs = (['free', 'offline', 'account', 'catholic', 'today', 'android'] as const).map((id) => ({
+  question: translate(`faq.${id}.q` as UiKey),
+  answer: translate(`faq.${id}.a` as UiKey),
+}));
+const quote = lesson('how-to-pray', language)?.pages[0]?.quote;
+---
+
+<Base
+  language={language}
+  title={translate('home.title')}
+  rawTitle
+  description={translate('site.description')}
+  alternates={alternatesOf('home')}
+  home
+  og="home"
+  schema={[mobileApplication(language, translate('site.description')), faq(faqs)]}
+>
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="kicker">{translate('home.kicker')}</span>
+        <h1>{translate('home.headline')}</h1>
+        <p class="lead" data-speakable>{translate('home.lead')}</p>
+        <StoreButtons language={language} />
+        <div class="today-line">
+          <span>{translate('home.today')}</span>
+          <Today language={language} compact />
+        </div>
+      </div>
+      <div class="hero-art">
+        <Medallion class="hero-medallion" />
+        <Phone class="hero-phone back" src={screens.home} alt={translate('feature.pace.title')} />
+        <Phone class="hero-phone front" src={screens.prayLight} alt={translate('feature.voice.title')} eager />
+      </div>
+    </div>
+  </section>
+
+  {
+    quote !== undefined && (
+      <section class="quote wrap narrow">
+        <blockquote>
+          {quote.text}
+          <cite>{language === 'es' ? 'San Juan Pablo II' : 'Saint John Paul II'}, Rosarium Virginis Mariae 3</cite>
+        </blockquote>
+      </section>
+    )
+  }
+
+  <section class="section features" aria-labelledby="features">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{translate('nav.app')}</span>
+        <h2 id="features">{translate('home.features')}</h2>
+        <p class="lead">{translate('home.featuresLead')}</p>
+      </div>
+
+      <div class="feature-list">
+        {
+          features.map((feature, index) => (
+            <article class:list={['feature', { flip: index % 2 === 1 }]}>
+              <div class="feature-copy">
+                <h3>{translate(`feature.${feature.key}.title` as UiKey)}</h3>
+                <p>{translate(`feature.${feature.key}.body` as UiKey)}</p>
+              </div>
+              <Phone
+                class="feature-phone"
+                src={screens[feature.screen]}
+                alt={translate(`feature.${feature.key}.title` as UiKey)}
+              />
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="small-features">
+        {
+          small.map((key) => (
+            <article class="card small">
+              <h3>{translate(`feature.${key}.title` as UiKey)}</h3>
+              <p>{translate(`feature.${key}.body` as UiKey)}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section mysteries" aria-labelledby="mysteries">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{translate('mysteries.kicker')}</span>
+        <h2 id="mysteries">{translate('mysteries.title')}</h2>
+        <p class="lead">{translate('mysteries.lead')}</p>
+      </div>
+      <div class="sets">
+        {
+          mysterySets.map((set) => {
+            const first = mysteries(set)[0];
+            const art = first === undefined ? null : artworkOf(first);
+            return (
+              <a class="set-card" href={setRoute(set, language)}>
+                {art !== null && (
+                  <Image
+                    src={art.image}
+                    alt=""
+                    widths={[240, 360, 480]}
+                    sizes="(max-width: 700px) 45vw, 260px"
+                    style={`background:${art.credit.dominantColor}`}
+                  />
+                )}
+                <span>{setTitle(set, language)}</span>
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section split" aria-labelledby="learn">
+    <div class="wrap split-grid">
+      <div class="card panel">
+        <h2 id="learn">{translate('home.learn.title')}</h2>
+        <p>{translate('home.learn.body')}</p>
+        <a class="button is-solid" href={route('how', language)}>{translate('home.learn.cta')}</a>
+      </div>
+      <div class="card panel">
+        <h2>{translate('home.privacy.title')}</h2>
+        <p>{translate('home.privacy.body')}</p>
+      </div>
+      <div class="card panel accent">
+        <h2>{translate('home.help.title')}</h2>
+        <p>{translate('home.help.body')}</p>
+        <a class="button" href={route('help', language)}>{translate('home.help.cta')}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq" aria-labelledby="faq">
+    <div class="wrap narrow">
+      <h2 id="faq">{translate('home.faq')}</h2>
+      <div class="faq-list">
+        {
+          faqs.map((entry) => (
+            <details>
+              <summary>{entry.question}</summary>
+              <p>{entry.answer}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cta wrap">
+    <Medallion class="cta-medallion" />
+    <h2>{translate('home.headline')}</h2>
+    <StoreButtons language={language} />
+  </section>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--space-5) var(--space-6);
+  }
+
+  .glow {
+    position: absolute;
+    inset: -20% -10% auto auto;
+    width: 70vw;
+    height: 70vw;
+    max-width: 900px;
+    max-height: 900px;
+    background: radial-gradient(circle, var(--glow), transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  .hero-copy {
+    display: grid;
+    gap: var(--space-3);
+    justify-items: start;
+  }
+
+  .hero-copy h1 {
+    font-size: var(--step-5);
+    line-height: 1;
+    max-width: 12ch;
+  }
+
+  .today-line {
+    display: grid;
+    gap: 0.25rem;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--line);
+    width: 100%;
+    max-width: 26rem;
+    color: var(--mute);
+    font-size: var(--step--1);
+  }
+
+  .hero-art {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 34rem;
+  }
+
+  .hero-art :global(.hero-medallion) {
+    position: absolute;
+    width: min(32rem, 90%);
+    color: var(--accent);
+    opacity: 0.12;
+  }
+
+  .hero-art :global(.hero-phone) {
+    position: absolute;
+    width: min(15.5rem, 46%);
+  }
+
+  .hero-art :global(.front) {
+    transform: translateX(22%) rotate(3deg);
+    z-index: 2;
+  }
+
+  .hero-art :global(.back) {
+    transform: translateX(-30%) translateY(6%) rotate(-5deg);
+    opacity: 0.85;
+  }
+
+  .quote {
+    padding-block: var(--space-4);
+  }
+
+  .quote blockquote {
+    font-size: var(--step-2);
+    border-left: 0;
+    padding: 0;
+    text-align: center;
+  }
+
+  .feature-list {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .feature {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 18rem);
+    gap: var(--space-5);
+    align-items: center;
+    justify-content: center;
+    max-width: 58rem;
+    margin-inline: auto;
+  }
+
+  .feature.flip {
+    grid-template-columns: minmax(0, 18rem) 1fr;
+  }
+
+  .feature.flip .feature-copy {
+    order: 2;
+  }
+
+  .feature-copy {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .feature-copy h3 {
+    font-size: var(--step-3);
+  }
+
+  .feature-copy p {
+    font-size: var(--step-1);
+    color: var(--mute);
+    max-width: 30rem;
+  }
+
+  .small-features {
+    margin-top: var(--space-6);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-2);
+  }
+
+  .small {
+    padding: var(--space-3);
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+  }
+
+  .small h3 {
+    font-size: var(--step-1);
+  }
+
+  .small p {
+    color: var(--mute);
+    font-size: 0.95rem;
+  }
+
+  .sets {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-2);
+  }
+
+  .set-card {
+    display: grid;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  .set-card :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius);
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .set-card:hover :global(img) {
+    transform: translateY(-4px);
+  }
+
+  .set-card span {
+    font-family: var(--serif);
+    font-size: var(--step-1);
+  }
+
+  .split-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+  }
+
+  .panel {
+    padding: var(--space-4) var(--space-3);
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+    justify-items: start;
+  }
+
+  .panel h2 {
+    font-size: var(--step-2);
+  }
+
+  .panel p {
+    color: var(--mute);
+  }
+
+  .panel.accent {
+    background: linear-gradient(160deg, var(--glow), var(--surface) 60%);
+  }
+
+  .faq h2 {
+    margin-bottom: var(--space-3);
+  }
+
+  .faq-list {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+
+  details {
+    border-bottom: 1px solid var(--line);
+  }
+
+  summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.15rem 2rem 1.15rem 0;
+    position: relative;
+    font-family: var(--serif);
+    font-size: var(--step-1);
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::after {
+    content: '+';
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--sans);
+    color: var(--accent);
+    transition: transform 0.2s;
+  }
+
+  details[open] summary::after {
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  details p {
+    padding-bottom: 1.2rem;
+    color: var(--mute);
+    max-width: var(--measure);
+  }
+
+  .cta {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+    padding-block: var(--space-6) 0;
+    text-align: center;
+  }
+
+  .cta :global(.cta-medallion) {
+    width: 5rem;
+    color: var(--accent);
+  }
+
+  .cta :global(.stores) {
+    justify-items: center;
+  }
+
+  @media (max-width: 960px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-art {
+      min-height: 28rem;
+    }
+
+    .small-features,
+    .sets {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .split-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .feature,
+    .feature.flip {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .feature.flip .feature-copy {
+      order: 0;
+    }
+
+    .feature :global(.feature-phone) {
+      width: min(16rem, 70vw);
+    }
+  }
+</style>

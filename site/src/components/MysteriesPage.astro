@@ -1,0 +1,212 @@
+---
+import { Image } from 'astro:assets';
+
+import { alternatesOf, route, setRoute, type Language } from '../i18n/routes';
+import { listOf, t, type UiKey } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import { artworkOf, mysteries, mysterySets, setTitle, titleOf, weekdaysOf } from '../lib/content';
+import { absolute, itemList } from '../lib/schema';
+
+type Props = { language: Language };
+const { language } = Astro.props;
+const translate = t(language);
+const days = (set: (typeof mysterySets)[number]) =>
+  listOf(
+    weekdaysOf[set].map((day) => translate(`weekday.${day}` as UiKey)),
+    language,
+  );
+const week = [1, 2, 3, 4, 5, 6, 0].map((day) => ({
+  day,
+  set: mysterySets.find((set) => weekdaysOf[set].includes(day))!,
+}));
+---
+
+<Base
+  language={language}
+  title={translate('mysteries.title')}
+  description={translate('mysteries.description')}
+  alternates={alternatesOf('mysteries')}
+  trail={[{ name: translate('breadcrumb.home'), url: route('home', language) }]}
+  og="mysteries"
+  schema={[
+    itemList(
+      translate('mysteries.title'),
+      mysterySets.map((set) => ({ name: setTitle(set, language), url: setRoute(set, language) })),
+    ),
+  ]}
+>
+  <header class="wrap page-head">
+    <span class="kicker">{translate('mysteries.kicker')}</span>
+    <h1>{translate('mysteries.title')}</h1>
+    <p class="lead" data-speakable>{translate('mysteries.lead')}</p>
+  </header>
+
+  <section class="wrap sets">
+    {
+      mysterySets.map((set) => (
+        <article class="set">
+          <a class="set-head" href={setRoute(set, language)}>
+            <h2>{setTitle(set, language)}</h2>
+            <span class="days">
+              {translate('mysteries.days')} {days(set)}
+            </span>
+          </a>
+          <ol class="strip">
+            {mysteries(set).map((mystery) => {
+              const art = artworkOf(mystery);
+              return (
+                <li>
+                  <a href={`${setRoute(set, language)}#${mystery.id}`}>
+                    {art !== null && (
+                      <Image
+                        src={art.image}
+                        alt=""
+                        widths={[200, 300, 400]}
+                        sizes="(max-width: 700px) 40vw, 200px"
+                        style={`background:${art.credit.dominantColor}`}
+                      />
+                    )}
+                    <span>{titleOf(mystery, language)}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ol>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="section">
+    <div class="wrap narrow calendar">
+      <h2>{translate('mysteries.calendar')}</h2>
+      <dl>
+        {
+          week.map(({ day, set }) => (
+            <div>
+              <dt>{translate(`weekday.${day}` as UiKey)}</dt>
+              <dd>
+                <a href={setRoute(set, language)}>{setTitle(set, language)}</a>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="source">{translate('mysteries.calendarSource')}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .sets {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .set {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .set-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: var(--space-2);
+  }
+
+  .set-head h2 {
+    font-size: var(--step-3);
+  }
+
+  .days {
+    color: var(--accent);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .strip {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-2);
+  }
+
+  .strip a {
+    display: grid;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+
+  .strip :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-small);
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .strip a:hover :global(img) {
+    transform: translateY(-3px);
+  }
+
+  .strip span {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.3;
+  }
+
+  .calendar {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  dl {
+    margin: 0;
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+
+  dl div {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  dt {
+    color: var(--mute);
+    text-transform: capitalize;
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: var(--step-1);
+  }
+
+  dd a {
+    text-decoration: none;
+  }
+
+  @media (max-width: 860px) {
+    .strip {
+      grid-template-columns: repeat(5, 9.5rem);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 0.5rem;
+    }
+
+    .strip li {
+      scroll-snap-align: start;
+    }
+  }
+</style>

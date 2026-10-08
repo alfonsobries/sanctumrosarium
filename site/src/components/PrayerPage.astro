@@ -1,0 +1,269 @@
+---
+import { prayerPageIds, prayerRoute, route, type Language, type PrayerPageId } from '../i18n/routes';
+import { t, type UiKey } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import {
+  hasPrayerPage,
+  latinLines,
+  litanyOf,
+  prayerCategory,
+  prayerLines,
+  prayerName,
+  type PrayerText as Text,
+  type Source,
+} from '../lib/content';
+import { prayerWork } from '../lib/schema';
+import { rosarySteps } from '../lib/sequence';
+import PrayerText from './PrayerText.astro';
+import StoreButtons from './StoreButtons.astro';
+
+type Props = { language: Language; id: PrayerPageId };
+const { language, id } = Astro.props;
+const translate = t(language);
+const name = prayerName(id, language);
+const isLitany = id === 'litany-of-loreto';
+const litany = isLitany ? litanyOf(language) : null;
+const text: Text | null = isLitany ? null : prayerLines(id, language);
+const latin = isLitany ? null : latinLines(id);
+const source: Source = litany?.source ?? text!.source;
+const plain = litany !== null ? litany.pairs.map((pair) => `${pair.call} ${pair.response}`).join('\n') : text!.lines.join('\n');
+
+// Where the app prays it, counted from the engine's own sequence.
+const uses = rosarySteps().filter((step) => step.kind === 'prayer' && step.prayer === id && step.intention === undefined);
+const sections = [...new Set(uses.map((step) => step.section))];
+const where = isLitany
+  ? [translate('where.optionalLitany')]
+  : sections.map((section) => translate(`where.${section}` as UiKey));
+const count =
+  uses.length === 0 ? null : uses.length === 1 ? translate('where.once') : translate('where.count', { count: String(uses.length) });
+
+const others = prayerPageIds.filter((other) => other !== id && hasPrayerPage(other, language));
+const alternates = { es: prayerRoute(id, 'es'), en: prayerRoute(id, 'en') };
+const accessed = new Date(`${source.accessed}T12:00:00Z`).toLocaleDateString(language === 'es' ? 'es-MX' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Base
+  language={language}
+  title={translate('prayers.prayerTitle', { prayer: name })}
+  description={translate('prayers.prayerDescription', {
+    prayer: name,
+    latin: latin === null ? '' : translate('prayers.withLatin'),
+  })}
+  alternates={alternates}
+  trail={[
+    { name: translate('breadcrumb.home'), url: route('home', language) },
+    { name: translate('prayers.title'), url: route('prayers', language) },
+  ]}
+  og="prayers"
+  schema={[prayerWork({ name, text: plain, language, source })]}
+>
+  <article class="wrap prayer-page">
+    <header class="page-head">
+      <span class="kicker">{translate(`category.${prayerCategory(id)}` as UiKey)}</span>
+      <h1>{name}</h1>
+    </header>
+
+    <div class="layout">
+      <div class="text" data-speakable>
+        {text !== null && <PrayerText text={text} large />}
+        {
+          litany !== null && (
+            <>
+              <p class="note">{translate('prayers.litanyNote')}</p>
+              <ul class="litany">
+                {litany.pairs.map((pair) => (
+                  <li>
+                    {pair.call} <em>{pair.response}</em>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )
+        }
+        {
+          text !== null && text.responseFrom !== null && <p class="note">{translate('prayers.respond')}</p>
+        }
+        <p class="source">
+          {translate('prayers.source')} <a href={source.url}>{source.title}</a>, {source.publisher}. {translate('prayers.accessed')}
+          {' '}{accessed}.
+        </p>
+      </div>
+
+      <aside class="side">
+        {
+          where.length > 0 && (
+            <div class="card box">
+              <h2>{translate('prayers.whereInRosary')}</h2>
+              <ul>
+                {where.map((entry) => (
+                  <li>{entry}</li>
+                ))}
+              </ul>
+              {count !== null && <p class="count">{count}</p>}
+            </div>
+          )
+        }
+        {
+          latin !== null && (
+            <div class="card box latin">
+              <h2>{translate('prayers.latin')}</h2>
+              <PrayerText text={latin} lang="la" />
+              <p class="source">
+                <a href={latin.source.url}>{latin.source.title}</a>
+              </p>
+            </div>
+          )
+        }
+      </aside>
+    </div>
+  </article>
+
+  <section class="wrap more">
+    <div class="card app-card">
+      <h2>{translate('feature.voice.title')}</h2>
+      <p>{translate('feature.voice.body')}</p>
+      <StoreButtons language={language} />
+    </div>
+    <nav aria-label={translate('prayers.all')}>
+      <h2>{translate('prayers.all')}</h2>
+      <ul class="others">
+        {
+          others.map((other) => (
+            <li>
+              <a href={prayerRoute(other, language)}>{prayerName(other, language)}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </section>
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    gap: var(--space-5);
+    align-items: start;
+    padding-bottom: var(--space-5);
+  }
+
+  .text {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 40rem;
+  }
+
+  .note {
+    color: var(--mute);
+    font-style: italic;
+  }
+
+  .litany {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.35rem;
+    font-family: var(--serif);
+    font-size: var(--step-1);
+  }
+
+  .litany em {
+    color: var(--mute);
+  }
+
+  .side {
+    display: grid;
+    gap: var(--space-2);
+    position: sticky;
+    top: 6rem;
+  }
+
+  .box {
+    padding: var(--space-3);
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .box h2 {
+    font: 600 var(--step--1) / 1.4 var(--sans);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .box ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .count {
+    color: var(--mute);
+    font-size: 0.95rem;
+  }
+
+  .latin :global(.prayer) {
+    font-size: 1.05rem;
+  }
+
+  .more {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .app-card {
+    padding: var(--space-5) var(--space-4);
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+    background: linear-gradient(160deg, var(--glow), var(--surface) 55%);
+  }
+
+  .app-card p {
+    color: var(--mute);
+    max-width: var(--measure);
+  }
+
+  .more nav h2 {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .others {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .others a {
+    display: inline-block;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    text-decoration: none;
+  }
+
+  .others a:hover {
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+
+    .side {
+      position: static;
+    }
+  }
+</style>

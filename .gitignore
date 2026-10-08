@@ -22,3 +22,7 @@ _design/research/**/img/
 
 # full-resolution mystery art sources
 app/assets/mysteries/original/
+
+# Site build output
+site/dist/
+site/.astro/
