@@ -11,6 +11,7 @@ import { Card } from '@/shared/ui/Card';
 import { Segmented } from '@/shared/ui/Segmented';
 import { SwitchRow } from '@/shared/ui/SwitchRow';
 import { Text } from '@/shared/ui/Text';
+import { readableWidth } from '@/shared/ui/layout';
 
 function isSet(value: unknown): value is MysterySet {
   return typeof value === 'string' && (mysterySets as readonly string[]).includes(value);
@@ -35,7 +36,7 @@ export default function BeginSheet() {
   }
 
   return (
-    <ScrollView contentContainerClassName="gap-6 px-5 pb-10 pt-7">
+    <ScrollView contentContainerClassName={`gap-6 px-5 pb-10 pt-7 ${readableWidth}`}>
       <Text variant="title">{t('options.title')}</Text>
 
       <View className="gap-2">

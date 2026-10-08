@@ -10,6 +10,7 @@ import { useArtwork } from '@/domains/artwork/use-artwork';
 import { useContentLocale } from '@/shared/i18n/use-content-locale';
 import { Segmented } from '@/shared/ui/Segmented';
 import { Text } from '@/shared/ui/Text';
+import { readableWidth } from '@/shared/ui/layout';
 
 export default function MysteryScreen() {
   const { t } = useTranslation();
@@ -31,7 +32,7 @@ export default function MysteryScreen() {
       <Stack.Screen options={{ title: t(`setShort.${mystery.set}`), headerLargeTitle: false }} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerClassName="gap-6 px-5 pb-16 pt-2"
+        contentContainerClassName={`gap-6 px-5 pb-16 pt-2 ${readableWidth}`}
       >
         {artwork !== null && <ArtworkFrame artwork={artwork} style={{ height: (width - 40) * 1.15 }} />}
         <View className="gap-1">

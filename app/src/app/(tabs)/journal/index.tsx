@@ -17,6 +17,7 @@ import { useSkin } from '@/shared/theme/SkinProvider';
 import { Card } from '@/shared/ui/Card';
 import { Icon } from '@/shared/ui/Icon';
 import { Text } from '@/shared/ui/Text';
+import { readableWidth } from '@/shared/ui/layout';
 
 function DayCell({
   date,
@@ -103,7 +104,7 @@ export default function JournalScreen() {
       <Stack.Screen options={{ title: t('journal.title') }} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerClassName="gap-6 px-5 pb-16 pt-2"
+        contentContainerClassName={`gap-6 px-5 pb-16 pt-2 ${readableWidth}`}
       >
         <View className="gap-3">
           <View className="flex-row items-center justify-between">

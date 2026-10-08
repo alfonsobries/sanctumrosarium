@@ -12,6 +12,7 @@ import { Card } from '@/shared/ui/Card';
 import { Icon } from '@/shared/ui/Icon';
 import { Row } from '@/shared/ui/Row';
 import { Text } from '@/shared/ui/Text';
+import { readableWidth } from '@/shared/ui/layout';
 
 const listedPrayers = [
   'sign-of-the-cross',
@@ -71,7 +72,7 @@ export default function LearnScreen() {
       <Stack.Screen options={{ title: t('learn.title') }} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerClassName="gap-8 px-5 pb-16 pt-2"
+        contentContainerClassName={`gap-8 px-5 pb-16 pt-2 ${readableWidth}`}
       >
         <Link href="/lesson/how-to-pray" asChild>
           <Pressable

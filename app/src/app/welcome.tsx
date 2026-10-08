@@ -56,7 +56,7 @@ export default function WelcomeScreen() {
         </View>
       </Animated.View>
 
-      <View className="gap-8">
+      <View className="w-full max-w-[480px] gap-8 self-center">
         <View className="gap-2">
           <Text variant="eyebrow" className="text-center">
             {t('onboarding.language')}

@@ -20,6 +20,7 @@ import { SwitchRow } from '@/shared/ui/SwitchRow';
 import { Icon, type IconName } from '@/shared/ui/Icon';
 import { Row } from '@/shared/ui/Row';
 import { Text } from '@/shared/ui/Text';
+import { readableWidth } from '@/shared/ui/layout';
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -208,7 +209,7 @@ export default function SettingsScreen() {
       />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerClassName="gap-7 px-5 pb-16 pt-4"
+        contentContainerClassName={`gap-7 px-5 pb-16 pt-4 ${readableWidth}`}
       >
         <Section title={t('settings.prayer')}>
           <Card>

@@ -5,6 +5,7 @@ import { ScrollView, View } from 'react-native';
 
 import { Card } from '@/shared/ui/Card';
 import { Text } from '@/shared/ui/Text';
+import { readableWidth } from '@/shared/ui/layout';
 
 export default function PromisesScreen() {
   const { t, i18n } = useTranslation();
@@ -16,7 +17,7 @@ export default function PromisesScreen() {
       <Stack.Screen options={{ title: t('learn.promises'), headerLargeTitle: false }} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerClassName="gap-7 px-5 pb-16 pt-4"
+        contentContainerClassName={`gap-7 px-5 pb-16 pt-4 ${readableWidth}`}
       >
         <View className="gap-3">
           <View className="self-start rounded-full border border-rubric px-3 py-1">

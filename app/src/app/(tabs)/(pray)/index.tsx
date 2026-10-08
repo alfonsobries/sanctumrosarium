@@ -27,6 +27,7 @@ import { useSkin } from '@/shared/theme/SkinProvider';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
 import { Text } from '@/shared/ui/Text';
+import { readableWidth } from '@/shared/ui/layout';
 
 function WeekDay({ label, prayed, today }: { label: string; prayed: boolean; today: boolean }) {
   return (
@@ -114,7 +115,7 @@ export default function TodayScreen() {
       <Stack.Screen options={{ title: t('tabs.pray'), headerLargeTitle: false, headerShown: false }} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerClassName="gap-8 px-5 pb-16"
+        contentContainerClassName={`gap-8 px-5 pb-16 ${readableWidth}`}
         // iOS insets the scroll under the status bar by itself; Android needs the room given.
         contentContainerStyle={process.env.EXPO_OS === 'android' ? { paddingTop: insets.top } : undefined}
       >

@@ -14,6 +14,7 @@ import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
 import { SafeScreen } from '@/shared/ui/SafeScreen';
 import { Text } from '@/shared/ui/Text';
+import { readableWidth } from '@/shared/ui/layout';
 
 function LessonFigure({ figure }: { figure: Figure }) {
   const { t } = useTranslation();
@@ -98,7 +99,7 @@ export default function LessonScreen() {
         <View className="w-11" />
       </View>
 
-      <ScrollView contentContainerClassName="flex-grow gap-8 px-6 pb-6 pt-10">
+      <ScrollView contentContainerClassName={`flex-grow gap-8 px-6 pb-6 pt-10 ${readableWidth}`}>
         <Animated.View key={index} entering={FadeIn.duration(250)} className="flex-1 gap-8">
           <View className="gap-3">
             <Text variant="eyebrow">{content.title}</Text>

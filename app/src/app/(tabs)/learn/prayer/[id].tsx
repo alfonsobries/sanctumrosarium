@@ -14,6 +14,7 @@ import { ScrollView, View } from 'react-native';
 import { useContentLocale } from '@/shared/i18n/use-content-locale';
 import { Segmented } from '@/shared/ui/Segmented';
 import { Text } from '@/shared/ui/Text';
+import { readableWidth } from '@/shared/ui/layout';
 
 const shown: Locale[] = ['es-MX', 'en-US', 'la'];
 
@@ -35,7 +36,7 @@ export default function PrayerScreen() {
       <Stack.Screen options={{ title: prayerTitle(prayer.id, contentLocale), headerLargeTitle: false }} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerClassName="gap-6 px-5 pb-16 pt-4"
+        contentContainerClassName={`gap-6 px-5 pb-16 pt-4 ${readableWidth}`}
       >
         {available.length > 1 && (
           <Segmented

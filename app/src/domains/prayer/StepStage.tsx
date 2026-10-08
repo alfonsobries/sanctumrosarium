@@ -12,6 +12,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
+import { readableWidth } from '@/shared/ui/layout';
+
 type StepStageProperties = {
   stepKey: string;
   /** Which way the last move went, so the new page slides in from the matching side. */
@@ -162,7 +164,7 @@ export function StepStage({
               {backdrop}
             </Animated.View>
           )}
-          <View>{children}</View>
+          <View className={readableWidth}>{children}</View>
         </Animated.ScrollView>
       </Animated.View>
     </GestureDetector>
