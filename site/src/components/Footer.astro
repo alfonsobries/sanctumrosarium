@@ -43,7 +43,9 @@ const year = new Date().getFullYear();
     <nav aria-label={translate('footer.project')}>
       <h2>{translate('footer.project')}</h2>
       <a href={route('help', language)}>{translate('nav.help')}</a>
+      <a href={route('support', language)}>{translate('support.title')}</a>
       <a href={route('privacy', language)}>{translate('privacy.title')}</a>
+      <a href={route('terms', language)}>{translate('terms.title')}</a>
       <a href={language === 'es' ? '/en/' : '/'} hreflang={language === 'es' ? 'en' : 'es'}>
         {translate('nav.language')}
       </a>

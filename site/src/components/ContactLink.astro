@@ -1,0 +1,25 @@
+---
+/**
+ * A "write to us" link whose address never appears in the HTML: it is stored reversed
+ * and base64-encoded, and only turned into a mailto when someone clicks. Enough to keep
+ * scrapers away without making a person do anything.
+ */
+type Props = { label: string; subject?: string; class?: string };
+const { label, subject, class: className } = Astro.props;
+const encoded = 'bW9jLm9saXhldkBvc25vZmxh';
+---
+
+<a class:list={['contact', className]} href="#contacto" data-c={encoded} data-s={subject} rel="nofollow">
+  {label}
+</a>
+
+<script>
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('a.contact[data-c]')) {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const address = atob(link.dataset.c ?? '').split('').reverse().join('');
+      const subject = link.dataset.s === undefined ? '' : `?subject=${encodeURIComponent(link.dataset.s)}`;
+      window.location.href = `mailto:${address}${subject}`;
+    });
+  }
+</script>

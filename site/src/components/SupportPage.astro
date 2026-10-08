@@ -1,0 +1,87 @@
+---
+import { alternatesOf, route, type Language } from '../i18n/routes';
+import { t, type UiKey } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import { faq } from '../lib/schema';
+import ContactLink from './ContactLink.astro';
+
+type Props = { language: Language };
+const { language } = Astro.props;
+const translate = t(language);
+const questions = (['free', 'offline', 'account', 'android', 'catholic', 'today'] as const).map((id) => ({
+  question: translate(`faq.${id}.q` as UiKey),
+  answer: translate(`faq.${id}.a` as UiKey),
+}));
+---
+
+<Base
+  language={language}
+  title={translate('support.title')}
+  description={translate('support.description')}
+  alternates={alternatesOf('support')}
+  trail={[{ name: translate('breadcrumb.home'), url: route('home', language) }]}
+  schema={[faq(questions)]}
+>
+  <header class="wrap narrow page-head">
+    <h1>{translate('support.title')}</h1>
+    <p class="lead" data-speakable>{translate('support.lead')}</p>
+    <ContactLink class="button is-solid write" label={translate('support.write')} subject="Sanctum Rosarium" />
+  </header>
+
+  <section class="wrap narrow">
+    <h2>{translate('support.faq')}</h2>
+    <div class="list">
+      {
+        questions.map((entry) => (
+          <details>
+            <summary>{entry.question}</summary>
+            <p>{entry.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+    <p class="links">
+      <a href={route('privacy', language)}>{translate('privacy.title')}</a> ·
+      <a href={route('terms', language)}>{translate('terms.title')}</a> ·
+      <a href={route('help', language)}>{translate('nav.help')}</a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  .page-head :global(.write) {
+    justify-self: start;
+    margin-top: var(--space-2);
+  }
+
+  h2 {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .list {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+
+  details {
+    border-bottom: 1px solid var(--line);
+  }
+
+  summary {
+    cursor: pointer;
+    padding: 1.1rem 0;
+    font-family: var(--serif);
+    font-size: var(--step-1);
+  }
+
+  details p {
+    padding-bottom: 1.1rem;
+    color: var(--mute);
+  }
+
+  .links {
+    margin-top: var(--space-4);
+    color: var(--faint);
+  }
+</style>

@@ -14,6 +14,8 @@ export const routes = {
   promises: { es: '/promesas-del-rosario/', en: '/en/rosary-promises/' },
   help: { es: '/ayudar/', en: '/en/help/' },
   privacy: { es: '/privacidad/', en: '/en/privacy/' },
+  terms: { es: '/terminos/', en: '/en/terms/' },
+  support: { es: '/soporte/', en: '/en/support/' },
 } as const;
 
 export type RouteName = keyof typeof routes;

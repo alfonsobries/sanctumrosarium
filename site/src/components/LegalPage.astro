@@ -1,0 +1,66 @@
+---
+import { type Alternates, type Language, route } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import ContactLink from './ContactLink.astro';
+
+export type LegalSection = { heading: string; paragraphs: string[] };
+
+/** A legal text: its sections, the date it was last changed and a way to write to us. */
+type Props = {
+  language: Language;
+  title: string;
+  description: string;
+  alternates: Alternates;
+  sections: LegalSection[];
+};
+const { language, title, description, alternates, sections } = Astro.props;
+const translate = t(language);
+---
+
+<Base
+  language={language}
+  title={title}
+  description={description}
+  alternates={alternates}
+  trail={[{ name: translate('breadcrumb.home'), url: route('home', language) }]}
+>
+  <header class="wrap narrow page-head">
+    <h1>{title}</h1>
+    <p class="source">{translate('legal.updated')}</p>
+  </header>
+  <article class="wrap narrow prose legal">
+    {
+      sections.map((section) => (
+        <section>
+          <h2>{section.heading}</h2>
+          {section.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </section>
+      ))
+    }
+    <p class="contact">
+      <ContactLink class="button" label={translate('help.contact')} subject={title} />
+    </p>
+  </article>
+</Base>
+
+<style>
+  .legal {
+    gap: var(--space-4);
+  }
+
+  .legal section {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .legal h2 {
+    margin-top: 0;
+  }
+
+  .legal p {
+    color: var(--mute);
+  }
+</style>

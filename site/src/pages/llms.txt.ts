@@ -32,7 +32,9 @@ export const GET: APIRoute = ({ site }) => {
     '',
     '## Project',
     `- [How to help](${url(route('help', 'en'))}): donations and contributions`,
+    `- [Support](${url(route('support', 'en'))}): questions and how to reach us`,
     `- [Privacy](${url(route('privacy', 'en'))}): no data collected`,
+    `- [Terms of use](${url(route('terms', 'en'))})`,
     '',
   ];
   return new Response(lines.join('\n'), { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

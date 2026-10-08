@@ -1,63 +1,102 @@
 ---
-import { alternatesOf, route, type Language } from '../i18n/routes';
+import { alternatesOf, type Language } from '../i18n/routes';
 import { t } from '../i18n/ui';
-import Base from '../layouts/Base.astro';
+import LegalPage, { type LegalSection } from './LegalPage.astro';
 
 type Props = { language: Language };
 const { language } = Astro.props;
 const translate = t(language);
 
-const body: Record<Language, { heading: string; text: string }[]> = {
+const sections: Record<Language, LegalSection[]> = {
   es: [
     {
-      heading: 'Qué datos recopila la app',
-      text: 'Ninguno. Sanctum Rosarium no tiene cuentas, servidor ni analítica. Lo que rezas, tu diario y tus ajustes se guardan solo en tu teléfono.',
+      heading: 'En resumen',
+      paragraphs: [
+        'Sanctum Rosarium no recopila datos personales. No tiene cuentas, servidor propio, analítica ni publicidad, y no te rastrea entre apps ni sitios.',
+      ],
     },
     {
-      heading: 'Apple Watch',
-      text: 'El reloj recibe tus ajustes, el audio y lo que rezaste directamente de tu teléfono, sin pasar por internet.',
+      heading: 'Lo que se guarda en tu dispositivo',
+      paragraphs: [
+        'Tu diario de oración, tus ajustes y el rezo que dejaste a medias se guardan solo en tu teléfono. Nadie más, incluidos nosotros, puede verlos. Se borran si eliminas la app.',
+        'El Apple Watch recibe tus ajustes, el audio y lo que rezaste directamente de tu iPhone por la conexión entre ambos, sin pasar por internet.',
+      ],
+    },
+    {
+      heading: 'Conexiones a internet',
+      paragraphs: [
+        'Las oraciones, los textos del Evangelio, las imágenes y el audio vienen dentro de la app y funcionan sin conexión.',
+        'Para recibir mejoras sin pasar por la tienda, la app consulta al abrir si hay una actualización en los servidores de Expo (expo.dev), el servicio con el que se publica. Esa consulta envía solo datos técnicos, como la versión de la app y del sistema, y no incluye nada de lo que rezas.',
+        'Si en los ajustes de tu iPhone compartes análisis con los desarrolladores, Apple puede enviarnos informes de fallos anónimos. Eso lo controlas tú desde Ajustes.',
+      ],
     },
     {
       heading: 'Este sitio',
-      text: 'Este sitio no usa cookies ni herramientas de seguimiento. Solo guarda en tu navegador si prefieres el tema claro u oscuro.',
+      paragraphs: [
+        'Este sitio no usa cookies, analítica ni herramientas de seguimiento. Solo guarda en tu navegador si prefieres el tema claro u oscuro. El proveedor que lo hospeda puede conservar registros técnicos de acceso, como la dirección IP, durante un tiempo breve y por seguridad.',
+      ],
+    },
+    {
+      heading: 'Niñas y niños',
+      paragraphs: [
+        'La app no recopila datos de nadie, tampoco de menores de edad, por lo que puede usarse en familia sin compartir información.',
+      ],
+    },
+    {
+      heading: 'Cambios',
+      paragraphs: [
+        'Si esta política cambia, la publicaremos aquí con su nueva fecha. Nunca empezaremos a recopilar datos de lo que rezas.',
+      ],
     },
   ],
   en: [
     {
-      heading: 'What data the app collects',
-      text: 'None. Sanctum Rosarium has no accounts, no server and no analytics. What you pray, your journal and your settings are stored only on your phone.',
+      heading: 'In short',
+      paragraphs: [
+        'Sanctum Rosarium collects no personal data. It has no accounts, no server of its own, no analytics and no ads, and it does not track you across apps or websites.',
+      ],
     },
     {
-      heading: 'Apple Watch',
-      text: 'The watch receives your settings, the audio and what you prayed straight from your phone, without going through the internet.',
+      heading: 'What stays on your device',
+      paragraphs: [
+        'Your prayer journal, your settings and a Rosary you left halfway are stored only on your phone. Nobody else, us included, can see them. They are deleted if you remove the app.',
+        'Your Apple Watch receives your settings, the audio and what you prayed straight from your iPhone over the connection between them, without going through the internet.',
+      ],
     },
     {
-      heading: 'This site',
-      text: 'This site uses no cookies and no tracking. It only remembers in your browser whether you prefer the light or dark theme.',
+      heading: 'Internet connections',
+      paragraphs: [
+        'The prayers, the Gospel passages, the images and the audio come inside the app and work offline.',
+        'To receive improvements without going through the store, the app checks on launch whether an update is available on the servers of Expo (expo.dev), the service it is published with. That check sends only technical data, such as the app and system version, and nothing about what you pray.',
+        'If you share analytics with developers in your iPhone settings, Apple may send us anonymous crash reports. You control that in Settings.',
+      ],
+    },
+    {
+      heading: 'This website',
+      paragraphs: [
+        'This website uses no cookies, analytics or tracking. It only remembers in your browser whether you prefer the light or dark theme. The provider that hosts it may keep technical access logs, such as IP addresses, for a short time and for security.',
+      ],
+    },
+    {
+      heading: 'Children',
+      paragraphs: [
+        'The app collects no data from anyone, minors included, so it can be used as a family without sharing any information.',
+      ],
+    },
+    {
+      heading: 'Changes',
+      paragraphs: [
+        'If this policy changes, we will publish it here with its new date. We will never start collecting data about what you pray.',
+      ],
     },
   ],
 };
 ---
 
-<Base
+<LegalPage
   language={language}
   title={translate('privacy.title')}
   description={translate('privacy.description')}
   alternates={alternatesOf('privacy')}
-  trail={[{ name: translate('breadcrumb.home'), url: route('home', language) }]}
->
-  <header class="wrap narrow page-head">
-    <h1>{translate('privacy.title')}</h1>
-    <p class="lead">{translate('privacy.description')}</p>
-  </header>
-  <article class="wrap narrow prose">
-    {
-      body[language].map((section) => (
-        <>
-          <h2>{section.heading}</h2>
-          <p>{section.text}</p>
-        </>
-      ))
-    }
-  </article>
-</Base>
+  sections={sections[language]}
+/>

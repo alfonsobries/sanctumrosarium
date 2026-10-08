@@ -1,0 +1,102 @@
+---
+import { alternatesOf, type Language } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import LegalPage, { type LegalSection } from './LegalPage.astro';
+
+type Props = { language: Language };
+const { language } = Astro.props;
+const translate = t(language);
+
+const sections: Record<Language, LegalSection[]> = {
+  es: [
+    {
+      heading: 'Uso de la app',
+      paragraphs: [
+        'Sanctum Rosarium es gratuita y está hecha para ayudarte a rezar el Santo Rosario. Puedes usarla para tu oración personal, en familia o en comunidad.',
+        'Si la descargaste del App Store, también aplican los términos de uso estándar de Apple para apps (EULA). Si la descargaste de Google Play, aplican los términos de Google Play.',
+      ],
+    },
+    {
+      heading: 'Los textos que se rezan',
+      paragraphs: [
+        'Las oraciones, los misterios y los pasajes del Evangelio provienen de fuentes publicadas de la Iglesia católica, que la app cita junto a cada texto. Los derechos de esos textos pertenecen a sus editores.',
+        'Sanctum Rosarium no es una publicación oficial de la Iglesia. Cuidamos que todo sea fiel, pero si encuentras un error, escríbenos y lo corregimos.',
+      ],
+    },
+    {
+      heading: 'Imágenes',
+      paragraphs: [
+        'Las pinturas de los misterios son obras de dominio público, con su autor y su fuente en el sitio. Las ilustraciones de los estilos Vitral, Niños, Guadalupana y Trazo se hicieron para esta app.',
+      ],
+    },
+    {
+      heading: 'Sin garantías',
+      paragraphs: [
+        'La app se ofrece tal cual, sin garantías de ningún tipo. Hacemos lo posible porque funcione bien, pero no garantizamos que esté libre de errores o que funcione sin interrupciones en todos los dispositivos.',
+        'En la medida que lo permita la ley, no somos responsables de daños derivados del uso de la app o del sitio.',
+      ],
+    },
+    {
+      heading: 'Propiedad intelectual',
+      paragraphs: [
+        'El nombre Sanctum Rosarium, el medallión, el diseño y el código de la app pertenecen a sus autores. No está permitido distribuir copias modificadas de la app haciéndolas pasar por esta.',
+      ],
+    },
+    {
+      heading: 'Cambios',
+      paragraphs: [
+        'Podemos actualizar estos términos. La versión vigente es siempre la que aparece en esta página, con su fecha.',
+      ],
+    },
+  ],
+  en: [
+    {
+      heading: 'Using the app',
+      paragraphs: [
+        'Sanctum Rosarium is free and made to help you pray the Holy Rosary. You may use it for your own prayer, with your family or in a community.',
+        "If you downloaded it from the App Store, Apple's standard license agreement for apps (EULA) also applies. If you downloaded it from Google Play, Google Play's terms apply.",
+      ],
+    },
+    {
+      heading: 'The texts that are prayed',
+      paragraphs: [
+        'The prayers, the mysteries and the Gospel passages come from published sources of the Catholic Church, which the app cites next to each text. The rights to those texts belong to their publishers.',
+        'Sanctum Rosarium is not an official publication of the Church. We take care that everything is faithful, but if you find a mistake, write to us and we will fix it.',
+      ],
+    },
+    {
+      heading: 'Images',
+      paragraphs: [
+        'The paintings of the mysteries are public domain works, with their artist and source on the website. The illustrations of the Stained glass, Kids, Guadalupe and Line styles were made for this app.',
+      ],
+    },
+    {
+      heading: 'No warranties',
+      paragraphs: [
+        'The app is provided as is, without warranties of any kind. We do our best for it to work well, but we do not guarantee that it is free of errors or that it works without interruption on every device.',
+        'To the extent the law allows, we are not liable for damages arising from the use of the app or the website.',
+      ],
+    },
+    {
+      heading: 'Intellectual property',
+      paragraphs: [
+        'The Sanctum Rosarium name, the medallion, the design and the code of the app belong to their authors. Distributing modified copies of the app as if they were this one is not allowed.',
+      ],
+    },
+    {
+      heading: 'Changes',
+      paragraphs: [
+        'We may update these terms. The version in force is always the one on this page, with its date.',
+      ],
+    },
+  ],
+};
+---
+
+<LegalPage
+  language={language}
+  title={translate('terms.title')}
+  description={translate('terms.description')}
+  alternates={alternatesOf('terms')}
+  sections={sections[language]}
+/>

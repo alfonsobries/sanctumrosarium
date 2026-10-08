@@ -2,19 +2,15 @@
 import { alternatesOf, repository, route, type Language } from '../i18n/routes';
 import { t, type UiKey } from '../i18n/ui';
 import Base from '../layouts/Base.astro';
+import ContactLink from './ContactLink.astro';
 import Medallion from './Medallion.astro';
 
 type Props = { language: Language };
 const { language } = Astro.props;
 const translate = t(language);
 const costs = ['cost1', 'cost2', 'cost3', 'cost4'];
-const ways: { key: string; href?: string; cta?: 'help.contact' | 'help.github' }[] = [
-  { key: 'pray' },
-  { key: 'review', href: 'mailto:hola@sanctumrosarium.app' },
-  { key: 'translate', href: 'mailto:hola@sanctumrosarium.app' },
-  { key: 'report', href: `${repository}/issues`, cta: 'help.github' },
-  { key: 'code', href: repository, cta: 'help.github' },
-];
+const ways = ['pray', 'review', 'translate', 'report', 'code'];
+const github: Record<string, string> = { report: `${repository}/issues`, code: repository };
 ---
 
 <Base
@@ -39,7 +35,8 @@ const ways: { key: string; href?: string; cta?: 'help.contact' | 'help.github' }
       <ul>
         {costs.map((cost) => <li>{translate(`help.donate.${cost}` as UiKey)}</li>)}
       </ul>
-      <p class="soon">{translate('help.donate.soon')}</p>
+      <p class="ask">{translate('help.donate.ask')}</p>
+      <ContactLink class="button is-solid" label={translate('help.contact')} subject="Sanctum Rosarium" />
     </div>
   </section>
 
@@ -53,12 +50,14 @@ const ways: { key: string; href?: string; cta?: 'help.contact' | 'help.github' }
         {
           ways.map((way) => (
             <article class="card way">
-              <h3>{translate(`help.${way.key}.title` as UiKey)}</h3>
-              <p>{translate(`help.${way.key}.body` as UiKey)}</p>
-              {way.href !== undefined && (
-                <a class="link" href={way.href}>
-                  {translate(way.cta ?? 'help.contact')} →
+              <h3>{translate(`help.${way}.title` as UiKey)}</h3>
+              <p>{translate(`help.${way}.body` as UiKey)}</p>
+              {github[way] !== undefined ? (
+                <a class="link" href={github[way]}>
+                  {translate('help.github')} →
                 </a>
+              ) : (
+                way !== 'pray' && <ContactLink class="link" label={`${translate('help.contact')} →`} subject="Sanctum Rosarium" />
               )}
             </article>
           ))
@@ -102,10 +101,13 @@ const ways: { key: string; href?: string; cta?: 'help.contact' | 'help.github' }
     gap: 0.4rem;
   }
 
-  .soon {
+  .ask {
     margin-top: var(--space-2);
-    font-weight: 600;
-    color: var(--accent) !important;
+    color: var(--ink) !important;
+  }
+
+  .donate-card :global(.button) {
+    justify-self: start;
   }
 
   .ways {
@@ -125,7 +127,7 @@ const ways: { key: string; href?: string; cta?: 'help.contact' | 'help.github' }
     color: var(--mute);
   }
 
-  .link {
+  .way :global(.link) {
     font-weight: 600;
     color: var(--accent);
     text-decoration: none;

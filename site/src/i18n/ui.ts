@@ -22,7 +22,6 @@ const es = {
   'theme.toggle': 'Cambiar entre claro y oscuro',
   'store.appStore': 'Descargar en el App Store',
   'store.playStore': 'Disponible en Google Play',
-  'store.playSoon': 'Muy pronto en Google Play',
   'store.free': 'Gratis · iPhone, Apple Watch y Android',
 
   'home.title': 'Sanctum Rosarium, la app para rezar el Santo Rosario',
@@ -81,7 +80,7 @@ const es = {
   'faq.account.a':
     'No. La app no tiene cuentas ni servidor. Tu diario se guarda solo en tu teléfono y el Apple Watch lo recibe directamente de él.',
   'faq.android.q': '¿Hay versión para Android?',
-  'faq.android.a': 'Sí. La versión para Android llega muy pronto a Google Play.',
+  'faq.android.a': 'Sí. Sanctum Rosarium está en el App Store para iPhone y Apple Watch, y en Google Play para Android.',
   'faq.catholic.q': '¿De dónde salen las oraciones?',
   'faq.catholic.a':
     'De fuentes oficiales de la Iglesia católica: la Santa Sede, la Conferencia del Episcopado Mexicano a través de Desde la fe y la USCCB. Cada oración muestra su fuente.',
@@ -184,7 +183,7 @@ const es = {
   'help.donate.cost3': 'El dominio y el hospedaje de este sitio.',
   'help.donate.cost4': 'El tiempo de desarrollo y la revisión de los textos.',
   'help.donate.cta': 'Donar',
-  'help.donate.soon': 'Muy pronto podrás donar desde aquí.',
+  'help.donate.ask': '¿Quieres apoyar con un donativo? Escríbenos y te contamos cómo.',
   'help.contribute.title': 'Ayuda a mejorarla',
   'help.contribute.lead': 'Hay muchas formas de ayudar, aunque no programes.',
   'help.pray.title': 'Comparte',
@@ -202,6 +201,15 @@ const es = {
     'Sanctum Rosarium será de código abierto. Si sabes React Native, Swift, Kotlin, diseño o ilustración, tu ayuda es bienvenida.',
   'help.contact': 'Escríbenos',
   'help.github': 'Ver en GitHub',
+  'terms.title': 'Términos y condiciones',
+  'terms.description': 'Los términos de uso de la app Sanctum Rosarium y de este sitio.',
+  'support.title': 'Soporte',
+  'support.description': 'Ayuda con la app Sanctum Rosarium: preguntas frecuentes y cómo escribirnos.',
+  'support.lead': 'Si algo no funciona, encontraste un error en un texto o tienes una idea, escríbenos. Leemos cada mensaje.',
+  'support.write': 'Escribir a soporte',
+  'support.faq': 'Preguntas frecuentes',
+  'legal.updated': 'Última actualización: 8 de octubre de 2026',
+  'footer.legal': 'Legal',
 
   'privacy.title': 'Privacidad',
   'privacy.description': 'Sanctum Rosarium no recopila datos: no tiene cuentas, servidor ni analítica.',
@@ -248,7 +256,6 @@ const en: Record<Key, string> = {
   'theme.toggle': 'Switch between light and dark',
   'store.appStore': 'Download on the App Store',
   'store.playStore': 'Get it on Google Play',
-  'store.playSoon': 'Coming soon to Google Play',
   'store.free': 'Free · iPhone, Apple Watch and Android',
 
   'home.title': 'Sanctum Rosarium, the app to pray the Holy Rosary',
@@ -303,7 +310,7 @@ const en: Record<Key, string> = {
   'faq.account.a':
     'No. The app has no accounts and no server. Your journal is stored only on your phone, and your Apple Watch receives it straight from there.',
   'faq.android.q': 'Is there an Android version?',
-  'faq.android.a': 'Yes. The Android version is coming soon to Google Play.',
+  'faq.android.a': 'Yes. Sanctum Rosarium is on the App Store for iPhone and Apple Watch, and on Google Play for Android.',
   'faq.catholic.q': 'Where do the prayers come from?',
   'faq.catholic.a':
     "From official sources of the Catholic Church: the Holy See, the Mexican bishops' Desde la fe and the USCCB. Every prayer shows its source.",
@@ -406,7 +413,7 @@ const en: Record<Key, string> = {
   'help.donate.cost3': 'The domain and hosting of this site.',
   'help.donate.cost4': 'The development time and the review of the texts.',
   'help.donate.cta': 'Donate',
-  'help.donate.soon': 'You will be able to donate here very soon.',
+  'help.donate.ask': 'Would you like to support it with a donation? Write to us and we will tell you how.',
   'help.contribute.title': 'Help make it better',
   'help.contribute.lead': "There are many ways to help, even if you don't write code.",
   'help.pray.title': 'Share it',
@@ -424,6 +431,15 @@ const en: Record<Key, string> = {
     'Sanctum Rosarium will be open source. If you know React Native, Swift, Kotlin, design or illustration, your help is welcome.',
   'help.contact': 'Write to us',
   'help.github': 'See it on GitHub',
+  'terms.title': 'Terms of use',
+  'terms.description': 'The terms of use of the Sanctum Rosarium app and this website.',
+  'support.title': 'Support',
+  'support.description': 'Help with the Sanctum Rosarium app: common questions and how to reach us.',
+  'support.lead': 'If something does not work, you found a mistake in a text or you have an idea, write to us. We read every message.',
+  'support.write': 'Write to support',
+  'support.faq': 'Questions',
+  'legal.updated': 'Last updated: October 8, 2026',
+  'footer.legal': 'Legal',
 
   'privacy.title': 'Privacy',
   'privacy.description': 'Sanctum Rosarium collects no data: it has no accounts, no server and no analytics.',

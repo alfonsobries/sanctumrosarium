@@ -23,9 +23,9 @@ const translate = t(language);
         decoding="async"
       />
     </a>
-    <span class="soon" title={translate('store.playSoon')}>
-      <Image src={language === 'es' ? playEs : playEn} alt={translate('store.playSoon')} height={50} densities={[1, 2]} />
-    </span>
+    <a class="badge" href={stores.playStore} aria-label={translate('store.playStore')}>
+      <Image src={language === 'es' ? playEs : playEn} alt="" height={50} densities={[1, 2]} />
+    </a>
   </div>
   {note && <p class="note">{translate('store.free')}</p>}
 </div>
@@ -43,8 +43,7 @@ const translate = t(language);
     gap: 0.75rem;
   }
 
-  .badge,
-  .soon {
+  .badge {
     display: block;
     border-radius: 10px;
     transition: transform 0.2s;
@@ -54,15 +53,11 @@ const translate = t(language);
     transform: translateY(-1px);
   }
 
-  .badge img,
-  .soon img {
+  .badge img {
     height: 50px;
     width: auto;
   }
 
-  .soon {
-    opacity: 0.5;
-  }
 
   .note {
     font-size: var(--step--1);
