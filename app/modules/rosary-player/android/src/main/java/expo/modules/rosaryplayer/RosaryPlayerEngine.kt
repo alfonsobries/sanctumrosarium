@@ -56,7 +56,12 @@ object RosaryPlayerEngine {
   var progressEnabled = false
     set(value) {
       field = value
-      updateProgressTicker()
+      // Module lifecycle hooks run on Expo's queue; the player only answers on the main thread.
+      if (Looper.myLooper() == Looper.getMainLooper()) {
+        updateProgressTicker()
+      } else {
+        handler.post { updateProgressTicker() }
+      }
     }
 
   private var player: ExoPlayer? = null
