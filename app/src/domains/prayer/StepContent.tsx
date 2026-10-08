@@ -10,15 +10,11 @@ import {
 } from '@sanctamaria/content';
 import { evangelistOf, type Step } from '@sanctamaria/rosary';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useRef } from 'react';
-import { Text as NativeText, View, useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 
 import { ArtworkFrame } from '@/domains/artwork/ArtworkFrame';
 import { useArtwork } from '@/domains/artwork/use-artwork';
-import type { QueueStep, Spoken } from '@/domains/audio/queue';
-import { useSpoken } from '@/domains/audio/use-rosary-audio';
 
-import { useReveal } from './StepStage';
 import type { Settings } from '@/domains/settings/settings';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Text } from '@/shared/ui/Text';
@@ -33,172 +29,48 @@ type StepContentProperties = {
   step: Step;
   locale: Locale;
   textSize: Settings['textSize'];
-  /** When the voice is reading, the queue it plays; the text then lights up with it. */
-  queue?: QueueStep[] | null;
 };
-
-/** The line the voice is on: the first one not yet fully said. */
-function activeLine(lines: readonly string[], split: number, spoken: Spoken | null): number | null {
-  if (spoken === null) {
-    return null;
-  }
-  let consumed = 0;
-  const first = spoken.role === 'leader' ? 0 : split;
-  const last = spoken.role === 'leader' ? split : lines.length;
-  for (let index = first; index < last; index++) {
-    consumed += (lines[index]?.length ?? 0) + 1;
-    if (spoken.chars < consumed) {
-      return index;
-    }
-  }
-  return last - 1;
-}
 
 type PrayerLinesProperties = {
   id: string;
   locale: Locale;
   textSize: Settings['textSize'];
-  /** While the voice reads, the words already said light up and the rest wait dimmed. */
-  spoken: Spoken | null;
 };
 
-function PrayerLines({ id, locale, textSize, spoken }: PrayerLinesProperties) {
-  const { skin, colors } = useSkin();
-  const reveal = useReveal();
-  const lineRefs = useRef<(View | null)[]>([]);
+/** A prayer line by line; the part the others answer is set apart in italics. */
+function PrayerLines({ id, locale, textSize }: PrayerLinesProperties) {
+  const { skin } = useSkin();
   const text = prayerText(id, locale);
   const { size, line } = sizes[textSize];
   const split = text.responseFrom ?? text.lines.length;
   const firstLetter = text.lines[0]?.charAt(0) ?? '';
 
-  const active = activeLine(text.lines, split, spoken);
-  useEffect(() => {
-    if (active !== null) {
-      reveal(lineRefs.current[active] ?? null);
-    }
-  }, [active, reveal]);
-
-  let leaderOffset = 0;
-  let responseOffset = 0;
-
   return (
     <View className="gap-1">
       {text.lines.map((value, index) => {
         const isResponse = index >= split;
-        const offset = isResponse ? responseOffset : leaderOffset;
-        if (isResponse) {
-          responseOffset += value.length + 1;
-        } else {
-          leaderOffset += value.length + 1;
-        }
-
-        let said = value.length;
-        if (spoken !== null) {
-          if (spoken.role === 'leader') {
-            said = isResponse ? 0 : Math.max(0, Math.min(value.length, spoken.chars - offset));
-          } else if (isResponse) {
-            said = Math.max(0, Math.min(value.length, spoken.chars - offset));
-          }
-        }
-
         const dropCap = skin.dropCap && index === 0 && firstLetter !== '';
-        const body = dropCap ? value.slice(1) : value;
-        const saidInBody = dropCap ? Math.max(0, said - 1) : said;
-        const base = isResponse ? 'font-prayer-italic' : 'font-prayer';
-        const settled = spoken === null ? (isResponse ? 'text-muted' : 'text-foreground') : 'text-foreground';
-
         return (
-          <View
+          <Text
             key={index}
-            collapsable={false}
-            ref={(node) => {
-              lineRefs.current[index] = node;
-            }}
+            className={isResponse ? 'font-prayer-italic text-muted' : 'font-prayer text-foreground'}
+            style={{ fontSize: size, lineHeight: line }}
           >
-            <Text className={`${base} ${settled}`} style={{ fontSize: size, lineHeight: line }}>
-              {dropCap && (
-                <Text className="font-display text-rubric" style={{ fontSize: size * 1.6, lineHeight: line }}>
-                  {firstLetter}
-                </Text>
-              )}
-              {body.slice(0, saidInBody)}
-              {saidInBody < body.length && (
-                <NativeText style={{ color: colors.faint }}>{body.slice(saidInBody)}</NativeText>
-              )}
-            </Text>
-          </View>
+            {dropCap && (
+              <Text className="font-display text-rubric" style={{ fontSize: size * 1.6, lineHeight: line }}>
+                {firstLetter}
+              </Text>
+            )}
+            {dropCap ? value.slice(1) : value}
+          </Text>
         );
       })}
     </View>
   );
 }
 
-function VoicedPrayerLines({
-  queue,
-  ...rest
-}: Omit<PrayerLinesProperties, 'spoken'> & { queue: QueueStep[] }) {
-  const spoken = useSpoken(queue);
-  return <PrayerLines {...rest} spoken={spoken} />;
-}
-
-type PassageTextProperties = {
-  text: string;
-  textSize: Settings['textSize'];
-  spoken: Spoken | null;
-};
-
-/** A Gospel passage as one paragraph; while it is read aloud the words light up and the page follows. */
-function PassageText({ text, textSize, spoken }: PassageTextProperties) {
-  const { colors } = useSkin();
-  const reveal = useReveal();
-  const block = useRef<View>(null);
-  const lines = useRef<{ start: number; y: number; height: number }[]>([]);
-  const { size, line } = sizes[textSize];
-  const said = spoken === null ? text.length : Math.min(text.length, spoken.chars);
-
-  // Which laid-out line the voice is on, so only a new line moves the page.
-  let current = 0;
-  for (const [index, laid] of lines.current.entries()) {
-    if (laid.start <= said) {
-      current = index;
-    }
-  }
-  useEffect(() => {
-    const laid = lines.current[current];
-    if (spoken !== null && laid !== undefined) {
-      reveal(block.current, { y: laid.y, height: laid.height });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, spoken === null, reveal]);
-
-  return (
-    <View ref={block} collapsable={false}>
-      <Text
-        className="font-prayer text-foreground"
-        style={{ fontSize: size - 2, lineHeight: line - 2 }}
-        onTextLayout={(event) => {
-          let start = 0;
-          lines.current = event.nativeEvent.lines.map((laid) => {
-            const entry = { start, y: laid.y, height: laid.height };
-            start += laid.text.length;
-            return entry;
-          });
-        }}
-      >
-        {text.slice(0, said)}
-        {said < text.length && <NativeText style={{ color: colors.faint }}>{text.slice(said)}</NativeText>}
-      </Text>
-    </View>
-  );
-}
-
-function VoicedPassageText({ queue, ...rest }: Omit<PassageTextProperties, 'spoken'> & { queue: QueueStep[] }) {
-  const spoken = useSpoken(queue);
-  return <PassageText {...rest} spoken={spoken} />;
-}
-
 /** The body of the current step: the prayer's words, the mystery, the reading or the litany. */
-export function StepContent({ step, locale, textSize, queue = null }: StepContentProperties) {
+export function StepContent({ step, locale, textSize }: StepContentProperties) {
   const { t } = useTranslation();
   const announceArtwork = useArtwork(step.kind === 'announce' ? step.mystery.id : '');
   const { width, height } = useWindowDimensions();
@@ -234,15 +106,9 @@ export function StepContent({ step, locale, textSize, queue = null }: StepConten
             ? (text?.displayRef ?? step.reading.ref)
             : `${t('pray.readingFrom', { evangelist: t(`evangelists.${evangelist}`) })} · ${text?.displayRef ?? step.reading.ref}`}
         </Text>
-        {text === null ? (
-          <Text className="font-prayer text-foreground" style={{ fontSize: size - 2, lineHeight: line - 2 }}>
-            {bookOf(step.reading.ref)}
-          </Text>
-        ) : queue === null ? (
-          <PassageText text={text.text} textSize={textSize} spoken={null} />
-        ) : (
-          <VoicedPassageText text={text.text} textSize={textSize} queue={queue} />
-        )}
+        <Text className="font-prayer text-foreground" style={{ fontSize: size - 2, lineHeight: line - 2 }}>
+          {text?.text ?? bookOf(step.reading.ref)}
+        </Text>
       </View>
     );
   }
@@ -268,11 +134,7 @@ export function StepContent({ step, locale, textSize, queue = null }: StepConten
     return null;
   }
 
-  return queue === null ? (
-    <PrayerLines id={step.prayer} locale={locale} textSize={textSize} spoken={null} />
-  ) : (
-    <VoicedPrayerLines id={step.prayer} locale={locale} textSize={textSize} queue={queue} />
-  );
+  return <PrayerLines id={step.prayer} locale={locale} textSize={textSize} />;
 }
 
 /** Heading over the step: which prayer, and the count for the Hail Marys. */

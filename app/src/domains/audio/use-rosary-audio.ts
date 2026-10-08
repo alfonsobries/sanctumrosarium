@@ -16,14 +16,7 @@ import {
 } from '../../../modules/rosary-player';
 
 import { audioPacks, scripturePacks } from './packs.gen';
-import {
-  buildQueue,
-  spokenAt,
-  type AudioManifest,
-  type ManifestTrack,
-  type QueueStep,
-  type Spoken,
-} from './queue';
+import { buildQueue, type AudioManifest, type ManifestTrack } from './queue';
 
 const silence = require('@/assets/audio/silence.mp3') as number;
 
@@ -76,35 +69,9 @@ export async function prepareAudio(locale: Locale): Promise<void> {
   }
 }
 
-/** How much of the current prayer the voice has said; only the component that asks redraws. */
-export function useSpoken(queue: QueueStep[] | null): Spoken | null {
-  // A string snapshot keeps the subscription stable: equal values never trigger a redraw.
-  const key = useRosaryPlayerSelector((state) => {
-    const entry = queue?.[state.index];
-    const spoken = entry === undefined ? null : spokenAt(entry.parts, state.positionMs);
-    return spoken === null ? '' : `${spoken.role}:${spoken.chars}`;
-  });
-  if (key === '') {
-    return null;
-  }
-  const [role, chars] = key.split(':');
-  return { role: role === 'response' ? 'response' : 'leader', chars: Number(chars) };
-}
-
-/** How far through the current step the voice is, in tenths, or null when not playing. */
-export function useStepProgress(enabled: boolean): number | null {
-  return useRosaryPlayerSelector((state) =>
-    !enabled || state.status !== 'playing' || state.durationMs <= 0
-      ? null
-      : Math.round((state.positionMs / state.durationMs) * 10) / 10,
-  );
-}
-
 export type RosaryAudio = {
   availability: 'unavailable' | 'loading' | 'ready';
   status: RosaryPlaybackStatus;
-  /** The steps as the player holds them; leaf components read progress against it. */
-  queue: QueueStep[] | null;
   toggle: () => void;
   skipTo: (index: number) => void;
 };
@@ -131,7 +98,6 @@ export function useRosaryAudio(options: Options): RosaryAudio {
   const { enabled, sessionId, steps, locale, rate, pauseSeconds } = options;
   const [availability, setAvailability] = useState<RosaryAudio['availability']>('loading');
   const status = useRosaryPlayerSelector((state) => state.status);
-  const [queue, setQueue] = useState<QueueStep[] | null>(null);
   const latest = useRef(options);
   latest.current = options;
 
@@ -155,7 +121,6 @@ export function useRosaryAudio(options: Options): RosaryAudio {
       setAvailability('unavailable');
       return;
     }
-    setQueue(built);
 
     let cancelled = false;
     setAvailability('loading');
@@ -224,7 +189,6 @@ export function useRosaryAudio(options: Options): RosaryAudio {
   return {
     availability: enabled ? availability : 'unavailable',
     status,
-    queue,
     toggle: () => void toggle(),
     skipTo: (index) => void skipTo(index),
   };

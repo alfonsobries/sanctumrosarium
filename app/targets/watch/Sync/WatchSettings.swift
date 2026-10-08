@@ -2,7 +2,7 @@ import Foundation
 import Observation
 
 /**
- * How the Rosary is prayed on the wrist. Everything but haptics comes from the phone,
+ * How the Rosary is prayed on the wrist. Everything but haptics and the text view comes from the phone,
  * which is where settings are changed; the watch keeps the last values it received so it
  * prays the same way without the phone nearby.
  */
@@ -13,6 +13,7 @@ final class WatchSettings {
 
   private static let storageKey = "settings"
   private static let hapticsKey = "haptics"
+  private static let showsTextKey = "showsText"
 
   var prayerLocale: String
   var fatimaPrayer: Bool
@@ -25,6 +26,10 @@ final class WatchSettings {
   var haptics: Bool {
     didSet { UserDefaults.standard.set(haptics, forKey: Self.hapticsKey) }
   }
+  /** The prayer as words to read along instead of beads; chosen on the watch, kept on it. */
+  var showsText: Bool {
+    didSet { UserDefaults.standard.set(showsText, forKey: Self.showsTextKey) }
+  }
 
   private init() {
     let stored = UserDefaults.standard.dictionary(forKey: Self.storageKey) ?? [:]
@@ -36,6 +41,7 @@ final class WatchSettings {
     rate = stored["rate"] as? Double ?? 1
     mode = stored["mode"] as? String ?? "listen"
     haptics = UserDefaults.standard.object(forKey: Self.hapticsKey) as? Bool ?? true
+    showsText = UserDefaults.standard.object(forKey: Self.showsTextKey) as? Bool ?? false
   }
 
   /** Applies what the phone sent; unknown or mistyped keys keep their current value. */

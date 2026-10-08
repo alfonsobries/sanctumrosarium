@@ -1,5 +1,5 @@
-import { createContext, use, useEffect, useMemo, useRef, type ReactNode } from 'react';
-import { View, useWindowDimensions, type View as NativeView } from 'react-native';
+import { useEffect, useMemo, useRef, type ReactNode } from 'react';
+import { View, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Easing,
@@ -11,20 +11,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
-
-type Reveal = {
-  /**
-   * Keeps a line in view: called with the line's view when the voice reaches it, or with
-   * a block of text and where the line sits inside it.
-   */
-  reveal: (line: NativeView | null, within?: { y: number; height: number }) => void;
-};
-
-const RevealContext = createContext<Reveal | null>(null);
-
-export function useReveal(): Reveal['reveal'] {
-  return use(RevealContext)?.reveal ?? (() => undefined);
-}
 
 type StepStageProperties = {
   stepKey: string;
@@ -71,8 +57,6 @@ export function StepStage({
   const { width, height } = useWindowDimensions();
   const scroll = useAnimatedRef<Animated.ScrollView>();
   const scrollY = useSharedValue(0);
-  const viewport = useRef(height);
-  const userScrolled = useRef(false);
   const translateX = useSharedValue(0);
   const opacity = useSharedValue(1);
   const latest = useRef({ onSwipe, onTap, canGoBack });
@@ -80,7 +64,6 @@ export function StepStage({
 
   // A new page arrives from the side it was swiped toward, the way a leaf turns.
   useEffect(() => {
-    userScrolled.current = false;
     translateX.set(direction * Math.min(48, width * 0.12));
     opacity.set(0);
     translateX.set(withTiming(0, { duration: 260, easing: out }));
@@ -141,73 +124,45 @@ export function StepStage({
     transform: [{ translateX: translateX.get() }],
   }));
 
-  const reveal = useMemo<Reveal>(
-    () => ({
-      reveal: (line, within) => {
-        if (line === null || userScrolled.current) {
-          return;
-        }
-        line.measureInWindow((_x, blockTop, _w, blockHeight) => {
-          const top = blockTop + (within?.y ?? 0);
-          const h = within?.height ?? blockHeight;
-          const screenBottom = viewport.current - bottomInset - 24;
-          // Only when the words being said are about to leave the screen: then bring them
-          // up to just under the title bar.
-          if (top + h > screenBottom) {
-            const target = scrollY.get() + (top - (topInset + 16));
-            if (target > scrollY.get()) {
-              scroll.current?.scrollTo({ y: target, animated: true });
-            }
-          }
-        });
-      },
-    }),
-    [topInset, bottomInset, scroll, scrollY],
-  );
-
   return (
-    <RevealContext value={reveal}>
-      <GestureDetector gesture={gesture}>
-        <Animated.View
-          style={[{ flex: 1 }, moving]}
-          accessible
-          accessibilityRole="button"
-          accessibilityHint={accessibilityHint}
-          onAccessibilityTap={onTap}
-        >
-          {/* A fresh scroll per page starts at its top; the system insets it under the
+    <GestureDetector gesture={gesture}>
+      <Animated.View
+        style={[{ flex: 1 }, moving]}
+        accessible
+        accessibilityRole="button"
+        accessibilityHint={accessibilityHint}
+        onAccessibilityTap={onTap}
+      >
+        {/* A fresh scroll per page starts at its top; the system insets it under the
               title bar, which is what lets the bar soften the words passing beneath it. */}
-          <Animated.ScrollView
-            key={stepKey}
-            ref={scroll}
-            className="flex-1"
-            contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={{
-              paddingHorizontal: 24,
-              paddingTop: 12,
-              // A centred page grows to the whole scroll view, which also runs under the
-              // title bar; the same room at the bottom keeps it centred in what is visible.
-              paddingBottom: centered ? bottomInset + topInset + 12 : bottomInset + 32,
-              ...(centered ? { flexGrow: 1, justifyContent: 'center' } : null),
-            }}
-            showsVerticalScrollIndicator={false}
-            scrollEventThrottle={16}
-            onLayout={(event) => (viewport.current = event.nativeEvent.layout.height)}
-            onScroll={onScroll}
-            onScrollBeginDrag={() => (userScrolled.current = true)}
-          >
-            {backdrop !== undefined && (
-              <Animated.View
-                pointerEvents="none"
-                style={[{ position: 'absolute', left: 0, top: 0, width, height }, still]}
-              >
-                {backdrop}
-              </Animated.View>
-            )}
-            <View>{children}</View>
-          </Animated.ScrollView>
-        </Animated.View>
-      </GestureDetector>
-    </RevealContext>
+        <Animated.ScrollView
+          key={stepKey}
+          ref={scroll}
+          className="flex-1"
+          contentInsetAdjustmentBehavior="automatic"
+          contentContainerStyle={{
+            paddingHorizontal: 24,
+            paddingTop: 12,
+            // A centred page grows to the whole scroll view, which also runs under the
+            // title bar; the same room at the bottom keeps it centred in what is visible.
+            paddingBottom: centered ? bottomInset + topInset + 12 : bottomInset + 32,
+            ...(centered ? { flexGrow: 1, justifyContent: 'center' } : null),
+          }}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}
+          onScroll={onScroll}
+        >
+          {backdrop !== undefined && (
+            <Animated.View
+              pointerEvents="none"
+              style={[{ position: 'absolute', left: 0, top: 0, width, height }, still]}
+            >
+              {backdrop}
+            </Animated.View>
+          )}
+          <View>{children}</View>
+        </Animated.ScrollView>
+      </Animated.View>
+    </GestureDetector>
   );
 }

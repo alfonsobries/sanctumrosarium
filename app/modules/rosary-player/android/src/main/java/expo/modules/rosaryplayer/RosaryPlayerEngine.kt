@@ -48,7 +48,7 @@ interface RosaryPlayerListener {
 object RosaryPlayerEngine {
   const val MIN_RATE = 0.5f
   const val MAX_RATE = 2f
-  private const val PROGRESS_INTERVAL_MS = 50L
+  private const val PROGRESS_INTERVAL_MS = 250L
 
   var listener: RosaryPlayerListener? = null
 

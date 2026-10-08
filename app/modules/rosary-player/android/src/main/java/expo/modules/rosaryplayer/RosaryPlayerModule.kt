@@ -91,8 +91,7 @@ class RosaryPlayerModule : Module() {
       RosaryPlayerEngine.progressEnabled = false
     }
 
-    // Progress only lights up words on screen; with the screen off it would wake
-    // JavaScript twenty times a second for nobody.
+    // Nothing reads progress with the app in the background; it would only wake JavaScript.
     OnActivityEntersBackground {
       RosaryPlayerEngine.progressEnabled = false
     }
