@@ -27,9 +27,11 @@
     "update:production": "cd app && npx eas-cli@latest update --channel production --auto",
     "site": "pnpm --filter site dev",
     "site:build": "pnpm --filter site build",
-    "site:test": "pnpm --filter site test"
+    "site:test": "pnpm --filter site test",
+    "store:frames": "tsx scripts/store-frames.mts"
   },
   "devDependencies": {
+    "playwright": "^1.63.0",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "sharp": "^0.35.5",

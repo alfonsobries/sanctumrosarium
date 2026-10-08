@@ -30,3 +30,8 @@ site/.astro/
 # Design research: third-party screenshots, kept local
 _design/research/
 _design/watch/
+
+# Store screenshots: raw captures and render scratch stay local
+store/raw/
+store/.render/
+store/preview/
