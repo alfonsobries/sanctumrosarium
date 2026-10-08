@@ -1,0 +1,312 @@
+{
+  "version": 1,
+  "language": "es",
+  "model": "eleven_v4",
+  "reader": "Giacomo",
+  "tracks": {
+    "1 Cor 11:23-26": {
+      "file": "reading.1-Cor-11-23-26-e005ee43.mp3",
+      "durationMs": 36054
+    },
+    "2 Pt 1:16-18": {
+      "file": "reading.2-Pt-1-16-18-10a4c7b3.mp3",
+      "durationMs": 29606
+    },
+    "Acts 1:6-11": {
+      "file": "reading.Acts-1-6-11-9d407c70.mp3",
+      "durationMs": 48838
+    },
+    "Acts 2:1-11": {
+      "file": "reading.Acts-2-1-11-1b0acf51.mp3",
+      "durationMs": 72837
+    },
+    "Acts 2:1-4": {
+      "file": "reading.Acts-2-1-4-b23f8fec.mp3",
+      "durationMs": 27412
+    },
+    "Jn 13:1-15": {
+      "file": "reading.Jn-13-1-15-fbd260ab.mp3",
+      "durationMs": 110371
+    },
+    "Jn 18:38-19:1": {
+      "file": "reading.Jn-18-38-19-1-54404364.mp3",
+      "durationMs": 27622
+    },
+    "Jn 19:16-17": {
+      "file": "reading.Jn-19-16-17-7b48b1b9.mp3",
+      "durationMs": 13431
+    },
+    "Jn 19:17-30": {
+      "file": "reading.Jn-19-17-30-e30f5543.mp3",
+      "durationMs": 123877
+    },
+    "Jn 19:2-5": {
+      "file": "reading.Jn-19-2-5-fab39e02.mp3",
+      "durationMs": 27158
+    },
+    "Jn 1:29-34": {
+      "file": "reading.Jn-1-29-34-13a81c4e.mp3",
+      "durationMs": 43485
+    },
+    "Jn 20:1-18": {
+      "file": "reading.Jn-20-1-18-3760b644.mp3",
+      "durationMs": 134210
+    },
+    "Jn 20:19-23": {
+      "file": "reading.Jn-20-19-23-fbee398c.mp3",
+      "durationMs": 43600
+    },
+    "Jn 2:1-11": {
+      "file": "reading.Jn-2-1-11-9713c91c.mp3",
+      "durationMs": 71855
+    },
+    "Jn 2:1-5": {
+      "file": "reading.Jn-2-1-5-3fefa50d.mp3",
+      "durationMs": 24875
+    },
+    "Lk 1:26-27": {
+      "file": "reading.Lk-1-26-27-bee1a7ac.mp3",
+      "durationMs": 15001
+    },
+    "Lk 1:26-38": {
+      "file": "reading.Lk-1-26-38-898eafcc.mp3",
+      "durationMs": 86485
+    },
+    "Lk 1:39-42": {
+      "file": "reading.Lk-1-39-42-588d068f.mp3",
+      "durationMs": 22089
+    },
+    "Lk 1:39-56": {
+      "file": "reading.Lk-1-39-56-433d7dee.mp3",
+      "durationMs": 89527
+    },
+    "Lk 1:46-55": {
+      "file": "reading.Lk-1-46-55-dd84a947.mp3",
+      "durationMs": 51419
+    },
+    "Lk 1:48-49": {
+      "file": "reading.Lk-1-48-49-820055e3.mp3",
+      "durationMs": 12751
+    },
+    "Lk 22:14-20": {
+      "file": "reading.Lk-22-14-20-f91b232d.mp3",
+      "durationMs": 48361
+    },
+    "Lk 22:39-46": {
+      "file": "reading.Lk-22-39-46-5e44b1f1.mp3",
+      "durationMs": 49927
+    },
+    "Lk 23:13-25": {
+      "file": "reading.Lk-23-13-25-651b835c.mp3",
+      "durationMs": 81475
+    },
+    "Lk 23:26-32": {
+      "file": "reading.Lk-23-26-32-3d0af356.mp3",
+      "durationMs": 48894
+    },
+    "Lk 23:33-46": {
+      "file": "reading.Lk-23-33-46-6d1a249f.mp3",
+      "durationMs": 91541
+    },
+    "Lk 23:33-49": {
+      "file": "reading.Lk-23-33-49-2100d472.mp3",
+      "durationMs": 112585
+    },
+    "Lk 24:1-12": {
+      "file": "reading.Lk-24-1-12-59227165.mp3",
+      "durationMs": 76128
+    },
+    "Lk 24:1-5": {
+      "file": "reading.Lk-24-1-5-83017215.mp3",
+      "durationMs": 29733
+    },
+    "Lk 24:1-6": {
+      "file": "reading.Lk-24-1-6-f5f3eafc.mp3",
+      "durationMs": 36720
+    },
+    "Lk 24:50-53": {
+      "file": "reading.Lk-24-50-53-c8eb31c5.mp3",
+      "durationMs": 20688
+    },
+    "Lk 2:1-20": {
+      "file": "reading.Lk-2-1-20-6984e6cb.mp3",
+      "durationMs": 126481
+    },
+    "Lk 2:1-7": {
+      "file": "reading.Lk-2-1-7-d1c298cc.mp3",
+      "durationMs": 40515
+    },
+    "Lk 2:21-24": {
+      "file": "reading.Lk-2-21-24-b6eb1a61.mp3",
+      "durationMs": 29007
+    },
+    "Lk 2:22-40": {
+      "file": "reading.Lk-2-22-40-197b33d8.mp3",
+      "durationMs": 126987
+    },
+    "Lk 2:41-47": {
+      "file": "reading.Lk-2-41-47-1f68bd63.mp3",
+      "durationMs": 37885
+    },
+    "Lk 2:41-52": {
+      "file": "reading.Lk-2-41-52-647aff7a.mp3",
+      "durationMs": 71491
+    },
+    "Lk 3:21-22": {
+      "file": "reading.Lk-3-21-22-73e95314.mp3",
+      "durationMs": 20441
+    },
+    "Lk 4:14-21": {
+      "file": "reading.Lk-4-14-21-f7a750d0.mp3",
+      "durationMs": 53095
+    },
+    "Lk 7:36-50": {
+      "file": "reading.Lk-7-36-50-39a9dc35.mp3",
+      "durationMs": 108289
+    },
+    "Lk 9:28-36": {
+      "file": "reading.Lk-9-28-36-9646f2bb.mp3",
+      "durationMs": 68193
+    },
+    "Mk 14:22-25": {
+      "file": "reading.Mk-14-22-25-b19d8ff0.mp3",
+      "durationMs": 28492
+    },
+    "Mk 14:32-42": {
+      "file": "reading.Mk-14-32-42-f3a8e789.mp3",
+      "durationMs": 80205
+    },
+    "Mk 15:16-20": {
+      "file": "reading.Mk-15-16-20-35dd203c.mp3",
+      "durationMs": 31483
+    },
+    "Mk 15:20-22": {
+      "file": "reading.Mk-15-20-22-28b9cbc5.mp3",
+      "durationMs": 23476
+    },
+    "Mk 15:21-22": {
+      "file": "reading.Mk-15-21-22-7113971b.mp3",
+      "durationMs": 14310
+    },
+    "Mk 15:22-39": {
+      "file": "reading.Mk-15-22-39-fc43261e.mp3",
+      "durationMs": 110924
+    },
+    "Mk 15:6-15": {
+      "file": "reading.Mk-15-6-15-c317a4dc.mp3",
+      "durationMs": 57816
+    },
+    "Mk 16:1-8": {
+      "file": "reading.Mk-16-1-8-85462049.mp3",
+      "durationMs": 59916
+    },
+    "Mk 16:15-20": {
+      "file": "reading.Mk-16-15-20-8a45b404.mp3",
+      "durationMs": 42315
+    },
+    "Mk 16:19": {
+      "file": "reading.Mk-16-19-5f75511b.mp3",
+      "durationMs": 6374
+    },
+    "Mk 1:14-15": {
+      "file": "reading.Mk-1-14-15-d8b32e34.mp3",
+      "durationMs": 17251
+    },
+    "Mk 1:15": {
+      "file": "reading.Mk-1-15-22cfe217.mp3",
+      "durationMs": 8999
+    },
+    "Mk 1:9-11": {
+      "file": "reading.Mk-1-9-11-106c5c5a.mp3",
+      "durationMs": 20565
+    },
+    "Mk 2:1-12": {
+      "file": "reading.Mk-2-1-12-0eed20b3.mp3",
+      "durationMs": 85561
+    },
+    "Mk 9:2-10": {
+      "file": "reading.Mk-9-2-10-701616fb.mp3",
+      "durationMs": 62055
+    },
+    "Mt 17:1-2": {
+      "file": "reading.Mt-17-1-2-ef7481b8.mp3",
+      "durationMs": 16307
+    },
+    "Mt 17:1-9": {
+      "file": "reading.Mt-17-1-9-deb177c3.mp3",
+      "durationMs": 68466
+    },
+    "Mt 1:18-25": {
+      "file": "reading.Mt-1-18-25-0eea2456.mp3",
+      "durationMs": 66217
+    },
+    "Mt 26:26": {
+      "file": "reading.Mt-26-26-91975852.mp3",
+      "durationMs": 10869
+    },
+    "Mt 26:26-29": {
+      "file": "reading.Mt-26-26-29-5ac977b0.mp3",
+      "durationMs": 32144
+    },
+    "Mt 26:36-39": {
+      "file": "reading.Mt-26-36-39-e2553952.mp3",
+      "durationMs": 34109
+    },
+    "Mt 26:36-46": {
+      "file": "reading.Mt-26-36-46-f07dbe8e.mp3",
+      "durationMs": 84027
+    },
+    "Mt 27:15-26": {
+      "file": "reading.Mt-27-15-26-40c09ea0.mp3",
+      "durationMs": 91191
+    },
+    "Mt 27:26": {
+      "file": "reading.Mt-27-26-b8b9bf21.mp3",
+      "durationMs": 8374
+    },
+    "Mt 27:27-29": {
+      "file": "reading.Mt-27-27-29-dae0429c.mp3",
+      "durationMs": 24000
+    },
+    "Mt 27:27-31": {
+      "file": "reading.Mt-27-27-31-9b4e1612.mp3",
+      "durationMs": 35401
+    },
+    "Mt 27:31-32": {
+      "file": "reading.Mt-27-31-32-8e88ccd1.mp3",
+      "durationMs": 13571
+    },
+    "Mt 27:33-54": {
+      "file": "reading.Mt-27-33-54-81d31cb5.mp3",
+      "durationMs": 141060
+    },
+    "Mt 28:1-10": {
+      "file": "reading.Mt-28-1-10-7380ea25.mp3",
+      "durationMs": 75916
+    },
+    "Mt 2:1-12": {
+      "file": "reading.Mt-2-1-12-79a1dc9c.mp3",
+      "durationMs": 92348
+    },
+    "Mt 3:13-17": {
+      "file": "reading.Mt-3-13-17-53371433.mp3",
+      "durationMs": 41098
+    },
+    "Mt 3:16-17": {
+      "file": "reading.Mt-3-16-17-31606307.mp3",
+      "durationMs": 18526
+    },
+    "Mt 4:12-17": {
+      "file": "reading.Mt-4-12-17-afc03519.mp3",
+      "durationMs": 40029
+    },
+    "Rev 11:19-12:1": {
+      "file": "reading.Rev-11-19-12-1-826ca0c5.mp3",
+      "durationMs": 21608
+    },
+    "Rev 12:1": {
+      "file": "reading.Rev-12-1-521da546.mp3",
+      "durationMs": 9327
+    }
+  }
+}

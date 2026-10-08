@@ -1,31 +1,32 @@
 {
   "name": "site",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "private": true,
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && rm -rf dist/og-card",
     "preview": "astro preview",
-    "astro": "astro",
     "check": "astro check",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "og": "tsx scripts/og-images.mts",
+    "test": "astro build && rm -rf dist/og-card && vitest run"
   },
   "dependencies": {
-    "@fontsource-variable/alegreya": "^5.3.0",
-    "@fontsource/alegreya-sans": "^5.3.0",
-    "@fontsource/alegreya-sc": "^5.3.0",
-    "@rosario/content": "workspace:*",
-    "@rosario/engine": "workspace:*",
+    "@astrojs/sitemap": "^3.6.0",
+    "@fontsource-variable/eb-garamond": "^5.2.6",
+    "@fontsource-variable/inter": "^5.2.6",
+    "@sanctamaria/content": "workspace:*",
+    "@sanctamaria/rosary": "workspace:*",
     "astro": "^7.2.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
-    "prettier": "^3.9.6",
-    "prettier-plugin-astro": "^0.14.1",
-    "typescript": "~6.0.3"
+    "playwright": "^1.63.0",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.3"
   }
 }

@@ -1,52 +1,51 @@
 #!/bin/bash
 
-# Dev client local (EAS local, sin cola cloud). Salida en app/build/.
+# Dev client compilado en esta Mac (EAS local, sin cola en la nube). Salida en
+# app/build/. El dev client carga el JavaScript de Metro, que `pnpm play`
+# levanta en la red local.
 #
 # Uso (raíz):
 #   pnpm ios:build
 #   pnpm android:build
 #
-# Primera vez: credenciales
-#   cd app && npx eas-cli credentials -p ios
 
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PLATFORM="${1:-ios}"
+# local: dev client that loads JavaScript from Metro. preview: self-contained release build.
+PROFILE="${2:-local}"
 
 cd "$ROOT/app"
-
 mkdir -p build
 
 EAS=(npx --yes eas-cli@latest)
 
 case "$PLATFORM" in
   ios)
-    echo "Building iOS dev client → build/latest.ipa"
-    "${EAS[@]}" build \
-      --platform ios \
-      --profile local \
-      --local \
-      --non-interactive \
-      --output ./build/latest.ipa
-    echo ""
-    echo "Listo: app/build/latest.ipa"
-    echo "Instalar: pnpm ios:install"
+    ARTIFACT=build/latest.ipa
     ;;
   android)
-    echo "Building Android dev client → build/latest.apk"
-    "${EAS[@]}" build \
-      --platform android \
-      --profile local \
-      --local \
-      --non-interactive \
-      --output ./build/latest.apk
-    echo ""
-    echo "Listo: app/build/latest.apk"
-    echo "Instalar: pnpm android:install"
+    ARTIFACT=build/latest.apk
     ;;
   *)
     echo "Uso: pnpm ios:build | pnpm android:build"
     exit 1
     ;;
 esac
+
+# El dev client carga el JavaScript de Metro: no hay bundle ni símbolos que subir a Sentry.
+export SENTRY_DISABLE_AUTO_UPLOAD=true
+
+echo "Compilando el dev client ($PLATFORM) → app/$ARTIFACT"
+"${EAS[@]}" build \
+  --platform "$PLATFORM" \
+  --profile "$PROFILE" \
+  --local \
+  --freeze-credentials \
+  --non-interactive \
+  --output "./$ARTIFACT"
+
+echo ""
+echo "Listo: app/$ARTIFACT"
+echo "Instalar: pnpm $PLATFORM:install · luego: pnpm play"

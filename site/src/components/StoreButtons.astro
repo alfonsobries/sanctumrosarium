@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+
+import playEn from '../assets/badges/google-play-en.png';
+import playEs from '../assets/badges/google-play-es.png';
+import { stores, type Language } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+type Props = { language: Language; note?: boolean };
+const { language, note = true } = Astro.props;
+const translate = t(language);
+---
+
+<div class="stores">
+  <div class="row">
+    <a class="badge" href={stores.appStore} aria-label={translate('store.appStore')}>
+      <img
+        src={language === 'es' ? '/badges/app-store-es.svg' : '/badges/app-store-en.svg'}
+        alt=""
+        width="150"
+        height="50"
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
+    <span class="soon" title={translate('store.playSoon')}>
+      <Image src={language === 'es' ? playEs : playEn} alt={translate('store.playSoon')} height={50} densities={[1, 2]} />
+    </span>
+  </div>
+  {note && <p class="note">{translate('store.free')}</p>}
+</div>
+
+<style>
+  .stores {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .badge,
+  .soon {
+    display: block;
+    border-radius: 10px;
+    transition: transform 0.2s;
+  }
+
+  .badge:hover {
+    transform: translateY(-1px);
+  }
+
+  .badge img,
+  .soon img {
+    height: 50px;
+    width: auto;
+  }
+
+  .soon {
+    opacity: 0.5;
+  }
+
+  .note {
+    font-size: var(--step--1);
+    color: var(--faint);
+  }
+</style>

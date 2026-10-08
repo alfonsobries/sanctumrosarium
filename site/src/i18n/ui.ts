@@ -1,483 +1,468 @@
-export const languages = { es: 'Español', en: 'English' } as const;
-
-export type UiLanguage = keyof typeof languages;
+import type { Language } from './routes';
 
 /**
- * Site copy. Each language is written, not translated: same intent, its own words.
- * The prayers and mysteries never live here; they come from @rosario/content.
+ * The site's own words. Prayers, mysteries, quotations and their sources never live here:
+ * they come from @sanctamaria/content, the same package the app prays from.
  */
-export const ui = {
-  es: {
-    'site.title': 'SanctaMaria',
-    'site.tagline': 'Para rezar el Rosario',
-    'site.description':
-      'App para rezar el Santo Rosario. La app dice la primera mitad de cada oración y tú respondes. Texto y audio a la vez, en español, inglés y latín. En iPhone, Android y Apple Watch. Gratis, sin cuenta y sin anuncios.',
-    'nav.app': 'La app',
-    'nav.features': 'Qué hace',
-    'nav.how': 'Cómo se reza',
-    'nav.school': 'Escuela',
-    'school.title': 'Escuela del Rosario',
-    'school.lead':
-      'Qué es el Rosario, de dónde viene, qué dice la Iglesia y qué no es. Cada afirmación lleva su fuente, y el magisterio, la liturgia y la tradición piadosa se distinguen siempre.',
-    'school.source': 'Fuente principal:',
-    'school.kind.magisterium': 'Magisterio',
-    'school.kind.liturgy': 'Liturgia',
-    'school.kind.tradition': 'Tradición piadosa',
-    'nav.prayers': 'Las oraciones',
-    'nav.mysteries': 'Los misterios',
-    'nav.questions': 'Preguntas',
-    'nav.about': 'Cómo está hecha',
-    'nav.support': 'Apoya',
-    'nav.privacy': 'Privacidad',
-    'nav.menu': 'Menú',
-    'nav.language': 'English',
-    'theme.toLight': 'Cambiar a modo claro',
-    'theme.toDark': 'Cambiar a modo oscuro',
-    skip: 'Ir al contenido',
+const es = {
+  'site.name': 'SanctaMaria',
+  'site.tagline': 'Reza el Santo Rosario',
+  'site.description':
+    'Reza el Santo Rosario cada día con la app SanctaMaria: el misterio del día en un toque, con voz o a tu ritmo, en iPhone, Android y Apple Watch. Gratis, sin cuentas y sin anuncios.',
+  skip: 'Ir al contenido',
+  'nav.label': 'Principal',
+  'nav.menu': 'Menú',
+  'nav.how': 'Cómo rezar',
+  'nav.mysteries': 'Misterios',
+  'nav.prayers': 'Oraciones',
+  'nav.today': 'Hoy',
+  'nav.help': 'Ayudar',
+  'nav.app': 'La app',
+  'nav.language': 'English',
+  'theme.toggle': 'Cambiar entre claro y oscuro',
+  'store.appStore': 'Descargar en el App Store',
+  'store.playStore': 'Disponible en Google Play',
+  'store.playSoon': 'Muy pronto en Google Play',
+  'store.free': 'Gratis · iPhone, Apple Watch y Android',
 
-    'hero.title': 'Rezar el Rosario, todos los días.',
-    'hero.lead':
-      'SanctaMaria dice la primera mitad de cada oración y espera tu respuesta. Texto y audio a la vez, en español, inglés y latín. En el teléfono y en el Apple Watch. Gratis, sin cuenta y sin anuncios.',
-    'hero.stores': 'Descargar la app',
-    'cta.appstore': 'Consíguelo en el App Store',
-    'cta.play': 'Disponible en Google Play',
+  'home.title': 'SanctaMaria, la app para rezar el Santo Rosario',
+  'home.kicker': 'Gratis · Sin cuentas · Sin anuncios',
+  'home.headline': 'Reza el Rosario cada día',
+  'home.lead':
+    'El misterio del día, listo en un toque. Con voz o a tu ritmo, en el teléfono o en el Apple Watch, con cada oración tomada de fuentes de la Iglesia.',
+  'home.today': 'Hoy se rezan los',
+  'home.todayLink': 'Ver los misterios de hoy',
+  'home.features': 'Hecha para rezar',
+  'home.featuresLead':
+    'Para quien reza todos los días y para quien quiere aprender. Cada pantalla tiene una tarea.',
+  'feature.voice.title': 'Reza con voz',
+  'feature.voice.body':
+    'Dos voces rezan contigo, como en comunidad: una dirige y la otra responde. Sigue con la pantalla apagada y se controla desde los audífonos.',
+  'feature.pace.title': 'A tu ritmo',
+  'feature.pace.body':
+    'Avanza tocando o deslizando la pantalla. Las cuentas de la decena te dicen siempre por dónde vas.',
+  'feature.watch.title': 'Completo en el Apple Watch',
+  'feature.watch.body':
+    'El Rosario entero en la muñeca, con su propia voz, el texto para seguirlo y una vibración en cada cuenta. La corona ajusta el volumen.',
+  'feature.gospel.title': 'El Evangelio de cada misterio',
+  'feature.gospel.body':
+    'Antes de cada decena, el pasaje que la cuenta. Cuando varios evangelistas narran el mismo misterio, cada vez lee uno distinto.',
+  'feature.learn.title': 'Aprende a rezarlo',
+  'feature.learn.body':
+    'Cinco pasos cortos para empezar, los veinte misterios con su pasaje y cada oración con su fuente.',
+  'feature.journal.title': 'Un diario tranquilo',
+  'feature.journal.body':
+    'Recuerda los días que rezaste. Cuenta rosarios y decenas, sin rachas ni comparaciones.',
+  'feature.styles.title': 'Ocho estilos',
+  'feature.styles.body':
+    'De lo más sencillo a un manuscrito iluminado, la Guadalupana y una versión con letra grande. Claro y oscuro en cada uno.',
+  'feature.languages.title': 'Cuatro idiomas',
+  'feature.languages.body': 'Español de México y de España, inglés y latín, con voz en los cuatro.',
+  'home.privacy.title': 'Lo que rezas se queda contigo',
+  'home.privacy.body':
+    'SanctaMaria funciona sin cuenta y sin conexión. No tiene servidor ni analítica: tu diario vive solo en tu teléfono.',
+  'home.learn.title': '¿Primera vez rezando el Rosario?',
+  'home.learn.body':
+    'Una guía paso a paso, con la corona dibujada cuenta por cuenta y cada oración completa.',
+  'home.learn.cta': 'Aprende a rezarlo',
+  'home.help.title': 'Gratis, para siempre',
+  'home.help.body':
+    'SanctaMaria no tiene anuncios ni suscripciones. Se sostiene con donativos y con quien ayuda a mejorarla.',
+  'home.help.cta': 'Cómo ayudar',
+  'home.faq': 'Preguntas frecuentes',
 
-    'corona.label':
-      'La corona del Rosario: la cruz, las cuentas de la entrada, la medalla y cinco decenas de diez cuentas.',
-    'corona.caption': 'Cada cuenta, una oración. Cinco decenas, un misterio en cada una.',
-    'corona.cta': 'Cómo se reza',
-    'corona.legend.cross': 'La cruz: la señal de la cruz y el Credo',
-    'corona.legend.large': 'Cuenta grande: Padrenuestro',
-    'corona.legend.small': 'Cuenta pequeña: Avemaría',
-    'corona.legend.chain': 'Entre cuentas: Gloria',
-    'corona.legend.medal': 'La medalla: se anuncia el misterio; al final, la Salve',
-    'corona.decade': 'Decena',
-    'corona.opening': 'Entrada',
+  'faq.free.q': '¿SanctaMaria es gratis?',
+  'faq.free.a':
+    'Sí. Es gratis, sin anuncios y sin compras dentro de la app. El desarrollo se sostiene con donativos.',
+  'faq.offline.q': '¿Necesito internet para rezar?',
+  'faq.offline.a':
+    'No. Las oraciones, los textos del Evangelio y el audio vienen dentro de la app y funcionan sin conexión.',
+  'faq.account.q': '¿Tengo que crear una cuenta?',
+  'faq.account.a':
+    'No. La app no tiene cuentas ni servidor. Tu diario se guarda solo en tu teléfono y el Apple Watch lo recibe directamente de él.',
+  'faq.android.q': '¿Hay versión para Android?',
+  'faq.android.a': 'Sí. La versión para Android llega muy pronto a Google Play.',
+  'faq.catholic.q': '¿De dónde salen las oraciones?',
+  'faq.catholic.a':
+    'De fuentes oficiales de la Iglesia católica: la Santa Sede, la Conferencia del Episcopado Mexicano a través de Desde la fe y la USCCB. Cada oración muestra su fuente.',
+  'faq.today.q': '¿Qué misterios se rezan hoy?',
+  'faq.today.a':
+    'Los lunes y sábados, los gozosos; martes y viernes, los dolorosos; miércoles y domingo, los gloriosos; los jueves, los luminosos (Rosarium Virginis Mariae 38).',
 
-    'voices.kicker': 'A dos voces',
-    'voices.title': 'La app dice la primera mitad. Tú respondes.',
-    'voices.body':
-      'El texto se resalta con la voz y se queda en la pantalla mientras suena. Si rezas en silencio, avanzas con un toque. Si apagas la pantalla, siguen el audio y la háptica.',
-    'voices.guide': 'La app',
-    'voices.you': 'Tú',
-    'voices.language': 'Idioma del rezo',
-    'voices.lang.es': 'Español',
-    'voices.lang.en': 'English',
-    'voices.lang.la': 'Latín',
+  'how.title': 'Cómo rezar el Rosario paso a paso',
+  'how.description':
+    'Guía para rezar el Santo Rosario: cómo empieza, cada decena, los misterios de cada día y las oraciones completas, con las citas de san Juan Pablo II.',
+  'how.kicker': 'Guía',
+  'how.lead':
+    'El Rosario se reza con oraciones sencillas mientras se contempla la vida de Jesús con María. Aquí está cada paso, en el orden en que la app lo reza.',
+  'how.corona': 'El rosario, cuenta por cuenta',
+  'how.coronaCaption':
+    'Cada cuenta es una oración: la cruz y las cuentas de abajo abren el rezo; cada grupo de diez es una decena.',
+  'how.sequence': 'El orden completo',
+  'how.opening': 'Al empezar',
+  'how.decade': 'En cada decena',
+  'how.decadeTimes': 'Se repite cinco veces, una por misterio.',
+  'how.closing': 'Al terminar',
+  'how.optional': 'Opcional',
+  'how.announce': 'Se anuncia el misterio y se guarda un momento de silencio',
+  'how.reading': 'Se lee el pasaje del Evangelio',
+  'how.tenHailMarys': 'Diez Avemarías',
+  'how.threeHailMarys': 'Tres Avemarías',
+  'how.pope': 'Padrenuestro y Avemaría por las intenciones del Papa',
+  'how.otherWays':
+    'Hay otros modos legítimos de empezar y terminar según cada región (RVM 37). Este es el más difundido.',
+  'how.source': 'Fuente',
 
-    'pillar.watch.kicker': 'Apple Watch',
-    'pillar.watch.title': 'El Rosario entero en la muñeca.',
-    'pillar.watch.body':
-      'Audio a los auriculares sin el teléfono cerca. Un toque distinto en la muñeca para el Padrenuestro, el Ave y el Gloria. Las cuentas se pasan con la corona. El misterio del día, en la esfera.',
-    'pillar.latin.kicker': 'Latín',
-    'pillar.latin.title': 'Rezarlo en latín, y aprenderlo.',
-    'pillar.latin.body':
-      'Todas las oraciones en latín eclesiástico, con audio, alineadas línea a línea con tu idioma. Primero escuchas. Después respondes leyendo. Cuando ya lo sabes, el texto se apaga.',
-    'pillar.rule.kicker': 'La Regla',
-    'pillar.rule.title': 'Tú fijas cuánto rezas.',
-    'pillar.rule.body':
-      'Una decena, cinco, el Rosario completo o quince decenas a la semana. El calendario del mes muestra los días fieles a tu Regla. Se puede bajar cuando haga falta, y si un mes se rompe, se retoma.',
-    'pillar.source.kicker': 'Con su fuente',
-    'pillar.source.title': 'Cada texto dice de dónde viene.',
-    'pillar.source.body':
-      'Magisterio, liturgia o tradición piadosa: se distingue en cada oración, misterio y explicación. Las quince promesas se muestran con su origen. Las indulgencias se explican con sus condiciones.',
+  'mysteries.title': 'Los misterios del Rosario',
+  'mysteries.description':
+    'Los veinte misterios del Santo Rosario: gozosos, luminosos, dolorosos y gloriosos, con el pasaje del Evangelio de cada uno y el día de la semana en que se rezan.',
+  'mysteries.kicker': 'Los veinte misterios',
+  'mysteries.lead':
+    'Cada misterio es un momento de la vida de Jesús y de María. Se rezan en cuatro grupos de cinco, uno para cada día de la semana.',
+  'mysteries.days': 'Se rezan',
+  'mysteries.gospel': 'Evangelio',
+  'mysteries.fruit': 'Fruto',
+  'mysteries.see': 'Ver los cinco misterios',
+  'mysteries.order': 'Misterio',
+  'mysteries.artCredit': 'Pintura',
+  'mysteries.calendar': 'Qué misterios se rezan cada día',
+  'mysteries.calendarSource':
+    'Distribución que propone san Juan Pablo II en Rosarium Virginis Mariae 38, sin quitar la libertad de elegir otros.',
+  'mysteries.setTitle': '{set} del Rosario',
+  'mysteries.setDescription':
+    'Los cinco {set} del Santo Rosario, con el pasaje del Evangelio de cada uno. Se rezan {days}.',
 
-    'today.kicker': 'Hoy',
-    'today.season': 'Hoy cambia por el tiempo litúrgico.',
-    'today.feast': 'Hoy cambia por la fiesta:',
-    'today.cta': 'Los veinte misterios',
+  'today.title': '¿Qué misterios se rezan hoy?',
+  'today.description':
+    'Los misterios del Rosario que se rezan hoy según el día de la semana, con los cinco misterios y su pasaje del Evangelio.',
+  'today.kicker': 'Hoy',
+  'today.lead': 'Según el día de la semana, como propone Rosarium Virginis Mariae 38.',
+  'today.week': 'Toda la semana',
 
-    'more.title': 'Todo lo que hace',
-    'more.body':
-      'Formas de rezar por región, cláusulas, letanías, la Novena de 54 días, la Cofradía, rezar en familia. Está en una sola página.',
-    'more.cta': 'Ver qué hace',
+  'prayers.title': 'Las oraciones del Rosario',
+  'prayers.description':
+    'Las oraciones del Santo Rosario completas: Padrenuestro, Avemaría, Gloria, Credo, Salve, la oración de Fátima, la Letanía lauretana y la oración final, con su fuente.',
+  'prayers.kicker': 'Oraciones',
+  'prayers.lead': 'Cada oración en el orden en que se reza, con el texto de una fuente de la Iglesia.',
+  'prayers.latin': 'En latín',
+  'prayers.source': 'Texto de',
+  'prayers.accessed': 'consultado el',
+  'prayers.prayerTitle': '{prayer}: oración completa',
+  'prayers.prayerDescription': '{prayer}, oración del Santo Rosario. Texto completo con su fuente{latin}.',
+  'prayers.withLatin': ', en español y en latín',
+  'prayers.whereInRosary': 'Dónde se reza',
+  'prayers.respond': 'La segunda parte la responden todos.',
+  'where.opening': 'Al empezar el Rosario',
+  'where.decade': 'En cada decena',
+  'where.closing': 'Al terminar el Rosario',
+  'where.optionalLitany': 'Al final, si se reza la Letanía',
+  'where.count': '{count} veces en el Rosario completo',
+  'where.once': 'Una vez en el Rosario completo',
+  'prayers.all': 'Todas las oraciones del Rosario',
+  'prayers.litanyNote': 'A cada invocación se responde con la segunda parte.',
+  'category.magisterium': 'Magisterio',
+  'category.liturgy': 'Liturgia',
+  'category.pious-tradition': 'Tradición piadosa',
 
-    'strip.title': 'Gratis, y completa.',
-    'strip.body':
-      'Sin anuncios y sin nada de pago dentro del Rosario. Si te sirve, puedes apoyar el desarrollo con un donativo.',
-    'strip.cta': 'Apoyar el desarrollo',
+  'promises.title': 'Las quince promesas del Rosario',
+  'promises.description':
+    'Las quince promesas de la Virgen a quienes rezan el Rosario, según la tradición que difundió el beato Alano de la Rupe, con su origen y cómo entenderlas.',
+  'promises.kicker': 'Tradición piadosa',
+  'promises.understanding': 'Cómo entenderlas',
 
-    'features.title': 'Qué hace',
-    'features.lead':
-      'El Rosario completo, en el teléfono y en el reloj. Lo demás ayuda a rezarlo mejor, y se puede apagar.',
-    'features.index': 'En esta página',
+  'help.title': 'Cómo ayudar a SanctaMaria',
+  'help.description':
+    'SanctaMaria es gratis y sin anuncios. Puedes ayudar con un donativo para el desarrollo y los costos técnicos, o ayudando a mejorar la app.',
+  'help.kicker': 'Ayudar',
+  'help.headline': 'Gratis para todos, sostenida por muchos',
+  'help.lead':
+    'SanctaMaria es gratis y lo será siempre: sin anuncios, sin suscripciones y sin vender datos. La hacemos para que más personas recen el Rosario.',
+  'help.donate.title': 'Dona para el desarrollo',
+  'help.donate.body': 'Tu donativo paga lo que cuesta mantener la app viva y mejorarla:',
+  'help.donate.cost1': 'Las cuentas de desarrollador de Apple y Google para publicarla.',
+  'help.donate.cost2': 'Las voces del audio en cada idioma.',
+  'help.donate.cost3': 'El dominio y el hospedaje de este sitio.',
+  'help.donate.cost4': 'El tiempo de desarrollo y la revisión de los textos.',
+  'help.donate.cta': 'Donar',
+  'help.donate.soon': 'Muy pronto podrás donar desde aquí.',
+  'help.contribute.title': 'Ayuda a mejorarla',
+  'help.contribute.lead': 'Hay muchas formas de ayudar, aunque no programes.',
+  'help.pray.title': 'Comparte',
+  'help.pray.body': 'Recomiéndala en tu parroquia, tu grupo de oración o tu familia. Cada persona que reza cuenta.',
+  'help.review.title': 'Revisa los textos',
+  'help.review.body':
+    'Si eres sacerdote, religioso o catequista, ayúdanos a confirmar que cada texto y cada explicación son fieles a la Iglesia.',
+  'help.translate.title': 'Lleva la app a tu idioma',
+  'help.translate.body':
+    'Portugués, italiano, francés, polaco… Cada traducción usa los textos aprobados por la Iglesia de ese país.',
+  'help.report.title': 'Cuéntanos qué falla',
+  'help.report.body': 'Un error en un texto, un audio que se corta, una idea para mejorar: todo ayuda.',
+  'help.code.title': 'Programa o diseña',
+  'help.code.body':
+    'SanctaMaria será de código abierto. Si sabes React Native, Swift, Kotlin, diseño o ilustración, tu ayuda es bienvenida.',
+  'help.contact': 'Escríbenos',
+  'help.github': 'Ver en GitHub',
 
-    'how.title': 'Cómo se reza el Rosario',
-    'how.lead':
-      'Cinco decenas, un misterio en cada una. Lo que abre y lo que cierra cambia según el país.',
-    'how.p1':
-      'Un Rosario son cinco decenas de un ciclo de misterios: gozosos, luminosos, dolorosos o gloriosos. En cada decena se anuncia el misterio, se reza un Padrenuestro, diez Avemarías y un Gloria. Juan Pablo II lo describe como contemplar a Cristo con María, y advierte que sin esa atención es «un cuerpo sin alma».',
-    'how.p2':
-      'En la app eliges la forma de tu región y el idioma del rezo, que puede ser distinto del idioma de la interfaz. Las oraciones opcionales se encienden o se apagan una por una.',
-    'how.family.title': 'En casa',
-    'how.family.p1':
-      'Un solo teléfono en la mesa basta. La app dice la primera mitad o la segunda, en voz alta, y se puede dejar una intención de esa noche en ese aparato. No hay perfiles ni lista de quién rezó.',
-    'how.family.p2':
-      'A la hora del Ángelus mucha gente reza. La app puede avisarte; no cuenta a nadie.',
-    'how.corona.title': 'La corona',
-    'how.order.title': 'El orden',
-    'how.order.lead':
-      'La secuencia completa, tal como la sigue la app. Elige la forma de tu región.',
-    'how.order.form': 'Forma',
-    'how.order.opening': 'Al empezar',
-    'how.order.decade': 'En cada decena',
-    'how.order.decadeNote': 'Cinco veces, una por misterio.',
-    'how.order.closing': 'Al terminar',
-    'how.order.announce': 'Se anuncia el misterio',
-    'how.order.reading': 'Se lee el pasaje del misterio',
-    'how.order.litany': 'Letanías lauretanas',
-    'how.order.optional': 'opcional',
-    'how.order.times': 'veces',
-    'how.days.title': 'Qué misterios tocan',
-    'how.days.lead':
-      'El uso habitual, según Rosarium Virginis Mariae 38. En Adviento y Navidad el domingo suele ser gozoso; en Cuaresma, doloroso.',
-    'how.source':
-      'Estructura y días: Rosarium Virginis Mariae 12, 19, 37-38; USCCB, How to Pray the Rosary; Directorio sobre la piedad popular 197-202.',
-    'how.prayers.cta': 'El texto de cada oración',
+  'privacy.title': 'Privacidad',
+  'privacy.description': 'SanctaMaria no recopila datos: no tiene cuentas, servidor ni analítica.',
 
-    'form.roman': 'Romana',
-    'form.es-MX': 'México',
-    'form.es-ES': 'España',
-    'form.dominican': 'Dominicana',
+  'footer.about':
+    'SanctaMaria es una app católica, gratuita y sin anuncios para rezar el Santo Rosario.',
+  'footer.pray': 'Rezar',
+  'footer.learn': 'Aprender',
+  'footer.project': 'Proyecto',
+  'footer.sources': 'Las oraciones y citas vienen de la Santa Sede, Desde la fe y la USCCB.',
+  'footer.art': 'Pinturas de dominio público vía Wikimedia Commons.',
 
-    'prayers.title': 'Las oraciones',
-    'prayers.lead':
-      'El texto de cada oración del Rosario, con su fuente. En español y en latín.',
-    'prayers.latin': 'En latín',
-    'prayers.source': 'Fuente',
-    'prayers.twoVoices':
-      'A dos voces: la app dice las líneas en gris; tú respondes las demás.',
+  'notFound.title': 'Esta página no existe',
+  'notFound.body': 'Quizá buscabas cómo rezar el Rosario o los misterios de hoy.',
 
-    'mysteries.title': 'Los veinte misterios',
-    'mysteries.lead':
-      'Cuatro ciclos de cinco. Cada misterio con su pasaje, el fruto que se pide y la cláusula que se añade al nombre de Jesús en cada Ave.',
-    'mysteries.fruit': 'Fruto',
-    'mysteries.clause': 'Cláusula',
-    'mysteries.source':
-      'Los cuatro ciclos y su sentido: Rosarium Virginis Mariae 19-23. Los frutos son tradición catequética y varían por país. Las cláusulas siguen la recomendación del Directorio sobre la piedad popular 201.',
+  'breadcrumb.home': 'Inicio',
+  'weekday.0': 'domingo',
+  'weekday.1': 'lunes',
+  'weekday.2': 'martes',
+  'weekday.3': 'miércoles',
+  'weekday.4': 'jueves',
+  'weekday.5': 'viernes',
+  'weekday.6': 'sábado',
+  and: 'y',
+};
 
-    'sets.gaudiosa': 'Gozosos',
-    'sets.luminosa': 'Luminosos',
-    'sets.dolorosa': 'Dolorosos',
-    'sets.gloriosa': 'Gloriosos',
-    'setsLong.gaudiosa': 'Misterios gozosos',
-    'setsLong.luminosa': 'Misterios luminosos',
-    'setsLong.dolorosa': 'Misterios dolorosos',
-    'setsLong.gloriosa': 'Misterios gloriosos',
-    'days.gaudiosa': 'Lunes y sábado',
-    'days.luminosa': 'Jueves',
-    'days.dolorosa': 'Martes y viernes',
-    'days.gloriosa': 'Miércoles y domingo',
+type Key = keyof typeof es;
 
-    'about.title': 'Cómo está hecha',
-    'about.lead': 'Las reglas con las que está construida, en una página.',
-    'about.1.title': 'Cristo en el centro',
-    'about.1.body':
-      'El misterio siempre está a la vista, junto al contador. El Rosario es contemplación y la pantalla la acompaña: la imagen, el pasaje y la cláusula están ahí mientras rezas.',
-    'about.2.title': 'La app deja el espacio para tu voz',
-    'about.2.body':
-      'El audio dice la primera mitad de cada oración y espera. Tú respondes la segunda. Se puede rezar con la pantalla apagada, en silencio con el tacto, o en el reloj sin el teléfono.',
-    'about.3.title': 'Se cuentan actos',
-    'about.3.body':
-      'Rosarios, decenas, días. La app registra lo que rezaste y por quién, y nada más. Las indulgencias se explican con sus condiciones, tal como la Iglesia las concede; la app no las otorga ni las cuenta.',
-    'about.4.title': 'Constancia sin culpa',
-    'about.4.body':
-      'La Regla la fijas tú y la puedes bajar. El calendario muestra los días fieles; los que faltan quedan en blanco, sin aviso y sin reproche. Si un mes se rompe, se retoma.',
-    'about.5.title': 'La atención se ayuda',
-    'about.5.body':
-      'Ritmo, pausas, silencio, la imagen del misterio. Lo que la app registra sobre tu recogimiento es opcional, se queda en el teléfono y se puede apagar.',
-    'about.6.title': 'Cada texto con su fuente',
-    'about.6.body':
-      'Magisterio, liturgia y tradición piadosa se distinguen siempre. Las quince promesas se muestran con su origen: tradición piadosa atribuida al beato Alano de la Roche, en el siglo XV.',
-    'about.7.title': 'Funciona sin nada',
-    'about.7.body':
-      'Sin señal, sin cuenta, con la pantalla apagada, y en el reloj sin el teléfono. Los textos y el audio viven en el aparato.',
-    'about.8.title': 'Gratis',
-    'about.8.body':
-      'Sin anuncios y sin nada de pago dentro del Rosario: todos los misterios, todos los idiomas, todo el audio. Quien quiera puede apoyar el desarrollo.',
-    'about.9.title': 'Lo que no tiene',
-    'about.9.body':
-      'Tablas de posiciones, comparaciones entre personas, rachas que se pierden, chat, perfiles, ni meditaciones generadas por máquina.',
+const en: Record<Key, string> = {
+  'site.name': 'SanctaMaria',
+  'site.tagline': 'Pray the Holy Rosary',
+  'site.description':
+    "Pray the Holy Rosary every day with the SanctaMaria app: the day's mystery in one tap, with a voice or at your own pace, on iPhone, Android and Apple Watch. Free, with no account and no ads.",
+  skip: 'Skip to content',
+  'nav.label': 'Main',
+  'nav.menu': 'Menu',
+  'nav.how': 'How to pray',
+  'nav.mysteries': 'Mysteries',
+  'nav.prayers': 'Prayers',
+  'nav.today': 'Today',
+  'nav.help': 'Help',
+  'nav.app': 'The app',
+  'nav.language': 'Español',
+  'theme.toggle': 'Switch between light and dark',
+  'store.appStore': 'Download on the App Store',
+  'store.playStore': 'Get it on Google Play',
+  'store.playSoon': 'Coming soon to Google Play',
+  'store.free': 'Free · iPhone, Apple Watch and Android',
 
-    'privacy.title': 'Privacidad',
-    'privacy.lead': 'Lo que rezas no sale de tu dispositivo.',
-    'privacy.p1':
-      'SanctaMaria no pide cuenta. El registro de lo rezado se guarda en el teléfono, con la fecha local de ese día. El respaldo, si lo hay, es el del sistema: iCloud o el equivalente en Android.',
-    'privacy.p2':
-      'La app no lleva analítica de comportamiento. Si algo se rompe, se puede enviar un reporte de error, sin el contenido de lo que rezabas.',
-    'privacy.p3':
-      'El micrófono, Salud y las notificaciones se piden en el momento en que se usan, y la app dice para qué. El rezo a dos voces funciona solo con el tacto, sin micrófono.',
-    'privacy.p4':
-      'Este sitio no usa cookies de seguimiento. El tema claro u oscuro se guarda en este navegador, nada más.',
+  'home.title': 'SanctaMaria, the app to pray the Holy Rosary',
+  'home.kicker': 'Free · No account · No ads',
+  'home.headline': 'Pray the Rosary every day',
+  'home.lead':
+    "The day's mystery, ready in one tap. With a voice or at your own pace, on your phone or your Apple Watch, with every prayer taken from Church sources.",
+  'home.today': 'Today we pray the',
+  'home.todayLink': "See today's mysteries",
+  'home.features': 'Made for prayer',
+  'home.featuresLead':
+    'For those who pray every day and for those who want to learn. Every screen has one task.',
+  'feature.voice.title': 'Pray with a voice',
+  'feature.voice.body':
+    'Two voices pray with you, as in a community: one leads and the other answers. It keeps going with the screen off and answers your headphones.',
+  'feature.pace.title': 'At your own pace',
+  'feature.pace.body': "Move on with a tap or a swipe. The decade's beads always show where you are.",
+  'feature.watch.title': 'Complete on Apple Watch',
+  'feature.watch.body':
+    'The whole Rosary on your wrist, with its own voice, the words to follow along and a tap on every bead. The crown sets the volume.',
+  'feature.gospel.title': 'The Gospel of each mystery',
+  'feature.gospel.body':
+    'Before each decade, the passage that tells it. When several evangelists tell the same mystery, each time reads a different one.',
+  'feature.learn.title': 'Learn to pray it',
+  'feature.learn.body':
+    'Five short steps to begin, the twenty mysteries with their passage and every prayer with its source.',
+  'feature.journal.title': 'A quiet journal',
+  'feature.journal.body':
+    'Remember the days you prayed. It counts rosaries and decades, with no streaks and no comparisons.',
+  'feature.styles.title': 'Eight styles',
+  'feature.styles.body':
+    'From the plainest to an illuminated manuscript, Our Lady of Guadalupe and a large print edition. Light and dark in each.',
+  'feature.languages.title': 'Four languages',
+  'feature.languages.body': 'Spanish from Mexico and from Spain, English and Latin, with a voice in all four.',
+  'home.privacy.title': 'What you pray stays with you',
+  'home.privacy.body':
+    'SanctaMaria works with no account and no connection. It has no server and no analytics: your journal lives only on your phone.',
+  'home.learn.title': 'Praying the Rosary for the first time?',
+  'home.learn.body': 'A step-by-step guide, with the rosary drawn bead by bead and every prayer in full.',
+  'home.learn.cta': 'Learn to pray it',
+  'home.help.title': 'Free, for good',
+  'home.help.body':
+    'SanctaMaria has no ads and no subscriptions. It is kept alive by donations and by those who help make it better.',
+  'home.help.cta': 'How to help',
+  'home.faq': 'Questions',
 
-    'support.title': 'Apoya el desarrollo',
-    'support.lead': 'La app es gratis. Si te sirve, puedes dejar un donativo.',
-    'support.p1':
-      'SanctaMaria no cobra por rezar: sin anuncios, sin suscripción, con el audio y los idiomas incluidos. El donativo paga el desarrollo, las voces grabadas y el mantenimiento. No compra nada dentro de la app.',
-    'support.p2':
-      'Dentro de la app, donde las tiendas lo permiten, el botón se llama «Apoya el desarrollo». Aquí, en el sitio, el donativo va directo.',
-    'support.soon': 'El donativo desde el sitio todavía se está preparando.',
+  'faq.free.q': 'Is SanctaMaria free?',
+  'faq.free.a': 'Yes. It is free, with no ads and no in-app purchases. Its development is funded by donations.',
+  'faq.offline.q': 'Do I need the internet to pray?',
+  'faq.offline.a': 'No. The prayers, the Gospel passages and the audio come inside the app and work offline.',
+  'faq.account.q': 'Do I have to create an account?',
+  'faq.account.a':
+    'No. The app has no accounts and no server. Your journal is stored only on your phone, and your Apple Watch receives it straight from there.',
+  'faq.android.q': 'Is there an Android version?',
+  'faq.android.a': 'Yes. The Android version is coming soon to Google Play.',
+  'faq.catholic.q': 'Where do the prayers come from?',
+  'faq.catholic.a':
+    "From official sources of the Catholic Church: the Holy See, the Mexican bishops' Desde la fe and the USCCB. Every prayer shows its source.",
+  'faq.today.q': 'Which mysteries are prayed today?',
+  'faq.today.a':
+    'Joyful on Monday and Saturday, sorrowful on Tuesday and Friday, glorious on Wednesday and Sunday, luminous on Thursday (Rosarium Virginis Mariae 38).',
 
-    'chaplet.title': 'Coronilla de la Divina Misericordia',
-    'chaplet.lead':
-      'Se reza en las cuentas del rosario, con oraciones distintas. No es el Rosario.',
-    'chaplet.p1':
-      'En las cuentas grandes: «Padre Eterno, te ofrezco…». En las diez pequeñas: «Por su dolorosa Pasión…». Al final: «Santo Dios…». El texto completo está en el diario de santa Faustina (1935); este sitio no lo transcribe.',
-    'chaplet.p2':
-      'No cuenta como Rosario: no llena la Regla ni las rosas del mes. La indulgencia del Rosario es del Rosario. Una indulgencia de 2002 se menciona en el dossier, sin el decreto: no se describe más.',
-    'sorrows.title': 'Corona de los Siete Dolores',
-    'sorrows.lead': 'Otra corona mariana, distinta del Rosario.',
-    'sorrows.p1':
-      'Siete veces un Padrenuestro y siete Avemarías, meditando los dolores de María, y tres Avemarías al final por sus lágrimas. El Directorio (n. 202) la cuenta entre las otras coronas marianas, también aprobadas.',
-    'sorrows.p2':
-      'No son cinco decenas de diez. Los dolores no se enumeran aquí: la fuente del dossier no los lista. Servitas, siglo XIII.',
+  'how.title': 'How to pray the Rosary, step by step',
+  'how.description':
+    "A guide to praying the Holy Rosary: how it begins, each decade, the mysteries for each day and the prayers in full, with Saint John Paul II's words.",
+  'how.kicker': 'Guide',
+  'how.lead':
+    'The Rosary is prayed with simple prayers while contemplating the life of Jesus with Mary. Here is every step, in the order the app prays it.',
+  'how.corona': 'The rosary, bead by bead',
+  'how.coronaCaption':
+    'Each bead is a prayer: the cross and the beads below open the prayer; each group of ten is a decade.',
+  'how.sequence': 'The whole order',
+  'how.opening': 'To begin',
+  'how.decade': 'In each decade',
+  'how.decadeTimes': 'Five times, one for each mystery.',
+  'how.closing': 'To close',
+  'how.optional': 'Optional',
+  'how.announce': 'The mystery is announced, followed by a moment of silence',
+  'how.reading': 'The Gospel passage is read',
+  'how.tenHailMarys': 'Ten Hail Marys',
+  'how.threeHailMarys': 'Three Hail Marys',
+  'how.pope': "An Our Father and a Hail Mary for the Pope's intentions",
+  'how.otherWays':
+    'There are other legitimate ways to begin and close, depending on the region (RVM 37). This is the most widespread.',
+  'how.source': 'Source',
 
-    'notfound.title': 'No está',
-    'notfound.lead': 'Esa página no existe.',
-    'notfound.cta': 'Ir al inicio',
+  'mysteries.title': 'The Mysteries of the Rosary',
+  'mysteries.description':
+    'The twenty mysteries of the Holy Rosary: joyful, luminous, sorrowful and glorious, with the Gospel passage of each one and the day of the week they are prayed.',
+  'mysteries.kicker': 'The twenty mysteries',
+  'mysteries.lead':
+    'Each mystery is a moment in the life of Jesus and Mary. They are prayed in four sets of five, one for each day of the week.',
+  'mysteries.days': 'Prayed on',
+  'mysteries.gospel': 'Gospel',
+  'mysteries.fruit': 'Fruit',
+  'mysteries.see': 'See the five mysteries',
+  'mysteries.order': 'Mystery',
+  'mysteries.artCredit': 'Painting',
+  'mysteries.calendar': 'Which mysteries to pray each day',
+  'mysteries.calendarSource':
+    'The distribution Saint John Paul II proposes in Rosarium Virginis Mariae 38, leaving you free to choose others.',
+  'mysteries.setTitle': '{set} of the Rosary',
+  'mysteries.setDescription':
+    'The five {set} of the Holy Rosary, with the Gospel passage of each one. Prayed on {days}.',
 
-    'footer.mark': 'SanctaMaria. Para rezar el Rosario.',
-    'footer.legal':
-      'Apple, el logotipo de Apple, App Store, Apple Watch e iPhone son marcas de Apple Inc., registradas en EE. UU. y otros países. Google Play y el logotipo de Google Play son marcas de Google LLC.',
-  },
-  en: {
-    'site.title': 'SanctaMaria',
-    'site.tagline': 'For praying the Rosary',
-    'site.description':
-      'An app to pray the Holy Rosary. The app says the first half of each prayer and you answer. Words and audio together, in English, Spanish and Latin. On iPhone, Android and Apple Watch. Free, no account, no ads.',
-    'nav.app': 'The app',
-    'nav.features': 'What it does',
-    'nav.how': 'How to pray',
-    'nav.school': 'School',
-    'school.title': 'School of the Rosary',
-    'school.lead':
-      'What the Rosary is, where it comes from, what the Church says, and what it is not. Every statement carries its source, and magisterium, liturgy and pious tradition are always kept apart.',
-    'school.source': 'Main source:',
-    'school.kind.magisterium': 'Magisterium',
-    'school.kind.liturgy': 'Liturgy',
-    'school.kind.tradition': 'Pious tradition',
-    'nav.prayers': 'The prayers',
-    'nav.mysteries': 'The mysteries',
-    'nav.questions': 'Questions',
-    'nav.about': 'How it is made',
-    'nav.support': 'Support',
-    'nav.privacy': 'Privacy',
-    'nav.menu': 'Menu',
-    'nav.language': 'Español',
-    'theme.toLight': 'Switch to light mode',
-    'theme.toDark': 'Switch to dark mode',
-    skip: 'Skip to content',
+  'today.title': "Today's Rosary mysteries",
+  'today.description':
+    'The mysteries of the Rosary prayed today by day of the week, with the five mysteries and their Gospel passage.',
+  'today.kicker': 'Today',
+  'today.lead': 'By day of the week, as Rosarium Virginis Mariae 38 proposes.',
+  'today.week': 'The whole week',
 
-    'hero.title': 'The Rosary, every day.',
-    'hero.lead':
-      'SanctaMaria says the first half of each prayer and waits for your answer. Words and audio together, in English, Spanish and Latin. On the phone and on the Apple Watch. Free, no account, no ads.',
-    'hero.stores': 'Get the app',
-    'cta.appstore': 'Download on the App Store',
-    'cta.play': 'Get it on Google Play',
+  'prayers.title': 'The Prayers of the Rosary',
+  'prayers.description':
+    'The prayers of the Holy Rosary in full: Our Father, Hail Mary, Glory Be, Creed, Hail Holy Queen, the Fatima Prayer, the Litany of Loreto and the closing prayer, with their source.',
+  'prayers.kicker': 'Prayers',
+  'prayers.lead': 'Every prayer in the order it is prayed, with the text of a Church source.',
+  'prayers.latin': 'In Latin',
+  'prayers.source': 'Text from',
+  'prayers.accessed': 'accessed',
+  'prayers.prayerTitle': '{prayer}: full prayer',
+  'prayers.prayerDescription': '{prayer}, a prayer of the Holy Rosary. Full text with its source{latin}.',
+  'prayers.withLatin': ', in English and in Latin',
+  'prayers.whereInRosary': 'Where it is prayed',
+  'prayers.respond': 'Everyone answers the second part.',
+  'where.opening': 'At the start of the Rosary',
+  'where.decade': 'In every decade',
+  'where.closing': 'At the end of the Rosary',
+  'where.optionalLitany': 'At the end, when the Litany is prayed',
+  'where.count': '{count} times in the full Rosary',
+  'where.once': 'Once in the full Rosary',
+  'prayers.all': 'All the prayers of the Rosary',
+  'prayers.litanyNote': 'Each invocation is answered with the second part.',
+  'category.magisterium': 'Magisterium',
+  'category.liturgy': 'Liturgy',
+  'category.pious-tradition': 'Pious tradition',
 
-    'corona.label':
-      'The rosary beads: the cross, the opening beads, the medal and five decades of ten beads.',
-    'corona.caption': 'Every bead is a prayer. Five decades, one mystery in each.',
-    'corona.cta': 'How to pray',
-    'corona.legend.cross': 'The cross: the Sign of the Cross and the Creed',
-    'corona.legend.large': 'Large bead: Our Father',
-    'corona.legend.small': 'Small bead: Hail Mary',
-    'corona.legend.chain': 'On the chain: Glory Be',
-    'corona.legend.medal':
-      'The medal: the mystery is announced; at the end, the Hail Holy Queen',
-    'corona.decade': 'Decade',
-    'corona.opening': 'Opening',
+  'promises.title': 'The Fifteen Promises of the Rosary',
+  'promises.description':
+    'The fifteen promises of Our Lady to those who pray the Rosary, from the tradition spread by Blessed Alan de la Roche, with their origin and how to read them.',
+  'promises.kicker': 'Pious tradition',
+  'promises.understanding': 'How to read them',
 
-    'voices.kicker': 'Two voices',
-    'voices.title': 'The app says the first half. You answer.',
-    'voices.body':
-      'The words are highlighted with the voice and stay on the screen while it plays. Praying in silence, you advance with a tap. With the screen off, audio and haptics keep going.',
-    'voices.guide': 'The app',
-    'voices.you': 'You',
-    'voices.language': 'Language of the prayer',
-    'voices.lang.es': 'Español',
-    'voices.lang.en': 'English',
-    'voices.lang.la': 'Latin',
+  'help.title': 'How to help SanctaMaria',
+  'help.description':
+    'SanctaMaria is free and has no ads. You can help with a donation for its development and technical costs, or by helping make the app better.',
+  'help.kicker': 'Help',
+  'help.headline': 'Free for everyone, kept by many',
+  'help.lead':
+    'SanctaMaria is free and always will be: no ads, no subscriptions and no selling data. We make it so more people pray the Rosary.',
+  'help.donate.title': 'Donate to its development',
+  'help.donate.body': 'Your donation pays for what it takes to keep the app alive and make it better:',
+  'help.donate.cost1': 'The Apple and Google developer accounts to publish it.',
+  'help.donate.cost2': 'The voices of the audio in every language.',
+  'help.donate.cost3': 'The domain and hosting of this site.',
+  'help.donate.cost4': 'The development time and the review of the texts.',
+  'help.donate.cta': 'Donate',
+  'help.donate.soon': 'You will be able to donate here very soon.',
+  'help.contribute.title': 'Help make it better',
+  'help.contribute.lead': "There are many ways to help, even if you don't write code.",
+  'help.pray.title': 'Share it',
+  'help.pray.body': 'Recommend it to your parish, your prayer group or your family. Every person who prays counts.',
+  'help.review.title': 'Review the texts',
+  'help.review.body':
+    'If you are a priest, a religious or a catechist, help us confirm that every text and every explanation is faithful to the Church.',
+  'help.translate.title': 'Bring the app to your language',
+  'help.translate.body':
+    "Portuguese, Italian, French, Polish… Each translation uses the texts approved by the Church in that country.",
+  'help.report.title': "Tell us what's wrong",
+  'help.report.body': 'A mistake in a text, an audio that cuts off, an idea to make it better: it all helps.',
+  'help.code.title': 'Code or design',
+  'help.code.body':
+    'SanctaMaria will be open source. If you know React Native, Swift, Kotlin, design or illustration, your help is welcome.',
+  'help.contact': 'Write to us',
+  'help.github': 'See it on GitHub',
 
-    'pillar.watch.kicker': 'Apple Watch',
-    'pillar.watch.title': 'The whole Rosary on your wrist.',
-    'pillar.watch.body':
-      "Audio to your headphones with the phone left at home. A different tap on the wrist for the Our Father, the Hail Mary and the Glory Be. Beads move with the Digital Crown. Today's mystery on the watch face.",
-    'pillar.latin.kicker': 'Latin',
-    'pillar.latin.title': 'Pray it in Latin, and learn it.',
-    'pillar.latin.body':
-      'Every prayer in ecclesiastical Latin, with audio, lined up with your own language line by line. First you listen. Then you answer while reading. Once you know it, the words fade out.',
-    'pillar.rule.kicker': 'The Rule',
-    'pillar.rule.title': 'You set how much you pray.',
-    'pillar.rule.body':
-      "One decade, five, the full Rosary, or fifteen decades a week. The month's calendar shows the days you kept your Rule. Lower it whenever you need to, and if a month breaks, pick it up again.",
-    'pillar.source.kicker': 'With its source',
-    'pillar.source.title': 'Every text says where it comes from.',
-    'pillar.source.body':
-      'Magisterium, liturgy or pious tradition: named in every prayer, mystery and explanation. The fifteen promises are shown with their origin. Indulgences are explained with their conditions.',
+  'privacy.title': 'Privacy',
+  'privacy.description': 'SanctaMaria collects no data: it has no accounts, no server and no analytics.',
 
-    'today.kicker': 'Today',
-    'today.season': 'Today changes with the liturgical season.',
-    'today.feast': 'Today changes for the feast:',
-    'today.cta': 'The twenty mysteries',
+  'footer.about': 'SanctaMaria is a free Catholic app with no ads to pray the Holy Rosary.',
+  'footer.pray': 'Pray',
+  'footer.learn': 'Learn',
+  'footer.project': 'Project',
+  'footer.sources': 'Prayers and quotations come from the Holy See, Desde la fe and the USCCB.',
+  'footer.art': 'Public domain paintings via Wikimedia Commons.',
 
-    'more.title': 'Everything it does',
-    'more.body':
-      'Regional forms, clauses, the litany, the 54-day novena, the Confraternity, praying as a family. All on one page.',
-    'more.cta': 'See what it does',
+  'notFound.title': 'This page does not exist',
+  'notFound.body': "Maybe you were looking for how to pray the Rosary or today's mysteries.",
 
-    'strip.title': 'Free, and complete.',
-    'strip.body':
-      'No ads and nothing to buy inside the Rosary. If it serves you, you can support the work with a gift.',
-    'strip.cta': 'Support the work',
+  'breadcrumb.home': 'Home',
+  'weekday.0': 'Sunday',
+  'weekday.1': 'Monday',
+  'weekday.2': 'Tuesday',
+  'weekday.3': 'Wednesday',
+  'weekday.4': 'Thursday',
+  'weekday.5': 'Friday',
+  'weekday.6': 'Saturday',
+  and: 'and',
+};
 
-    'features.title': 'What it does',
-    'features.lead':
-      'The whole Rosary, on the phone and on the watch. The rest helps you pray it better, and can be turned off.',
-    'features.index': 'On this page',
+const strings: Record<Language, Record<Key, string>> = { es, en };
 
-    'how.title': 'How to pray the Rosary',
-    'how.lead':
-      'Five decades, one mystery in each. What opens and closes the prayer changes with the country.',
-    'how.p1':
-      'A Rosary is five decades of one set of mysteries: Joyful, Luminous, Sorrowful or Glorious. In each decade the mystery is announced, then an Our Father, ten Hail Marys and a Glory Be. John Paul II describes it as contemplating Christ with Mary, and warns that without that attention it is "a body without a soul".',
-    'how.p2':
-      'In the app you pick the form of your region and the language of the prayer, which can differ from the language of the interface. Optional prayers are turned on or off one by one.',
-    'how.family.title': 'At home',
-    'how.family.p1':
-      'One phone on the table is enough. The app says the first half or the second, out loud, and a household intention can sit on that device for the night. There are no profiles and no list of who prayed.',
-    'how.family.p2':
-      'At the Angelus hours many people pray. The app can remind you; it does not count anyone.',
-    'how.corona.title': 'The beads',
-    'how.order.title': 'The order',
-    'how.order.lead':
-      'The full sequence, as the app follows it. Pick the form of your region.',
-    'how.order.form': 'Form',
-    'how.order.opening': 'To begin',
-    'how.order.decade': 'In each decade',
-    'how.order.decadeNote': 'Five times, once per mystery.',
-    'how.order.closing': 'To finish',
-    'how.order.announce': 'The mystery is announced',
-    'how.order.reading': 'The passage of the mystery is read',
-    'how.order.litany': 'Litany of Loreto',
-    'how.order.optional': 'optional',
-    'how.order.times': 'times',
-    'how.days.title': 'Which mysteries today',
-    'how.days.lead':
-      'The usual custom, from Rosarium Virginis Mariae 38. In Advent and Christmas the Sunday is often Joyful; in Lent, Sorrowful.',
-    'how.source':
-      'Shape and days: Rosarium Virginis Mariae 12, 19, 37-38; USCCB, How to Pray the Rosary; Directory on Popular Piety 197-202.',
-    'how.prayers.cta': 'The words of each prayer',
+export type UiKey = Key;
 
-    'form.roman': 'Roman',
-    'form.es-MX': 'Mexico',
-    'form.es-ES': 'Spain',
-    'form.dominican': 'Dominican',
+/** A translator for one language; `{name}` placeholders are filled from `values`. */
+export function t(language: Language) {
+  return (key: Key, values: Record<string, string> = {}): string =>
+    strings[language][key].replace(/\{(\w+)\}/g, (_, name: string) => values[name] ?? `{${name}}`);
+}
 
-    'prayers.title': 'The prayers',
-    'prayers.lead':
-      'The words of each prayer of the Rosary, with its source. In English and in Latin.',
-    'prayers.latin': 'In Latin',
-    'prayers.source': 'Source',
-    'prayers.twoVoices':
-      'Two voices: the app says the lines in grey; you answer with the rest.',
-
-    'mysteries.title': 'The twenty mysteries',
-    'mysteries.lead':
-      'Four sets of five. Each mystery with its passage, the fruit asked for, and the clause added to the name of Jesus in each Hail Mary.',
-    'mysteries.fruit': 'Fruit',
-    'mysteries.clause': 'Clause',
-    'mysteries.source':
-      'The four sets and their meaning: Rosarium Virginis Mariae 19-23. Fruits are catechetical tradition and vary by country. Clauses follow the recommendation of the Directory on Popular Piety 201.',
-
-    'sets.gaudiosa': 'Joyful',
-    'sets.luminosa': 'Luminous',
-    'sets.dolorosa': 'Sorrowful',
-    'sets.gloriosa': 'Glorious',
-    'setsLong.gaudiosa': 'Joyful mysteries',
-    'setsLong.luminosa': 'Luminous mysteries',
-    'setsLong.dolorosa': 'Sorrowful mysteries',
-    'setsLong.gloriosa': 'Glorious mysteries',
-    'days.gaudiosa': 'Monday and Saturday',
-    'days.luminosa': 'Thursday',
-    'days.dolorosa': 'Tuesday and Friday',
-    'days.gloriosa': 'Wednesday and Sunday',
-
-    'about.title': 'How it is made',
-    'about.lead': 'The rules it is built by, on one page.',
-    'about.1.title': 'Christ at the center',
-    'about.1.body':
-      'The mystery is always in view, next to the count. The Rosary is contemplation and the screen keeps it company: the image, the passage and the clause stay there while you pray.',
-    'about.2.title': 'The app leaves room for your voice',
-    'about.2.body':
-      'The audio says the first half of each prayer and waits. You answer the second. You can pray with the screen off, in silence by touch, or on the watch without the phone.',
-    'about.3.title': 'Acts are counted',
-    'about.3.body':
-      'Rosaries, decades, days. The app records what you prayed and for whom, and nothing else. Indulgences are explained with their conditions, as the Church grants them; the app neither grants nor counts them.',
-    'about.4.title': 'Constancy without blame',
-    'about.4.body':
-      'You set the Rule and you can lower it. The calendar shows the days you kept it; the others stay blank, with no notice and no reproach. If a month breaks, you pick it up again.',
-    'about.5.title': 'Attention is helped',
-    'about.5.body':
-      'Pace, pauses, silence, the image of the mystery. Whatever the app records about your recollection is optional, stays on the phone, and can be turned off.',
-    'about.6.title': 'Every text with its source',
-    'about.6.body':
-      'Magisterium, liturgy and pious tradition are always told apart. The fifteen promises are shown with their origin: pious tradition attributed to Blessed Alan de la Roche, in the fifteenth century.',
-    'about.7.title': 'It works with nothing',
-    'about.7.body':
-      'No signal, no account, screen off, and on the watch without the phone. The words and the audio live on the device.',
-    'about.8.title': 'Free',
-    'about.8.body':
-      'No ads and nothing to buy inside the Rosary: every mystery, every language, all the audio. Anyone who wants to can support the work.',
-    'about.9.title': 'What it does not have',
-    'about.9.body':
-      'Leaderboards, comparisons between people, streaks that break, chat, profiles, or machine-generated meditations.',
-
-    'privacy.title': 'Privacy',
-    'privacy.lead': 'What you pray does not leave your device.',
-    'privacy.p1':
-      "SanctaMaria does not ask for an account. The record of what was prayed stays on the phone, under that day's local date. Any backup is the system's: iCloud, or the Android equivalent.",
-    'privacy.p2':
-      'The app carries no behavioural analytics. If something crashes, a crash report can be sent, without the words you were praying.',
-    'privacy.p3':
-      'The microphone, Health and notifications are asked for at the moment they are used, and the app says why. Two-voice prayer works by touch alone, with no microphone.',
-    'privacy.p4':
-      'This site uses no tracking cookies. The light or dark appearance stays in this browser, and nowhere else.',
-
-    'support.title': 'Support the work',
-    'support.lead': 'The app is free. If it serves you, you can leave a gift.',
-    'support.p1':
-      'SanctaMaria does not charge you to pray: no ads, no subscription, audio and languages included. A gift pays for the development, the recorded voices and the upkeep. It buys nothing inside the app.',
-    'support.p2':
-      'Inside the app, where the stores allow it, the button is called "Support the work". Here on the site, a gift goes directly.',
-    'support.soon': 'Giving from the site is still being set up.',
-
-    'chaplet.title': 'Chaplet of Divine Mercy',
-    'chaplet.lead':
-      'It is prayed on the beads of a rosary, with different prayers. It is not the Rosary.',
-    'chaplet.p1':
-      'On the large beads: "Eternal Father, I offer you...". On the ten small ones: "For the sake of His sorrowful Passion...". At the end: "Holy God...". The full text is in St Faustina\'s diary (1935); this site does not transcribe it.',
-    'chaplet.p2':
-      "It does not count as a Rosary: it does not fill the Rule or the month's roses. The indulgence of the Rosary belongs to the Rosary. A 2002 indulgence is mentioned in the dossier, without the decree: it is not described further.",
-    'sorrows.title': 'Crown of the Seven Sorrows',
-    'sorrows.lead': 'Another Marian crown, distinct from the Rosary.',
-    'sorrows.p1':
-      "Seven times an Our Father and seven Hail Marys, meditating on Mary's sorrows, and three Hail Marys at the end for her tears. The Directory (n. 202) counts it among the other Marian crowns, also approved.",
-    'sorrows.p2':
-      'These are not five decades of ten. The sorrows are not listed here: the dossier source does not enumerate them. Servites, thirteenth century.',
-
-    'notfound.title': 'Not here',
-    'notfound.lead': 'That page does not exist.',
-    'notfound.cta': 'Go to the start',
-
-    'footer.mark': 'SanctaMaria. For praying the Rosary.',
-    'footer.legal':
-      'Apple, the Apple logo, App Store, Apple Watch and iPhone are trademarks of Apple Inc., registered in the U.S. and other countries. Google Play and the Google Play logo are trademarks of Google LLC.',
-  },
-} as const;
-
-export type UiKey = keyof (typeof ui)['es'];
-
-export function t(language: UiLanguage): (key: UiKey) => string {
-  return (key) => ui[language][key];
+/** "lunes y sábado", "Monday and Saturday". */
+export function listOf(items: readonly string[], language: Language): string {
+  if (items.length <= 1) {
+    return items.join('');
+  }
+  return `${items.slice(0, -1).join(', ')} ${t(language)('and')} ${items.at(-1)}`;
 }

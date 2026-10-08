@@ -1,46 +1,48 @@
-# Proyecto
+# SanctaMaria
 
-SanctaMaria: app móvil y sitio web para rezar el Santo Rosario. Multiidioma (español,
-inglés y latín), con audio, Apple Watch y una progresión que ayuda a la constancia sin
-gamificar la oración. Fidelidad total a lo que la Iglesia católica enseña. Dominio:
-sanctamaria.app.
+App para rezar el Santo Rosario, católica y de código abierto. Qué es y para quién:
+`docs/producto.md`.
 
-Monorepo con pnpm:
+## Estructura
 
-- `app/` - app móvil con Expo y React Native (incluye el target de watchOS cuando exista)
-- `site/` - sitio en Astro
-- `packages/content` - todo lo que se reza: oraciones, misterios, formas regionales, con
-  su fuente
-- `packages/engine` - el motor del Rosario: lógica pura que produce la secuencia de pasos
+- `app/` - Expo (iOS, Android) y el reloj (`app/targets/watch`, Swift)
+- `site/` - sitio en Astro (sanctamaria.app), español e inglés; el texto litúrgico sale de `content/`
+- `packages/rosary` - el motor: secuencia de pasos, calendario, rotación de evangelios
+- `content/` - oraciones, misterios y pasajes, cada uno con su fuente
 
-## Antes de tocar contenido litúrgico, leer la fuente
+## Reglas del producto
 
-`docs/referencias/rosario-doctrina.md` es la fuente de verdad de todo lo que se reza y de
-cómo se reza: magisterio, estructura, variantes regionales, textos completos en latín,
-español e inglés, indulgencias y sus condiciones. **Ningún texto se escribe de memoria.**
-Si no está ahí ni en una fuente citable, no entra.
+- **Ningún texto que se reza se escribe de memoria.** Sale de `content/` con su fuente.
+- Lo esencial del Rosario (misterio, Padrenuestro, diez Avemarías, Gloria) no se puede
+  apagar.
+- La app funciona completa sin conexión y sin cuentas: no hay servidor. El diario vive
+  solo en el dispositivo; el reloj lo comparte con el teléfono por WatchConnectivity.
+- Se cuentan actos (rosarios, decenas, días). Sin rachas que se pierden, sin comparar
+  con otros, sin promesas de efectos espirituales.
+- Nada interrumpe el rezo: ni diálogos, ni permisos, ni avisos.
+- Las skins cambian la apariencia, nunca el texto ni la estructura.
 
-## When to read what
+## Código
 
-- Antes de diseñar progresión, rachas, logros o cualquier métrica: `docs/gamificacion.md`
-  y `docs/referencias/ripperger-y-gamificacion.md`. Este producto tiene reglas duras al
-  respecto.
-- Antes de decidir en qué superficie vive una feature: `.agents/superficies.md`.
-- Antes de escribir cualquier texto que un usuario vaya a leer: `docs/voz.md` y el skill
-  `voz`.
-- Antes de tocar el reloj, el audio o el stack: `docs/referencias/tecnica/`, que trae lo
-  verificado y lo que puede no funcionar.
-- Antes de implementar una task: leerla completa en `docs/tasks/` y auditar su alcance
-  contra el código actual.
-- Stack y versiones: `.agents/stack.md`. Comandos: `.agents/commands.md`.
-- Lo que falta decidir (identidad, modelo económico, voces): `docs/DECISIONES.md`.
-- Para retomar el proyecto: `docs/propuesta.md` (estado, huecos, criterio y orden).
+- Código, comentarios y commits en inglés; documentación y copy en español e inglés.
+- El diario guarda la fecha local de quien reza, no UTC.
+- Estilos con NativeWind y tokens por rol (`bg-background`, `text-muted`); cada skin
+  define sus valores en `app/src/shared/theme/skins.ts`.
 
-## Plan de producto
+## Comandos
 
-`docs/PLAN.md` (visión y principios), `docs/FEATURES.md` (mapa), `docs/ROADMAP.md` (orden
-y tasks), `docs/tasks/` (specs). El ciclo que cierra una feature es el skill
-`ciclo-completo`.
+- `pnpm test` - motor; `pnpm --filter app test` - lógica de la app
+- `pnpm --filter app typecheck`
+- `pnpm play` - Metro en la red local para el dev client de un celular (`pnpm play 192.168.X.X` fija la IP)
+- `cd app && npx expo run:ios` - compilar el dev client
+- `pnpm site` / `pnpm site:test` - sitio en desarrollo / compila y prueba contraste, enlaces y metadatos
+- `pnpm --filter site og` - regenera las imágenes para redes de `site/public/og`
+- `pnpm update:preview` / `pnpm update:production` - publicar JavaScript y assets por OTA al canal
 
-`competencia/` tiene el análisis del mercado: qué hace cada app, qué le reprochan sus
-usuarios, y dónde están los huecos.
+## Actualizaciones OTA
+
+Una actualización OTA solo llega a los binarios con el mismo `runtimeVersion` de
+`app/app.json`. Súbelo (+1) cuando cambie la capa nativa: un módulo nativo, un config
+plugin, un permiso, el reloj (`app/targets/watch`) o el SDK de Expo; eso pide un build
+nuevo en la tienda. Los cambios solo de JavaScript, textos o imágenes van por OTA sin
+tocarlo.

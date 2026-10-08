@@ -2,10 +2,13 @@
 CLAUDE.local.md
 AGENTS.override.md
 
-# deps
 node_modules/
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.log
 
-# env & secrets
 .env
 .env.*
 !.env.example
@@ -14,16 +17,16 @@ node_modules/
 *.key
 auth.json
 
-# os / editors
-.DS_Store
-.idea/
-.vscode/*
-!.vscode/extensions.json
+# research captures from third-party apps stay local
+_design/research/**/img/
 
-# logs
-logs/
-*.log
+# full-resolution mystery art sources
+app/assets/mysteries/original/
 
-# Affinity lock files
-*~lock~
-.eslintcache
+# Site build output
+site/dist/
+site/.astro/
+
+# Design research: third-party screenshots, kept local
+_design/research/
+_design/watch/

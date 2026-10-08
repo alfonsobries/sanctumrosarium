@@ -1,1033 +1,415 @@
-import { findPrayer, type Locale, type PrayerId } from '@rosario/content';
-import {
-  advance,
-  buildRosary,
-  decadesCompleted,
-  waysOfSession,
-  goBack,
-  skipDecade,
-  mysteriesOfDay,
-  progressOf,
-  recordOf,
-  startSession,
-  type RosaryOptions,
-  type SessionState,
-  type Step,
-} from '@rosario/engine';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  AppState,
-  Linking,
-  PixelRatio,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
+import { mysteryRefsOf, mysteryTitle, type Locale } from '@sanctamaria/content';
+import { decadesCompleted, type Step } from '@sanctamaria/rosary';
+import * as Haptics from 'expo-haptics';
+import { Image } from 'expo-image';
 import { useKeepAwake } from 'expo-keep-awake';
-import { StatusBar } from 'expo-status-bar';
-import { Directions, Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { useReducedMotion } from 'react-native-reanimated';
+import { Redirect, Stack, useRouter } from 'expo-router';
+import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ActivityIndicator, Alert, Pressable, View, useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
-import { AppText } from '@/components/AppText';
-import { Button } from '@/components/Button';
-import { Screen } from '@/components/Screen';
-import { SwitchRow } from '@/components/SwitchRow';
-import { lockScreenOf } from '@/features/audio/lock-screen';
-import { audioPacks } from '@/features/audio/packs.generated';
-import { audioSettingsOf } from '@/features/audio/schedule';
-import { appJournal } from '@/features/journal/app-journal';
-import { useAudioGuide } from '@/features/audio/use-audio-guide';
-import { LitanyView } from '@/features/rosary/LitanyView';
-import { pairLatinLines } from '@/features/rosary/bilingual';
-import { hapticForStep } from '@/features/rosary/haptic-patterns';
-import { playHaptic } from '@/features/rosary/haptics';
-import { BeadTrack } from '@/features/rosary/BeadTrack';
-import {
-  loadHouseIntention,
-  saveHouseIntention,
-} from '@/features/rosary/house-intention';
-import { MysteryArtwork } from '@/features/rosary/MysteryArtwork';
-import {
-  clearSession,
-  isFromToday,
-  loadSession,
-  localDateOf,
-  saveSession,
-  type SavedSession,
-} from '@/features/rosary/session-store';
-import { languageForLocale } from '@/settings/resolve-locale';
-import { useSettings } from '@/settings/settings-context';
-import { syncMysteryWidget } from '@/features/widget/update-widget';
-import { appKv } from '@/storage/app-kv';
-import { leaveToHome } from '@/features/rosary/leave';
-import { beginMindfulSession, endMindfulSession } from '../../modules/mindful-session';
-import { nightBlack, radius, spacing, touchTarget } from '@/theme/tokens';
-import { useTheme } from '@/theme/use-theme';
-import { fonts, typeScale } from '@/theme/typography';
+import { useArtwork } from '@/domains/artwork/use-artwork';
+import { hasAudio, useRosaryAudio } from '@/domains/audio/use-rosary-audio';
+import { beadState } from '@/domains/prayer/bead-state';
+import { ControlDock, dockHeight } from '@/domains/prayer/ControlDock';
+import { StepStage } from '@/domains/prayer/StepStage';
+import { guideFor } from '@/domains/prayer/guide';
+import { stepsFor } from '@/domains/prayer/session';
+import { StepContent, stepHeading } from '@/domains/prayer/StepContent';
+import { useSession } from '@/domains/prayer/use-session';
+import { useSessionJournal } from '@/domains/prayer/use-session-journal';
+import { rates, type Settings } from '@/domains/settings/settings';
+import { useSettings } from '@/domains/settings/use-settings';
+import { useContentLocale } from '@/shared/i18n/use-content-locale';
+import { ScreenTexture, useSkin } from '@/shared/theme/SkinProvider';
+import { Button } from '@/shared/ui/Button';
+import { Icon } from '@/shared/ui/Icon';
+import { SafeScreen } from '@/shared/ui/SafeScreen';
+import { Text } from '@/shared/ui/Text';
 
-const NOVENA_SETS = ['gaudiosa', 'dolorosa', 'gloriosa'] as const;
-
-export default function PrayScreen() {
-  const { t } = useTranslation();
-  const router = useRouter();
-  // The novena opens the prayer on its own set of mysteries (task 044); everything
-  // else about the session stays exactly the same.
-  const { set: setParam, decades: decadesParam } = useLocalSearchParams<{
-    set?: string;
-    decades?: string;
-  }>();
-  const requestedSet = NOVENA_SETS.find((candidate) => candidate === setParam);
-  const singleDecade = decadesParam === '1';
-  const { prayerLocale, prayerForm, settings, systemPrayerLocale, prayerLanguage } =
-    useSettings();
-  const syncWidget = useCallback(() => {
-    syncMysteryWidget({
-      prayerLanguage,
-      rule: settings.rule,
-      journal: appJournal,
-      setName: (set) => t(`sets.${set}`),
-      prayedTodayLabel: t('widget.prayedToday'),
-    });
-  }, [prayerLanguage, settings.rule, t]);
-
-  const [saved] = useState<SavedSession | undefined>(() => loadSession(appKv));
-  const [phase, setPhase] = useState<'resume-pending' | 'intention' | 'praying'>(
-    saved === undefined ? 'intention' : 'resume-pending',
-  );
-  const [inTheDark, setInTheDark] = useState(false);
-  const [buildOptions, setBuildOptions] = useState(() =>
-    saved === undefined
-      ? {
-          form: prayerForm,
-          locale: prayerLocale,
-          set: requestedSet ?? mysteriesOfDay(new Date()).set,
-          include: settings.includedPrayers,
-          withLitany: settings.withLitany,
-          withClauses: settings.withClauses,
-          withReading: settings.withReading,
-          silenceSeconds: settings.silenceSeconds,
-          ...(singleDecade ? { decadeCount: 1 } : {}),
-          ...latinOverrides(prayerLocale, settings.latinMixOwn, systemPrayerLocale),
-        }
-      : saved.options,
-  );
-  const [session, setSession] = useState<SessionState>(() =>
-    saved === undefined ? startSession(new Date()) : saved.state,
-  );
-
-  const steps = useMemo(() => buildRosary(buildOptions), [buildOptions]);
-  const language = languageForLocale(buildOptions.locale);
-  const progress = progressOf(session, steps);
-  const step = steps[progress.stepIndex];
-  const totalDecades = useMemo(
-    () =>
-      new Set(
-        steps.flatMap((s) => ('decade' in s && s.decade !== undefined ? [s.decade] : [])),
-      ).size,
-    [steps],
-  );
-
-  // Whether the guide's voice was used at all this session, for the Way's respond stage.
-  const usedAudioRef = useRef(false);
-
-  // Times the app left the foreground while praying: a fact of the device, shown once
-  // at the close and never stored. Never a judgment (gamificacion.md 6). Praying with
-  // the voice and the screen locked is intended use, so those backgrounds do not count;
-  // a resumed session shows nothing, because the count cannot speak for the gap.
-  const exitsRef = useRef(0);
-  const resumedRef = useRef(false);
-  const [finishedExits, setFinishedExits] = useState<number | undefined>(undefined);
-  const audioPlayingRef = useRef(false);
-  useEffect(() => {
-    if (phase !== 'praying' || !settings.recollectionEnabled) {
-      return;
-    }
-    const subscription = AppState.addEventListener('change', (state) => {
-      if (state === 'background' && !audioPlayingRef.current) {
-        exitsRef.current += 1;
-      }
-    });
-    return () => subscription.remove();
-  }, [phase, settings.recollectionEnabled]);
-
-  const sessionWays = useCallback(
-    () =>
-      waysOfSession({
-        language,
-        withClauses: settings.withClauses,
-        meditativePause:
-          settings.announcePause !== 'short' ||
-          settings.withReading ||
-          settings.silenceSeconds > 0,
-        answeredAloud: usedAudioRef.current && settings.choirRole === 'respond',
-      }),
-    [
-      language,
-      settings.withClauses,
-      settings.announcePause,
-      settings.choirRole,
-      settings.withReading,
-      settings.silenceSeconds,
-    ],
-  );
-
-  // The bead survives leaving the screen: saved on every step, cleared when finished.
-  useEffect(() => {
-    if (phase !== 'praying') {
-      return;
-    }
-    if (progress.finished) {
-      // The finished Rosary becomes one entry in the journal: an act counted, local,
-      // recorded once (the insert ignores a repeated session).
-      const record = recordOf(session, steps);
-      if (record !== undefined) {
-        appJournal.add({
-          startedAt: record.startedAt,
-          finishedAt: record.finishedAt,
-          decades: record.decades,
-          localDate: localDateOf(new Date(record.finishedAt)),
-          ways: sessionWays(),
-          mysterySet: buildOptions.set,
-          ...(record.intention === undefined ? {} : { intention: record.intention }),
-        });
-        syncWidget();
-      }
-      if (settings.healthWrite) {
-        endMindfulSession();
-      }
-      setFinishedExits(
-        settings.recollectionEnabled && !resumedRef.current
-          ? exitsRef.current
-          : undefined,
-      );
-      clearSession(appKv);
-      return;
-    }
-    saveSession(appKv, {
-      version: 1,
-      state: session,
-      options: buildOptions,
-      localDate: localDateOf(new Date()),
-    });
-  }, [
-    session,
-    buildOptions,
-    steps,
-    progress.finished,
-    phase,
-    sessionWays,
-    settings.recollectionEnabled,
-    settings.healthWrite,
-    syncWidget,
-  ]);
-
-  const handleNext = () => {
-    void playHaptic(hapticForStep(steps[progress.stepIndex + 1]), settings.haptics);
-    setSession((current) => advance(current, steps, new Date()));
-  };
-  const handleSkipDecade = useCallback(
-    (direction: 1 | -1) => {
-      setSession((current) => skipDecade(current, steps, direction));
-    },
-    [steps],
-  );
-  const lockScreen = useMemo(
-    () => lockScreenOf(step, buildOptions.set, language, t(`sets.${buildOptions.set}`)),
-    [step, buildOptions.set, language, t],
-  );
-  const paceSettings = useMemo(() => audioSettingsOf(settings), [settings]);
-  const audio = useAudioGuide({
-    steps,
-    stepIndex: progress.stepIndex,
-    pack: audioPacks[buildOptions.locale],
-    settings: paceSettings,
-    lockScreen,
-    onSkipDecade: handleSkipDecade,
-    onAdvance: handleNext,
-  });
-
-  // The current line stays in view while the guide says it, without stealing the
-  // scroll: a hand on the screen pauses the following for a few seconds.
-  const scrollRef = useRef<ScrollView | null>(null);
-  const draggedAtRef = useRef(0);
-  const reducedMotion = useReducedMotion();
-  const activeLine = audio.activeLine;
-  useEffect(() => {
-    if (activeLine === undefined || Date.now() - draggedAtRef.current < 5000) {
-      return;
-    }
-    const lineHeight = 34 * Math.min(PixelRatio.getFontScale(), 1.6) + spacing.xs;
-    scrollRef.current?.scrollTo({
-      y: Math.max(0, activeLine * lineHeight - 80),
-      animated: !reducedMotion,
-    });
-  }, [activeLine, reducedMotion]);
-  const handleListen = () => {
-    usedAudioRef.current = true;
-    audio.toggle();
-  };
-  // Answering from memory, the first tap on the step shows the dimmed text and only
-  // the next one advances: whoever goes blank mid-prayer has a way out that never
-  // leaves the screen (task 024). Nothing is recorded.
-  const [revealedFor, setRevealedFor] = useState<Step | null>(null);
-  const memoryStep =
-    step !== undefined &&
-    step.kind === 'prayer' &&
-    step.prayer.locale === 'la' &&
-    step.prayer.responseFrom !== undefined &&
-    settings.latinLearn[step.prayer.id] === 'memory';
-  const revealed = revealedFor === step;
-  const handleStepAreaPress = () => {
-    if (memoryStep && !revealed) {
-      setRevealedFor(step ?? null);
-      return;
-    }
-    handleNext();
-  };
-  useEffect(() => {
-    audioPlayingRef.current = audio.playing;
-  }, [audio.playing]);
-  const handlePrevious = () => {
-    setSession((current) => goBack(current));
-  };
-  const handleResume = () => {
-    resumedRef.current = true;
-    if (settings.healthWrite) {
-      beginMindfulSession();
-    }
-    setPhase('praying');
-  };
-  const handleStartOver = () => {
-    // The loose decades of the discarded session still count: the Rule measures
-    // faithfulness, not continuity (task 030; Montfort recommends praying in parts).
-    if (saved !== undefined) {
-      const prayed = decadesCompleted(saved.state, buildRosary(saved.options));
-      if (prayed >= 1) {
-        appJournal.add({
-          startedAt: saved.state.startedAt,
-          finishedAt: new Date().toISOString(),
-          decades: prayed,
-          localDate: localDateOf(new Date(saved.state.startedAt)),
-          // A discarded session walks nothing: the Way counts finished Rosaries only.
-          // Its loose decades still count for the Rule, which measures faithfulness.
-          mysterySet: saved.options.set,
-          ...(saved.state.intention === undefined
-            ? {}
-            : { intention: saved.state.intention }),
-        });
-        syncWidget();
-      }
-    }
-    clearSession(appKv);
-    setPhase('intention');
-  };
-  const handleBegin = (intention: string | undefined, keepHouse = false) => {
-    if (intention !== undefined) {
-      appJournal.saveIntention(intention);
-    }
-    if (keepHouse && intention !== undefined) {
-      saveHouseIntention(appKv, intention);
-    } else if (!keepHouse) {
-      saveHouseIntention(appKv, '');
-    }
-    const today = mysteriesOfDay(new Date());
-    setBuildOptions({
-      form: prayerForm,
-      locale: prayerLocale,
-      set: requestedSet ?? today.set,
-      include: settings.includedPrayers,
-      withLitany: settings.withLitany,
-      withClauses: settings.withClauses,
-      withReading: settings.withReading,
-      silenceSeconds: settings.silenceSeconds,
-      ...(singleDecade ? { decadeCount: 1 } : {}),
-      ...latinOverrides(prayerLocale, settings.latinMixOwn, systemPrayerLocale),
-    });
-    setSession(startSession(new Date(), intention));
-    if (settings.healthWrite) {
-      beginMindfulSession();
-    }
-    setPhase('praying');
-  };
-
-  const fling = useMemo(
-    () =>
-      Gesture.Race(
-        Gesture.Fling().direction(Directions.LEFT).runOnJS(true).onEnd(handleNext),
-        Gesture.Fling().direction(Directions.RIGHT).runOnJS(true).onEnd(handlePrevious),
-      ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [steps],
-  );
-
-  if (phase === 'resume-pending' && saved !== undefined) {
-    return (
-      <ResumeScreen saved={saved} onResume={handleResume} onStartOver={handleStartOver} />
-    );
-  }
-
-  if (phase === 'intention') {
-    return <IntentionScreen onBegin={handleBegin} />;
-  }
-
+function hapticFor(step: Step | undefined): void {
   if (step === undefined) {
-    return (
-      <FinishedScreen set={buildOptions.set} session={session} exits={finishedExits} />
-    );
+    return;
   }
-
-  const mystery = 'mystery' in step ? step.mystery : undefined;
-
-  if (inTheDark) {
-    return (
-      <GestureDetector gesture={fling}>
-        <DarkScreen
-          mysteryTitle={mystery?.text[language].title}
-          count={
-            progress.beadInDecade === undefined
-              ? undefined
-              : t('pray.beadCount', { bead: progress.beadInDecade })
-          }
-          onAdvance={handleNext}
-          onExit={() => setInTheDark(false)}
-        />
-      </GestureDetector>
-    );
+  if (step.kind === 'announce' || (step.kind === 'prayer' && step.prayer === 'our-father')) {
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    return;
   }
+  void Haptics.selectionAsync();
+}
+
+type StepPageProperties = {
+  step: Step;
+  steps: readonly Step[];
+  locale: Locale;
+  headingLocale: Locale;
+  textSize: Settings['textSize'];
+  guided: boolean;
+  interrupted: boolean;
+};
+
+/** One leaf of the prayer: which mystery, a note for those learning, and the words. */
+function StepPage({ step, steps, locale, headingLocale, textSize, guided, interrupted }: StepPageProperties) {
+  const { t } = useTranslation();
+  const index = steps.indexOf(step);
+  const announce =
+    step.decade === null ? undefined : steps.find((s) => s.kind === 'announce' && s.decade === step.decade);
+  const thumbnail = useArtwork(
+    announce?.kind === 'announce' && step.kind !== 'announce' ? announce.mystery.id : '',
+  );
+  const guide = guided ? guideFor(steps, index) : null;
 
   return (
-    <Screen scroll={false}>
-      <View style={styles.topBar}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t('pray.leave')}
-          accessibilityHint={t('pray.leaveHint')}
-          hitSlop={12}
-          onPress={() => leaveToHome(router)}
-          style={({ pressed }) => [styles.leave, pressed && styles.pressed]}
-        >
-          <AppText variant="label" color="muted">
-            {t('pray.leave')}
-          </AppText>
-        </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t('pray.dark')}
-          accessibilityHint={t('pray.darkEnterHint')}
-          hitSlop={12}
-          onPress={() => setInTheDark(true)}
-          style={({ pressed }) => [styles.leave, pressed && styles.pressed]}
-        >
-          <AppText variant="label" color="muted">
-            {t('pray.dark')}
-          </AppText>
-        </Pressable>
-      </View>
-
-      {/* The mystery never leaves the screen while its decade is prayed. */}
-      {mystery === undefined ? null : (
-        <View style={styles.mysteryHeader}>
-          <AppText variant="overline" color="muted">
-            {t(`sets.${buildOptions.set}`).toUpperCase()}
-          </AppText>
-          {settings.mysteryImages ? (
-            <MysteryArtwork
-              mysteryId={mystery.id}
-              mysteryTitle={mystery.text[language].title}
+    <View className="gap-4">
+      {announce?.kind === 'announce' && step.kind !== 'announce' && (
+        <View className="flex-row items-center gap-3 pb-2">
+          {thumbnail !== null && (
+            <Image
+              source={thumbnail.source}
+              placeholder={{ thumbhash: thumbnail.thumbhash }}
+              contentFit="cover"
+              accessible={false}
+              style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: thumbnail.color }}
             />
-          ) : (
-            <AppText variant="heading" accessibilityRole="header">
-              {mystery.text[language].title}
-            </AppText>
           )}
+          <Text variant="eyebrow" className="flex-1 text-accent">
+            {t('pray.mystery', {
+              ordinal: t(`ordinal.${announce.mystery.order - 1}`),
+              set: t(`setAdjective.${announce.mystery.set}`),
+            })}
+          </Text>
         </View>
       )}
-
-      <GestureDetector gesture={fling}>
-        <ScrollView
-          ref={scrollRef}
-          style={styles.flex}
-          contentContainerStyle={styles.grow}
-          onScrollBeginDrag={() => {
-            draggedAtRef.current = Date.now();
-          }}
-        >
-          <Pressable
-            accessibilityHint={t('pray.advanceHint')}
-            style={[styles.grow, styles.stepArea]}
-            onPress={handleStepAreaPress}
-            onLongPress={() => setInTheDark(true)}
-            delayLongPress={600}
-          >
-            {step.kind === 'prayer' ? (
-              <PrayerText
-                step={step}
-                language={language}
-                latinText={settings.latinText}
-                companionLocale={systemPrayerLocale}
-                activeLine={audio.activeLine}
-                memory={memoryStep && !revealed}
-              />
-            ) : null}
-
-            {/* The announce step does not repeat the title: the header already
-                carries it. It gives the intro and the fruit their moment. */}
-            {step.kind === 'announce' ? (
-              <>
-                {step.mystery.text[language].intro === undefined ? null : (
-                  <AppText variant="bodySerif" color="secondary">
-                    {step.mystery.text[language].intro}
-                  </AppText>
-                )}
-                <AppText variant="caption" color="muted">
-                  {t('pray.fruit', { fruit: step.mystery.text[language].fruit })}
-                </AppText>
-              </>
-            ) : null}
-
-            {step.kind === 'litany' ? (
-              <LitanyView
-                language={language}
-                companion={
-                  language === 'la' && settings.latinText === 'both'
-                    ? languageForLocale(systemPrayerLocale) === 'la'
-                      ? undefined
-                      : (languageForLocale(systemPrayerLocale) as 'es' | 'en')
-                    : undefined
-                }
-              />
-            ) : null}
-
-            {step.kind === 'reading' ? (
-              <>
-                <AppText variant="caption" color="muted">
-                  {t('pray.reading')}
-                </AppText>
-                <AppText variant="prayer">{step.mystery.scriptureRef}</AppText>
-                <AppText variant="caption" color="muted">
-                  {t('pray.readingNote')}
-                </AppText>
-              </>
-            ) : null}
-
-            {step.kind === 'silence' ? (
-              <View style={styles.silence}>
-                <AppText variant="caption" color="muted">
-                  {t('pray.silenceLabel')}
-                </AppText>
-              </View>
-            ) : null}
-          </Pressable>
-        </ScrollView>
-      </GestureDetector>
-
-      <View style={styles.bottom}>
-        {session.intention === undefined ? null : (
-          <AppText variant="caption" color="muted" style={styles.intention}>
-            {t('intentions.during', { who: session.intention })}
-          </AppText>
-        )}
-        {progress.decade === undefined ? null : (
-          <View style={styles.beads}>
-            <BeadTrack
-              bead={progress.beadInDecade}
-              large={buildOptions.decadeCount === 1}
-            />
-            <AppText variant="caption" color="muted">
-              {[
-                progress.beadInDecade === undefined
-                  ? undefined
-                  : t('pray.beadCount', { bead: progress.beadInDecade }),
-                progress.decade === undefined
-                  ? undefined
-                  : t('pray.decadeCount', {
-                      decade: progress.decade + 1,
-                      total: totalDecades,
-                    }),
-              ]
-                .filter((part) => part !== undefined)
-                .join(' · ')}
-            </AppText>
-          </View>
-        )}
-        <View style={styles.controls}>
-          <View style={styles.control}>
-            <Button
-              label={t('common.back')}
-              variant="secondary"
-              onPress={handlePrevious}
-              accessibilityHint={t('pray.backHint')}
-            />
-          </View>
-          {audio.available ? (
-            <View style={styles.control}>
-              <Button
-                label={audio.playing ? t('pray.pause') : t('pray.listen')}
-                variant="secondary"
-                onPress={handleListen}
-                accessibilityHint={t('pray.listenHint')}
-              />
-            </View>
-          ) : null}
-          <View style={styles.control}>
-            <Button label={t('pray.next')} onPress={handleNext} />
-          </View>
-        </View>
-      </View>
-    </Screen>
-  );
-}
-
-function IntentionScreen({
-  onBegin,
-}: {
-  onBegin: (intention: string | undefined, keepHouse?: boolean) => void;
-}) {
-  const { t } = useTranslation();
-  const colors = useTheme();
-  const house = loadHouseIntention(appKv);
-  const [text, setText] = useState(house ?? '');
-  const [keepHouse, setKeepHouse] = useState(house !== undefined);
-  const [savedIntentions] = useState(() => appJournal.savedIntentions().slice(0, 5));
-
-  return (
-    <Screen center>
-      <View style={styles.resume}>
-        <AppText variant="title" accessibilityRole="header">
-          {t('intentions.question')}
-        </AppText>
-        <TextInput
-          value={text}
-          onChangeText={setText}
-          placeholder={t('intentions.placeholder')}
-          placeholderTextColor={colors.textMuted}
-          style={[
-            styles.intentionInput,
-            { color: colors.text, borderColor: colors.borderStrong },
-          ]}
-        />
-        {savedIntentions.map((intention) => (
-          <Pressable
-            key={intention}
-            accessibilityRole="button"
-            onPress={() => setText(text === intention ? '' : intention)}
-            style={({ pressed }) => [
-              styles.savedIntention,
-              { borderColor: colors.border },
-              text === intention && { borderColor: colors.accentSoft },
-              pressed && styles.pressed,
-            ]}
-          >
-            <AppText variant="caption" color={text === intention ? 'text' : 'muted'}>
-              {intention}
-            </AppText>
-          </Pressable>
-        ))}
-        <SwitchRow
-          label={t('house.keep')}
-          description={t('house.keepHint')}
-          value={keepHouse}
-          divider={false}
-          onValueChange={setKeepHouse}
-        />
-        <View style={styles.resumeActions}>
-          <Button
-            label={t('home.start')}
-            onPress={() =>
-              onBegin(text.trim() === '' ? undefined : text.trim(), keepHouse)
-            }
-          />
-        </View>
-      </View>
-    </Screen>
-  );
-}
-
-/** Praying in Latin, the mixed prayers go in the reader's own language (task 021). */
-function latinOverrides(
-  locale: Locale,
-  mixOwn: readonly PrayerId[],
-  ownLocale: Locale,
-): Pick<RosaryOptions, 'localeOverrides'> {
-  if (locale !== 'la' || mixOwn.length === 0 || ownLocale === 'la') {
-    return {};
-  }
-  return {
-    localeOverrides: Object.fromEntries(mixOwn.map((id) => [id, ownLocale])),
-  };
-}
-
-const INDULGENCE_NOTE_KEY = 'indulgence-note-shown';
-
-function ResumeScreen({
-  saved,
-  onResume,
-  onStartOver,
-}: {
-  saved: SavedSession;
-  onResume: () => void;
-  onStartOver: () => void;
-}) {
-  const { t } = useTranslation();
-  const { interfaceLanguage } = useSettings();
-  const steps = useMemo(() => buildRosary(saved.options), [saved.options]);
-  const progress = progressOf(saved.state, steps);
-  // Said once and with precision, never repeated day after day (task 030): praying in
-  // parts is prayer; it simply does not meet that one condition.
-  const [showNote] = useState(() => {
-    if (saved.options.decadeCount === 1) {
-      return false;
-    }
-    if (appKv.get(INDULGENCE_NOTE_KEY) !== null) {
-      return false;
-    }
-    appKv.set(INDULGENCE_NOTE_KEY, '1');
-    return true;
-  });
-
-  return (
-    <Screen center>
-      <View style={styles.resume}>
-        <AppText variant="overline" color="muted">
-          {t(`sets.${saved.options.set}`).toUpperCase()}
-        </AppText>
-        <AppText variant="title" accessibilityRole="header">
-          {progress.decade === undefined
-            ? t('pray.resumeStarted')
-            : t('pray.resumeInDecade', { decade: progress.decade + 1 })}
-        </AppText>
-        {isFromToday(saved, new Date()) ? null : (
-          <AppText variant="body" color="muted">
-            {t('pray.resumeOtherDay')}
-          </AppText>
-        )}
-        <View style={styles.resumeActions}>
-          <Button label={t('pray.resume')} onPress={onResume} />
-          <Button label={t('pray.startOver')} variant="secondary" onPress={onStartOver} />
-        </View>
-        {showNote ? (
-          <Pressable
-            accessibilityRole="link"
-            onPress={() =>
-              void Linking.openURL(
-                interfaceLanguage === 'es'
-                  ? 'https://sanctamaria.app/preguntas/'
-                  : 'https://sanctamaria.app/en/questions/',
-              )
-            }
-            style={({ pressed }) => [styles.note, pressed && styles.pressed]}
-          >
-            <AppText variant="caption" color="muted">
-              {t('pray.partsNote')}
-            </AppText>
-            <AppText variant="caption" color="accent">
-              {t('pray.partsNoteLink')}
-            </AppText>
-          </Pressable>
-        ) : null}
-      </View>
-    </Screen>
-  );
-}
-
-function FinishedScreen({
-  set,
-  session,
-  exits,
-}: {
-  set: 'gaudiosa' | 'luminosa' | 'dolorosa' | 'gloriosa';
-  session: SessionState;
-  exits: number | undefined;
-}) {
-  const { t } = useTranslation();
-  const router = useRouter();
-
-  const minutes = useMemo(() => {
-    if (session.finishedAt === undefined) {
-      return undefined;
-    }
-    const elapsed =
-      new Date(session.finishedAt).getTime() - new Date(session.startedAt).getTime();
-    const whole = Math.round(elapsed / 60_000);
-    // A session resumed from another day would show a nonsense number.
-    return whole >= 1 && whole <= 180 ? whole : undefined;
-  }, [session.finishedAt, session.startedAt]);
-
-  return (
-    <Screen center>
-      <View style={styles.resume}>
-        <AppText variant="display" accessibilityRole="header">
-          {t(`sets.${set}`)}
-        </AppText>
-        <AppText variant="bodySerif" color="secondary">
-          {t('pray.doneDecades')}
-        </AppText>
-        {session.intention === undefined ? null : (
-          <AppText variant="bodySerif" color="secondary">
-            {t('intentions.offeredFor', { who: session.intention })}
-          </AppText>
-        )}
-        {minutes === undefined ? null : (
-          <AppText variant="caption" color="muted">
-            {t('pray.duration', { count: minutes })}
-          </AppText>
-        )}
-        {exits === undefined ? null : (
-          <AppText variant="caption" color="muted">
-            {exits === 0
-              ? t('recollection.noInterruptions')
-              : t('recollection.exits', { count: exits })}
-          </AppText>
-        )}
-        <View style={styles.resumeActions}>
-          <Button label={t('pray.finish')} onPress={() => leaveToHome(router)} />
-        </View>
-      </View>
-    </Screen>
-  );
-}
-
-function PrayerText({
-  step,
-  language,
-  latinText,
-  companionLocale,
-  activeLine,
-  memory,
-}: {
-  step: Extract<Step, { kind: 'prayer' }>;
-  language: ReturnType<typeof languageForLocale>;
-  latinText: 'both' | 'la' | 'own';
-  companionLocale: Locale;
-  activeLine: number | undefined;
-  memory: boolean;
-}) {
-  // Answering from memory, the response half dims; the caption above it is the signal
-  // that does not depend on sight and says how to see the text (task 024).
-  const memoryFrom = memory ? step.prayer.responseFrom : undefined;
-  // Praying in Latin, the reader's own language can run line by line underneath
-  // (task 023). Nothing is translated: the texts are paired from the content package.
-  // The mixed prayers already come in the reader's language: only true Latin text
-  // pairs with a companion.
-  const companion =
-    step.prayer.locale === 'la' && latinText !== 'la'
-      ? findPrayer(step.prayer.id, companionLocale)
-      : undefined;
-
-  if (companion !== undefined && latinText === 'own') {
-    const ownDimFrom = memory ? companion.responseFrom : undefined;
-    return (
-      <>
-        <AppText variant="caption" color="muted">
-          {companion.title}
-        </AppText>
-        <View style={styles.lines}>
-          {companion.lines.map((line, index) => (
-            <Fragment key={`${index}-${line}`}>
-              {index === ownDimFrom ? <MemoryTurnMark /> : null}
-              <AppText
-                variant="prayer"
-                style={
-                  ownDimFrom !== undefined && index >= ownDimFrom ? styles.dimmed : null
-                }
-              >
-                {line}
-              </AppText>
-            </Fragment>
-          ))}
-        </View>
-      </>
-    );
-  }
-
-  if (companion !== undefined) {
-    const ownLanguage = languageForLocale(companionLocale);
-    const pairs = pairLatinLines(
-      step.prayer,
-      companion,
-      ownLanguage === 'la' ? 'en' : ownLanguage,
-    );
-    return (
-      <>
-        <AppText variant="caption" color="muted">
-          {step.prayer.title}
-        </AppText>
-        <View style={styles.pairs}>
-          {pairs.map((pair, index) => (
-            <Fragment key={`${index}-${pair.latin}`}>
-              {index === memoryFrom ? <MemoryTurnMark /> : null}
-              <View style={styles.pair}>
-                <AppText
-                  variant="prayer"
-                  style={memoryFrom !== undefined && index >= memoryFrom && styles.dimmed}
-                >
-                  {pair.latin}
-                </AppText>
-                {pair.own.map((line) => (
-                  <AppText
-                    key={line}
-                    variant="bodySerif"
-                    color="muted"
-                    style={
-                      memoryFrom !== undefined && index >= memoryFrom && styles.dimmed
-                    }
-                  >
-                    {line}
-                  </AppText>
-                ))}
-              </View>
-            </Fragment>
-          ))}
-        </View>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <AppText variant="caption" color="muted">
-        {step.prayer.title}
-      </AppText>
-      <View style={styles.lines}>
-        {step.prayer.lines.map((line, index) => (
-          <Fragment key={`${index}-${line}`}>
-            {index === memoryFrom ? <MemoryTurnMark /> : null}
-            <AppText
-              variant="prayer"
-              color={activeLine === undefined || activeLine === index ? 'text' : 'muted'}
-              style={[
-                activeLine === index ? styles.saidLine : null,
-                memoryFrom !== undefined && index >= memoryFrom ? styles.dimmed : null,
-              ]}
-            >
-              {line}
-            </AppText>
-          </Fragment>
-        ))}
-      </View>
-    </>
-  );
-}
-
-function MemoryTurnMark() {
-  const { t } = useTranslation();
-  return (
-    <View style={memoryStyles.mark}>
-      <AppText variant="caption" color="muted">
-        {t('latinLearn.yourTurn')}
-      </AppText>
-      <AppText variant="caption" color="muted">
-        {t('latinLearn.revealHint')}
-      </AppText>
+      {guide !== null && (
+        <Text variant="footnote" className="font-prayer-italic text-[16px] leading-[22px] text-rubric">
+          {t(`guide.${guide}`)}
+        </Text>
+      )}
+      {interrupted && (
+        <Text variant="footnote" className="text-accent">
+          {t('pray.interrupted')}
+        </Text>
+      )}
+      {step.kind === 'prayer' && <Text variant="eyebrow">{stepHeading(step, headingLocale, t)}</Text>}
+      <StepContent step={step} locale={locale} textSize={textSize} />
     </View>
   );
 }
 
-const memoryStyles = StyleSheet.create({
-  mark: { minHeight: touchTarget, justifyContent: 'center', gap: 2 },
-});
-
-function DarkScreen({
-  mysteryTitle,
-  count,
-  onAdvance,
-  onExit,
-}: {
-  mysteryTitle: string | undefined;
-  count: string | undefined;
-  onAdvance: () => void;
-  onExit: () => void;
-}) {
+function Finished({ decades, onDone }: { decades: number; onDone: () => void }) {
   const { t } = useTranslation();
-  useKeepAwake();
-
+  const { colors } = useSkin();
   return (
-    <Pressable
-      accessibilityHint={t('pray.advanceHint')}
-      onPress={onAdvance}
-      onLongPress={onExit}
-      delayLongPress={600}
-      style={darkStyles.fill}
-    >
-      <StatusBar hidden />
-      <View style={darkStyles.center}>
-        {mysteryTitle === undefined ? null : (
-          <AppText variant="heading" color="muted" style={darkStyles.dim}>
-            {mysteryTitle}
-          </AppText>
-        )}
-        {count === undefined ? null : (
-          <AppText variant="caption" color="muted" style={darkStyles.dim}>
-            {count}
-          </AppText>
-        )}
+    <Animated.View entering={FadeIn.duration(300)} className="flex-1 items-center justify-center gap-6 px-8">
+      <Icon name="cross" size={44} color={colors.accent} />
+      <View className="items-center gap-2">
+        <Text variant="title" className="text-center">
+          {t('pray.doneTitle')}
+        </Text>
+        <Text variant="callout" className="text-center text-muted">
+          {t('pray.doneDecades', { count: decades })}
+        </Text>
       </View>
-      <AppText variant="caption" color="muted" style={[darkStyles.dim, darkStyles.hint]}>
-        {t('pray.darkExitHint')}
-      </AppText>
-    </Pressable>
+      <Button label={t('pray.done')} onPress={onDone} className="self-stretch" />
+    </Animated.View>
   );
 }
 
-const darkStyles = StyleSheet.create({
-  fill: { flex: 1, backgroundColor: nightBlack },
-  center: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.md,
-  },
-  dim: { opacity: 0.55 },
-  hint: { textAlign: 'center', marginBottom: spacing.xxl },
-});
+export default function PrayScreen() {
+  useKeepAwake();
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { colors, texture } = useSkin();
+  const headingLocale = useContentLocale();
+  const { width } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
+  const textSize = useSettings((state) => state.textSize);
+  const guided = useSettings((state) => state.guided);
+  const mode = useSettings((state) => state.mode);
+  const updateSettings = useSettings((state) => state.update);
+  const rate = useSettings((state) => state.rate);
+  const pauseSeconds = useSettings((state) => state.pauseSeconds);
+  const appearance = useSettings((state) => state.appearance);
+  const plan = useSession((state) => state.plan);
+  const position = useSession((state) => state.position);
+  const moveTo = useSession((state) => state.moveTo);
+  const clear = useSession((state) => state.clear);
+  const [finished, setFinished] = useState(false);
+  const [direction, setDirection] = useState<1 | -1>(1);
 
-const styles = StyleSheet.create({
-  flex: { flex: 1 },
-  grow: { flexGrow: 1 },
-  topBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  leave: { minHeight: touchTarget, justifyContent: 'center' },
-  pressed: { opacity: 0.6 },
-  mysteryHeader: { gap: spacing.xs, marginTop: spacing.sm },
-  stepArea: { justifyContent: 'center', gap: spacing.md, paddingVertical: spacing.md },
-  lines: { gap: spacing.xs },
-  // The highlight never relies on colour alone: the said line also carries a line under.
-  saidLine: { textDecorationLine: 'underline' },
-  dimmed: { opacity: 0.35 },
-  silence: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  pairs: { gap: spacing.md },
-  pair: { gap: spacing.xs },
-  bottom: { gap: spacing.md, paddingTop: spacing.sm },
-  intention: { textAlign: 'center', fontStyle: 'italic' },
-  beads: { alignItems: 'center', gap: spacing.sm },
-  controls: { flexDirection: 'row', gap: spacing.md },
-  control: { flex: 1 },
-  resume: { gap: spacing.md },
-  // No lineHeight on TextInput: it mis-positions the text vertically on iOS.
-  intentionInput: {
-    borderWidth: 1,
-    borderRadius: radius.md,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    fontFamily: fonts.sans,
-    fontSize: typeScale.body.fontSize,
-    minHeight: touchTarget,
-  },
-  savedIntention: {
-    borderWidth: 1,
-    borderRadius: radius.full,
-    paddingHorizontal: spacing.md,
-    minHeight: touchTarget,
-    justifyContent: 'center',
-    alignSelf: 'flex-start',
-  },
-  resumeActions: { gap: spacing.sm, marginTop: spacing.lg },
-  note: { gap: spacing.xs, marginTop: spacing.lg },
-});
+  const steps = useMemo(() => (plan === null ? [] : stepsFor(plan, mysteryRefsOf(plan.set))), [plan]);
+  const currentDecade = steps[position]?.decade ?? null;
+  const currentAnnounce = steps.find((s) => s.kind === 'announce' && s.decade === currentDecade);
+  const thumbnail = useArtwork(currentAnnounce?.kind === 'announce' ? currentAnnounce.mystery.id : '');
+  useSessionJournal(plan, steps, finished ? steps.length - 1 : position);
+
+  const audio = useRosaryAudio({
+    enabled: mode === 'listen' && !finished,
+    sessionId: plan?.id ?? null,
+    steps,
+    locale: plan?.locale ?? 'es-MX',
+    position,
+    rate,
+    pauseSeconds,
+    nowPlaying: {
+      album: plan === null ? '' : t(`sets.${plan.set}`),
+      artist: 'SanctaMaria',
+      titles: (s) => stepHeading(s, headingLocale, t),
+    },
+    onStep: (index) => moveTo(index),
+  });
+  const listening = mode === 'listen' && audio.availability === 'ready';
+
+  useEffect(() => {
+    if (listening && audio.status === 'ended') {
+      setFinished(true);
+    }
+  }, [listening, audio.status]);
+
+  if (plan === null) {
+    return <Redirect href="/" />;
+  }
+
+  const step = steps[position];
+  const last = steps.length - 1;
+
+  function goTo(target: number) {
+    setDirection(target >= position ? 1 : -1);
+    moveTo(target);
+    hapticFor(steps[target]);
+    if (listening) {
+      audio.skipTo(target);
+    }
+  }
+
+  function handleNext() {
+    if (position >= last) {
+      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      setFinished(true);
+      return;
+    }
+    goTo(position + 1);
+  }
+
+  function handlePrevious() {
+    if (position > 0) {
+      goTo(position - 1);
+    }
+  }
+
+  function handleDone() {
+    clear();
+    router.back();
+  }
+
+  function handleClose() {
+    if (decadesCompleted(steps, position) === 0 && position < 3) {
+      handleDone();
+      return;
+    }
+    Alert.alert(t('pray.leaveTitle'), t('pray.leaveDetail'), [
+      { text: t('pray.stay'), style: 'cancel' },
+      { text: t('pray.leave'), style: 'destructive', onPress: handleDone },
+    ]);
+  }
+
+  if (finished || step === undefined) {
+    return (
+      <SafeScreen>
+        <Finished decades={decadesCompleted(steps, steps.length)} onDone={handleDone} />
+      </SafeScreen>
+    );
+  }
+
+  const mystery =
+    step.decade === null
+      ? null
+      : (steps.find((s) => s.kind === 'announce' && s.decade === step.decade) ?? null);
+  const barTitle =
+    mystery !== null && mystery.kind === 'announce'
+      ? mysteryTitle(mystery.mystery.id, plan.locale)
+      : step.section === 'closing'
+        ? t('pray.closing')
+        : t('pray.opening');
+  const audioAvailable = hasAudio(plan.locale);
+  const dockWidth = Math.min(width - 32, 440);
+  const panelHeight = dockHeight + 12;
+
+  return (
+    <>
+      <Stack.Screen
+        options={{
+          headerTitle: () => (
+            <View
+              accessible
+              accessibilityRole="header"
+              accessibilityLabel={`${barTitle}, ${t(`sets.${plan.set}`)}`}
+              className="max-w-[260px] items-center"
+            >
+              <Text
+                variant="footnote"
+                numberOfLines={1}
+                maxFontSizeMultiplier={1.3}
+                className="font-semibold text-foreground"
+              >
+                {barTitle}
+              </Text>
+              <Text
+                numberOfLines={1}
+                maxFontSizeMultiplier={1.3}
+                className="text-[11px] uppercase leading-[15px] tracking-[1.2px] text-muted"
+              >
+                {t(`sets.${plan.set}`)}
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Stack.Toolbar placement="left">
+        <Stack.Toolbar.Button
+          icon={require('@/assets/images/toolbar/close.png')}
+          tintColor={colors.foreground}
+          accessibilityLabel={t('pray.close')}
+          onPress={handleClose}
+        />
+      </Stack.Toolbar>
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.Menu
+          icon={require('@/assets/images/toolbar/display.png')}
+          tintColor={colors.foreground}
+          accessibilityLabel={t('display.title')}
+        >
+          <Stack.Toolbar.Menu title={t('pray.goToDecade')} icon="list.number">
+            {[1, 2, 3, 4, 5].map((decade) => (
+              <Stack.Toolbar.MenuAction
+                key={decade}
+                isOn={step.decade === decade}
+                onPress={() => {
+                  const target = steps.findIndex((s) => s.kind === 'announce' && s.decade === decade);
+                  if (target !== -1) {
+                    goTo(target);
+                  }
+                }}
+              >
+                {t('pray.decadeOf', { decade })}
+              </Stack.Toolbar.MenuAction>
+            ))}
+          </Stack.Toolbar.Menu>
+          {audioAvailable && (
+            <Stack.Toolbar.Menu title={t('options.mode')} icon="speaker.wave.2">
+              <Stack.Toolbar.MenuAction
+                isOn={mode === 'listen'}
+                onPress={() => updateSettings({ mode: 'listen' })}
+              >
+                {t('options.listen')}
+              </Stack.Toolbar.MenuAction>
+              <Stack.Toolbar.MenuAction isOn={mode === 'tap'} onPress={() => updateSettings({ mode: 'tap' })}>
+                {t('options.tap')}
+              </Stack.Toolbar.MenuAction>
+            </Stack.Toolbar.Menu>
+          )}
+          {listening && (
+            <Stack.Toolbar.Menu title={t('settings.rate')} icon="gauge.with.dots.needle.50percent">
+              {rates.map((value) => (
+                <Stack.Toolbar.MenuAction
+                  key={value}
+                  isOn={rate === value}
+                  onPress={() => updateSettings({ rate: value })}
+                >
+                  {`${value}×`}
+                </Stack.Toolbar.MenuAction>
+              ))}
+            </Stack.Toolbar.Menu>
+          )}
+          <Stack.Toolbar.Menu title={t('settings.theme')} icon="circle.lefthalf.filled">
+            {(['system', 'light', 'dark'] as const).map((value) => (
+              <Stack.Toolbar.MenuAction
+                key={value}
+                isOn={appearance === value}
+                onPress={() => updateSettings({ appearance: value })}
+              >
+                {t(`settings.themes.${value}`)}
+              </Stack.Toolbar.MenuAction>
+            ))}
+          </Stack.Toolbar.Menu>
+          <Stack.Toolbar.Menu title={t('settings.textSize')} icon="textformat.size">
+            {(['regular', 'large', 'larger'] as const).map((value) => (
+              <Stack.Toolbar.MenuAction
+                key={value}
+                isOn={textSize === value}
+                onPress={() => updateSettings({ textSize: value })}
+              >
+                {t(`settings.textSizes.${value}`)}
+              </Stack.Toolbar.MenuAction>
+            ))}
+          </Stack.Toolbar.Menu>
+        </Stack.Toolbar.Menu>
+      </Stack.Toolbar>
+
+      <View className="flex-1 bg-background">
+        <StepStage
+          stepKey={step.id}
+          direction={direction}
+          canGoBack={position > 0}
+          onSwipe={(towards) => (towards === 1 ? handleNext() : handlePrevious())}
+          onTap={listening ? audio.toggle : handleNext}
+          topInset={insets.top + 64}
+          bottomInset={panelHeight + Math.max(insets.bottom, 12)}
+          accessibilityHint={listening ? t('pray.pause') : t('pray.tapToContinue')}
+          centered={step.kind === 'announce'}
+          backdrop={texture === undefined ? undefined : <ScreenTexture />}
+        >
+          <StepPage
+            step={step}
+            steps={steps}
+            locale={plan.locale}
+            headingLocale={headingLocale}
+            textSize={textSize}
+            guided={guided}
+            interrupted={listening && audio.status === 'interrupted'}
+          />
+        </StepStage>
+
+        {process.env.EXPO_OS === 'android' && (
+          // Android has no scroll edge effect: the page fades into the background under the controls.
+          <View
+            pointerEvents="none"
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: panelHeight + Math.max(insets.bottom, 12) + 48,
+              experimental_backgroundImage: `linear-gradient(to bottom, ${colors.background}00 0%, ${colors.background} 45%)`,
+            }}
+          />
+        )}
+        <View
+          pointerEvents="box-none"
+          style={{ position: 'absolute', left: 0, right: 0, bottom: Math.max(insets.bottom, 12) }}
+          className="items-center"
+        >
+          <ControlDock
+            beads={beadState(steps, position)}
+            width={dockWidth}
+            listening={listening}
+            playing={audio.status === 'playing'}
+            loading={audio.availability === 'loading'}
+            canGoBack={position > 0}
+            onToggle={listening ? audio.toggle : handleNext}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+            labels={{
+              previous: t('pray.previous'),
+              next: t('pray.next'),
+              play: t('pray.play'),
+              pause: t('pray.pause'),
+            }}
+          />
+        </View>
+      </View>
+    </>
+  );
+}

@@ -1,13 +1,18 @@
-/** @type {import('@bacons/apple-targets/app.plugin').Config} */
-module.exports = {
+/** @type {import('@bacons/apple-targets/app.plugin').ConfigFunction} */
+module.exports = () => ({
   type: 'watch',
   name: 'SanctaMariaWatch',
   displayName: 'SanctaMaria',
   bundleIdentifier: '.watch',
-  deploymentTarget: '10.0',
-  icon: '../../assets/icons/ios-light.png',
+  // watchOS 11 runs on the same watches as watchOS 26 (Series 6 and later, SE 2nd gen,
+  // every Ultra), so it reaches people who have not updated without losing any hardware.
+  deploymentTarget: '11.0',
+  icon: '../../assets/images/icon.png',
+  frameworks: ['SwiftUI', 'WatchConnectivity', 'AVFoundation', 'MediaPlayer'],
   colors: {
-    $accent: { color: '#96563F', darkColor: '#D4A48F' },
+    $accent: '#D2AE66',
+    accentForeground: '#17140E',
+    bead: '#38342E',
+    beadDone: '#D2AE66',
   },
-  frameworks: ['SwiftUI', 'WatchConnectivity', 'AVFoundation', 'WatchKit'],
-};
+});

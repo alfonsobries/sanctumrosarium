@@ -1,0 +1,16 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import PrayerPage from '../../../components/PrayerPage.astro';
+import { prayerPageIds, prayerSlugs, type PrayerPageId } from '../../../i18n/routes';
+import { hasPrayerPage } from '../../../lib/content';
+
+export const getStaticPaths = (() =>
+  prayerPageIds
+    .filter((id) => hasPrayerPage(id, 'en'))
+    .map((id) => ({ params: { prayer: prayerSlugs[id].en }, props: { id } }))) satisfies GetStaticPaths;
+
+const { id } = Astro.props as { id: PrayerPageId };
+---
+
+<PrayerPage language="en" id={id} />

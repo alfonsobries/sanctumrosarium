@@ -1,0 +1,63 @@
+---
+import { alternatesOf, route, type Language } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+
+type Props = { language: Language };
+const { language } = Astro.props;
+const translate = t(language);
+
+const body: Record<Language, { heading: string; text: string }[]> = {
+  es: [
+    {
+      heading: 'Qué datos recopila la app',
+      text: 'Ninguno. SanctaMaria no tiene cuentas, servidor ni analítica. Lo que rezas, tu diario y tus ajustes se guardan solo en tu teléfono.',
+    },
+    {
+      heading: 'Apple Watch',
+      text: 'El reloj recibe tus ajustes, el audio y lo que rezaste directamente de tu teléfono, sin pasar por internet.',
+    },
+    {
+      heading: 'Este sitio',
+      text: 'Este sitio no usa cookies ni herramientas de seguimiento. Solo guarda en tu navegador si prefieres el tema claro u oscuro.',
+    },
+  ],
+  en: [
+    {
+      heading: 'What data the app collects',
+      text: 'None. SanctaMaria has no accounts, no server and no analytics. What you pray, your journal and your settings are stored only on your phone.',
+    },
+    {
+      heading: 'Apple Watch',
+      text: 'The watch receives your settings, the audio and what you prayed straight from your phone, without going through the internet.',
+    },
+    {
+      heading: 'This site',
+      text: 'This site uses no cookies and no tracking. It only remembers in your browser whether you prefer the light or dark theme.',
+    },
+  ],
+};
+---
+
+<Base
+  language={language}
+  title={translate('privacy.title')}
+  description={translate('privacy.description')}
+  alternates={alternatesOf('privacy')}
+  trail={[{ name: translate('breadcrumb.home'), url: route('home', language) }]}
+>
+  <header class="wrap narrow page-head">
+    <h1>{translate('privacy.title')}</h1>
+    <p class="lead">{translate('privacy.description')}</p>
+  </header>
+  <article class="wrap narrow prose">
+    {
+      body[language].map((section) => (
+        <>
+          <h2>{section.heading}</h2>
+          <p>{section.text}</p>
+        </>
+      ))
+    }
+  </article>
+</Base>

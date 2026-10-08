@@ -1,13 +1,10 @@
-node_modules
+**/*.gen.*
+content/*.json
+content/scripture/
+app/assets/
+app/ios/
+app/android/
+_design/
 pnpm-lock.yaml
-app/ios
-app/android
-site/dist
-site/.astro
-docs/referencias/**/*.txt
-
-# aikit
-AGENTS.md
-CLAUDE.md
-.agents/aikit/
-app/.expo/
+app/targets/watch/assets/
+app/targets/watch/Assets.xcassets/

@@ -1,36 +1,38 @@
 # SanctaMaria
 
-App móvil y sitio web para rezar el Santo Rosario: español, inglés y latín, con audio,
-Apple Watch y una progresión pensada para la constancia, no para el enganche. Fiel a lo
-que la Iglesia católica enseña.
+Una app para rezar el Santo Rosario: iPhone, Android y Apple Watch. Católica, gratis y
+de código abierto.
 
-Dominio: [sanctamaria.app](https://sanctamaria.app).
+- **Rezar** el misterio del día en un toque, con audio o avanzando a tu ritmo.
+- **Aprender** cómo se reza, cada misterio con su pasaje del Evangelio y cada oración con
+  su fuente.
+- **Diario** de los días rezados. Se queda en el dispositivo: sin cuentas ni servidor.
+- **Skins**, de lo sencillo a un manuscrito iluminado.
+
+Todo lo que se reza sale de fuentes oficiales citadas en [`content/`](content/README.md).
 
 ## Estructura
 
-```
-app/                # App móvil (Expo, React Native) y el target del reloj
-site/               # Sitio (Astro)
-packages/content/   # Lo que se reza: oraciones, misterios, formas regionales, con su fuente
-packages/engine/    # El motor del Rosario: la secuencia de pasos, como lógica pura
-docs/               # Plan, roadmap, tasks, voz y las referencias doctrinales y técnicas
-competencia/        # Análisis del mercado
-.agents/            # Contexto para agentes (empezar por .agents/index.md)
-```
+| Carpeta            | Qué es                                                      |
+| ------------------ | ----------------------------------------------------------- |
+| `app/`             | Expo (SDK 57): la app y el reloj (`app/targets/watch`)      |
+| `packages/rosary`  | El motor: secuencia de pasos, calendario, rotación de lecturas |
+| `content/`         | Oraciones, misterios y pasajes, con su fuente               |
+| `scripts/`         | Generación del audio (ElevenLabs) y del contenido del reloj |
 
-## Empezar
+## Desarrollo
 
-```bash
+```sh
 pnpm install
-pnpm app     # servidor de desarrollo de la app
-pnpm site    # servidor de desarrollo del sitio
-pnpm check   # lint, tipos y pruebas
+pnpm play                 # Metro en la red local, para el dev client de un celular
+pnpm test                 # motor y contenido
+pnpm --filter app test    # lógica de la app
+cd app && npx expo run:ios
 ```
 
-## Por dónde entrar
+El audio se regenera con `pnpm audio:generate` (requiere `ELEVENLABS_API_KEY`).
 
-- Qué se construye y por qué: [`docs/PLAN.md`](docs/PLAN.md)
-- Qué falta decidir: [`docs/DECISIONES.md`](docs/DECISIONES.md)
-- En qué orden: [`docs/ROADMAP.md`](docs/ROADMAP.md)
-- Qué dice la Iglesia sobre el Rosario, que es la fuente de todo el contenido:
-  [`docs/referencias/rosario-doctrina.md`](docs/referencias/rosario-doctrina.md)
+## Licencia
+
+El código es de código abierto. Los textos bíblicos y algunas oraciones tienen derechos de
+sus editores; ver [`content/README.md`](content/README.md).

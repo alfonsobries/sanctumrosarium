@@ -1,57 +1,64 @@
 import ExpoModulesCore
 import WatchConnectivity
 
-private final class PhoneSession: NSObject, WCSessionDelegate {
-  static let shared = PhoneSession()
-  var onPrayed: (([String: Any]) -> Void)?
-
-  func activate() {
-    guard WCSession.isSupported() else {
-      return
-    }
-    let session = WCSession.default
-    session.delegate = self
-    session.activate()
-  }
-
-  func sessionDidBecomeInactive(_ session: WCSession) {}
-
-  func sessionDidDeactivate(_ session: WCSession) {
-    session.activate()
-  }
-
-  func session(
-    _ session: WCSession,
-    activationDidCompleteWith activationState: WCSessionActivationState,
-    error: Error?
-  ) {}
-
-  func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-    onPrayed?(message)
-  }
-
-  func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
-    onPrayed?(userInfo)
-  }
+struct PackFileRecord: Record {
+  @Field var name: String = ""
+  @Field var path: String = ""
 }
 
-public class WatchBridgeModule: Module {
+struct PackRecord: Record {
+  @Field var locale: String = ""
+  @Field var version: String?
+  @Field var parts: String?
+  @Field var files: [PackFileRecord] = []
+}
+
+public final class WatchBridgeModule: Module {
   public func definition() -> ModuleDefinition {
     Name("WatchBridge")
-    Events("onWatchPrayed")
+
+    Events("onWatchSession")
 
     OnCreate {
-      PhoneSession.shared.activate()
-      PhoneSession.shared.onPrayed = { [weak self] payload in
-        self?.sendEvent("onWatchPrayed", payload)
+      // Events are only sent through `sendEvent`, which is thread-safe.
+      nonisolated(unsafe) weak let module = self
+      WatchBridgeSession.shared.onEntry = { entry in
+        module?.sendEvent("onWatchSession", entry)
       }
+      WatchBridgeSession.shared.activate()
     }
 
-    Function("updateContext") { (payload: [String: String]) in
-      guard WCSession.isSupported() else {
-        return
-      }
-      try? WCSession.default.updateApplicationContext(payload)
+    OnDestroy {
+      WatchBridgeSession.shared.onEntry = nil
+    }
+
+    Function("isSupported") { () -> Bool in
+      WCSession.isSupported()
+    }
+
+    Function("sendSettings") { (settings: [String: Any]) in
+      WatchBridgeSession.shared.send(settings: settings)
+    }
+
+    Function("sendToday") { (today: [String: Any]) in
+      WatchBridgeSession.shared.send(today: today)
+    }
+
+    Function("setAudioPack") { (pack: PackRecord) in
+      WatchBridgeSession.shared.setPack(
+        locale: pack.locale,
+        version: pack.version,
+        parts: pack.parts,
+        files: pack.files.map { (name: $0.name, path: $0.path) }
+      )
+    }
+
+    Function("pendingSessions") { () -> [[String: Any]] in
+      WatchBridgeSession.shared.pending()
+    }
+
+    Function("acknowledgeSession") { (id: String) in
+      WatchBridgeSession.shared.acknowledge(id)
     }
   }
 }

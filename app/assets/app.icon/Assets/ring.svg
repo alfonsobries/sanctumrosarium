@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 849.845 849.845" width="849.845" height="849.845">
+  <g fill="none" stroke="#C98F78" stroke-width="22.291">
+    <circle id="outer-ring" cx="424.922" cy="424.922" r="400"/>
+    <circle id="inner-ring" cx="424.922" cy="424.922" r="278.019"/>
+  </g><g id="beads" fill="#C98F78">
+    <circle cx="241.64" cy="710.115" r="36.068"/>
+    <circle cx="116.548" cy="565.752" r="36.068"/>
+    <circle cx="89.363" cy="376.676" r="36.068"/>
+    <circle cx="168.716" cy="202.918" r="36.068"/>
+    <circle cx="329.412" cy="99.645" r="36.068"/>
+    <circle cx="520.432" cy="99.645" r="36.068"/>
+    <circle cx="681.129" cy="202.918" r="36.068"/>
+    <circle cx="760.481" cy="376.676" r="36.068"/>
+    <circle cx="733.296" cy="565.752" r="36.068"/>
+    <circle cx="608.205" cy="710.115" r="36.068"/>
+  </g><path id="cross" fill="#C98F78" stroke="#C98F78" stroke-width="10.524" stroke-linejoin="round" d="M419.039,733.126H430.806V749.534H455.728V761.301H430.806V794.738H419.039V761.301H394.117V749.534H419.039Z"/>
+</svg>

@@ -1,253 +1,212 @@
 ---
-import { artworks, mysteries, type MysterySetId } from '@rosario/content';
+import { Image } from 'astro:assets';
 
+import { alternatesOf, route, setRoute, type Language } from '../i18n/routes';
+import { listOf, t, type UiKey } from '../i18n/ui';
 import Base from '../layouts/Base.astro';
-import { t, type UiLanguage } from '../i18n/ui';
+import { artworkOf, mysteries, mysterySets, setTitle, titleOf, weekdaysOf } from '../lib/content';
+import { absolute, itemList } from '../lib/schema';
 
-type Props = { language: UiLanguage };
-
+type Props = { language: Language };
 const { language } = Astro.props;
 const translate = t(language);
-const sets: MysterySetId[] = ['gaudiosa', 'luminosa', 'dolorosa', 'gloriosa'];
-const source = mysteries[0]?.source;
+const days = (set: (typeof mysterySets)[number]) =>
+  listOf(
+    weekdaysOf[set].map((day) => translate(`weekday.${day}` as UiKey)),
+    language,
+  );
+const week = [1, 2, 3, 4, 5, 6, 0].map((day) => ({
+  day,
+  set: mysterySets.find((set) => weekdaysOf[set].includes(day))!,
+}));
 ---
 
 <Base
   language={language}
-  current="mysteries"
   title={translate('mysteries.title')}
-  description={translate('mysteries.lead')}
+  description={translate('mysteries.description')}
+  alternates={alternatesOf('mysteries')}
+  trail={[{ name: translate('breadcrumb.home'), url: route('home', language) }]}
+  og="mysteries"
+  schema={[
+    itemList(
+      translate('mysteries.title'),
+      mysterySets.map((set) => ({ name: setTitle(set, language), url: setRoute(set, language) })),
+    ),
+  ]}
 >
-  <div class="wrap">
-    <header class="page-head">
-      <h1>{translate('mysteries.title')}</h1>
-      <p class="lead">{translate('mysteries.lead')}</p>
-      <nav class="jump" aria-label={translate('mysteries.title')}>
-        {sets.map((set) => <a href={`#${set}`}>{translate(`sets.${set}`)}</a>)}
-      </nav>
-    </header>
-  </div>
+  <header class="wrap page-head">
+    <span class="kicker">{translate('mysteries.kicker')}</span>
+    <h1>{translate('mysteries.title')}</h1>
+    <p class="lead" data-speakable>{translate('mysteries.lead')}</p>
+  </header>
 
-  <div class="wrap">
+  <section class="wrap sets">
     {
-      sets.map((set) => (
-        <section class="set" id={set} aria-labelledby={`${set}-title`}>
-          <div class="set-head">
-            <h2 id={`${set}-title`}>{translate(`setsLong.${set}`)}</h2>
-            <p class="days">{translate(`days.${set}`)}</p>
-          </div>
-          <ol class="mysteries">
-            {mysteries
-              .filter((mystery) => mystery.set === set)
-              .map((mystery) => {
-                const text = mystery.text[language];
-                const artwork = artworks[mystery.id];
-                return (
-                  <li id={mystery.id}>
-                    <figure class="work">
-                      <img
-                        src={`/mysteries/${mystery.id}.jpg`}
-                        alt={`${artwork.title}, ${artwork.artist}`}
-                        width="800"
-                        height="600"
+      mysterySets.map((set) => (
+        <article class="set">
+          <a class="set-head" href={setRoute(set, language)}>
+            <h2>{setTitle(set, language)}</h2>
+            <span class="days">
+              {translate('mysteries.days')} {days(set)}
+            </span>
+          </a>
+          <ol class="strip">
+            {mysteries(set).map((mystery) => {
+              const art = artworkOf(mystery);
+              return (
+                <li>
+                  <a href={`${setRoute(set, language)}#${mystery.id}`}>
+                    {art !== null && (
+                      <Image
+                        src={art.image}
+                        alt=""
+                        widths={[200, 300, 400]}
+                        sizes="(max-width: 700px) 40vw, 200px"
+                        style={`background:${art.credit.dominantColor}`}
                       />
-                    </figure>
-                    <div class="m-head">
-                      <h3>{text.title}</h3>
-                      <span class="ref">{mystery.scriptureRef}</span>
-                    </div>
-                    {text.intro ? <p class="intro">{text.intro}</p> : null}
-                    <dl class="meta">
-                      <div>
-                        <dt>{translate('mysteries.fruit')}</dt>
-                        <dd>{text.fruit}</dd>
-                      </div>
-                      {text.clause ? (
-                        <div>
-                          <dt>{translate('mysteries.clause')}</dt>
-                          <dd>
-                            <em>{text.clause}</em>
-                          </dd>
-                        </div>
-                      ) : null}
-                    </dl>
-                    <p class="ficha">
-                      {artwork.artist}, {artwork.year}. {artwork.museum}.{' '}
-                      {artwork.license}.
-                    </p>
-                  </li>
-                );
-              })}
+                    )}
+                    <span>{titleOf(mystery, language)}</span>
+                  </a>
+                </li>
+              );
+            })}
           </ol>
-        </section>
+        </article>
       ))
     }
-    <p class="source foot">
-      {translate('mysteries.source')}
-      {
-        source?.url ? (
-          <>
-            {' '}
-            <a href={source.url} rel="noopener">
-              {source.name}
-            </a>
-          </>
-        ) : null
-      }
-    </p>
-  </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap narrow calendar">
+      <h2>{translate('mysteries.calendar')}</h2>
+      <dl>
+        {
+          week.map(({ day, set }) => (
+            <div>
+              <dt>{translate(`weekday.${day}` as UiKey)}</dt>
+              <dd>
+                <a href={setRoute(set, language)}>{setTitle(set, language)}</a>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="source">{translate('mysteries.calendarSource')}</p>
+    </div>
+  </section>
 </Base>
 
 <style>
-  .jump {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 22px;
-    margin-top: var(--space-3);
-  }
-
-  .jump a {
-    color: var(--mute);
-    text-decoration: none;
-    font-size: 1rem;
-  }
-
-  .jump a:hover {
-    color: var(--ink);
+  .sets {
+    display: grid;
+    gap: var(--space-5);
   }
 
   .set {
     display: grid;
-    grid-template-columns: 260px minmax(0, 1fr);
-    gap: var(--space-5);
-    padding-block: var(--space-5);
-    border-top: 1px solid var(--line);
-    scroll-margin-top: 90px;
+    gap: var(--space-3);
   }
 
   .set-head {
-    position: sticky;
-    top: 92px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: var(--space-2);
+  }
+
+  .set-head h2 {
+    font-size: var(--step-3);
   }
 
   .days {
-    margin-top: var(--space-1);
-    color: var(--mute);
+    color: var(--accent);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
-  .mysteries {
-    list-style: none;
+  .strip {
     margin: 0;
     padding: 0;
-    counter-reset: mystery;
-    max-width: 44rem;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-2);
   }
 
-  .mysteries li {
-    counter-increment: mystery;
-    position: relative;
-    padding: 0 0 var(--space-4) 3rem;
+  .strip a {
+    display: grid;
+    gap: 0.6rem;
+    text-decoration: none;
   }
 
-  .work {
-    margin: 0 0 0.8rem;
-  }
-
-  .work img {
-    display: block;
+  .strip :global(img) {
     width: 100%;
-    max-width: 28rem;
-    height: auto;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
-    background: var(--surface);
-    border-radius: 4px;
+    border-radius: var(--radius-small);
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
-  .ficha {
-    margin-top: 0.55rem;
-    color: var(--mute);
-    font-size: 0.9rem;
+  .strip a:hover :global(img) {
+    transform: translateY(-3px);
   }
 
-  .mysteries li::before {
-    content: counter(mystery);
-    position: absolute;
-    left: 0;
-    top: 0.35rem;
-    font-family: var(--font-serif);
+  .strip span {
+    font-family: var(--serif);
     font-size: 1.05rem;
-    color: var(--rose);
+    line-height: 1.3;
   }
 
-  .mysteries li:last-child {
-    padding-bottom: 0;
+  .calendar {
+    display: grid;
+    gap: var(--space-3);
   }
 
-  .m-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 6px 14px;
-  }
-
-  .m-head h3 {
-    font-size: 1.6rem;
-    font-weight: 400;
-  }
-
-  .ref {
-    color: var(--mute);
-    font-size: 0.95rem;
-    white-space: nowrap;
-  }
-
-  .intro {
-    margin-top: 0.4rem;
-    color: var(--ink-2);
-    font-size: 1.1rem;
-    max-width: 36rem;
-  }
-
-  .meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 28px;
-    margin: 0.7rem 0 0;
-    font-size: 1rem;
-  }
-
-  .meta div {
-    display: flex;
-    gap: 8px;
-    align-items: baseline;
-  }
-
-  .meta dt {
-    font-family: var(--font-caps);
-    font-size: 0.85rem;
-    letter-spacing: 0.06em;
-    color: var(--rose);
-  }
-
-  .meta dd {
+  dl {
     margin: 0;
-    color: var(--ink-2);
+    display: grid;
+    border-top: 1px solid var(--line);
   }
 
-  .foot {
-    margin-top: var(--space-4);
-    max-width: 48rem;
+  dl div {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
   }
 
-  @media (max-width: 900px) {
-    .set {
-      grid-template-columns: 1fr;
-      gap: var(--space-3);
+  dt {
+    color: var(--mute);
+    text-transform: capitalize;
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: var(--step-1);
+  }
+
+  dd a {
+    text-decoration: none;
+  }
+
+  @media (max-width: 860px) {
+    .strip {
+      grid-template-columns: repeat(5, 9.5rem);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 0.5rem;
     }
 
-    .set-head {
-      position: static;
+    .strip li {
+      scroll-snap-align: start;
     }
   }
 </style>

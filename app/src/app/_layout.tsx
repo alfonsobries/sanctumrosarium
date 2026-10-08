@@ -1,258 +1,173 @@
-import '@/i18n/polyfills';
+import '@/global.css';
+import '@/shared/i18n';
 
 import {
-  Alegreya_500Medium,
-  Alegreya_500Medium_Italic,
-  Alegreya_600SemiBold,
-  useFonts,
-} from '@expo-google-fonts/alegreya';
-import { getLocales } from 'expo-localization';
-import { Stack, ThemeProvider } from 'expo-router';
+  EBGaramond_400Regular,
+  EBGaramond_400Regular_Italic,
+  EBGaramond_600SemiBold,
+} from '@expo-google-fonts/eb-garamond';
+import {
+  IMFellEnglish_400Regular,
+  IMFellEnglish_400Regular_Italic,
+} from '@expo-google-fonts/im-fell-english';
+import { Cinzel_600SemiBold } from '@expo-google-fonts/cinzel';
+import {
+  Nunito_600SemiBold,
+  Nunito_600SemiBold_Italic,
+  Nunito_800ExtraBold,
+} from '@expo-google-fonts/nunito';
+import { UnifrakturMaguntia_400Regular } from '@expo-google-fonts/unifrakturmaguntia';
+import {
+  AtkinsonHyperlegible_400Regular,
+  AtkinsonHyperlegible_400Regular_Italic,
+  AtkinsonHyperlegible_700Bold,
+} from '@expo-google-fonts/atkinson-hyperlegible';
+import {
+  DMSans_400Regular,
+  DMSans_400Regular_Italic,
+  DMSans_500Medium,
+  DMSans_700Bold,
+} from '@expo-google-fonts/dm-sans';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useFonts } from 'expo-font';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet } from 'react-native';
+import { useEffect, useMemo } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useTranslation } from 'react-i18next';
 
-import { mysteries } from '@rosario/content';
-import { mysteriesOfDay } from '@rosario/engine';
-
-import { ErrorScreen } from '@/components/ErrorScreen';
-import { appJournal } from '@/features/journal/app-journal';
-import { localDateOf } from '@/features/rosary/session-store';
-import { addWatchPrayedListener, pushWatchContext } from '../../modules/watch-bridge';
-import { applyReminder } from '@/features/reminder/apply';
-import { syncMysteryWidget } from '@/features/widget/update-widget';
-import { initI18n } from '@/i18n';
-import { resolveInterfaceLanguage } from '@/settings/resolve-locale';
-import { SettingsProvider, useSettings } from '@/settings/settings-context';
-import { loadSettings } from '@/settings/store';
-import { appKv } from '@/storage/app-kv';
-import { navigationTheme } from '@/theme/navigation-theme';
-import { useAppTheme } from '@/theme/use-theme';
-
-// Settings load synchronously before the first frame: the theme and the language are
-// right from the very first render, with no flash.
-const driver = appKv;
-const initialSettings = loadSettings(driver);
-initI18n(
-  resolveInterfaceLanguage(
-    initialSettings.interfaceLanguage,
-    getLocales().map((locale) => ({
-      languageCode: locale.languageCode,
-      regionCode: locale.regionCode,
-    })),
-  ),
-);
+import { prepareAudio } from '@/domains/audio/use-rosary-audio';
+import { journalKeys } from '@/domains/journal/queries';
+import { useSettings, useSettingsHydrated } from '@/domains/settings/use-settings';
+import { useWatchSync } from '@/domains/watch/use-watch-sync';
+import { SkinProvider, useSkin } from '@/shared/theme/SkinProvider';
 
 void SplashScreen.preventAutoHideAsync();
 
-export function ErrorBoundary({ retry }: { retry: () => Promise<void> }) {
-  return <ErrorScreen onRetry={() => void retry()} />;
-}
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { staleTime: Infinity, retry: false } },
+});
 
-function RootNavigator() {
-  const { scheme } = useAppTheme();
+function Navigation() {
+  const prayerLocale = useSettings((state) => state.prayerLocale);
+  useEffect(() => {
+    // Resolve the voice files in the background so pressing Pray starts at once.
+    void prepareAudio(prayerLocale);
+  }, [prayerLocale]);
+  useWatchSync(() => queryClient.invalidateQueries({ queryKey: journalKeys.all }));
   const { t } = useTranslation();
-  const { settings, interfaceLanguage, prayerLanguage } = useSettings();
+  const { colors, scheme, screenBackground } = useSkin();
+  const onboarded = useSettings((state) => state.onboarded);
 
-  // Keeps the scheduled notices in step with the settings and the language, without
-  // ever asking for permission on its own: that only happens when the person enables
-  // the reminder.
-  useEffect(() => {
-    void applyReminder(settings, t('reminder.body'), { requestPermission: false });
-  }, [settings, t]);
-
-  // The widget's timeline freezes its text when scheduled: it is redone on every start
-  // and whenever the language, the Rule, or the prayer locale changes (task 019).
-  useEffect(() => {
-    const { set } = mysteriesOfDay(new Date());
-    const titles = mysteries
-      .filter((mystery) => mystery.set === set)
-      .map((mystery) => mystery.text[prayerLanguage].title)
-      .join('|');
-    pushWatchContext({ set, locale: prayerLanguage, titles });
-  }, [prayerLanguage, settings.rule]);
-
-  useEffect(() => {
-    return addWatchPrayedListener((event) => {
-      const now = new Date();
-      appJournal.add({
-        startedAt: now.toISOString(),
-        finishedAt: now.toISOString(),
-        decades: event.decades,
-        localDate: localDateOf(now),
-        ...(event.set === undefined ? {} : { mysterySet: event.set }),
-      });
-    });
-  }, []);
-
-  useEffect(() => {
-    syncMysteryWidget({
-      prayerLanguage,
-      rule: settings.rule,
-      journal: appJournal,
-      setName: (set) => t(`sets.${set}`),
-      prayedTodayLabel: t('widget.prayedToday'),
-    });
-  }, [interfaceLanguage, prayerLanguage, settings.rule, t]);
+  const theme = useMemo(() => {
+    const base = scheme === 'dark' ? DarkTheme : DefaultTheme;
+    return {
+      ...base,
+      colors: {
+        ...base.colors,
+        primary: colors.accent,
+        background: screenBackground,
+        card: colors.background,
+        text: colors.foreground,
+        border: colors.border,
+      },
+    };
+  }, [colors, scheme]);
 
   return (
-    <ThemeProvider value={navigationTheme(scheme)}>
+    <ThemeProvider value={theme}>
       <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="pray" options={{ gestureEnabled: true }} />
-        <Stack.Screen
-          name="litany"
-          options={{
-            headerShown: true,
-            title: t('litany.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="roses"
-          options={{
-            headerShown: true,
-            title: t('roses.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="intentions"
-          options={{
-            headerShown: true,
-            title: t('intentions.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="fidelity"
-          options={{
-            headerShown: true,
-            title: t('fidelity.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="rule"
-          options={{
-            headerShown: true,
-            title: t('rule.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="latin"
-          options={{
-            headerShown: true,
-            title: t('latinLearn.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="novena"
-          options={{
-            headerShown: true,
-            title: t('novena.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="chaplet"
-          options={{
-            headerShown: true,
-            title: t('chaplet.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="sorrows"
-          options={{
-            headerShown: true,
-            title: t('seven-sorrows.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="confraternity"
-          options={{
-            headerShown: true,
-            title: t('confraternity.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="school/index"
-          options={{
-            headerShown: true,
-            title: t('school.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="school/[page]"
-          options={{
-            headerShown: true,
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="camino/index"
-          options={{
-            headerShown: true,
-            title: t('camino.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="camino/[stage]"
-          options={{
-            headerShown: true,
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
-        <Stack.Screen
-          name="settings"
-          options={{
-            headerShown: true,
-            title: t('settings.title'),
-            headerBackButtonDisplayMode: 'minimal',
-          }}
-        />
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: screenBackground } }}>
+        <Stack.Protected guard={onboarded}>
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen
+            name="pray"
+            options={{
+              presentation: 'fullScreenModal',
+              gestureEnabled: false,
+              animation: 'fade',
+              headerShown: true,
+              headerTransparent: process.env.EXPO_OS === 'ios',
+              headerShadowVisible: false,
+              headerStyle: process.env.EXPO_OS === 'ios' ? undefined : { backgroundColor: colors.background },
+              headerTintColor: colors.foreground,
+              headerTitle: '',
+              scrollEdgeEffects: { top: 'soft', bottom: 'soft', left: 'hidden', right: 'hidden' },
+            }}
+          />
+          <Stack.Screen
+            name="begin"
+            options={{
+              presentation: 'formSheet',
+              sheetAllowedDetents: 'fitToContents',
+              sheetGrabberVisible: true,
+              sheetCornerRadius: 24,
+              contentStyle: { backgroundColor: colors.background },
+            }}
+          />
+          <Stack.Screen
+            name="settings"
+            options={{
+              presentation: 'modal',
+              contentStyle: { backgroundColor: colors.background },
+              headerShown: true,
+              headerStyle: { backgroundColor: colors.background },
+              headerTintColor: colors.accent,
+              headerTitleStyle: { color: colors.foreground },
+              headerShadowVisible: false,
+            }}
+          />
+          <Stack.Screen name="lesson/[id]" options={{ presentation: 'fullScreenModal' }} />
+        </Stack.Protected>
+        <Stack.Protected guard={!onboarded}>
+          <Stack.Screen name="welcome" options={{ animation: 'fade', title: t('onboarding.title') }} />
+        </Stack.Protected>
       </Stack>
     </ThemeProvider>
   );
 }
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
-    Alegreya_500Medium,
-    Alegreya_500Medium_Italic,
-    Alegreya_600SemiBold,
+  const [fontsLoaded, fontError] = useFonts({
+    EBGaramond_400Regular,
+    EBGaramond_400Regular_Italic,
+    EBGaramond_600SemiBold,
+    IMFellEnglish_400Regular,
+    IMFellEnglish_400Regular_Italic,
+    UnifrakturMaguntia_400Regular,
+    Cinzel_600SemiBold,
+    Nunito_600SemiBold,
+    Nunito_600SemiBold_Italic,
+    Nunito_800ExtraBold,
+    AtkinsonHyperlegible_400Regular,
+    AtkinsonHyperlegible_400Regular_Italic,
+    AtkinsonHyperlegible_700Bold,
+    DMSans_400Regular,
+    DMSans_400Regular_Italic,
+    DMSans_500Medium,
+    DMSans_700Bold,
   });
+  const hydrated = useSettingsHydrated();
+  const ready = (fontsLoaded || fontError !== null) && hydrated;
 
   useEffect(() => {
-    if (fontsLoaded) {
+    if (ready) {
       void SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
+  }, [ready]);
 
-  if (!fontsLoaded) {
+  if (!ready) {
     return null;
   }
 
   return (
-    <GestureHandlerRootView style={styles.root}>
-      <SettingsProvider driver={driver} initialSettings={initialSettings}>
-        <RootNavigator />
-      </SettingsProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <QueryClientProvider client={queryClient}>
+        <SkinProvider>
+          <Navigation />
+        </SkinProvider>
+      </QueryClientProvider>
     </GestureHandlerRootView>
   );
 }
-
-const styles = StyleSheet.create({
-  root: { flex: 1 },
-});

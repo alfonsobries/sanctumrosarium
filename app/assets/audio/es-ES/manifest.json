@@ -1,0 +1,507 @@
+{
+  "version": 1,
+  "locale": "es-ES",
+  "model": "eleven_v4",
+  "voices": {
+    "leader": "Giacomo",
+    "response": "Tatiana"
+  },
+  "tracks": {
+    "sign-of-the-cross.leader": {
+      "file": "sign-of-the-cross.leader-8ccca56c.mp3",
+      "durationMs": 4582
+    },
+    "apostles-creed.leader": {
+      "file": "apostles-creed.leader-8a3ed230.mp3",
+      "durationMs": 42919
+    },
+    "our-father.leader": {
+      "file": "our-father.leader-0e11d27b.mp3",
+      "durationMs": 9995
+    },
+    "our-father.response": {
+      "file": "our-father.response-ff0d8552.mp3",
+      "durationMs": 12880
+    },
+    "hail-mary.leader": {
+      "file": "hail-mary.leader-8854cf6d.mp3",
+      "durationMs": 10693
+    },
+    "hail-mary.response": {
+      "file": "hail-mary.response-534c7bc3.mp3",
+      "durationMs": 8309
+    },
+    "glory-be.leader": {
+      "file": "glory-be.leader-7b39d5c3.mp3",
+      "durationMs": 3576
+    },
+    "glory-be.response": {
+      "file": "glory-be.response-49764ab6.mp3",
+      "durationMs": 5641
+    },
+    "fatima-prayer.leader": {
+      "file": "fatima-prayer.leader-66cc15bb.mp3",
+      "durationMs": 11274
+    },
+    "hail-holy-queen.leader": {
+      "file": "hail-holy-queen.leader-21694455.mp3",
+      "durationMs": 30615
+    },
+    "rosary-closing-prayer.leader": {
+      "file": "rosary-closing-prayer.leader-821425bd.mp3",
+      "durationMs": 20511
+    },
+    "litany.0.call": {
+      "file": "litany.0.call-14f9a3ad.mp3",
+      "durationMs": 2071
+    },
+    "litany.1.call": {
+      "file": "litany.1.call-a0ecdd72.mp3",
+      "durationMs": 1881
+    },
+    "litany.2.call": {
+      "file": "litany.2.call-fedded15.mp3",
+      "durationMs": 2067
+    },
+    "litany.3.call": {
+      "file": "litany.3.call-bc9774b7.mp3",
+      "durationMs": 1879
+    },
+    "litany.4.call": {
+      "file": "litany.4.call-b189f810.mp3",
+      "durationMs": 1960
+    },
+    "litany.5.call": {
+      "file": "litany.5.call-efbf999d.mp3",
+      "durationMs": 2211
+    },
+    "litany.6.call": {
+      "file": "litany.6.call-1eeb7897.mp3",
+      "durationMs": 3343
+    },
+    "litany.7.call": {
+      "file": "litany.7.call-52f01d4d.mp3",
+      "durationMs": 2456
+    },
+    "litany.8.call": {
+      "file": "litany.8.call-7103adb2.mp3",
+      "durationMs": 3022
+    },
+    "litany.9.call": {
+      "file": "litany.9.call-3b0a1b6a.mp3",
+      "durationMs": 1173
+    },
+    "litany.10.call": {
+      "file": "litany.10.call-5e3faa2e.mp3",
+      "durationMs": 1908
+    },
+    "litany.11.call": {
+      "file": "litany.11.call-1db3dd61.mp3",
+      "durationMs": 2142
+    },
+    "litany.12.call": {
+      "file": "litany.12.call-2d9e70dd.mp3",
+      "durationMs": 1582
+    },
+    "litany.13.call": {
+      "file": "litany.13.call-be9f9229.mp3",
+      "durationMs": 1722
+    },
+    "litany.14.call": {
+      "file": "litany.14.call-71854665.mp3",
+      "durationMs": 1900
+    },
+    "litany.15.call": {
+      "file": "litany.15.call-d74c6c0b.mp3",
+      "durationMs": 2038
+    },
+    "litany.16.call": {
+      "file": "litany.16.call-9a5dd5bc.mp3",
+      "durationMs": 1705
+    },
+    "litany.17.call": {
+      "file": "litany.17.call-a25885a0.mp3",
+      "durationMs": 1837
+    },
+    "litany.18.call": {
+      "file": "litany.18.call-8493ea21.mp3",
+      "durationMs": 1749
+    },
+    "litany.19.call": {
+      "file": "litany.19.call-1e0f4aaa.mp3",
+      "durationMs": 1840
+    },
+    "litany.20.call": {
+      "file": "litany.20.call-cc1692f8.mp3",
+      "durationMs": 1499
+    },
+    "litany.21.call": {
+      "file": "litany.21.call-569908cc.mp3",
+      "durationMs": 1244
+    },
+    "litany.22.call": {
+      "file": "litany.22.call-d3f45fb2.mp3",
+      "durationMs": 1710
+    },
+    "litany.23.call": {
+      "file": "litany.23.call-9e3b877b.mp3",
+      "durationMs": 2043
+    },
+    "litany.24.call": {
+      "file": "litany.24.call-d10938da.mp3",
+      "durationMs": 1644
+    },
+    "litany.25.call": {
+      "file": "litany.25.call-1d31f705.mp3",
+      "durationMs": 1502
+    },
+    "litany.26.call": {
+      "file": "litany.26.call-0afba4b5.mp3",
+      "durationMs": 1812
+    },
+    "litany.27.call": {
+      "file": "litany.27.call-b508524f.mp3",
+      "durationMs": 2212
+    },
+    "litany.28.call": {
+      "file": "litany.28.call-b44853e4.mp3",
+      "durationMs": 2130
+    },
+    "litany.29.call": {
+      "file": "litany.29.call-de0968c9.mp3",
+      "durationMs": 1735
+    },
+    "litany.30.call": {
+      "file": "litany.30.call-7f008c50.mp3",
+      "durationMs": 1414
+    },
+    "litany.31.call": {
+      "file": "litany.31.call-9aeed37f.mp3",
+      "durationMs": 1252
+    },
+    "litany.32.call": {
+      "file": "litany.32.call-b2f9d5ce.mp3",
+      "durationMs": 1723
+    },
+    "litany.33.call": {
+      "file": "litany.33.call-31a18a5d.mp3",
+      "durationMs": 1527
+    },
+    "litany.34.call": {
+      "file": "litany.34.call-9e1265c2.mp3",
+      "durationMs": 1881
+    },
+    "litany.35.call": {
+      "file": "litany.35.call-ead41f94.mp3",
+      "durationMs": 1410
+    },
+    "litany.36.call": {
+      "file": "litany.36.call-f475978a.mp3",
+      "durationMs": 1812
+    },
+    "litany.37.call": {
+      "file": "litany.37.call-13305c75.mp3",
+      "durationMs": 2137
+    },
+    "litany.38.call": {
+      "file": "litany.38.call-8f78279c.mp3",
+      "durationMs": 1418
+    },
+    "litany.39.call": {
+      "file": "litany.39.call-583d887c.mp3",
+      "durationMs": 1113
+    },
+    "litany.40.call": {
+      "file": "litany.40.call-050dbdb8.mp3",
+      "durationMs": 1273
+    },
+    "litany.41.call": {
+      "file": "litany.41.call-7dbc86ea.mp3",
+      "durationMs": 1085
+    },
+    "litany.42.call": {
+      "file": "litany.42.call-53ef47b9.mp3",
+      "durationMs": 1657
+    },
+    "litany.43.call": {
+      "file": "litany.43.call-ec38155a.mp3",
+      "durationMs": 1242
+    },
+    "litany.44.call": {
+      "file": "litany.44.call-a1f4a020.mp3",
+      "durationMs": 1653
+    },
+    "litany.45.call": {
+      "file": "litany.45.call-5a798c20.mp3",
+      "durationMs": 1653
+    },
+    "litany.46.call": {
+      "file": "litany.46.call-917327ee.mp3",
+      "durationMs": 1884
+    },
+    "litany.47.call": {
+      "file": "litany.47.call-ce4f7b32.mp3",
+      "durationMs": 1808
+    },
+    "litany.48.call": {
+      "file": "litany.48.call-d8fc486c.mp3",
+      "durationMs": 2200
+    },
+    "litany.49.call": {
+      "file": "litany.49.call-e0f34dd6.mp3",
+      "durationMs": 1810
+    },
+    "litany.50.call": {
+      "file": "litany.50.call-fe134b69.mp3",
+      "durationMs": 1654
+    },
+    "litany.51.call": {
+      "file": "litany.51.call-a99eab73.mp3",
+      "durationMs": 1810
+    },
+    "litany.52.call": {
+      "file": "litany.52.call-fa5dd477.mp3",
+      "durationMs": 1741
+    },
+    "litany.53.call": {
+      "file": "litany.53.call-5a72d533.mp3",
+      "durationMs": 1733
+    },
+    "litany.54.call": {
+      "file": "litany.54.call-17b733c3.mp3",
+      "durationMs": 1729
+    },
+    "litany.55.call": {
+      "file": "litany.55.call-a14ba5b2.mp3",
+      "durationMs": 1806
+    },
+    "litany.56.call": {
+      "file": "litany.56.call-2851fa71.mp3",
+      "durationMs": 1658
+    },
+    "litany.57.call": {
+      "file": "litany.57.call-3676d8c4.mp3",
+      "durationMs": 2129
+    },
+    "litany.58.call": {
+      "file": "litany.58.call-6fccb1e1.mp3",
+      "durationMs": 2766
+    },
+    "litany.59.call": {
+      "file": "litany.59.call-8dc9373b.mp3",
+      "durationMs": 2214
+    },
+    "litany.60.call": {
+      "file": "litany.60.call-12ed6bc4.mp3",
+      "durationMs": 2217
+    },
+    "litany.61.call": {
+      "file": "litany.61.call-1121800e.mp3",
+      "durationMs": 1487
+    },
+    "litany.62.call": {
+      "file": "litany.62.call-6852f009.mp3",
+      "durationMs": 1486
+    },
+    "litany.63.call": {
+      "file": "litany.63.call-4b9ce496.mp3",
+      "durationMs": 3476
+    },
+    "litany.64.call": {
+      "file": "litany.64.call-4b9ce496.mp3",
+      "durationMs": 3477
+    },
+    "litany.65.call": {
+      "file": "litany.65.call-4b9ce496.mp3",
+      "durationMs": 3406
+    },
+    "litany.response.0": {
+      "file": "litany.response.0-217800da.mp3",
+      "durationMs": 2080
+    },
+    "litany.response.1": {
+      "file": "litany.response.1-7fd34ac2.mp3",
+      "durationMs": 1940
+    },
+    "litany.response.2": {
+      "file": "litany.response.2-8f9888d3.mp3",
+      "durationMs": 2065
+    },
+    "litany.response.3": {
+      "file": "litany.response.3-bcd659be.mp3",
+      "durationMs": 1875
+    },
+    "litany.response.4": {
+      "file": "litany.response.4-462d1bd9.mp3",
+      "durationMs": 2121
+    },
+    "litany.response.5": {
+      "file": "litany.response.5-aa3df18b.mp3",
+      "durationMs": 1783
+    },
+    "litany.response.6": {
+      "file": "litany.response.6-e1247a26.mp3",
+      "durationMs": 1570
+    },
+    "litany.response.7": {
+      "file": "litany.response.7-0687e092.mp3",
+      "durationMs": 1712
+    },
+    "litany.response.8": {
+      "file": "litany.response.8-a73e1745.mp3",
+      "durationMs": 1886
+    },
+    "litany.response.9": {
+      "file": "litany.response.9-9497abd8.mp3",
+      "durationMs": 2119
+    },
+    "announce.joyful-1-annunciation": {
+      "file": "announce.joyful-1-annunciation-59b185d2.mp3",
+      "durationMs": 4227
+    },
+    "announce.joyful-2-visitation": {
+      "file": "announce.joyful-2-visitation-8a598b44.mp3",
+      "durationMs": 5574
+    },
+    "announce.joyful-3-nativity": {
+      "file": "announce.joyful-3-nativity-a696de27.mp3",
+      "durationMs": 4236
+    },
+    "announce.joyful-4-presentation": {
+      "file": "announce.joyful-4-presentation-9a2f109e.mp3",
+      "durationMs": 4267
+    },
+    "announce.joyful-5-finding-in-the-temple": {
+      "file": "announce.joyful-5-finding-in-the-temple-c244cb0b.mp3",
+      "durationMs": 4935
+    },
+    "announce.luminous-1-baptism": {
+      "file": "announce.luminous-1-baptism-b82a75f1.mp3",
+      "durationMs": 4307
+    },
+    "announce.luminous-2-wedding-at-cana": {
+      "file": "announce.luminous-2-wedding-at-cana-db3fe705.mp3",
+      "durationMs": 5338
+    },
+    "announce.luminous-3-proclamation-of-the-kingdom": {
+      "file": "announce.luminous-3-proclamation-of-the-kingdom-d6d7a295.mp3",
+      "durationMs": 5479
+    },
+    "announce.luminous-4-transfiguration": {
+      "file": "announce.luminous-4-transfiguration-4b6035fc.mp3",
+      "durationMs": 3395
+    },
+    "announce.luminous-5-institution-of-the-eucharist": {
+      "file": "announce.luminous-5-institution-of-the-eucharist-c809db40.mp3",
+      "durationMs": 4053
+    },
+    "announce.sorrowful-1-agony-in-the-garden": {
+      "file": "announce.sorrowful-1-agony-in-the-garden-fd7cb0a9.mp3",
+      "durationMs": 4275
+    },
+    "announce.sorrowful-2-scourging-at-the-pillar": {
+      "file": "announce.sorrowful-2-scourging-at-the-pillar-afd4d3ea.mp3",
+      "durationMs": 4059
+    },
+    "announce.sorrowful-3-crowning-with-thorns": {
+      "file": "announce.sorrowful-3-crowning-with-thorns-4800acc8.mp3",
+      "durationMs": 3944
+    },
+    "announce.sorrowful-4-carrying-of-the-cross": {
+      "file": "announce.sorrowful-4-carrying-of-the-cross-87a8ff09.mp3",
+      "durationMs": 5150
+    },
+    "announce.sorrowful-5-crucifixion": {
+      "file": "announce.sorrowful-5-crucifixion-d9350fdc.mp3",
+      "durationMs": 4773
+    },
+    "announce.glorious-1-resurrection": {
+      "file": "announce.glorious-1-resurrection-69849587.mp3",
+      "durationMs": 4361
+    },
+    "announce.glorious-2-ascension": {
+      "file": "announce.glorious-2-ascension-f23d4617.mp3",
+      "durationMs": 4615
+    },
+    "announce.glorious-3-descent-of-the-holy-spirit": {
+      "file": "announce.glorious-3-descent-of-the-holy-spirit-df166069.mp3",
+      "durationMs": 5237
+    },
+    "announce.glorious-4-assumption": {
+      "file": "announce.glorious-4-assumption-b646bfcc.mp3",
+      "durationMs": 4589
+    },
+    "announce.glorious-5-coronation": {
+      "file": "announce.glorious-5-coronation-1ce15e98.mp3",
+      "durationMs": 6299
+    }
+  },
+  "litanyResponses": [
+    "litany.response.0",
+    "litany.response.1",
+    "litany.response.2",
+    "litany.response.3",
+    "litany.response.4",
+    "litany.response.5",
+    "litany.response.5",
+    "litany.response.5",
+    "litany.response.5",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.6",
+    "litany.response.7",
+    "litany.response.8",
+    "litany.response.9"
+  ]
+}

@@ -1,466 +1,313 @@
-import { findPrayer, forms, type PrayerId } from '@rosario/content';
-import { useRouter } from 'expo-router';
+import type { Evangelist } from '@sanctamaria/rosary';
+import { Image } from 'expo-image';
+import { Stack, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Linking, Platform, StyleSheet } from 'react-native';
+import { Text as NativeText, Pressable, ScrollView, View } from 'react-native';
 
-import { AppText } from '@/components/AppText';
-import { Card } from '@/components/Card';
-import { ListRow } from '@/components/ListRow';
-import { Screen } from '@/components/Screen';
-import { SectionHeader } from '@/components/SectionHeader';
-import { SwitchRow } from '@/components/SwitchRow';
-import { ReminderSection } from '@/features/reminder/ReminderSection';
-import { formsForLocale, optionalPrayersOf } from '@/features/rosary/forms';
-import { useSettings } from '@/settings/settings-context';
-import { silenceOptions } from '@/settings/store';
-import { healthWriteAvailable, requestHealthWrite } from '../../modules/mindful-session';
-import type {
-  AppearanceSetting,
-  InterfaceLanguageSetting,
-  PrayerLocaleSetting,
-} from '@/settings/store';
-import { spacing } from '@/theme/tokens';
+import { rates, type Settings } from '@/domains/settings/settings';
+import { useSettings } from '@/domains/settings/use-settings';
+import { artworks, type Artwork } from '@/domains/artwork/artworks';
+import { illustrated } from '@/domains/artwork/illustrated';
+import { skinIds, skins, type ArtworkStyle, type SkinId } from '@/shared/theme/skins';
+import { textures } from '@/shared/theme/textures';
+import { useSkin } from '@/shared/theme/SkinProvider';
+import { Card } from '@/shared/ui/Card';
+import { Segmented } from '@/shared/ui/Segmented';
+import { SwitchRow } from '@/shared/ui/SwitchRow';
+import { Icon, type IconName } from '@/shared/ui/Icon';
+import { Text } from '@/shared/ui/Text';
 
-const appearanceOptions: readonly AppearanceSetting[] = ['system', 'light', 'dark'];
-const appLanguageOptions: readonly InterfaceLanguageSetting[] = ['system', 'es', 'en'];
-const prayerOptions: readonly PrayerLocaleSetting[] = [
-  'system',
-  'es-MX',
-  'es-ES',
-  'en-US',
-  'la',
-];
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <View className="gap-2">
+      <Text variant="eyebrow" className="px-1">
+        {title}
+      </Text>
+      {children}
+    </View>
+  );
+}
 
-const appearanceLabels: Record<AppearanceSetting, string> = {
-  system: 'settings.system',
-  light: 'settings.light',
-  dark: 'settings.dark',
+function Field({
+  label,
+  icon,
+  hint,
+  children,
+}: {
+  label: string;
+  icon: IconName;
+  hint?: string;
+  children: React.ReactNode;
+}) {
+  const { colors } = useSkin();
+  return (
+    <View className="gap-2 px-4 py-3">
+      <View className="flex-row items-center gap-3">
+        <Icon name={icon} size={20} color={colors.accent} />
+        <Text variant="callout">{label}</Text>
+      </View>
+      {children}
+      {hint !== undefined && <Text variant="footnote">{hint}</Text>}
+    </View>
+  );
+}
+
+const previewArt: Record<ArtworkStyle, Artwork | undefined> = {
+  none: undefined,
+  classic: artworks['joyful-1-annunciation'],
+  glass: illustrated.glass['joyful-1-annunciation'],
+  guadalupana: illustrated.guadalupana['joyful-1-annunciation'],
+  trazo: illustrated.trazo['joyful-1-annunciation'],
+  kids: illustrated.kids['joyful-1-annunciation'],
 };
 
-const appLanguageLabels: Record<InterfaceLanguageSetting, string> = {
-  system: 'settings.system',
-  es: 'settings.languageEs',
-  en: 'settings.languageEn',
-};
-
-const prayerLabels: Record<PrayerLocaleSetting, string> = {
-  system: 'settings.system',
-  'es-MX': 'settings.prayerEsMX',
-  'es-ES': 'settings.prayerEsES',
-  'en-US': 'settings.prayerEnUS',
-  la: 'settings.prayerLa',
-};
+function SkinPreview({ id, selected, onPress }: { id: SkinId; selected: boolean; onPress: () => void }) {
+  const { t } = useTranslation();
+  const { scheme } = useSkin();
+  const skin = skins[id];
+  const palette = skin[scheme];
+  const art = previewArt[skin.artwork];
+  const texture = skin.texture === undefined ? undefined : textures[skin.texture][scheme];
+  return (
+    <Pressable
+      accessibilityRole="radio"
+      accessibilityState={{ selected }}
+      accessibilityLabel={t(`settings.skins.${id}`)}
+      onPress={onPress}
+      className="w-[132px] gap-2"
+    >
+      <View
+        className="h-[220px] gap-2 overflow-hidden p-3"
+        style={{
+          backgroundColor: palette.background,
+          borderRadius: Math.min(skin.radius, 20) + 4,
+          borderWidth: selected ? 2 : 1,
+          borderColor: selected ? palette.accent : palette.border,
+          borderCurve: 'continuous',
+        }}
+      >
+        {texture !== undefined && (
+          <Image source={texture} contentFit="cover" style={{ position: 'absolute', inset: 0 }} />
+        )}
+        {/* Each preview shows its own skin's type, never the scale of the skin in use. */}
+        <NativeText
+          style={{ fontFamily: skin.fonts.display, color: palette.foreground, fontSize: 17, lineHeight: 21 }}
+          numberOfLines={2}
+        >
+          {t('sets.joyful')}
+        </NativeText>
+        {art !== undefined ? (
+          <View
+            className="flex-1 overflow-hidden"
+            style={{ borderRadius: Math.min(skin.radius, 14), backgroundColor: art.color }}
+          >
+            <Image
+              source={art.source}
+              placeholder={{ thumbhash: art.thumbhash }}
+              contentFit="cover"
+              style={{ flex: 1 }}
+            />
+          </View>
+        ) : (
+          <NativeText
+            style={{
+              flex: 1,
+              fontFamily: skin.fonts.prayer,
+              color: palette.foreground,
+              fontSize: 14,
+              lineHeight: 19,
+            }}
+          >
+            Ave Maria, gratia plena, Dominus tecum.
+          </NativeText>
+        )}
+        <View className="flex-row items-center justify-between">
+          <View className="flex-row gap-1">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <View
+                key={i}
+                className="h-2 w-2 rounded-full"
+                style={{ backgroundColor: i < 2 ? palette['bead-done'] : palette.bead }}
+              />
+            ))}
+          </View>
+          <View className="h-5 w-5 rounded-full" style={{ backgroundColor: palette.accent }} />
+        </View>
+      </View>
+      <Text variant="footnote" className={`text-center ${selected ? 'font-semibold text-foreground' : ''}`}>
+        {t(`settings.skins.${id}`)}
+      </Text>
+    </Pressable>
+  );
+}
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const {
-    settings,
-    prayerLocale,
-    prayerForm,
-    interfaceLanguage,
-    setAppearance,
-    setInterfaceLanguage,
-    setPrayerLocale,
-    setPrayerForm,
-    toggleIncludedPrayer,
-    setHaptics,
-    setLatinText,
-    setRosesEnabled,
-    setCaminoEnabled,
-    setRecollectionEnabled,
-    setWithLitany,
-    setWithClauses,
-    toggleLatinMix,
-    setPace,
-    setChoirRole,
-    setMeditation,
-    setMysteryImages,
-    setHealthWrite,
-  } = useSettings();
-
-  // The prayers of the current form that can be mixed while praying in Latin:
-  // essentials first, then the fixed prayers of the frame.
-  const mixablePrayers: readonly PrayerId[] =
-    prayerLocale === 'la'
-      ? [
-          'pater-noster',
-          'ave-maria',
-          'gloria-patri',
-          ...new Set(
-            [
-              ...forms[prayerForm].opening,
-              ...forms[prayerForm].decade.opening,
-              ...forms[prayerForm].decade.closing,
-              ...forms[prayerForm].closing,
-            ].flatMap((step) =>
-              (step.kind === 'prayer' || step.kind === 'prayer-times') &&
-              step.optional !== true &&
-              !['pater-noster', 'ave-maria', 'gloria-patri'].includes(step.prayer)
-                ? [step.prayer]
-                : [],
-            ),
-          ),
-        ]
-      : [];
-
-  const availableForms = formsForLocale(prayerLocale);
-  // The prayer after the litany only makes sense when the litany itself is on.
-  const optionalPrayers = optionalPrayersOf(forms[prayerForm]).filter(
-    (prayer) => prayer !== 'oratio-litaniarum' || settings.withLitany,
-  );
+  const settings = useSettings();
+  const update = settings.update;
 
   return (
-    <Screen edges={['bottom', 'left', 'right']}>
-      <SectionHeader title={t('settings.appearance')} />
-      <Card>
-        {appearanceOptions.map((option, index) => (
-          <ListRow
-            key={option}
-            label={t(appearanceLabels[option])}
-            selected={settings.appearance === option}
-            divider={index < appearanceOptions.length - 1}
-            onPress={() => setAppearance(option)}
-          />
-        ))}
-      </Card>
-
-      <SectionHeader title={t('settings.appLanguage')} />
-      <Card>
-        {appLanguageOptions.map((option, index) => (
-          <ListRow
-            key={option}
-            label={t(appLanguageLabels[option])}
-            selected={settings.interfaceLanguage === option}
-            divider={index < appLanguageOptions.length - 1}
-            onPress={() => setInterfaceLanguage(option)}
-          />
-        ))}
-      </Card>
-
-      <SectionHeader title={t('settings.prayerLanguage')} />
-      <Card>
-        {prayerOptions.map((option, index) => (
-          <ListRow
-            key={option}
-            label={t(prayerLabels[option])}
-            selected={settings.prayerLocale === option}
-            divider={index < prayerOptions.length - 1}
-            onPress={() => setPrayerLocale(option)}
-          />
-        ))}
-      </Card>
-      <AppText variant="caption" color="muted" style={styles.hint}>
-        {t('settings.prayerLanguageHint')}
-      </AppText>
-
-      <SectionHeader title={t('settings.prayerForm')} />
-      <Card>
-        <ListRow
-          label={t('forms.auto')}
-          selected={settings.prayerForm === 'auto'}
-          onPress={() => setPrayerForm('auto')}
-        />
-        {availableForms.map((form, index) => (
-          <ListRow
-            key={form.id}
-            label={t(`forms.${form.id}`)}
-            selected={settings.prayerForm === form.id}
-            divider={index < availableForms.length - 1}
-            onPress={() => setPrayerForm(form.id)}
-          />
-        ))}
-      </Card>
-      <AppText variant="caption" color="muted" style={styles.hint}>
-        {t('settings.prayerFormHint')}
-      </AppText>
-
-      <SectionHeader title={t('settings.optionalPrayers')} />
-      <Card>
-        {optionalPrayers.map((prayer, index) => (
-          <SwitchRow
-            key={prayer}
-            label={findPrayer(prayer, prayerLocale)?.title ?? prayer}
-            description={t(`optional.${prayer}`)}
-            value={settings.includedPrayers.includes(prayer)}
-            onValueChange={() => toggleIncludedPrayer(prayer)}
-          />
-        ))}
-        <SwitchRow
-          label={t('litany.title')}
-          description={t('litany.settingHint')}
-          value={settings.withLitany}
-          onValueChange={(value) => setWithLitany(value)}
-        />
-        <SwitchRow
-          label={t('clauses.title')}
-          description={t('clauses.hint')}
-          value={settings.withClauses}
-          divider={false}
-          onValueChange={(value) => setWithClauses(value)}
-        />
-      </Card>
-
-      <SectionHeader title={t('meditation.title')} />
-      <Card>
-        <SwitchRow
-          label={t('meditation.reading')}
-          description={t('meditation.readingHint')}
-          value={settings.withReading}
-          divider={false}
-          onValueChange={(value) => setMeditation({ withReading: value })}
-        />
-      </Card>
-      <Card style={styles.paceCard}>
-        {silenceOptions.map((option, index) => (
-          <ListRow
-            key={option}
-            label={t(`meditation.silence.${option}`)}
-            selected={settings.silenceSeconds === option}
-            divider={index < silenceOptions.length - 1}
-            onPress={() => setMeditation({ silenceSeconds: option })}
-          />
-        ))}
-      </Card>
-      <AppText variant="caption" color="muted" style={styles.hint}>
-        {t('meditation.hint')}
-      </AppText>
-
-      {prayerLocale === 'la' ? (
-        <>
-          <SectionHeader title={t('settingsLatin.title')} />
+    <>
+      <Stack.Screen
+        options={{
+          title: t('settings.title'),
+          // A sheet on iOS closes with Done; Android has its back arrow and gesture.
+          headerRight:
+            process.env.EXPO_OS === 'ios'
+              ? () => (
+                  <Pressable accessibilityRole="button" onPress={() => router.back()} hitSlop={10}>
+                    <Text variant="headline" className="text-accent">
+                      {t('settings.done')}
+                    </Text>
+                  </Pressable>
+                )
+              : undefined,
+        }}
+      />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerClassName="gap-7 px-5 pb-16 pt-4"
+      >
+        <Section title={t('settings.prayer')}>
           <Card>
-            {(['both', 'la', 'own'] as const).map((option, index) => (
-              <ListRow
-                key={option}
-                label={t(`settingsLatin.${option}`)}
-                selected={settings.latinText === option}
-                divider={index < 2}
-                onPress={() => setLatinText(option)}
+            <Field icon="language" label={t('settings.language')}>
+              <Segmented
+                accessibilityLabel={t('settings.language')}
+                value={settings.prayerLocale}
+                onChange={(value) => update({ prayerLocale: value })}
+                options={(['es-MX', 'es-ES', 'en-US', 'la'] as const).map((value) => ({
+                  value,
+                  label:
+                    value === 'es-MX' ? 'MX' : value === 'es-ES' ? 'ES' : value === 'en-US' ? 'EN' : 'LA',
+                }))}
               />
-            ))}
-          </Card>
-          <AppText variant="caption" color="muted" style={styles.hint}>
-            {t('settingsLatin.hint')}
-          </AppText>
-
-          <SectionHeader title={t('settingsLatin.mixTitle')} />
-          <Card>
-            {mixablePrayers.map((prayer, index) => (
-              <SwitchRow
-                key={prayer}
-                label={findPrayer(prayer, 'la')?.title ?? prayer}
-                value={settings.latinMixOwn.includes(prayer)}
-                divider={index < mixablePrayers.length - 1}
-                onValueChange={() => toggleLatinMix(prayer)}
+              <Text variant="footnote">{t(`locales.${settings.prayerLocale}`)}</Text>
+            </Field>
+            <Field icon="listen" label={t('settings.mode')}>
+              <Segmented
+                accessibilityLabel={t('settings.mode')}
+                value={settings.mode}
+                onChange={(value) => update({ mode: value })}
+                options={[
+                  { value: 'listen', label: t('options.listen') },
+                  { value: 'tap', label: t('options.tap') },
+                ]}
               />
-            ))}
-          </Card>
-          <AppText variant="caption" color="muted" style={styles.hint}>
-            {t('settingsLatin.mixHint')}
-          </AppText>
-
-          <SectionHeader title={t('latinLearn.title')} />
-          <Card>
-            <ListRow
-              label={t('latinLearn.title')}
-              testID="open-latin-learn"
-              divider={false}
-              onPress={() => router.push('/latin')}
-            />
-          </Card>
-          <AppText variant="caption" color="muted" style={styles.hint}>
-            {t('latinLearn.settingsHint')}
-          </AppText>
-        </>
-      ) : null}
-
-      <SectionHeader title={t('rule.title')} />
-      <Card>
-        <ListRow
-          label={t(`rule.names.${settings.rule}`)}
-          testID="open-rule"
-          divider={false}
-          onPress={() => router.push('/rule')}
-        />
-      </Card>
-
-      <SectionHeader title={t('intentions.title')} />
-      <Card>
-        <ListRow
-          label={t('intentions.history')}
-          testID="open-intentions"
-          divider={false}
-          onPress={() => router.push('/intentions')}
-        />
-      </Card>
-
-      <SectionHeader title={t('camino.title')} />
-      <Card>
-        <SwitchRow
-          label={t('camino.title')}
-          description={t('camino.toggle')}
-          value={settings.caminoEnabled}
-          divider={false}
-          onValueChange={(value) => setCaminoEnabled(value)}
-        />
-      </Card>
-
-      <SectionHeader title={t('artwork.title')} />
-      <Card>
-        <SwitchRow
-          label={t('artwork.title')}
-          description={t('artwork.toggle')}
-          value={settings.mysteryImages}
-          divider={false}
-          onValueChange={setMysteryImages}
-        />
-      </Card>
-
-      {Platform.OS === 'ios' && healthWriteAvailable() ? (
-        <>
-          <SectionHeader title={t('health.title')} />
-          <Card>
+            </Field>
+            <Field icon="silence" label={t('settings.pause')}>
+              <Segmented
+                accessibilityLabel={t('settings.pause')}
+                value={String(settings.pauseSeconds)}
+                onChange={(value) => update({ pauseSeconds: Number(value) })}
+                options={['0', '1', '3', '5', '10'].map((value) => ({
+                  value,
+                  label: value === '0' ? t('settings.none') : `${value} s`,
+                }))}
+              />
+            </Field>
+            <Field icon="speed" label={t('settings.rate')}>
+              <Segmented
+                accessibilityLabel={t('settings.rate')}
+                value={String(settings.rate)}
+                onChange={(value) => update({ rate: Number(value) })}
+                options={rates.map((value) => ({ value: String(value), label: `${value}×` }))}
+              />
+            </Field>
+            <Field icon="gospel" label={t('settings.gospel')} hint={t('settings.gospelHint')}>
+              <Segmented<Settings['gospel']>
+                accessibilityLabel={t('settings.gospel')}
+                value={settings.gospel}
+                onChange={(value) => update({ gospel: value })}
+                options={[
+                  { value: 'rotate', label: t('settings.rotateShort') },
+                  ...(['matthew', 'mark', 'luke', 'john'] as Evangelist[]).map((value) => ({
+                    value,
+                    label: t(`evangelistShort.${value}`),
+                  })),
+                ]}
+              />
+              <Text variant="footnote">
+                {settings.gospel === 'rotate'
+                  ? t('settings.gospelRotate')
+                  : t('settings.gospelFixed', { evangelist: t(`evangelists.${settings.gospel}`) })}
+              </Text>
+            </Field>
             <SwitchRow
-              label={t('health.title')}
-              description={t('health.toggle')}
-              value={settings.healthWrite}
-              divider={false}
-              onValueChange={(value) => {
-                if (!value) {
-                  setHealthWrite(false);
-                  return;
-                }
-                void requestHealthWrite().then((ok) => {
-                  setHealthWrite(ok);
-                });
-              }}
+              icon="gospel"
+              title={t('options.reading')}
+              value={settings.reading}
+              onChange={(value) => update({ reading: value })}
+            />
+            <SwitchRow
+              icon="guided"
+              title={t('options.guided')}
+              detail={t('options.guidedDetail')}
+              value={settings.guided}
+              onChange={(value) => update({ guided: value })}
+            />
+            <SwitchRow
+              icon="prayer"
+              title={t('settings.fatima')}
+              value={settings.fatimaPrayer}
+              onChange={(value) => update({ fatimaPrayer: value })}
+            />
+            <SwitchRow
+              icon="pope"
+              title={t('settings.pope')}
+              value={settings.prayerForThePope}
+              onChange={(value) => update({ prayerForThePope: value })}
+            />
+            <SwitchRow
+              icon="litany"
+              title={t('settings.litany')}
+              value={settings.litany}
+              onChange={(value) => update({ litany: value })}
             />
           </Card>
-        </>
-      ) : null}
+        </Section>
 
-      <SectionHeader title={t('recollection.title')} />
-      <Card>
-        <SwitchRow
-          label={t('recollection.title')}
-          description={t('recollection.toggle')}
-          value={settings.recollectionEnabled}
-          divider={false}
-          onValueChange={(value) => setRecollectionEnabled(value)}
-        />
-      </Card>
-
-      <SectionHeader title={t('roses.title')} />
-      <Card>
-        <SwitchRow
-          label={t('roses.title')}
-          description={t('roses.toggle')}
-          value={settings.rosesEnabled}
-          divider={settings.rosesEnabled}
-          onValueChange={(value) => setRosesEnabled(value)}
-        />
-        {settings.rosesEnabled ? (
-          <ListRow
-            label={t('roses.title')}
-            testID="open-roses"
-            divider={false}
-            onPress={() => router.push('/roses')}
-          />
-        ) : null}
-      </Card>
-
-      <SectionHeader title={t('settingsHaptics.title')} />
-      <Card>
-        {(['off', 'gentle', 'strong'] as const).map((option, index) => (
-          <ListRow
-            key={option}
-            label={t(`settingsHaptics.${option}`)}
-            selected={settings.haptics === option}
-            divider={index < 2}
-            onPress={() => setHaptics(option)}
-          />
-        ))}
-      </Card>
-      <AppText variant="caption" color="muted" style={styles.hint}>
-        {t('settingsHaptics.hint')}
-      </AppText>
-
-      <SectionHeader title={t('pace.title')} />
-      <Card>
-        {(['normal', 'calm'] as const).map((option, index) => (
-          <ListRow
-            key={option}
-            label={t(`pace.rate.${option}`)}
-            selected={settings.audioPace === option}
-            divider={index < 1}
-            onPress={() => setPace({ audioPace: option })}
-          />
-        ))}
-      </Card>
-      <Card style={styles.paceCard}>
-        {(['normal', 'long'] as const).map((option, index) => (
-          <ListRow
-            key={option}
-            label={t(`pace.silence.${option}`)}
-            selected={settings.responseSilence === option}
-            divider={index < 1}
-            onPress={() => setPace({ responseSilence: option })}
-          />
-        ))}
-      </Card>
-      <Card style={styles.paceCard}>
-        {(['short', 'medium', 'long'] as const).map((option, index) => (
-          <ListRow
-            key={option}
-            label={t(`pace.announce.${option}`)}
-            selected={settings.announcePause === option}
-            divider={index < 2}
-            onPress={() => setPace({ announcePause: option })}
-          />
-        ))}
-      </Card>
-      <AppText variant="caption" color="muted" style={styles.hint}>
-        {t('pace.hint')}
-      </AppText>
-
-      <SectionHeader title={t('choir.title')} />
-      <Card>
-        {(['guide', 'respond'] as const).map((option, index) => (
-          <ListRow
-            key={option}
-            label={t(`choir.${option}`)}
-            selected={settings.choirRole === option}
-            divider={index < 1}
-            onPress={() => setChoirRole(option)}
-          />
-        ))}
-      </Card>
-      <AppText variant="caption" color="muted" style={styles.hint}>
-        {t('choir.hint')}
-      </AppText>
-
-      <ReminderSection />
-
-      <SectionHeader title={t('settings.privacy')} />
-      <Card>
-        <ListRow
-          label={t('settings.privacy')}
-          divider={false}
-          onPress={() =>
-            void Linking.openURL(
-              interfaceLanguage === 'en'
-                ? 'https://sanctamaria.app/en/privacy/'
-                : 'https://sanctamaria.app/privacidad/',
-            )
-          }
-        />
-      </Card>
-    </Screen>
+        <Section title={t('settings.appearance')}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerClassName="gap-3 px-1"
+          >
+            {skinIds.map((id) => (
+              <SkinPreview
+                key={id}
+                id={id}
+                selected={settings.skin === id}
+                onPress={() => update({ skin: id })}
+              />
+            ))}
+          </ScrollView>
+          <Card>
+            <Field icon="theme" label={t('settings.theme')}>
+              <Segmented
+                accessibilityLabel={t('settings.theme')}
+                value={settings.appearance}
+                onChange={(value) => update({ appearance: value })}
+                options={(['system', 'light', 'dark'] as const).map((value) => ({
+                  value,
+                  label: t(`settings.themes.${value}`),
+                }))}
+              />
+            </Field>
+            <Field icon="text" label={t('settings.textSize')}>
+              <Segmented
+                accessibilityLabel={t('settings.textSize')}
+                value={settings.textSize}
+                onChange={(value) => update({ textSize: value })}
+                options={(['regular', 'large', 'larger'] as const).map((value) => ({
+                  value,
+                  label: t(`settings.textSizes.${value}`),
+                }))}
+              />
+            </Field>
+          </Card>
+        </Section>
+      </ScrollView>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  paceCard: { marginTop: spacing.sm },
-  hint: { marginTop: spacing.sm, paddingHorizontal: spacing.xs },
-});

@@ -1,0 +1,28 @@
+---
+import medallion from '../../../app/assets/brand/sanctamaria-logo.svg?raw';
+
+/** The SanctaMaria medallion, drawn in the current text colour. */
+type Props = { class?: string; label?: string };
+const { class: className, label } = Astro.props;
+const markup = medallion.replace(/<title>.*?<\/title>/, '').replace(/ color="[^"]*"/, '');
+---
+
+<span
+  class:list={['medallion', className]}
+  role={label === undefined ? undefined : 'img'}
+  aria-label={label}
+  aria-hidden={label === undefined ? 'true' : undefined}
+  set:html={markup}
+/>
+
+<style>
+  .medallion {
+    display: inline-block;
+    aspect-ratio: 1;
+  }
+
+  .medallion :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+</style>

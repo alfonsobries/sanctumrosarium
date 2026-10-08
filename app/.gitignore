@@ -41,9 +41,3 @@ example
 # generated native folders
 /ios
 /android
-
-# local device builds (pnpm ios:build / android:build)
-/build
-
-# store screenshots (pnpm store:screenshots)
-/store/screenshots

@@ -1,23 +1,38 @@
 ---
 import Base from '../layouts/Base.astro';
+import { route } from '../i18n/routes';
 import { t } from '../i18n/ui';
-import { pathFor } from '../i18n/paths';
 
 const translate = t('es');
 ---
 
-<Base language="es" title={translate('notfound.title')}>
-  <article class="wrap page-head">
-    <h1>{translate('notfound.title')}</h1>
-    <p class="lead">{translate('notfound.lead')}</p>
-    <p class="cta">
-      <a class="button" href={pathFor('es', 'home')}>{translate('notfound.cta')}</a>
-    </p>
-  </article>
+<Base
+  language="es"
+  title={translate('notFound.title')}
+  description={translate('notFound.body')}
+  alternates={{ es: '/', en: '/en/' }}
+  noindex
+>
+  <section class="wrap narrow page-head missing">
+    <h1>{translate('notFound.title')}</h1>
+    <p class="lead">{translate('notFound.body')}</p>
+    <div class="links">
+      <a class="button is-solid" href={route('how', 'es')}>{translate('nav.how')}</a>
+      <a class="button" href={route('today', 'es')}>{translate('today.title')}</a>
+      <a class="button" href={route('home', 'en')} lang="en">English</a>
+    </div>
+  </section>
 </Base>
 
 <style>
-  .cta {
-    margin-top: var(--space-4);
+  .missing {
+    padding-block: var(--space-6);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: var(--space-2);
   }
 </style>

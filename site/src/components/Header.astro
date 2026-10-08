@@ -1,0 +1,235 @@
+---
+import { route, stores, type Alternates, type Language, type RouteName } from '../i18n/routes';
+import { t, type UiKey } from '../i18n/ui';
+import Medallion from './Medallion.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+type Props = { language: Language; alternates: Alternates };
+const { language, alternates } = Astro.props;
+const translate = t(language);
+const other: Language = language === 'es' ? 'en' : 'es';
+const current = Astro.url.pathname;
+
+const nav: { name: RouteName; key: UiKey }[] = [
+  { name: 'how', key: 'nav.how' },
+  { name: 'mysteries', key: 'nav.mysteries' },
+  { name: 'prayers', key: 'nav.prayers' },
+  { name: 'today', key: 'nav.today' },
+  { name: 'help', key: 'nav.help' },
+];
+const isCurrent = (name: RouteName) => current.startsWith(route(name, language));
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href={route('home', language)}>
+      <Medallion class="brand-mark" />
+      <span>{translate('site.name')}</span>
+    </a>
+
+    <nav class="nav" aria-label={translate('nav.label')}>
+      {
+        nav.map((item) => (
+          <a href={route(item.name, language)} aria-current={isCurrent(item.name) ? 'page' : undefined}>
+            {translate(item.key)}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="actions">
+      <a class="language" href={alternates[other]} hreflang={other} lang={other}>
+        {translate('nav.language')}
+      </a>
+      <ThemeToggle label={translate('theme.toggle')} />
+      <a class="button is-solid download" href={stores.appStore}>{translate('nav.app')}</a>
+      <details class="menu">
+        <summary aria-label={translate('nav.menu')}>
+          <span aria-hidden="true"></span>
+        </summary>
+        <nav aria-label={translate('nav.menu')}>
+          {
+            nav.map((item) => (
+              <a href={route(item.name, language)} aria-current={isCurrent(item.name) ? 'page' : undefined}>
+                {translate(item.key)}
+              </a>
+            ))
+          }
+          <a href={alternates[other]} hreflang={other} lang={other}>{translate('nav.language')}</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 4.25rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .brand :global(.brand-mark) {
+    width: 2.1rem;
+    color: var(--accent);
+  }
+
+  .nav {
+    display: flex;
+    gap: var(--space-3);
+    margin-left: var(--space-2);
+  }
+
+  .nav a,
+  .language {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--mute);
+    text-decoration: none;
+  }
+
+  .nav a:hover,
+  .nav a[aria-current='page'],
+  .language:hover {
+    color: var(--ink);
+  }
+
+  .nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.45em;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-left: auto;
+  }
+
+  .download {
+    min-height: 40px;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.92rem;
+  }
+
+  .menu {
+    display: none;
+    position: relative;
+  }
+
+  .menu summary {
+    list-style: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .menu summary span,
+  .menu summary span::before,
+  .menu summary span::after {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: var(--ink);
+    border-radius: 2px;
+    position: relative;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  .menu summary span::before,
+  .menu summary span::after {
+    content: '';
+    position: absolute;
+  }
+
+  .menu summary span::before {
+    top: -6px;
+  }
+
+  .menu summary span::after {
+    top: 6px;
+  }
+
+  .menu[open] summary span {
+    background: transparent;
+  }
+
+  .menu[open] summary span::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .menu[open] summary span::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  .menu nav {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.6rem);
+    display: grid;
+    min-width: 14rem;
+    padding: 0.5rem;
+    background: var(--surface-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-small);
+    box-shadow: var(--shadow);
+  }
+
+  .menu nav a {
+    padding: 0.75rem 0.9rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .menu nav a:hover {
+    background: var(--surface);
+  }
+
+  @media (max-width: 960px) {
+    .nav,
+    .language {
+      display: none;
+    }
+
+    .menu {
+      display: block;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .download {
+      display: none;
+    }
+  }
+</style>

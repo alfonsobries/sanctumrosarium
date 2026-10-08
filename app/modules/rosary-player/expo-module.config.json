@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["RosaryPlayerModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.rosaryplayer.RosaryPlayerModule"]
+  }
+}

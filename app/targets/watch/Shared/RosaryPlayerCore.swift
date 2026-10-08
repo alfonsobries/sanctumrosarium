@@ -1,0 +1,1 @@
+../../../modules/rosary-player/ios/RosaryPlayerCore.swift

@@ -1,0 +1,255 @@
+---
+import { passage } from '@sanctamaria/content';
+import { Image } from 'astro:assets';
+
+import { route, setRoute, setSlugs, type Language } from '../i18n/routes';
+import { listOf, t, type UiKey } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import {
+  artworkOf,
+  fruitOf,
+  localeOf,
+  mysteries,
+  mysterySets,
+  readingsOf,
+  setTitle,
+  titleOf,
+  weekdaysOf,
+  type MysterySet,
+} from '../lib/content';
+import { absolute, itemList } from '../lib/schema';
+import StoreButtons from './StoreButtons.astro';
+
+type Props = { language: Language; set: MysterySet };
+const { language, set } = Astro.props;
+const translate = t(language);
+const title = setTitle(set, language);
+const days = listOf(
+  weekdaysOf[set].map((day) => translate(`weekday.${day}` as UiKey)),
+  language,
+);
+const items = mysteries(set);
+const others = mysterySets.filter((other) => other !== set);
+const alternates = { es: setRoute(set, 'es'), en: setRoute(set, 'en') };
+const pageTitle = translate('mysteries.setTitle', { set: title });
+---
+
+<Base
+  language={language}
+  title={pageTitle}
+  description={translate('mysteries.setDescription', { set: title.toLowerCase().replace(/^the /, ''), days })}
+  alternates={alternates}
+  trail={[
+    { name: translate('breadcrumb.home'), url: route('home', language) },
+    { name: translate('mysteries.title'), url: route('mysteries', language) },
+  ]}
+  og={`set-${setSlugs[set].en}`}
+  schema={[
+    itemList(
+      title,
+      items.map((mystery) => {
+        const art = artworkOf(mystery);
+        return {
+          name: titleOf(mystery, language),
+          url: `${alternates[language]}#${mystery.id}`,
+          image: art === null ? undefined : absolute(art.image.src),
+        };
+      }),
+    ),
+  ]}
+>
+  <header class="wrap page-head">
+    <span class="kicker">
+      {translate('mysteries.days')} {days}
+    </span>
+    <h1>{title}</h1>
+  </header>
+
+  <ol class="wrap mysteries">
+    {
+      items.map((mystery, index) => {
+        const art = artworkOf(mystery);
+        const readings = readingsOf(mystery, language);
+        const primary = readings.find((reading) => reading.primary) ?? readings[0];
+        const text = primary === undefined ? null : passage(primary.ref, localeOf(language));
+        const fruit = fruitOf(mystery, language);
+        return (
+          <li class="mystery" id={mystery.id}>
+            {art !== null && (
+              <figure>
+                <Image
+                  src={art.image}
+                  alt={`${art.credit.title}, ${art.credit.artist}`}
+                  widths={[360, 540, 720]}
+                  sizes="(max-width: 860px) 90vw, 380px"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={index === 0 ? 'high' : undefined}
+                  style={`background:${art.credit.dominantColor}`}
+                />
+                <figcaption>
+                  {translate('mysteries.artCredit')}: <a href={art.credit.commonsUrl}>{art.credit.artist}</a>, {art.credit.year}
+                </figcaption>
+              </figure>
+            )}
+            <div class="copy">
+              <span class="order">
+                {translate('mysteries.order')} {index + 1}
+              </span>
+              <h2>{titleOf(mystery, language)}</h2>
+              {fruit !== null && (
+                <p class="fruit">
+                  {translate('mysteries.fruit')}: {fruit}
+                </p>
+              )}
+              {text !== null && primary !== undefined && (
+                <div class="reading">
+                  <span class="ref">
+                    {translate('mysteries.gospel')} · {primary.display}
+                  </span>
+                  <p>{text.text}</p>
+                </div>
+              )}
+              {readings.length > 1 && (
+                <p class="also">{readings.filter((reading) => reading !== primary).map((reading) => reading.display).join(' · ')}</p>
+              )}
+            </div>
+          </li>
+        );
+      })
+    }
+  </ol>
+
+  <section class="wrap more">
+    <div class="card app-card">
+      <h2>{translate('home.headline')}</h2>
+      <p>{translate('feature.gospel.body')}</p>
+      <StoreButtons language={language} />
+    </div>
+    <nav class="others" aria-label={translate('mysteries.title')}>
+      {others.map((other) => <a class="button" href={setRoute(other, language)}>{setTitle(other, language)}</a>)}
+    </nav>
+  </section>
+</Base>
+
+<style>
+  .mysteries {
+    margin-block: 0;
+    margin-inline: auto;
+    padding-left: 0;
+    padding-bottom: var(--space-5);
+    list-style: none;
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .mystery {
+    display: grid;
+    grid-template-columns: minmax(0, 22rem) 1fr;
+    gap: var(--space-5);
+    align-items: start;
+    scroll-margin-top: 6rem;
+  }
+
+  figure {
+    margin: 0;
+    display: grid;
+    gap: 0.6rem;
+    position: sticky;
+    top: 6rem;
+  }
+
+  figure :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  figcaption {
+    font-size: var(--step--1);
+    color: var(--faint);
+  }
+
+  .copy {
+    display: grid;
+    gap: var(--space-2);
+    max-width: var(--measure);
+  }
+
+  .order {
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h2 {
+    font-size: var(--step-3);
+  }
+
+  .fruit {
+    color: var(--mute);
+    font-style: italic;
+  }
+
+  .reading {
+    display: grid;
+    gap: 0.6rem;
+    padding-left: var(--space-3);
+    border-left: 2px solid var(--accent);
+  }
+
+  .ref {
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--mute);
+  }
+
+  .reading p {
+    font-family: var(--serif);
+    font-size: var(--step-1);
+    line-height: 1.55;
+  }
+
+  .also {
+    font-size: var(--step--1);
+    color: var(--faint);
+  }
+
+  .more {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .app-card {
+    padding: var(--space-5) var(--space-4);
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+    background: linear-gradient(160deg, var(--glow), var(--surface) 55%);
+  }
+
+  .app-card p {
+    color: var(--mute);
+    max-width: var(--measure);
+  }
+
+  .others {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  @media (max-width: 860px) {
+    .mystery {
+      grid-template-columns: 1fr;
+    }
+
+    figure {
+      max-width: 24rem;
+      position: static;
+    }
+  }
+</style>

@@ -1,162 +1,97 @@
 ---
-import { mysteries, type MysterySetId } from '@rosario/content';
-import { mysteriesOfDay } from '@rosario/engine';
+import { localDateOf, mysterySetFor } from '@sanctamaria/rosary';
 
-import { t, type UiLanguage } from '../i18n/ui';
-import { pathFor } from '../i18n/paths';
+import { setRoute, type Language } from '../i18n/routes';
+import { mysteries, mysterySets, setTitle, titleOf } from '../lib/content';
 
 /**
- * Renders the four sets and lets the browser pick today's, so the page never announces the
- * mystery of the day it was built. Without JavaScript it shows the build day's set.
+ * Today's set, rendered at build time and corrected in the browser to the visitor's own
+ * date, so the page is right on any day and still complete without JavaScript.
  */
-type Props = { language: UiLanguage };
-
-const { language } = Astro.props;
-const translate = t(language);
-const sets: MysterySetId[] = ['gaudiosa', 'luminosa', 'dolorosa', 'gloriosa'];
-const built = mysteriesOfDay(new Date());
+type Props = { language: Language; compact?: boolean };
+const { language, compact = false } = Astro.props;
+const set = mysterySetFor(localDateOf(new Date()));
+const data = Object.fromEntries(
+  mysterySets.map((each) => [
+    each,
+    { title: setTitle(each, language), url: setRoute(each, language), items: mysteries(each).map((m) => titleOf(m, language)) },
+  ]),
+);
 ---
 
-<section class="today section" aria-labelledby="today-title" data-today>
-  <div class="wrap grid">
-    <div class="copy">
-      <span class="kicker">{translate('today.kicker')}</span>
-      {
-        sets.map((set) => (
-          <div class="head" data-set={set} hidden={set !== built.set}>
-            <h2 id={set === built.set ? 'today-title' : undefined}>
-              {translate(`setsLong.${set}`)}
-            </h2>
-            <p class="lead days">{translate(`days.${set}`)}</p>
-          </div>
-        ))
-      }
-      <p class="lead reason" data-reason hidden>
-        <span data-reason-season>{translate('today.season')}</span>
-        <span data-reason-feast>{translate('today.feast')} <em data-feast></em></span>
-      </p>
-      <p class="cta">
-        <a class="button" href={pathFor(language, 'mysteries')}
-          >{translate('today.cta')}</a
-        >
-      </p>
-    </div>
-    <div class="lists">
-      {
-        sets.map((set) => (
-          <ol class="list" data-set={set} hidden={set !== built.set}>
-            {mysteries
-              .filter((mystery) => mystery.set === set)
-              .map((mystery) => (
-                <li>
-                  <span class="title">{mystery.text[language].title}</span>
-                  <span class="ref">{mystery.scriptureRef}</span>
-                </li>
-              ))}
-          </ol>
-        ))
-      }
-    </div>
-  </div>
-</section>
+<div class="today" data-today={JSON.stringify(data)} data-set={set}>
+  <a class="set" href={setRoute(set, language)} data-speakable>{setTitle(set, language)}</a>
+  {
+    !compact && (
+      <ol>
+        {mysteries(set).map((mystery) => (
+          <li>{titleOf(mystery, language)}</li>
+        ))}
+      </ol>
+    )
+  }
+</div>
 
 <script>
-  import { mysteriesOfDay } from '@rosario/engine';
-
-  const root = document.querySelector<HTMLElement>('[data-today]');
-  if (root) {
-    const today = mysteriesOfDay(new Date());
-    for (const node of root.querySelectorAll<HTMLElement>('[data-set]')) {
-      const isToday = node.dataset.set === today.set;
-      node.hidden = !isToday;
-      const heading = node.querySelector('h2');
-      if (heading) {
-        if (isToday) {
-          heading.id = 'today-title';
-        } else {
-          heading.removeAttribute('id');
-        }
-      }
+  const weekday = ['glorious', 'joyful', 'sorrowful', 'glorious', 'luminous', 'sorrowful', 'joyful'] as const;
+  for (const element of document.querySelectorAll<HTMLElement>('.today')) {
+    const set = weekday[new Date().getDay()];
+    if (set === undefined || element.dataset.set === set) {
+      continue;
     }
-    const reason = root.querySelector<HTMLElement>('[data-reason]');
-    const season = root.querySelector<HTMLElement>('[data-reason-season]');
-    const feast = root.querySelector<HTMLElement>('[data-reason-feast]');
-    const feastName = root.querySelector<HTMLElement>('[data-feast]');
-    if (reason && season && feast && feastName) {
-      reason.hidden = today.reason === 'weekday';
-      season.hidden = today.reason !== 'season';
-      feast.hidden = today.reason !== 'solemnity';
-      feastName.textContent = today.feast ?? '';
+    const data = JSON.parse(element.dataset.today ?? '{}') as Record<string, { title: string; url: string; items: string[] }>;
+    const today = data[set];
+    if (today === undefined) {
+      continue;
     }
+    const link = element.querySelector<HTMLAnchorElement>('.set');
+    if (link !== null) {
+      link.textContent = today.title;
+      link.href = today.url;
+    }
+    const list = element.querySelector('ol');
+    if (list !== null) {
+      list.replaceChildren(
+        ...today.items.map((item) => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          return li;
+        }),
+      );
+    }
+    element.dataset.set = set;
   }
 </script>
 
 <style>
-  .grid {
+  .today {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    gap: var(--space-5);
-    align-items: start;
-  }
-
-  .days {
-    margin-top: var(--space-2);
-    color: var(--mute);
-  }
-
-  .reason {
-    margin-top: var(--space-2);
-  }
-
-  .reason span[hidden] {
-    display: none;
-  }
-
-  .cta {
-    margin-top: var(--space-4);
-  }
-
-  .list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    counter-reset: mystery;
-    border-top: 1px solid var(--line);
-  }
-
-  .list li {
-    counter-increment: mystery;
-    display: grid;
-    grid-template-columns: 2.2rem minmax(0, 1fr) auto;
     gap: var(--space-2);
-    align-items: baseline;
-    padding: 0.85rem 0;
-    border-bottom: 1px solid var(--line);
-    font-family: var(--font-serif);
-    font-size: 1.35rem;
   }
 
-  .list li::before {
-    content: counter(mystery);
-    color: var(--rose);
-    font-size: 1rem;
+  .set {
+    font-family: var(--serif);
+    font-size: var(--step-2);
+    color: var(--accent);
+    text-decoration: none;
   }
 
-  .ref {
-    color: var(--mute);
-    font-family: var(--font-sans);
-    font-size: 0.95rem;
-    white-space: nowrap;
+  .set:hover {
+    text-decoration: underline;
   }
 
-  @media (max-width: 900px) {
-    .grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-4);
-    }
+  ol {
+    margin: 0;
+    padding-left: 1.4rem;
+    display: grid;
+    gap: 0.35rem;
+    font-family: var(--serif);
+    font-size: var(--step-1);
+  }
 
-    .list li {
-      font-size: 1.2rem;
-    }
+  ol ::marker {
+    color: var(--faint);
+    font-family: var(--sans);
+    font-size: 0.8em;
   }
 </style>

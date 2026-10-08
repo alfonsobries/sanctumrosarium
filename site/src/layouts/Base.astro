@@ -1,93 +1,114 @@
 ---
-import '@fontsource-variable/alegreya';
-import '@fontsource-variable/alegreya/wght-italic.css';
-import '@fontsource/alegreya-sans/400.css';
-import '@fontsource/alegreya-sans/400-italic.css';
-import '@fontsource/alegreya-sans/500.css';
-import '@fontsource/alegreya-sans/700.css';
-import '@fontsource/alegreya-sc/400.css';
+import '@fontsource-variable/eb-garamond';
+import '@fontsource-variable/eb-garamond/wght-italic.css';
+import '@fontsource-variable/inter';
 import '../styles/global.css';
+import garamond from '@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-normal.woff2?url';
+import inter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 
-import Logo from '../components/Logo.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
-import { t, type UiKey, type UiLanguage } from '../i18n/ui';
-import { pathFor, type PathName } from '../i18n/paths';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import type { Alternates, Language } from '../i18n/routes';
+import { stores } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { absolute, breadcrumbs, organization, webPage, website, type SchemaNode } from '../lib/schema';
 
 type Props = {
-  language: UiLanguage;
-  title?: string;
-  description?: string;
-  current?: PathName;
+  language: Language;
+  /** The page's own title; the site name is appended when it fits in 60 characters. */
+  title: string;
+  description: string;
+  alternates: Alternates;
+  /** Parents of this page, home first, for the breadcrumb and its schema. */
+  trail?: { name: string; url: string }[];
+  schema?: SchemaNode[];
+  /** Name of the social card in /og/; one per section. */
+  og?: string;
+  pageType?: string;
+  rawTitle?: boolean;
+  home?: boolean;
+  /** Pages search engines should not list, like the 404: no canonical, no alternates. */
+  noindex?: boolean;
 };
 
-const { language, title, description, current = 'home' } = Astro.props;
+const {
+  language,
+  title,
+  description,
+  alternates,
+  trail = [],
+  schema = [],
+  og = 'default',
+  pageType,
+  rawTitle = false,
+  home = false,
+  noindex = false,
+} = Astro.props;
+
 const translate = t(language);
-const otherLanguage: UiLanguage = language === 'es' ? 'en' : 'es';
-const site = Astro.site ?? Astro.url;
-const canonical = new URL(pathFor(language, current), site).href;
-const pageTitle = title
-  ? `${title} - ${translate('site.title')}`
-  : `${translate('site.title')} - ${translate('site.tagline')}`;
-const nav: { name: PathName; key: UiKey }[] = [
-  { name: 'features', key: 'nav.features' },
-  { name: 'how', key: 'nav.how' },
-  { name: 'school', key: 'nav.school' },
-  { name: 'prayers', key: 'nav.prayers' },
-  { name: 'mysteries', key: 'nav.mysteries' },
-  { name: 'questions', key: 'nav.questions' },
-  { name: 'about', key: 'nav.about' },
+const suffix = ` · ${translate('site.name')}`;
+const pageTitle = rawTitle || `${title}${suffix}`.length > 60 ? title : `${title}${suffix}`;
+const canonical = absolute(alternates[language]);
+const image = absolute(`/og/${og}-${language}.png`);
+
+const graph: SchemaNode[] = [
+  webPage({ language, url: canonical, title: pageTitle, description, image, type: pageType }),
+  ...(home ? [organization(language), website(language, translate('site.description'))] : []),
+  ...(trail.length > 0
+    ? [breadcrumbs([...trail, { name: title, url: alternates[language] }])]
+    : []),
+  ...schema,
 ];
-const footerNav: { name: PathName; key: UiKey }[] = [
-  ...nav,
-  { name: 'privacy', key: 'nav.privacy' },
-  { name: 'support', key: 'nav.support' },
-];
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
 ---
 
 <!doctype html>
-<html lang={language}>
+<html lang={language === 'es' ? 'es-MX' : 'en-US'}>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{pageTitle}</title>
-    <meta name="description" content={description ?? translate('site.description')} />
-    <link rel="canonical" href={canonical} />
+    <meta name="description" content={description} />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex" />
+      ) : (
+        <>
+          <link rel="canonical" href={canonical} />
+          <link rel="alternate" hreflang="es" href={absolute(alternates.es)} />
+          <link rel="alternate" hreflang="en" href={absolute(alternates.en)} />
+          <link rel="alternate" hreflang="x-default" href={absolute(alternates.es)} />
+        </>
+      )
+    }
+    <link rel="preload" href={garamond} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={inter} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link
-      rel="alternate"
-      hreflang="es"
-      href={new URL(pathFor('es', current), site).href}
-    />
-    <link
-      rel="alternate"
-      hreflang="en"
-      href={new URL(pathFor('en', current), site).href}
-    />
-    <link
-      rel="alternate"
-      hreflang="x-default"
-      href={new URL(pathFor('es', current), site).href}
-    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="apple-itunes-app" content={`app-id=${stores.appStoreId}`} />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={translate('site.title')} />
+    <meta property="og:site_name" content={translate('site.name')} />
+    <meta property="og:locale" content={language === 'es' ? 'es_MX' : 'en_US'} />
+    <meta property="og:locale:alternate" content={language === 'es' ? 'en_US' : 'es_MX'} />
     <meta property="og:title" content={pageTitle} />
-    <meta
-      property="og:description"
-      content={description ?? translate('site.description')}
-    />
+    <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL('/og.png', site).href} />
+    <meta property="og:image" content={image} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={pageTitle} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta property="og:locale" content={language === 'es' ? 'es_MX' : 'en_US'} />
     <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#eceef1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#f6f1e8" media="(prefers-color-scheme: light)" />
+    <script is:inline type="application/ld+json" set:html={jsonLd} />
     <script is:inline>
       (function () {
-        var stored = localStorage.getItem('sanctamaria-theme');
+        var stored = null;
+        try {
+          stored = localStorage.getItem('sanctamaria-theme');
+        } catch (error) {}
         var theme =
           stored === 'light' || stored === 'dark'
             ? stored
@@ -100,342 +121,10 @@ const footerNav: { name: PathName; key: UiKey }[] = [
   </head>
   <body>
     <a class="skip" href="#content">{translate('skip')}</a>
-
-    <header class="site-header">
-      <div class="wrap bar">
-        <a
-          class="brand"
-          href={pathFor(language, 'home')}
-          aria-label={translate('site.title')}
-        >
-          <Logo class="brand-mark" />
-          <span class="brand-name">{translate('site.title')}</span>
-        </a>
-
-        <nav class="nav" aria-label={translate('nav.menu')}>
-          {
-            nav.map((item) => (
-              <a
-                href={pathFor(language, item.name)}
-                aria-current={current === item.name ? 'page' : undefined}
-              >
-                {translate(item.key)}
-              </a>
-            ))
-          }
-        </nav>
-
-        <div class="tools">
-          <a
-            class="lang"
-            href={pathFor(otherLanguage, current)}
-            hreflang={otherLanguage}
-            lang={otherLanguage}
-          >
-            {translate('nav.language')}
-          </a>
-          <ThemeToggle language={language} />
-          <details class="menu">
-            <summary aria-label={translate('nav.menu')}>
-              <span class="menu-icon" aria-hidden="true"></span>
-            </summary>
-            <nav aria-label={translate('nav.menu')}>
-              <a
-                href={pathFor(language, 'home')}
-                aria-current={current === 'home' ? 'page' : undefined}
-              >
-                {translate('nav.app')}
-              </a>
-              {
-                footerNav.map((item) => (
-                  <a
-                    href={pathFor(language, item.name)}
-                    aria-current={current === item.name ? 'page' : undefined}
-                  >
-                    {translate(item.key)}
-                  </a>
-                ))
-              }
-            </nav>
-          </details>
-        </div>
-      </div>
-    </header>
-
+    <Header language={language} alternates={alternates} />
     <main id="content">
       <slot />
     </main>
-
-    <footer class="site-footer">
-      <div class="wrap">
-        <div class="foot-grid">
-          <div class="foot-brand">
-            <Logo class="foot-mark" />
-            <p>{translate('footer.mark')}</p>
-          </div>
-          <nav class="foot-nav" aria-label={translate('nav.menu')}>
-            {
-              footerNav.map((item) => (
-                <a href={pathFor(language, item.name)}>{translate(item.key)}</a>
-              ))
-            }
-            <a
-              href={pathFor(otherLanguage, current)}
-              hreflang={otherLanguage}
-              lang={otherLanguage}
-            >
-              {translate('nav.language')}
-            </a>
-          </nav>
-        </div>
-        <p class="legal">{translate('footer.legal')}</p>
-      </div>
-    </footer>
+    <Footer language={language} />
   </body>
 </html>
-
-<style>
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: color-mix(in srgb, var(--bg) 82%, transparent);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--line);
-  }
-
-  .bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-3);
-    min-height: 68px;
-  }
-
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    flex-shrink: 0;
-  }
-
-  .brand :global(.brand-mark) {
-    width: 30px;
-    height: 30px;
-  }
-
-  .brand-name {
-    font-family: var(--font-serif);
-    font-size: 1.3rem;
-    font-weight: 500;
-    letter-spacing: 0.005em;
-  }
-
-  .nav {
-    display: flex;
-    align-items: center;
-    gap: 6px 22px;
-    flex-wrap: wrap;
-  }
-
-  .nav a {
-    text-decoration: none;
-    color: var(--mute);
-    font-size: 1rem;
-    padding-block: 4px;
-    border-bottom: 1px solid transparent;
-    transition:
-      color 120ms ease,
-      border-color 120ms ease;
-  }
-
-  .nav a:hover {
-    color: var(--ink);
-  }
-
-  .nav a[aria-current='page'] {
-    color: var(--ink);
-    border-bottom-color: var(--rose);
-  }
-
-  .tools {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-
-  .lang {
-    font-size: 0.95rem;
-    color: var(--mute);
-    text-decoration: none;
-    padding: 6px 4px;
-  }
-
-  .lang:hover {
-    color: var(--ink);
-  }
-
-  .menu {
-    display: none;
-    position: relative;
-  }
-
-  .menu summary {
-    list-style: none;
-    display: grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    cursor: pointer;
-  }
-
-  .menu summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .menu-icon,
-  .menu-icon::before,
-  .menu-icon::after {
-    display: block;
-    width: 16px;
-    height: 1.5px;
-    background: currentColor;
-    border-radius: 2px;
-  }
-
-  .menu-icon {
-    position: relative;
-  }
-
-  .menu-icon::before,
-  .menu-icon::after {
-    content: '';
-    position: absolute;
-    left: 0;
-  }
-
-  .menu-icon::before {
-    top: -5px;
-  }
-
-  .menu-icon::after {
-    top: 5px;
-  }
-
-  .menu[open] .menu-icon {
-    background: transparent;
-  }
-
-  .menu[open] .menu-icon::before {
-    top: 0;
-    transform: rotate(45deg);
-  }
-
-  .menu[open] .menu-icon::after {
-    top: 0;
-    transform: rotate(-45deg);
-  }
-
-  .menu nav {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 10px);
-    min-width: 220px;
-    display: flex;
-    flex-direction: column;
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 8px;
-    box-shadow: 0 20px 50px rgb(0 0 0 / 0.25);
-  }
-
-  .menu nav a {
-    text-decoration: none;
-    padding: 10px 12px;
-    border-radius: 8px;
-    color: var(--ink-2);
-    font-size: 1.05rem;
-  }
-
-  .menu nav a:hover,
-  .menu nav a[aria-current='page'] {
-    background: var(--bg-3);
-    color: var(--ink);
-  }
-
-  main {
-    padding-bottom: var(--space-6);
-  }
-
-  .site-footer {
-    border-top: 1px solid var(--line);
-    padding: var(--space-5) 0 var(--space-4);
-    color: var(--mute);
-  }
-
-  .foot-grid {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--space-4);
-    flex-wrap: wrap;
-  }
-
-  .foot-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-  }
-
-  .foot-brand :global(.foot-mark) {
-    width: 36px;
-    height: 36px;
-    color: var(--rose-dim);
-  }
-
-  .foot-nav {
-    display: grid;
-    grid-template-columns: repeat(2, max-content);
-    gap: 8px 32px;
-  }
-
-  .foot-nav a {
-    text-decoration: none;
-    color: var(--mute);
-    font-size: 0.98rem;
-  }
-
-  .foot-nav a:hover {
-    color: var(--ink);
-  }
-
-  .legal {
-    margin-top: var(--space-4);
-    font-size: 0.8rem;
-    line-height: 1.5;
-    max-width: 56rem;
-    color: var(--mute);
-  }
-
-  @media (max-width: 900px) {
-    .nav {
-      display: none;
-    }
-
-    .menu {
-      display: block;
-    }
-
-    .lang {
-      display: none;
-    }
-  }
-</style>

@@ -1,0 +1,32 @@
+---
+import type { PrayerText } from '../lib/content';
+
+/** A prayer as it is said: the part everyone answers set apart in italics. */
+type Props = { text: PrayerText; lang?: string; large?: boolean };
+const { text, lang, large = false } = Astro.props;
+const split = text.responseFrom ?? text.lines.length;
+---
+
+<div class:list={['prayer', { large }]} lang={lang}>
+  {text.lines.map((line, index) => <p class:list={{ response: index >= split }}>{line}</p>)}
+</div>
+
+<style>
+  .prayer {
+    display: grid;
+    gap: 0.2rem;
+    font-family: var(--serif);
+    font-size: var(--step-1);
+    line-height: 1.55;
+  }
+
+  .prayer.large {
+    font-size: var(--step-2);
+    line-height: 1.45;
+  }
+
+  .response {
+    font-style: italic;
+    color: var(--mute);
+  }
+</style>

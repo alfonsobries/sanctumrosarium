@@ -1,0 +1,133 @@
+---
+import { alternatesOf, repository, route, type Language } from '../i18n/routes';
+import { t, type UiKey } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import Medallion from './Medallion.astro';
+
+type Props = { language: Language };
+const { language } = Astro.props;
+const translate = t(language);
+const costs = ['cost1', 'cost2', 'cost3', 'cost4'];
+const ways: { key: string; href?: string; cta?: 'help.contact' | 'help.github' }[] = [
+  { key: 'pray' },
+  { key: 'review', href: 'mailto:hola@sanctamaria.app' },
+  { key: 'translate', href: 'mailto:hola@sanctamaria.app' },
+  { key: 'report', href: `${repository}/issues`, cta: 'help.github' },
+  { key: 'code', href: repository, cta: 'help.github' },
+];
+---
+
+<Base
+  language={language}
+  title={translate('help.title')}
+  description={translate('help.description')}
+  alternates={alternatesOf('help')}
+  trail={[{ name: translate('breadcrumb.home'), url: route('home', language) }]}
+  og="help"
+>
+  <header class="wrap page-head head">
+    <Medallion class="head-mark" />
+    <span class="kicker">{translate('help.kicker')}</span>
+    <h1>{translate('help.headline')}</h1>
+    <p class="lead" data-speakable>{translate('help.lead')}</p>
+  </header>
+
+  <section class="wrap donate">
+    <div class="card donate-card" id="donar">
+      <h2>{translate('help.donate.title')}</h2>
+      <p>{translate('help.donate.body')}</p>
+      <ul>
+        {costs.map((cost) => <li>{translate(`help.donate.${cost}` as UiKey)}</li>)}
+      </ul>
+      <p class="soon">{translate('help.donate.soon')}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>{translate('help.contribute.title')}</h2>
+        <p class="lead">{translate('help.contribute.lead')}</p>
+      </div>
+      <div class="ways">
+        {
+          ways.map((way) => (
+            <article class="card way">
+              <h3>{translate(`help.${way.key}.title` as UiKey)}</h3>
+              <p>{translate(`help.${way.key}.body` as UiKey)}</p>
+              {way.href !== undefined && (
+                <a class="link" href={way.href}>
+                  {translate(way.cta ?? 'help.contact')} →
+                </a>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head {
+    justify-items: start;
+  }
+
+  .head :global(.head-mark) {
+    width: 4rem;
+    color: var(--accent);
+    margin-bottom: var(--space-2);
+  }
+
+  .donate-card {
+    padding: var(--space-5) var(--space-4);
+    display: grid;
+    gap: var(--space-2);
+    background: linear-gradient(150deg, var(--glow), var(--surface) 60%);
+    max-width: 48rem;
+  }
+
+  .donate-card h2 {
+    font-size: var(--step-3);
+  }
+
+  .donate-card p {
+    color: var(--mute);
+  }
+
+  .donate-card ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .soon {
+    margin-top: var(--space-2);
+    font-weight: 600;
+    color: var(--accent) !important;
+  }
+
+  .ways {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-2);
+  }
+
+  .way {
+    padding: var(--space-3);
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+  }
+
+  .way p {
+    color: var(--mute);
+  }
+
+  .link {
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+</style>

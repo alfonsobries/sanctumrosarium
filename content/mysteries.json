@@ -1,0 +1,2095 @@
+{
+  "_meta": {
+    "schema": "Ver README.md",
+    "generated": "2026-10-06",
+    "readingKinds": {
+      "primary": "Pasaje principal",
+      "parallel": "Mismo acontecimiento en otro evangelio o autor (rotable)",
+      "related": "Texto relacionado, no narra el mismo hecho"
+    }
+  },
+  "sets": [
+    {
+      "id": "joyful",
+      "titles": {
+        "es-MX": "Misterios gozosos",
+        "es-ES": "Misterios gozosos",
+        "en-US": "The Joyful Mysteries",
+        "la": "Mystéria gaudiósa"
+      },
+      "rvmParagraph": "RVM 20",
+      "source": {
+        "es": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Juan Pablo II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/es/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        },
+        "en": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "John Paul II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/en/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        },
+        "la": {
+          "publisher": "Sancta Sedes (vatican.va)",
+          "title": "Ioannes Paulus II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/la/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        }
+      }
+    },
+    {
+      "id": "luminous",
+      "titles": {
+        "es-MX": "Misterios luminosos",
+        "es-ES": "Misterios luminosos",
+        "en-US": "The Luminous Mysteries",
+        "la": "Mystéria luminósa"
+      },
+      "rvmParagraph": "RVM 21",
+      "source": {
+        "es": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Juan Pablo II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/es/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        },
+        "en": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "John Paul II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/en/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        },
+        "la": {
+          "publisher": "Sancta Sedes (vatican.va)",
+          "title": "Ioannes Paulus II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/la/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titlesNote": "El Compendio (inglés) los llama 'The Mysteries of Light'; USCCB, 'Luminous Mysteries'."
+    },
+    {
+      "id": "sorrowful",
+      "titles": {
+        "es-MX": "Misterios dolorosos",
+        "es-ES": "Misterios dolorosos",
+        "en-US": "The Sorrowful Mysteries",
+        "la": "Mystéria dolorósa"
+      },
+      "rvmParagraph": "RVM 22",
+      "source": {
+        "es": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Juan Pablo II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/es/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        },
+        "en": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "John Paul II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/en/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        },
+        "la": {
+          "publisher": "Sancta Sedes (vatican.va)",
+          "title": "Ioannes Paulus II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/la/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        }
+      }
+    },
+    {
+      "id": "glorious",
+      "titles": {
+        "es-MX": "Misterios gloriosos",
+        "es-ES": "Misterios gloriosos",
+        "en-US": "The Glorious Mysteries",
+        "la": "Mystéria gloriósa"
+      },
+      "rvmParagraph": "RVM 23",
+      "source": {
+        "es": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Juan Pablo II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/es/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        },
+        "en": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "John Paul II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/en/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        },
+        "la": {
+          "publisher": "Sancta Sedes (vatican.va)",
+          "title": "Ioannes Paulus II, Rosarium Virginis Mariae (16-X-2002)",
+          "url": "https://www.vatican.va/content/john-paul-ii/la/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+          "accessed": "2026-10-06"
+        }
+      }
+    }
+  ],
+  "schedule": {
+    "source": {
+      "es": {
+        "publisher": "Santa Sede (vatican.va)",
+        "title": "Juan Pablo II, Rosarium Virginis Mariae (16-X-2002)",
+        "url": "https://www.vatican.va/content/john-paul-ii/es/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+        "accessed": "2026-10-06"
+      },
+      "en": {
+        "publisher": "Holy See (vatican.va)",
+        "title": "John Paul II, Rosarium Virginis Mariae (16-X-2002)",
+        "url": "https://www.vatican.va/content/john-paul-ii/en/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+        "accessed": "2026-10-06"
+      },
+      "la": {
+        "publisher": "Sancta Sedes (vatican.va)",
+        "title": "Ioannes Paulus II, Rosarium Virginis Mariae (16-X-2002)",
+        "url": "https://www.vatican.va/content/john-paul-ii/la/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html",
+        "accessed": "2026-10-06"
+      }
+    },
+    "paragraph": "RVM 38",
+    "days": {
+      "monday": "joyful",
+      "tuesday": "sorrowful",
+      "wednesday": "glorious",
+      "thursday": "luminous",
+      "friday": "sorrowful",
+      "saturday": "joyful",
+      "sunday": "glorious"
+    },
+    "flexibility": "RVM 38: 'esta indicación no pretende limitar una conveniente libertad en la meditación personal y comunitaria, según las exigencias espirituales y pastorales y, sobre todo, las coincidencias litúrgicas que pueden sugerir oportunas adaptaciones'.",
+    "seasonalCustom": {
+      "category": "pious-tradition",
+      "note": "USCCB: los domingos de Adviento, misterios gozosos; los domingos de Cuaresma, dolorosos; los gloriosos, los domingos fuera de Adviento y Cuaresma. No está en RVM 38: es costumbre, opcional.",
+      "adventSundays": "joyful",
+      "lentSundays": "sorrowful",
+      "source": {
+        "publisher": "United States Conference of Catholic Bishops",
+        "title": "How to Pray the Rosary",
+        "url": "https://www.usccb.org/how-to-pray-the-rosary",
+        "accessed": "2026-10-06",
+        "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+      }
+    },
+    "confirmedBy": [
+      {
+        "publisher": "Santa Sede (vatican.va)",
+        "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+        "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+        "accessed": "2026-10-06"
+      },
+      {
+        "publisher": "Holy See (vatican.va)",
+        "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+        "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+        "accessed": "2026-10-06"
+      },
+      {
+        "publisher": "Santa Sede (vatican.va)",
+        "title": "Los Misterios del Santo Rosario",
+        "url": "https://www.vatican.va/special/rosary/documents/misteri_sp.html",
+        "accessed": "2026-10-06"
+      }
+    ]
+  },
+  "mysteries": [
+    {
+      "id": "joyful-1-annunciation",
+      "set": "joyful",
+      "order": 1,
+      "titles": {
+        "es-MX": "La Anunciación",
+        "es-ES": "La encarnación del Hijo de Dios",
+        "en-US": "The Annunciation",
+        "la": "Annuntiátio"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La Encarnación del Hijo de Dios",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The Annunciation",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Lk 1:26-38",
+          "kind": "primary"
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Lk 1:26-27",
+        "en": "Lk 1:26-27",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Humility",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "joyful-2-visitation",
+      "set": "joyful",
+      "order": 2,
+      "titles": {
+        "es-MX": "La Visitación",
+        "es-ES": "La visitación de Nuestra Señora a su prima Santa Isabel",
+        "en-US": "The Visitation",
+        "la": "Visitátio"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La Visitación de Nuestra Señora a su prima Santa Isabel",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The Visitation",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Lk 1:39-56",
+          "kind": "primary"
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Lk 1:39-42",
+        "en": "Lk 1:39-42",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Love of Neighbor",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "joyful-3-nativity",
+      "set": "joyful",
+      "order": 3,
+      "titles": {
+        "es-MX": "El Nacimiento de Jesús",
+        "es-ES": "El nacimiento del Hijo de Dios",
+        "en-US": "The Nativity",
+        "la": "Natívitas"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "El Nacimiento del Hijo de Dios en el portal de Belén",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The Birth of Our Lord",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Lk 2:1-20",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mt 1:18-25",
+          "kind": "parallel",
+          "note": "Relato de Mateo: concepción y nacimiento de Jesús desde José."
+        },
+        {
+          "ref": "Mt 2:1-12",
+          "kind": "related",
+          "note": "Adoración de los magos."
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Lk 2:1-7",
+        "en": "Lk 2:1-7",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Poverty",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "joyful-4-presentation",
+      "set": "joyful",
+      "order": 4,
+      "titles": {
+        "es-MX": "La Presentación del Niño en el Templo",
+        "es-ES": "La Presentación de Jesús en el templo",
+        "en-US": "The Presentation in the Temple",
+        "la": "Præsentátio"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La presentación de Jesús en el Templo",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The Presentation in the Temple",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Lk 2:22-40",
+          "kind": "primary"
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Lk 2:21-24",
+        "en": "Lk 2:21-24",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Purity of Heart and Body",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "joyful-5-finding-in-the-temple",
+      "set": "joyful",
+      "order": 5,
+      "titles": {
+        "es-MX": "El Niño perdido y hallado en el Templo",
+        "es-ES": "El Niño Jesús perdido y hallado en el templo",
+        "en-US": "The Finding in the Temple",
+        "la": "Invéntio in Templo"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "El Niño Jesús perdido y hallado en el Templo",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The finding of Jesus in the temple",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Lk 2:41-52",
+          "kind": "primary"
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Lk 2:41-47",
+        "en": "Lk 2:41-47",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_gaudiosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Devotion to Jesus",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "luminous-1-baptism",
+      "set": "luminous",
+      "order": 1,
+      "titles": {
+        "es-MX": "El Bautismo de Jesús en el Jordán",
+        "es-ES": "El Bautismo de Jesús en el Jordán",
+        "en-US": "The Baptism of Christ in the Jordan",
+        "la": "Baptísma apud Iordánem"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "El Bautismo en el Jordán",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The Baptism in the Jordan",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Mt 3:13-17",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mk 1:9-11",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Lk 3:21-22",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Jn 1:29-34",
+          "kind": "parallel",
+          "note": "Testimonio del Bautista; Juan no narra el bautismo mismo."
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Mt 3:16-17",
+        "en": "Mt 3:16-17",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Openness to the Holy Spirit",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "luminous-2-wedding-at-cana",
+      "set": "luminous",
+      "order": 2,
+      "titles": {
+        "es-MX": "La autorrevelación de Jesús en las bodas de Caná",
+        "es-ES": "La autorrevelación de Jesús en las bodas de Caná",
+        "en-US": "The Wedding Feast at Cana",
+        "la": "Autorevelátio apud Cananénse matrimónium"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "Las bodas de Caná",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The wedding feast of Cana",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Jn 2:1-11",
+          "kind": "primary"
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Jn 2:1-5",
+        "en": "Jn 2:1-5",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "To Jesus through Mary",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "luminous-3-proclamation-of-the-kingdom",
+      "set": "luminous",
+      "order": 3,
+      "titles": {
+        "es-MX": "El anuncio del Reino de Dios invitando a la conversión",
+        "es-ES": "El anuncio del Reino de Dios invitando a la conversión",
+        "en-US": "Jesus' Proclamation of the Coming of the Kingdom of God",
+        "la": "Regni Dei proclamátio coniúncta cum invitaménto ad conversiónem"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "El anuncio del Reino de Dios",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The proclamation of the kingdom of God",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Mk 1:14-15",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mt 4:12-17",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Lk 4:14-21",
+          "kind": "parallel",
+          "note": "Inicio del ministerio en Galilea y predicación en Nazaret."
+        },
+        {
+          "ref": "Mk 2:1-12",
+          "kind": "related",
+          "note": "RVM 21 cita Mc 2, 3-13: perdón de los pecados."
+        },
+        {
+          "ref": "Lk 7:36-50",
+          "kind": "related",
+          "note": "RVM 21 cita Lc 7, 47-48: perdón de los pecados."
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Mk 1:15",
+        "en": "Mk 1:15",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Conversion",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "luminous-4-transfiguration",
+      "set": "luminous",
+      "order": 4,
+      "titles": {
+        "es-MX": "La Transfiguración",
+        "es-ES": "La Transfiguración",
+        "en-US": "The Transfiguration",
+        "la": "Transfigurátio"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La Transfiguración",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The Transfiguration",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Mt 17:1-9",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mk 9:2-10",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Lk 9:28-36",
+          "kind": "parallel"
+        },
+        {
+          "ref": "2 Pt 1:16-18",
+          "kind": "related",
+          "note": "Testimonio apostólico de la Transfiguración."
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Mt 17:1-2",
+        "en": "Mt 17:1-2",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Desire for holiness",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "luminous-5-institution-of-the-eucharist",
+      "set": "luminous",
+      "order": 5,
+      "titles": {
+        "es-MX": "La institución de la Eucaristía",
+        "es-ES": "La Institución de la Eucaristía",
+        "en-US": "The Institution of the Eucharist",
+        "la": "Eucharístiæ Institútio"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La institución de la Eucaristía",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The institution of the Eucharist",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Mt 26:26-29",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mk 14:22-25",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Lk 22:14-20",
+          "kind": "parallel"
+        },
+        {
+          "ref": "1 Cor 11:23-26",
+          "kind": "parallel",
+          "note": "Relato paulino de la institución."
+        },
+        {
+          "ref": "Jn 13:1-15",
+          "kind": "related",
+          "note": "RVM 21 cita Jn 13, 1; Juan no narra la institución."
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Mt 26:26",
+        "en": "Mt 26:26",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_luminosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Adoration",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "sorrowful-1-agony-in-the-garden",
+      "set": "sorrowful",
+      "order": 1,
+      "titles": {
+        "es-MX": "La oración de Jesús en el Huerto",
+        "es-ES": "La Oración de Jesús en el Huerto",
+        "en-US": "The Agony in the Garden",
+        "la": "Agonía in Hortu"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La oración en el Huerto",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The agony in the Garden",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Mt 26:36-46",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mk 14:32-42",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Lk 22:39-46",
+          "kind": "parallel"
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Mt 26:36-39",
+        "en": "Mt 26:36-39",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Obedience to God's Will",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "sorrowful-2-scourging-at-the-pillar",
+      "set": "sorrowful",
+      "order": 2,
+      "titles": {
+        "es-MX": "La flagelación del Señor",
+        "es-ES": "La Flagelación del Señor",
+        "en-US": "The Scourging at the Pillar",
+        "la": "Flagellátio"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La flagelación de Jesús atado a la columna",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The scourging at the pillar",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Mt 27:15-26",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mk 15:6-15",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Jn 18:38-19:1",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Lk 23:13-25",
+          "kind": "parallel",
+          "note": "Lucas no narra la flagelación; Pilato propone castigarlo (23, 16.22)."
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Mt 27:26",
+        "en": "Mt 27:26",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Mortification",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "sorrowful-3-crowning-with-thorns",
+      "set": "sorrowful",
+      "order": 3,
+      "titles": {
+        "es-MX": "Jesús es coronado de espinas",
+        "es-ES": "La Coronación de espinas",
+        "en-US": "The Crowning with Thorns",
+        "la": "Coronátio Spinis"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La coronación de espinas",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The crowning with thorns",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Mt 27:27-31",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mk 15:16-20",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Jn 19:2-5",
+          "kind": "parallel"
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Mt 27:27-29",
+        "en": "Mt 27:27-29",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Courage",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "sorrowful-4-carrying-of-the-cross",
+      "set": "sorrowful",
+      "order": 4,
+      "titles": {
+        "es-MX": "Jesús camina al Calvario con la cruz a cuestas",
+        "es-ES": "Jesús con la Cruz a cuestas camino del Calvario",
+        "en-US": "The Carrying of the Cross",
+        "la": "Baiulátio Crucis"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "Jesús con la Cruz a cuestas camino del Calvario",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The carrying of the cross",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Lk 23:26-32",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mt 27:31-32",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Mk 15:20-22",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Jn 19:16-17",
+          "kind": "parallel"
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Mk 15:21-22",
+        "en": "Mk 15:21-22",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Patience",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "sorrowful-5-crucifixion",
+      "set": "sorrowful",
+      "order": 5,
+      "titles": {
+        "es-MX": "La crucifixión y muerte de nuestro Señor",
+        "es-ES": "La Crucifixión y Muerte de Nuestro Señor",
+        "en-US": "The Crucifixion and Death",
+        "la": "Crucifíxio et Mors"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La crucifixión y muerte de Jesús",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The crucifixion",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Lk 23:33-49",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mt 27:33-54",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Mk 15:22-39",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Jn 19:17-30",
+          "kind": "parallel"
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Lk 23:33-46",
+        "en": "Lk 23:33-46",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_dolorosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Sorrow for our Sins",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "glorious-1-resurrection",
+      "set": "glorious",
+      "order": 1,
+      "titles": {
+        "es-MX": "La Resurrección del Señor",
+        "es-ES": "La Resurrección del Hijo de Dios",
+        "en-US": "The Resurrection",
+        "la": "Resurréctio"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La resurrección del Hijo de Dios",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The Resurrection",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Lk 24:1-12",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mt 28:1-10",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Mk 16:1-8",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Jn 20:1-18",
+          "kind": "parallel"
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Lk 24:1-6",
+        "en": "Lk 24:1-5",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Faith",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "glorious-2-ascension",
+      "set": "glorious",
+      "order": 2,
+      "titles": {
+        "es-MX": "La Ascensión del Señor",
+        "es-ES": "La Ascensión del Señor a los Cielos",
+        "en-US": "The Ascension",
+        "la": "Ascénsio"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La Ascensión del Señor al cielo",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The Ascension",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Acts 1:6-11",
+          "kind": "primary"
+        },
+        {
+          "ref": "Mk 16:15-20",
+          "kind": "parallel"
+        },
+        {
+          "ref": "Lk 24:50-53",
+          "kind": "parallel"
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Mk 16:19",
+        "en": "Mk 16:19",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Hope",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "glorious-3-descent-of-the-holy-spirit",
+      "set": "glorious",
+      "order": 3,
+      "titles": {
+        "es-MX": "La venida del Espíritu Santo",
+        "es-ES": "La Venida del Espíritu Santo sobre los Apóstoles",
+        "en-US": "The Descent of the Holy Spirit",
+        "la": "Descénsus Spíritus Sancti"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La venida del Espíritu Santo",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The descent of the Holy Spirit",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Acts 2:1-11",
+          "kind": "primary"
+        },
+        {
+          "ref": "Jn 20:19-23",
+          "kind": "related",
+          "note": "Cristo resucitado da el Espíritu a los discípulos."
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Acts 2:1-4",
+        "en": "Acts 2:1-4",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Wisdom",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "glorious-4-assumption",
+      "set": "glorious",
+      "order": 4,
+      "titles": {
+        "es-MX": "La Asunción de Nuestra Señora a los Cielos",
+        "es-ES": "La Asunción de Nuestra Señora a los Cielos",
+        "en-US": "The Assumption",
+        "la": "Assúmptio"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La Asunción de María al cielo",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The Assumption",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Lk 1:46-55",
+          "kind": "related",
+          "note": "La Escritura no narra la Asunción. vatican.va y USCCB proponen Lc 1, 48-49; aquí el Magníficat completo."
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Lk 1:48-49",
+        "en": "Lk 1:48-49",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Devotion to Mary",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    },
+    {
+      "id": "glorious-5-coronation",
+      "set": "glorious",
+      "order": 5,
+      "titles": {
+        "es-MX": "La Coronación de la Santísima Virgen",
+        "es-ES": "La Coronación de la Santísima Virgen como Reina de Cielos y Tierra",
+        "en-US": "The Coronation of Mary",
+        "la": "Coronátio in Cælo"
+      },
+      "titleSources": {
+        "es-MX": {
+          "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+          "title": "¿Cómo rezar el Rosario? (17-VII-2025)",
+          "url": "https://desdelafe.mx/noticias/sabias-que/como-rezar-el-rosario/",
+          "accessed": "2026-10-06"
+        },
+        "es-ES": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica, Apéndice A: Rosario",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-06"
+        },
+        "en-US": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "la": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church, Appendix A: The Rosary / Rosarium",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "titleVariants": {
+        "es (vatican.va)": {
+          "title": "La coronación de María como Reina y Señora de todo lo creado",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "El Santo Rosario - Los Misterios",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_sp.html",
+            "accessed": "2026-10-06"
+          }
+        },
+        "en (vatican.va)": {
+          "title": "The crowning of Our Lady Queen of Heaven",
+          "source": {
+            "publisher": "Santa Sede (vatican.va)",
+            "title": "The Holy Rosary - The Mysteries",
+            "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_en.html",
+            "accessed": "2026-10-06"
+          }
+        }
+      },
+      "readings": [
+        {
+          "ref": "Rev 11:19-12:1",
+          "kind": "related",
+          "note": "La Escritura no narra la coronación. vatican.va y USCCB proponen Ap 12, 1; Desde la fe, Ap 11, 19-12, 1."
+        }
+      ],
+      "excerpts": {
+        "note": "Versículos breves que vatican.va (y USCCB, mismas citas) muestran al enunciar el misterio.",
+        "es": "Rev 12:1",
+        "en": "Rev 12:1",
+        "source": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "El Santo Rosario - Los Misterios",
+          "url": "https://www.vatican.va/special/rosary/documents/misteri_gloriosi_sp.html",
+          "accessed": "2026-10-06"
+        }
+      },
+      "fruit": {
+        "category": "pious-tradition",
+        "en-US": "Grace of a happy death",
+        "source": {
+          "publisher": "United States Conference of Catholic Bishops",
+          "title": "How to Pray the Rosary",
+          "url": "https://www.usccb.org/how-to-pray-the-rosary",
+          "accessed": "2026-10-06",
+          "retrievedVia": "https://web.archive.org/web/2026/https://www.usccb.org/how-to-pray-the-rosary"
+        },
+        "notes": "Fruto tradicional según USCCB. Sin fuente oficial en español ni latín; no traducir sin fuente."
+      }
+    }
+  ]
+}

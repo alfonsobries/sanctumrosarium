@@ -1,0 +1,141 @@
+---
+import { mysterySets } from '../lib/content';
+import { setTitle } from '../lib/content';
+import { prayerPageIds, prayerRoute, route, setRoute, stores, type Language } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { prayerName } from '../lib/content';
+import Medallion from './Medallion.astro';
+
+type Props = { language: Language };
+const { language } = Astro.props;
+const translate = t(language);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap grid">
+    <div class="about">
+      <a class="brand" href={route('home', language)}>
+        <Medallion class="mark" />
+        <span>{translate('site.name')}</span>
+      </a>
+      <p>{translate('footer.about')}</p>
+      <a class="button is-solid" href={stores.appStore}>{translate('store.appStore')}</a>
+    </div>
+
+    <nav aria-label={translate('footer.pray')}>
+      <h2>{translate('footer.pray')}</h2>
+      <a href={route('today', language)}>{translate('today.title')}</a>
+      {mysterySets.map((set) => <a href={setRoute(set, language)}>{setTitle(set, language)}</a>)}
+    </nav>
+
+    <nav aria-label={translate('footer.learn')}>
+      <h2>{translate('footer.learn')}</h2>
+      <a href={route('how', language)}>{translate('nav.how')}</a>
+      {
+        prayerPageIds
+          .slice(2, 6)
+          .map((id) => <a href={prayerRoute(id, language)}>{prayerName(id, language)}</a>)
+      }
+      <a href={route('promises', language)}>{translate('promises.title')}</a>
+    </nav>
+
+    <nav aria-label={translate('footer.project')}>
+      <h2>{translate('footer.project')}</h2>
+      <a href={route('help', language)}>{translate('nav.help')}</a>
+      <a href={route('privacy', language)}>{translate('privacy.title')}</a>
+      <a href={language === 'es' ? '/en/' : '/'} hreflang={language === 'es' ? 'en' : 'es'}>
+        {translate('nav.language')}
+      </a>
+    </nav>
+  </div>
+
+  <div class="wrap legal">
+    <p>{translate('footer.sources')} {translate('footer.art')}</p>
+    <p>© {year} SanctaMaria</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-6);
+    padding-block: var(--space-5) var(--space-4);
+    background: var(--bg-deep);
+    border-top: 1px solid var(--line);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  .about {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+    max-width: 22rem;
+    color: var(--mute);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .brand :global(.mark) {
+    width: 2.4rem;
+    color: var(--accent);
+  }
+
+  nav {
+    display: grid;
+    align-content: start;
+    gap: 0.55rem;
+  }
+
+  h2 {
+    font: 600 var(--step--1) / 1.4 var(--sans);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 0.35rem;
+  }
+
+  nav a {
+    color: var(--mute);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+
+  nav a:hover {
+    color: var(--ink);
+  }
+
+  .legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--line);
+    font-size: var(--step--1);
+    color: var(--faint);
+  }
+
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .about {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
