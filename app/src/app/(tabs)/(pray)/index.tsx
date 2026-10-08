@@ -10,6 +10,7 @@ import { Link, Stack, useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View, useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ArtworkFrame } from '@/domains/artwork/ArtworkFrame';
 import { useArtwork } from '@/domains/artwork/use-artwork';
@@ -60,6 +61,7 @@ export default function TodayScreen() {
   const { colors } = useSkin();
   const locale = useContentLocale();
   const { width } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   const mode = useSettings((state) => state.mode);
   const prayerLocale = useSettings((state) => state.prayerLocale);
   const listens = mode === 'listen' && hasAudio(prayerLocale);
@@ -104,7 +106,12 @@ export default function TodayScreen() {
   return (
     <>
       <Stack.Screen options={{ title: t('tabs.pray'), headerLargeTitle: false, headerShown: false }} />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerClassName="gap-8 px-5 pb-16">
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerClassName="gap-8 px-5 pb-16"
+        // iOS insets the scroll under the status bar by itself; Android needs the room given.
+        contentContainerStyle={process.env.EXPO_OS === 'android' ? { paddingTop: insets.top } : undefined}
+      >
         <View className="flex-row items-center justify-between pt-3">
           <Text variant="footnote">{capitalizeFirst(dateFormat.format(now))}</Text>
           <Link href="/settings" asChild>
