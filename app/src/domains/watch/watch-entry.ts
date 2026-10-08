@@ -2,7 +2,7 @@ import { mysterySets, type MysterySet } from '@sanctamaria/rosary';
 
 import type { JournalEntry } from '@/domains/journal/journal';
 import type { Settings } from '@/domains/settings/settings';
-import type { Locale } from '@/domains/sync/api.gen';
+import type { Locale } from '@sanctamaria/content';
 
 import type { WatchSettings, WatchToday } from '../../../modules/watch-bridge';
 

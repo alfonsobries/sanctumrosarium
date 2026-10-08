@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
-import type { Locale } from '@/domains/sync/api.gen';
+import type { Locale } from '@sanctamaria/content';
 import { useSettings } from '@/domains/settings/use-settings';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Button } from '@/shared/ui/Button';

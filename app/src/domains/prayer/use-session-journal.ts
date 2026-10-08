@@ -4,7 +4,6 @@ import { AppState } from 'react-native';
 
 import { appJournal } from '@/domains/journal/app-journal';
 import { useInvalidateJournal } from '@/domains/journal/queries';
-import { syncNow } from '@/domains/sync/account';
 
 import { journalEntryFor, type SessionPlan } from './session';
 import { useSession } from './use-session';
@@ -35,8 +34,6 @@ export function useSessionJournal(plan: SessionPlan | null, steps: readonly Step
     }
     void (async () => {
       await (await appJournal()).save(entry);
-      await invalidate();
-      await syncNow();
       await invalidate();
     })();
   }, [plan, steps, position, invalidate]);

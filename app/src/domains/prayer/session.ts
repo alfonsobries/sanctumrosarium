@@ -10,7 +10,7 @@ import {
   type Step,
 } from '@sanctamaria/rosary';
 
-import type { Locale } from '@/domains/sync/api.gen';
+import type { Locale } from '@sanctamaria/content';
 
 /** Everything needed to rebuild the same steps after the app restarts. */
 export type SessionPlan = {

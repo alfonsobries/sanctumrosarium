@@ -50,13 +50,9 @@ port_is_busy() {
 }
 
 # Exporta la variable $1 (su valor o el default $2) con ese puerto si está libre; si
-# no, con el siguiente libre, y avisa. Artisan (config/dev.php) y Metro la leen.
+# no, con el siguiente libre, y avisa.
 export_free_port() {
     local name="$1" port="${!1:-}" wanted
-
-    if [ -z "$port" ] && [ -f api/.env ]; then
-        port=$(sed -n "s/^$name=\([0-9]\{1,\}\)\$/\1/p" api/.env | tail -n 1)
-    fi
 
     port="${port:-$2}"
     wanted="$port"
@@ -72,13 +68,8 @@ export_free_port() {
 }
 
 require_setup() {
-    if [ ! -f api/.env ]; then
-        echo "No hay api/.env. Corre: cp api/.env.example api/.env && (cd api && php artisan key:generate)"
-        exit 1
-    fi
-
-    if [ ! -d api/vendor ] || [ ! -d app/node_modules ]; then
-        echo "Faltan dependencias. Corre: pnpm install && (cd api && composer install)"
+    if [ ! -d app/node_modules ]; then
+        echo "Faltan dependencias. Corre: pnpm install"
         exit 1
     fi
 }

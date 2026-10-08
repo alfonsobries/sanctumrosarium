@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { Text as NativeText, Pressable, ScrollView, View } from 'react-native';
 
 import { rates, type Settings } from '@/domains/settings/settings';
-import { AccountSection } from '@/domains/sync/AccountSection';
 import { useSettings } from '@/domains/settings/use-settings';
 import { artworks, type Artwork } from '@/domains/artwork/artworks';
 import { illustrated } from '@/domains/artwork/illustrated';
@@ -305,7 +304,6 @@ export default function SettingsScreen() {
           </Card>
         </Section>
 
-        <AccountSection />
       </ScrollView>
     </>
   );

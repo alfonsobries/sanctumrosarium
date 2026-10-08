@@ -17,7 +17,6 @@
         ],
         "ITSAppUsesNonExemptEncryption": false
       },
-      "usesAppleSignIn": true,
       "appleTeamId": "TY2LB9Y7DK"
     },
     "android": {
@@ -49,9 +48,7 @@
         }
       ],
       "expo-sqlite",
-      "expo-secure-store",
       "expo-localization",
-      "expo-apple-authentication",
       "@bacons/apple-targets"
     ],
     "experiments": {

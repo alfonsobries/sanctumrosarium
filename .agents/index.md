@@ -6,7 +6,6 @@ App para rezar el Santo Rosario, católica y de código abierto. Qué es y para 
 ## Estructura
 
 - `app/` - Expo (iOS, Android) y el reloj (`app/targets/watch`, Swift)
-- `api/` - Laravel 13: cuentas opcionales (Apple, Google) y sincronización del diario
 - `packages/rosary` - el motor: secuencia de pasos, calendario, rotación de evangelios
 - `content/` - oraciones, misterios y pasajes, cada uno con su fuente
 
@@ -15,8 +14,8 @@ App para rezar el Santo Rosario, católica y de código abierto. Qué es y para 
 - **Ningún texto que se reza se escribe de memoria.** Sale de `content/` con su fuente.
 - Lo esencial del Rosario (misterio, Padrenuestro, diez Avemarías, Gloria) no se puede
   apagar.
-- La app funciona completa sin cuenta y sin conexión. El diario vive en el dispositivo y
-  se sincroniza cuando hay cuenta.
+- La app funciona completa sin conexión y sin cuentas: no hay servidor. El diario vive
+  solo en el dispositivo; el reloj lo comparte con el teléfono por WatchConnectivity.
 - Se cuentan actos (rosarios, decenas, días). Sin rachas que se pierden, sin comparar
   con otros, sin promesas de efectos espirituales.
 - Nada interrumpe el rezo: ni diálogos, ni permisos, ni avisos.
@@ -28,12 +27,10 @@ App para rezar el Santo Rosario, católica y de código abierto. Qué es y para 
 - El diario guarda la fecha local de quien reza, no UTC.
 - Estilos con NativeWind y tokens por rol (`bg-background`, `text-muted`); cada skin
   define sus valores en `app/src/shared/theme/skins.ts`.
-- Tipos y rutas de la API se generan: `cd api && composer types`.
 
 ## Comandos
 
 - `pnpm test` - motor; `pnpm --filter app test` - lógica de la app
 - `pnpm --filter app typecheck`
-- `pnpm api:check` - Pint, Larastan y Pest
-- `pnpm play` - API en la red local y Metro con la app apuntando a ella (`pnpm play 192.168.X.X` fija la IP)
+- `pnpm play` - Metro en la red local para el dev client de un celular (`pnpm play 192.168.X.X` fija la IP)
 - `cd app && npx expo run:ios` - compilar el dev client
