@@ -29,7 +29,7 @@ import {
   type MysterySet,
   type Step,
 } from '../packages/rosary/src/index';
-import { beadRingState } from '../app/src/domains/prayer/bead-state';
+import { beadState } from '../app/src/domains/prayer/bead-state';
 import { audioKeyOf, watchSequence, type WatchSequenceOptions } from '../app/src/domains/watch/watch-pack';
 
 const root = join(import.meta.dirname, '..');
@@ -81,7 +81,7 @@ function exportSteps(steps: Step[]) {
     mystery: step.kind === 'prayer' ? null : step.mystery.id,
     count: step.kind === 'prayer' ? step.count : null,
     intention: step.kind === 'prayer' ? (step.intention ?? null) : null,
-    ring: beadRingState(steps, index),
+    ring: beadState(steps, index),
     decadesBefore: decadesCompleted(steps, index),
     audio: audioKeyOf(step),
   }));
@@ -120,7 +120,7 @@ function exportLocale(locale: Locale, sets: Record<MysterySet, Step[]>) {
       const pairs = litany(locale).pairs;
       prayers[id] = {
         title: prayerTitle(id, locale),
-        lines: pairs.slice(0, 1).map((pair) => `${pair.call} ${pair.response}`),
+        lines: pairs.map((pair) => `${pair.call} ${pair.response}`),
         responseFrom: null,
       };
       continue;

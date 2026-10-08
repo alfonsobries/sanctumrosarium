@@ -44,6 +44,17 @@ final class PrayerSession: Identifiable {
   var hasAudio: Bool { audioSteps != nil }
   var step: StepTemplate { steps[position] }
 
+  /** The words of the current prayer, or nil for a step that only announces a mystery. */
+  var prayer: LocaleContent.Prayer? { step.prayer.flatMap { content.prayers[$0] } }
+
+  /** The voice's level, kept between sessions. */
+  var volume: Double = UserDefaults.standard.object(forKey: "volume") as? Double ?? 1 {
+    didSet {
+      SharedPlayer.core.volume = Float(volume)
+      UserDefaults.standard.set(volume, forKey: "volume")
+    }
+  }
+
   init(set: SetTemplate, scope: Scope, settings: WatchSettings, now: Date = Date()) {
     let content = ContentStore.shared.content(for: settings.prayerLocale)
     let fatima = settings.fatimaPrayer && content.prayers["fatima-prayer"] != nil
@@ -173,6 +184,7 @@ final class PrayerSession: Identifiable {
       return
     }
     audioLoaded = true
+    core.volume = Float(volume)
     core.onStepChange = { [weak self] index, _ in
       self?.moved(to: index)
     }
