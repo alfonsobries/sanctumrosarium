@@ -1,0 +1,137 @@
+---
+import type { Language } from '../i18n/routes';
+import { prayerName } from '../lib/content';
+import { beads } from '../lib/sequence';
+
+/**
+ * The rosary drawn from the engine: every bead is a prayer the app prays, in the order
+ * it prays them. The tail holds the cross and the opening beads; the loop holds the five
+ * decades, which meet at the medal.
+ */
+type Props = { language: Language; class?: string; label: string };
+const { language, class: className, label } = Astro.props;
+
+const places = beads();
+const tail = places.filter((place) => place.step.section === 'opening');
+const loop = places.filter((place) => place.step.section === 'decade');
+
+const size = 520;
+const cx = size / 2;
+const cy = 205;
+const r = 170;
+const medalY = cy + r;
+
+// Decade beads around the loop, leaving a gap at the bottom where the medal sits.
+const gap = 26;
+const span = 360 - gap * 2;
+const loopPoints = loop.map((place, index) => {
+  const angle = 90 + gap + (span * index) / (loop.length - 1);
+  const radians = (angle * Math.PI) / 180;
+  return { place, x: cx + r * Math.cos(radians), y: cy + r * Math.sin(radians) };
+});
+
+// The tail hangs below the medal: the Our Father bead, three Hail Marys, then the cross.
+const tailBeads = tail.filter((place) => place.kind !== 'cross').reverse();
+const tailPoints = tailBeads.map((place, index) => ({ place, x: cx, y: medalY + 34 + index * 24 }));
+const crossY = medalY + 34 + tailBeads.length * 24 + 26;
+
+const radius = (kind: string) => (kind === 'large' ? 8.5 : 5.6);
+const title = (place: (typeof places)[number]) =>
+  place.step.kind === 'prayer' ? prayerName(place.step.prayer, language) : '';
+const cord = [
+  `M ${cx} ${medalY}`,
+  `L ${cx} ${crossY - 18}`,
+].join(' ');
+---
+
+<figure class:list={['corona', className]}>
+  <svg viewBox={`0 0 ${size} ${crossY + 40}`} role="img" aria-label={label}>
+    <circle class="cord" cx={cx} cy={cy} r={r} />
+    <path class="cord" d={cord} />
+    {
+      loopPoints.map(({ place, x, y }, index) => (
+        <circle
+          class:list={['bead', place.kind]}
+          cx={x.toFixed(2)}
+          cy={y.toFixed(2)}
+          r={radius(place.kind)}
+          style={`--i:${index}`}
+        >
+          <title>{title(place)}</title>
+        </circle>
+      ))
+    }
+    <g class="medal">
+      <ellipse cx={cx} cy={medalY} rx="12" ry="15" />
+    </g>
+    {
+      tailPoints.map(({ place, x, y }, index) => (
+        <circle class:list={['bead', place.kind]} cx={x} cy={y} r={radius(place.kind)} style={`--i:${loop.length + index}`}>
+          <title>{title(place)}</title>
+        </circle>
+      ))
+    }
+    <path
+      class="cross"
+      d={`M ${cx} ${crossY - 18} V ${crossY + 26} M ${cx - 14} ${crossY - 4} H ${cx + 14}`}
+    />
+  </svg>
+  <slot />
+</figure>
+
+<style>
+  .corona {
+    margin: 0;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .cord {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 1.5;
+  }
+
+  .bead {
+    fill: var(--accent);
+    opacity: 0.9;
+  }
+
+  .bead.small {
+    fill: color-mix(in srgb, var(--accent) 70%, var(--ink));
+    opacity: 0.75;
+  }
+
+  .medal ellipse {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 2.5;
+  }
+
+  .cross {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .bead {
+      animation: bead-in 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+      animation-delay: calc(var(--i) * 18ms);
+    }
+
+    @keyframes bead-in {
+      from {
+        opacity: 0;
+        transform: scale(0.4);
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+    }
+  }
+</style>

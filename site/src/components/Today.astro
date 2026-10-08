@@ -1,0 +1,97 @@
+---
+import { localDateOf, mysterySetFor } from '@sanctamaria/rosary';
+
+import { setRoute, type Language } from '../i18n/routes';
+import { mysteries, mysterySets, setTitle, titleOf } from '../lib/content';
+
+/**
+ * Today's set, rendered at build time and corrected in the browser to the visitor's own
+ * date, so the page is right on any day and still complete without JavaScript.
+ */
+type Props = { language: Language; compact?: boolean };
+const { language, compact = false } = Astro.props;
+const set = mysterySetFor(localDateOf(new Date()));
+const data = Object.fromEntries(
+  mysterySets.map((each) => [
+    each,
+    { title: setTitle(each, language), url: setRoute(each, language), items: mysteries(each).map((m) => titleOf(m, language)) },
+  ]),
+);
+---
+
+<div class="today" data-today={JSON.stringify(data)} data-set={set}>
+  <a class="set" href={setRoute(set, language)} data-speakable>{setTitle(set, language)}</a>
+  {
+    !compact && (
+      <ol>
+        {mysteries(set).map((mystery) => (
+          <li>{titleOf(mystery, language)}</li>
+        ))}
+      </ol>
+    )
+  }
+</div>
+
+<script>
+  const weekday = ['glorious', 'joyful', 'sorrowful', 'glorious', 'luminous', 'sorrowful', 'joyful'] as const;
+  for (const element of document.querySelectorAll<HTMLElement>('.today')) {
+    const set = weekday[new Date().getDay()];
+    if (set === undefined || element.dataset.set === set) {
+      continue;
+    }
+    const data = JSON.parse(element.dataset.today ?? '{}') as Record<string, { title: string; url: string; items: string[] }>;
+    const today = data[set];
+    if (today === undefined) {
+      continue;
+    }
+    const link = element.querySelector<HTMLAnchorElement>('.set');
+    if (link !== null) {
+      link.textContent = today.title;
+      link.href = today.url;
+    }
+    const list = element.querySelector('ol');
+    if (list !== null) {
+      list.replaceChildren(
+        ...today.items.map((item) => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          return li;
+        }),
+      );
+    }
+    element.dataset.set = set;
+  }
+</script>
+
+<style>
+  .today {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .set {
+    font-family: var(--serif);
+    font-size: var(--step-2);
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .set:hover {
+    text-decoration: underline;
+  }
+
+  ol {
+    margin: 0;
+    padding-left: 1.4rem;
+    display: grid;
+    gap: 0.35rem;
+    font-family: var(--serif);
+    font-size: var(--step-1);
+  }
+
+  ol ::marker {
+    color: var(--faint);
+    font-family: var(--sans);
+    font-size: 0.8em;
+  }
+</style>

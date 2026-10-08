@@ -1,4 +1,5 @@
-import type { InterfaceLanguage } from '@/shared/i18n';
+/** The languages lessons are written in: the interface's, not the prayers'. */
+export type LessonLanguage = 'es' | 'en';
 
 export type Figure = 'cross' | 'opening' | 'decade' | 'sets';
 
@@ -28,7 +29,7 @@ const rvm = {
   },
 };
 
-const howToPray: Record<InterfaceLanguage, Lesson> = {
+const howToPray: Record<LessonLanguage, Lesson> = {
   es: {
     id: 'how-to-pray',
     title: 'Cómo se reza el Rosario',
@@ -133,6 +134,6 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
   },
 };
 
-export function lesson(id: string, language: InterfaceLanguage): Lesson | null {
+export function lesson(id: string, language: LessonLanguage): Lesson | null {
   return id === 'how-to-pray' ? howToPray[language] : null;
 }

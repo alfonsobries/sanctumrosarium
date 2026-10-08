@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
-import { lesson, type Figure } from '@/domains/learn/lessons';
+import { lesson, type Figure } from '@sanctamaria/content';
 import { BeadRow } from '@/domains/prayer/BeadRow';
 import { startSession } from '@/domains/prayer/start';
 import { useSettings } from '@/domains/settings/use-settings';

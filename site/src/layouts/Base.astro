@@ -1,0 +1,115 @@
+---
+import '@fontsource-variable/eb-garamond';
+import '@fontsource-variable/eb-garamond/wght-italic.css';
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import type { Alternates, Language } from '../i18n/routes';
+import { stores } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { absolute, breadcrumbs, organization, webPage, website, type SchemaNode } from '../lib/schema';
+
+type Props = {
+  language: Language;
+  /** The page's own title; the site name is appended when it fits in 60 characters. */
+  title: string;
+  description: string;
+  alternates: Alternates;
+  /** Parents of this page, home first, for the breadcrumb and its schema. */
+  trail?: { name: string; url: string }[];
+  schema?: SchemaNode[];
+  /** Name of the social card in /og/; one per section. */
+  og?: string;
+  pageType?: string;
+  rawTitle?: boolean;
+  home?: boolean;
+};
+
+const {
+  language,
+  title,
+  description,
+  alternates,
+  trail = [],
+  schema = [],
+  og = 'default',
+  pageType,
+  rawTitle = false,
+  home = false,
+} = Astro.props;
+
+const translate = t(language);
+const suffix = ` · ${translate('site.name')}`;
+const pageTitle = rawTitle || `${title}${suffix}`.length > 60 ? title : `${title}${suffix}`;
+const canonical = absolute(alternates[language]);
+const image = absolute(`/og/${og}-${language}.png`);
+
+const graph: SchemaNode[] = [
+  webPage({ language, url: canonical, title: pageTitle, description, image, type: pageType }),
+  ...(home ? [organization(language), website(language, translate('site.description'))] : []),
+  ...(trail.length > 0
+    ? [breadcrumbs([...trail, { name: title, url: alternates[language] }])]
+    : []),
+  ...schema,
+];
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+---
+
+<!doctype html>
+<html lang={language === 'es' ? 'es-MX' : 'en-US'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={absolute(alternates.es)} />
+    <link rel="alternate" hreflang="en" href={absolute(alternates.en)} />
+    <link rel="alternate" hreflang="x-default" href={absolute(alternates.es)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="apple-itunes-app" content={`app-id=${stores.appStoreId}`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={translate('site.name')} />
+    <meta property="og:locale" content={language === 'es' ? 'es_MX' : 'en_US'} />
+    <meta property="og:locale:alternate" content={language === 'es' ? 'en_US' : 'es_MX'} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={pageTitle} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f1e8" media="(prefers-color-scheme: light)" />
+    <script is:inline type="application/ld+json" set:html={jsonLd} />
+    <script is:inline>
+      (function () {
+        var stored = null;
+        try {
+          stored = localStorage.getItem('sanctamaria-theme');
+        } catch (error) {}
+        var theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : window.matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light'
+              : 'dark';
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#content">{translate('skip')}</a>
+    <Header language={language} alternates={alternates} />
+    <main id="content">
+      <slot />
+    </main>
+    <Footer language={language} />
+  </body>
+</html>

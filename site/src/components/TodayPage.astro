@@ -1,0 +1,125 @@
+---
+import { alternatesOf, route, setRoute, type Language } from '../i18n/routes';
+import { t, type UiKey } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import { mysterySets, setTitle, weekdaysOf } from '../lib/content';
+import { faq } from '../lib/schema';
+import StoreButtons from './StoreButtons.astro';
+import Today from './Today.astro';
+
+type Props = { language: Language };
+const { language } = Astro.props;
+const translate = t(language);
+const week = [1, 2, 3, 4, 5, 6, 0].map((day) => ({
+  day,
+  set: mysterySets.find((set) => weekdaysOf[set].includes(day))!,
+}));
+---
+
+<Base
+  language={language}
+  title={translate('today.title')}
+  description={translate('today.description')}
+  alternates={alternatesOf('today')}
+  trail={[{ name: translate('breadcrumb.home'), url: route('home', language) }]}
+  og="today"
+  schema={[faq([{ question: translate('faq.today.q'), answer: translate('faq.today.a') }])]}
+>
+  <header class="wrap page-head">
+    <span class="kicker">{translate('today.kicker')}</span>
+    <h1>{translate('today.title')}</h1>
+    <p class="lead">{translate('today.lead')}</p>
+  </header>
+
+  <section class="wrap today">
+    <div class="card panel">
+      <Today language={language} />
+    </div>
+    <div class="app">
+      <p>{translate('home.lead')}</p>
+      <StoreButtons language={language} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap narrow">
+      <h2>{translate('today.week')}</h2>
+      <dl>
+        {
+          week.map(({ day, set }) => (
+            <div>
+              <dt>{translate(`weekday.${day}` as UiKey)}</dt>
+              <dd>
+                <a href={setRoute(set, language)}>{setTitle(set, language)}</a>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="source">{translate('mysteries.calendarSource')}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .today {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .panel {
+    padding: var(--space-4);
+    background: linear-gradient(160deg, var(--glow), var(--surface) 60%);
+  }
+
+  .panel :global(.set) {
+    font-size: var(--step-3);
+  }
+
+  .app {
+    display: grid;
+    gap: var(--space-3);
+    color: var(--mute);
+  }
+
+  h2 {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-3);
+  }
+
+  dl {
+    margin: 0 0 var(--space-2);
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+
+  dl div {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  dt {
+    color: var(--mute);
+    text-transform: capitalize;
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: var(--step-1);
+  }
+
+  dd a {
+    text-decoration: none;
+  }
+
+  @media (max-width: 860px) {
+    .today {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

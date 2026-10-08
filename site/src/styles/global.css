@@ -1,0 +1,317 @@
+/*
+ * SanctaMaria: night first, like the app, with a warm ivory day. EB Garamond carries
+ * prayers and titles; Inter carries the interface. The copper of the medallion is the
+ * only accent.
+ */
+
+:root {
+  color-scheme: dark;
+  --bg: #0f1420;
+  --bg-deep: #0a0e17;
+  --surface: #161c2b;
+  --surface-raised: #1d2436;
+  --ink: #efe8dc;
+  --mute: #b4ad9f;
+  --faint: #7f7a70;
+  --line: rgb(239 232 220 / 0.12);
+  --accent: #d6a48f;
+  --accent-strong: #e8bfa9;
+  --accent-ink: #1a1210;
+  --gold: #d9b45a;
+  --glow: rgb(214 164 143 / 0.18);
+  --shadow: 0 24px 60px -24px rgb(0 0 0 / 0.65);
+
+  --serif: 'EB Garamond Variable', 'EB Garamond', Georgia, 'Times New Roman', serif;
+  --sans: 'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.45vw, 1.45rem);
+  --step-2: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
+  --step-3: clamp(1.95rem, 1.6rem + 1.6vw, 2.9rem);
+  --step-4: clamp(2.5rem, 1.9rem + 2.8vw, 4.4rem);
+  --step-5: clamp(3rem, 2.1rem + 4.2vw, 5.8rem);
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-6: clamp(4.5rem, 3rem + 6vw, 8rem);
+  --radius: 22px;
+  --radius-small: 12px;
+  --measure: 38rem;
+  --wide: 1180px;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f6f1e8;
+  --bg-deep: #efe8db;
+  --surface: #ede5d6;
+  --surface-raised: #fffaf2;
+  --ink: #1d1a16;
+  --mute: #5b544a;
+  --faint: #8b8478;
+  --line: rgb(29 26 22 / 0.12);
+  --accent: #8a4f39;
+  --accent-strong: #6f3c2a;
+  --accent-ink: #fffaf2;
+  --gold: #8e6e2f;
+  --glow: rgb(138 79 57 / 0.12);
+  --shadow: 0 24px 60px -28px rgb(60 40 20 / 0.35);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  font-feature-settings: 'ss01', 'cv11';
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 0.2em;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+
+a:hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--serif);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--step-4);
+}
+
+h2 {
+  font-size: var(--step-3);
+}
+
+h3 {
+  font-size: var(--step-1);
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.skip {
+  position: absolute;
+  left: var(--space-2);
+  top: -4rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip:focus {
+  top: var(--space-2);
+}
+
+.wrap {
+  width: min(100% - 2 * var(--gutter), var(--wide));
+  margin-inline: auto;
+}
+
+.narrow {
+  width: min(100% - 2 * var(--gutter), 46rem);
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--space-6);
+}
+
+.section + .section {
+  border-top: 1px solid var(--line);
+}
+
+.kicker {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.lead {
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: var(--mute);
+  max-width: var(--measure);
+}
+
+.serif {
+  font-family: var(--serif);
+}
+
+.page-head {
+  padding-block: var(--space-5) var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.page-head h1 {
+  max-width: 18ch;
+}
+
+.section-head {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  max-width: 44rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 48px;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font: 600 var(--step-0) / 1 var(--sans);
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.button:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.button.is-solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.button.is-solid:hover {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: var(--accent-ink);
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.source {
+  font-size: var(--step--1);
+  color: var(--faint);
+}
+
+.source a {
+  color: var(--mute);
+}
+
+.prose {
+  max-width: var(--measure);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.prose h2 {
+  font-size: var(--step-2);
+  margin-top: var(--space-3);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+blockquote {
+  margin: 0;
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--accent);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: var(--step-1);
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+blockquote cite {
+  display: block;
+  margin-top: 0.5rem;
+  font: normal 600 var(--step--1) / 1.4 var(--sans);
+  letter-spacing: 0.06em;
+  color: var(--mute);
+}

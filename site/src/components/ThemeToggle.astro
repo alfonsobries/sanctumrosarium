@@ -1,0 +1,63 @@
+---
+type Props = { label: string };
+const { label } = Astro.props;
+---
+
+<button class="theme" type="button" aria-label={label} title={label}>
+  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+  </svg>
+  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
+  </svg>
+</button>
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>('.theme')) {
+    button.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = next;
+      try {
+        localStorage.setItem('sanctamaria-theme', next);
+      } catch {
+        // Private browsing: the choice lasts for this page only.
+      }
+    });
+  }
+</script>
+
+<style>
+  .theme {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--mute);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .theme:hover {
+    color: var(--ink);
+    border-color: var(--accent);
+  }
+
+  .theme svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  :global(html[data-theme='light']) .moon,
+  :global(html[data-theme='dark']) .sun {
+    display: none;
+  }
+</style>

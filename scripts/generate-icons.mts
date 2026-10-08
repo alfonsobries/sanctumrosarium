@@ -148,6 +148,14 @@ await png(svg(whole, palette.copper), 600, 'images/splash-icon-dark.png');
 // Web.
 await png(framed(palette.copper, 0.9), 64, 'images/favicon.png', palette.night);
 
+// The website: favicons and the touch icon in the same night and copper.
+const sitePublic = join(root, 'site/public');
+writeFileSync(join(sitePublic, 'favicon.svg'), framed(palette.copper, 0.9).replace('<svg ', `<svg style="background:${palette.night}" `));
+await sharp(Buffer.from(framed(palette.copper, 0.9)), { density: 300 }).resize(32, 32).flatten({ background: palette.night }).png().toFile(join(sitePublic, 'favicon.ico'));
+await sharp(Buffer.from(framed(palette.copper, 0.8)), { density: 300 }).resize(180, 180).flatten({ background: palette.night }).png().toFile(join(sitePublic, 'apple-touch-icon.png'));
+await sharp(Buffer.from(framed(palette.copper, 0.8)), { density: 300 }).resize(512, 512).flatten({ background: palette.night }).png().toFile(join(sitePublic, 'icon.png'));
+console.log('  site/public icons');
+
 // In the app: the medallion as markup, painted with each skin's accent through currentColor.
 const markup = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}">${whole}</svg>`;
 writeFileSync(

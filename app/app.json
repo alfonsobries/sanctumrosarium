@@ -68,6 +68,12 @@
         "projectId": "a406fb06-bad2-4936-b512-5839d711a86c"
       },
       "router": {}
-    }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a406fb06-bad2-4936-b512-5839d711a86c",
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    },
+    "runtimeVersion": "1"
   }
 }

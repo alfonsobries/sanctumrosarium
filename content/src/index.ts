@@ -9,6 +9,7 @@ import la from '../scripture/la.json';
 import type { Locale, Mystery, Passage, Prayer, PrayerText, Source } from './types';
 
 export * from './types';
+export * from './lessons';
 
 const prayers = prayersFile.prayers as unknown as Prayer[];
 const mysteries = mysteriesFile.mysteries as unknown as Mystery[];

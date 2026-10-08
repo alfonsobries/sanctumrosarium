@@ -34,3 +34,12 @@ App para rezar el Santo Rosario, católica y de código abierto. Qué es y para 
 - `pnpm --filter app typecheck`
 - `pnpm play` - Metro en la red local para el dev client de un celular (`pnpm play 192.168.X.X` fija la IP)
 - `cd app && npx expo run:ios` - compilar el dev client
+- `pnpm update:preview` / `pnpm update:production` - publicar JavaScript y assets por OTA al canal
+
+## Actualizaciones OTA
+
+Una actualización OTA solo llega a los binarios con el mismo `runtimeVersion` de
+`app/app.json`. Súbelo (+1) cuando cambie la capa nativa: un módulo nativo, un config
+plugin, un permiso, el reloj (`app/targets/watch`) o el SDK de Expo; eso pide un build
+nuevo en la tienda. Los cambios solo de JavaScript, textos o imágenes van por OTA sin
+tocarlo.
