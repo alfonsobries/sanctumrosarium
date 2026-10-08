@@ -13,6 +13,7 @@ import { Icon } from '@/shared/ui/Icon';
 import { Row } from '@/shared/ui/Row';
 import { Text } from '@/shared/ui/Text';
 import { readableWidth } from '@/shared/ui/layout';
+import { useWideLayout } from '@/shared/ui/use-wide-layout';
 
 const listedPrayers = [
   'sign-of-the-cross',
@@ -66,63 +67,90 @@ export default function LearnScreen() {
   const { colors } = useSkin();
   const locale = useContentLocale();
   const prayers = allPrayers().filter((prayer) => listedPrayers.includes(prayer.id));
+  const wide = useWideLayout();
+  // Two columns on a wide screen: half the row less half the gap between them.
+  const column = wide ? 'w-[49%]' : 'w-full';
 
   return (
     <>
       <Stack.Screen options={{ title: t('learn.title') }} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerClassName={`gap-8 px-5 pb-16 pt-2 ${readableWidth}`}
+        contentContainerClassName={`gap-8 px-5 pb-16 pt-2 ${wide ? '' : readableWidth}`}
       >
-        <Link href="/lesson/how-to-pray" asChild>
-          <Pressable
-            accessibilityRole="button"
-            className="gap-4 rounded-card bg-surface p-5 active:opacity-80"
-            style={{ borderCurve: 'continuous' }}
-          >
-            <Icon name="rosary" size={32} color={colors.accent} />
-            <View className="gap-1">
-              <Text variant="title">{t('learn.start')}</Text>
-              <Text variant="footnote">{t('learn.startDetail')}</Text>
-            </View>
-          </Pressable>
-        </Link>
-
-        <Card>
-          <Link href="/learn/promises" asChild>
-            <Row title={t('learn.promises')} detail={t('learn.promisesDetail')} icon="rosary" />
+        <View className={wide ? 'flex-row justify-between' : 'gap-8'}>
+          <Link href="/lesson/how-to-pray" asChild>
+            <Pressable
+              accessibilityRole="button"
+              className={`gap-4 rounded-card bg-surface p-5 active:opacity-80 ${column}`}
+              style={{ borderCurve: 'continuous' }}
+            >
+              <Icon name="rosary" size={32} color={colors.accent} />
+              <View className="gap-1">
+                <Text variant="title">{t('learn.start')}</Text>
+                <Text variant="footnote">{t('learn.startDetail')}</Text>
+              </View>
+            </Pressable>
           </Link>
-        </Card>
+
+          {wide ? (
+            <Link href="/learn/promises" asChild>
+              <Pressable
+                accessibilityRole="button"
+                className={`gap-4 rounded-card bg-surface p-5 active:opacity-80 ${column}`}
+                style={{ borderCurve: 'continuous' }}
+              >
+                <Icon name="rosary" size={32} color={colors.accent} />
+                <View className="gap-1">
+                  <Text variant="title">{t('learn.promises')}</Text>
+                  <Text variant="footnote">{t('learn.promisesDetail')}</Text>
+                </View>
+              </Pressable>
+            </Link>
+          ) : (
+            <Card>
+              <Link href="/learn/promises" asChild>
+                <Row title={t('learn.promises')} detail={t('learn.promisesDetail')} icon="rosary" />
+              </Link>
+            </Card>
+          )}
+        </View>
 
         <View className="gap-3">
           <Text variant="eyebrow">{t('learn.mysteries')}</Text>
-          {mysterySets.map((set) => (
-            <View key={set} className="gap-1.5">
-              <Text variant="footnote" className="px-1">
-                {t(`sets.${set}`)}
-              </Text>
-              <Card>
-                {mysteriesOf(set).map((mystery, index) => (
-                  <MysteryRow key={mystery.id} id={mystery.id} index={index} />
-                ))}
-              </Card>
-            </View>
-          ))}
+          <View className={wide ? 'flex-row flex-wrap justify-between gap-y-5' : 'gap-3'}>
+            {mysterySets.map((set) => (
+              <View key={set} className={`gap-1.5 ${column}`}>
+                <Text variant="footnote" className="px-1">
+                  {t(`sets.${set}`)}
+                </Text>
+                <Card>
+                  {mysteriesOf(set).map((mystery, index) => (
+                    <MysteryRow key={mystery.id} id={mystery.id} index={index} />
+                  ))}
+                </Card>
+              </View>
+            ))}
+          </View>
         </View>
 
         <View className="gap-3">
           <Text variant="eyebrow">{t('learn.prayers')}</Text>
-          <Card>
-            {prayers.map((prayer) => (
-              <Link
-                key={prayer.id}
-                href={{ pathname: '/learn/prayer/[id]', params: { id: prayer.id } }}
-                asChild
-              >
-                <Row title={prayerTitle(prayer.id, locale)} />
-              </Link>
+          <View className={wide ? 'flex-row items-start justify-between' : ''}>
+            {(wide ? [prayers.slice(0, 5), prayers.slice(5)] : [prayers]).map((group) => (
+              <Card key={group[0]?.id} className={column}>
+                {group.map((prayer) => (
+                  <Link
+                    key={prayer.id}
+                    href={{ pathname: '/learn/prayer/[id]', params: { id: prayer.id } }}
+                    asChild
+                  >
+                    <Row title={prayerTitle(prayer.id, locale)} />
+                  </Link>
+                ))}
+              </Card>
             ))}
-          </Card>
+          </View>
         </View>
       </ScrollView>
     </>

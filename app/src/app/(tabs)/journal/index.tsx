@@ -18,6 +18,7 @@ import { Card } from '@/shared/ui/Card';
 import { Icon } from '@/shared/ui/Icon';
 import { Text } from '@/shared/ui/Text';
 import { readableWidth } from '@/shared/ui/layout';
+import { useWideLayout } from '@/shared/ui/use-wide-layout';
 
 function DayCell({
   date,
@@ -78,6 +79,7 @@ export default function JournalScreen() {
     new Intl.DateTimeFormat(i18n.language, { weekday: 'narrow' }).format(new Date(2026, 9, 5 + i)),
   );
   const isCurrentMonth = month.year === today.year && month.month === today.month;
+  const wide = useWideLayout();
 
   function shift(delta: number) {
     const next = new Date(month.year, month.month - 1 + delta, 1);
@@ -104,103 +106,105 @@ export default function JournalScreen() {
       <Stack.Screen options={{ title: t('journal.title') }} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerClassName={`gap-6 px-5 pb-16 pt-2 ${readableWidth}`}
+        contentContainerClassName={`gap-6 px-5 pb-16 pt-2 ${wide ? '' : readableWidth}`}
       >
-        <View className="gap-3">
-          <View className="flex-row items-center justify-between">
-            <Text variant="headline">{capitalizeFirst(monthName)}</Text>
-            <View className="flex-row gap-1">
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="‹"
-                onPress={() => shift(-1)}
-                hitSlop={6}
-                className="h-11 w-11 items-center justify-center rounded-full active:bg-surface"
-              >
-                <View style={{ transform: [{ scaleX: -1 }] }}>
+        <View className={wide ? 'flex-row items-start gap-10' : 'gap-6'}>
+          <View className={`gap-3 ${wide ? 'max-w-[520px] flex-1' : ''}`}>
+            <View className="flex-row items-center justify-between">
+              <Text variant="headline">{capitalizeFirst(monthName)}</Text>
+              <View className="flex-row gap-1">
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="‹"
+                  onPress={() => shift(-1)}
+                  hitSlop={6}
+                  className="h-11 w-11 items-center justify-center rounded-full active:bg-surface"
+                >
+                  <View style={{ transform: [{ scaleX: -1 }] }}>
+                    <Icon name="chevron" size={20} color={colors.accent} />
+                  </View>
+                </Pressable>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="›"
+                  disabled={isCurrentMonth}
+                  onPress={() => shift(1)}
+                  hitSlop={6}
+                  className="h-11 w-11 items-center justify-center rounded-full active:bg-surface"
+                  style={{ opacity: isCurrentMonth ? 0.3 : 1 }}
+                >
                   <Icon name="chevron" size={20} color={colors.accent} />
-                </View>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="›"
-                disabled={isCurrentMonth}
-                onPress={() => shift(1)}
-                hitSlop={6}
-                className="h-11 w-11 items-center justify-center rounded-full active:bg-surface"
-                style={{ opacity: isCurrentMonth ? 0.3 : 1 }}
-              >
-                <Icon name="chevron" size={20} color={colors.accent} />
-              </Pressable>
+                </Pressable>
+              </View>
             </View>
+            <View className="flex-row">
+              {weekdays.map((day, i) => (
+                <Text key={i} variant="caption" className="w-[14.28%] text-center uppercase">
+                  {day}
+                </Text>
+              ))}
+            </View>
+            <View className="flex-row flex-wrap">
+              {monthGrid(month.year, month.month).map((date, i) =>
+                date === null ? (
+                  <View key={`pad-${i}`} className="aspect-square w-[14.28%]" />
+                ) : (
+                  <DayCell
+                    key={formatLocalDate(date)}
+                    date={date}
+                    prayed={prayed.has(formatLocalDate(date))}
+                    selected={selected === formatLocalDate(date)}
+                    today={formatLocalDate(date) === formatLocalDate(today)}
+                    onPress={() => setSelected(formatLocalDate(date))}
+                  />
+                ),
+              )}
+            </View>
+            <Text variant="footnote">
+              {prayed.size === 0 && isCurrentMonth
+                ? t('journal.empty')
+                : t('journal.monthDays', { count: prayed.size })}
+            </Text>
           </View>
-          <View className="flex-row">
-            {weekdays.map((day, i) => (
-              <Text key={i} variant="caption" className="w-[14.28%] text-center uppercase">
-                {day}
-              </Text>
-            ))}
-          </View>
-          <View className="flex-row flex-wrap">
-            {monthGrid(month.year, month.month).map((date, i) =>
-              date === null ? (
-                <View key={`pad-${i}`} className="aspect-square w-[14.28%]" />
-              ) : (
-                <DayCell
-                  key={formatLocalDate(date)}
-                  date={date}
-                  prayed={prayed.has(formatLocalDate(date))}
-                  selected={selected === formatLocalDate(date)}
-                  today={formatLocalDate(date) === formatLocalDate(today)}
-                  onPress={() => setSelected(formatLocalDate(date))}
-                />
-              ),
+
+          <View className={`gap-2 ${wide ? 'flex-1 pt-14' : ''}`}>
+            <Text variant="eyebrow">
+              {new Intl.DateTimeFormat(i18n.language, {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+              }).format(new Date(`${selected}T12:00:00`))}
+            </Text>
+            {entries.data !== undefined && entries.data.length === 0 ? (
+              <Text variant="footnote">{t('journal.nothing')}</Text>
+            ) : (
+              <Card>
+                {entries.data?.map((entry) => (
+                  <Pressable
+                    key={entry.id}
+                    onLongPress={() => handleDelete(entry.id)}
+                    accessibilityHint={t('journal.delete')}
+                    className="flex-row items-center gap-3 px-4 py-3"
+                  >
+                    <Icon name={entry.decades === 5 ? 'rosary' : 'decade'} color={colors.accent} />
+                    <View className="flex-1 gap-0.5">
+                      <Text variant="callout">
+                        {entry.decades === 5
+                          ? t('journal.entryRosary')
+                          : t('journal.entryDecades', { count: entry.decades })}
+                      </Text>
+                      <Text variant="footnote">
+                        {t(`sets.${entry.mysterySet as MysterySet}`)} · {t(`locales.${entry.locale}`)}
+                      </Text>
+                    </View>
+                    <Text variant="footnote" style={{ fontVariant: ['tabular-nums'] }}>
+                      {Math.max(1, Math.round(entry.durationSeconds / 60))} min
+                    </Text>
+                  </Pressable>
+                ))}
+              </Card>
             )}
           </View>
-          <Text variant="footnote">
-            {prayed.size === 0 && isCurrentMonth
-              ? t('journal.empty')
-              : t('journal.monthDays', { count: prayed.size })}
-          </Text>
-        </View>
-
-        <View className="gap-2">
-          <Text variant="eyebrow">
-            {new Intl.DateTimeFormat(i18n.language, {
-              weekday: 'long',
-              day: 'numeric',
-              month: 'long',
-            }).format(new Date(`${selected}T12:00:00`))}
-          </Text>
-          {entries.data !== undefined && entries.data.length === 0 ? (
-            <Text variant="footnote">{t('journal.nothing')}</Text>
-          ) : (
-            <Card>
-              {entries.data?.map((entry) => (
-                <Pressable
-                  key={entry.id}
-                  onLongPress={() => handleDelete(entry.id)}
-                  accessibilityHint={t('journal.delete')}
-                  className="flex-row items-center gap-3 px-4 py-3"
-                >
-                  <Icon name={entry.decades === 5 ? 'rosary' : 'decade'} color={colors.accent} />
-                  <View className="flex-1 gap-0.5">
-                    <Text variant="callout">
-                      {entry.decades === 5
-                        ? t('journal.entryRosary')
-                        : t('journal.entryDecades', { count: entry.decades })}
-                    </Text>
-                    <Text variant="footnote">
-                      {t(`sets.${entry.mysterySet as MysterySet}`)} · {t(`locales.${entry.locale}`)}
-                    </Text>
-                  </View>
-                  <Text variant="footnote" style={{ fontVariant: ['tabular-nums'] }}>
-                    {Math.max(1, Math.round(entry.durationSeconds / 60))} min
-                  </Text>
-                </Pressable>
-              ))}
-            </Card>
-          )}
         </View>
 
         {totals.data !== undefined && totals.data.days > 0 && (

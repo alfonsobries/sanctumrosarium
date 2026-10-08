@@ -28,6 +28,7 @@ import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
 import { Text } from '@/shared/ui/Text';
 import { readableWidth } from '@/shared/ui/layout';
+import { useWideLayout } from '@/shared/ui/use-wide-layout';
 
 function WeekDay({ label, prayed, today }: { label: string; prayed: boolean; today: boolean }) {
   return (
@@ -68,6 +69,7 @@ export default function TodayScreen() {
   const { colors } = useSkin();
   const locale = useContentLocale();
   const { width } = useWindowDimensions();
+  const wide = useWideLayout();
   const insets = useSafeAreaInsets();
   const mode = useSettings((state) => state.mode);
   const prayerLocale = useSettings((state) => state.prayerLocale);
@@ -140,7 +142,7 @@ export default function TodayScreen() {
           </View>
 
           {artwork !== null && (
-            <ArtworkFrame artwork={artwork} style={{ height: Math.min(width - 40, 460) * 0.95 }} />
+            <ArtworkFrame artwork={artwork} style={{ height: Math.min(width - 40, wide ? 600 : 460) * 0.95 }} />
           )}
 
           <View className="gap-2.5">
