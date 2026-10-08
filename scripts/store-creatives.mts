@@ -4,7 +4,10 @@
  * everything that carries meaning sits inside its safe area (header 1646x661, search
  * 2168x1030, centred) and the rest is bleed.
  *
+ * Also Google Play's feature graphic (1024x500), the same header composition at its size.
+ *
  * Run: pnpm store:creatives  → store/apple/{es-MX,en-US}/{header,search}/01-*.png
+ *                               store/google/{es-419,en-US}/images/featureGraphic/1.png
  *      pnpm store:creatives --guides  → the same with the safe areas outlined, in store/preview/
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -45,11 +48,14 @@ const copy = {
   },
 };
 
-type Creative = { name: 'header' | 'search'; width: number; height: number; safe: [number, number] };
+type Creative = { name: 'header' | 'search' | 'feature'; width: number; height: number; safe: [number, number] };
 const creatives: Creative[] = [
   { name: 'header', width: 3840, height: 1646, safe: [1646, 661] },
   { name: 'search', width: 3840, height: 2560, safe: [2168, 1030] },
+  { name: 'feature', width: 1024, height: 500, safe: [1024, 500] },
 ];
+
+const googleFolders: Record<Lang, string> = { es: 'es-419', en: 'en-US' };
 
 const base = (c: Creative) => `
   @font-face { font-family: Garamond; src: url('${fonts.serif}') format('woff2'); font-weight: 400 800; }
@@ -79,7 +85,10 @@ const base = (c: Creative) => `
 `;
 
 function header(c: Creative, lang: Lang): string {
+  // The feature graphic is the header at a quarter of the size, without a crop to survive.
+  const scale = c.name === 'feature' ? 0.36 : 1;
   return `<style>${base(c)}
+    .safe { zoom: ${scale}; width: ${c.name === 'feature' ? 2560 : c.safe[0]}px; height: ${c.name === 'feature' ? 1200 : c.safe[1]}px; transform: none; left: 50%; top: 50%; translate: -50% -50%; }
     .safe { display: flex; align-items: center; justify-content: center; gap: 90px; }
     .mark { width: 440px; height: 440px; color: #d6a48f; flex: none; }
     .mark svg { width: 100%; height: 100%; }
@@ -129,13 +138,17 @@ for (const c of creatives) {
   const tab = await browser.newPage({ viewport: { width: c.width, height: c.height }, deviceScaleFactor: 1 });
   for (const lang of ['es', 'en'] as const) {
     const html = join(temp, `${c.name}-${lang}.html`);
-    writeFileSync(html, `<!doctype html><html><head><meta charset="utf-8"></head><body>${(c.name === 'header' ? header : search)(c, lang)}</body></html>`);
+    writeFileSync(html, `<!doctype html><html><head><meta charset="utf-8"></head><body>${(c.name === 'search' ? search : header)(c, lang)}</body></html>`);
     await tab.goto(pathToFileURL(html).href, { waitUntil: 'load' });
     await tab.evaluate(() => document.fonts.ready);
     const png = await tab.screenshot({ type: 'png' });
-    const dir = guides ? join(root, 'store/preview') : join(root, 'store/apple', folders[lang], c.name);
+    const dir = guides
+      ? join(root, 'store/preview')
+      : c.name === 'feature'
+        ? join(root, 'store/google', googleFolders[lang], 'images/featureGraphic')
+        : join(root, 'store/apple', folders[lang], c.name);
     mkdirSync(dir, { recursive: true });
-    const target = join(dir, guides ? `${c.name}-${folders[lang]}.png` : `01-${c.name}.png`);
+    const target = join(dir, guides ? `${c.name}-${folders[lang]}.png` : c.name === 'feature' ? '1.png' : `01-${c.name}.png`);
     // App Store creative assets must not carry an alpha channel.
     await sharp(png).flatten({ background: '#0f1420' }).removeAlpha().toColorspace('srgb').png().toFile(target);
     console.log(`  ${target.replace(`${root}/`, '')}`);
