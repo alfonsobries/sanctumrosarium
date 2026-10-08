@@ -1,9 +1,10 @@
-export type SkinId = 'silence' | 'simple' | 'manuscript' | 'glass' | 'kids';
+export type SkinId =
+  'silence' | 'simple' | 'mayores' | 'trazo' | 'manuscript' | 'glass' | 'guadalupana' | 'kids';
 
 /** Which set of mystery images a skin shows; `none` keeps the prayer to text alone. */
 export type TextureId = 'parchment';
 
-export type ArtworkStyle = 'none' | 'classic' | 'glass' | 'kids';
+export type ArtworkStyle = 'none' | 'classic' | 'glass' | 'guadalupana' | 'trazo' | 'kids';
 
 export type ColorRole =
   | 'background'
@@ -31,6 +32,8 @@ export type Skin = {
   radius: number;
   /** Illuminated initial on the first word of each prayer. */
   dropCap: boolean;
+  /** Every text in the app grows by this factor; 1 when absent. */
+  textScale?: number;
   light: Palette;
   dark: Palette;
 };
@@ -238,16 +241,154 @@ const kids: Skin = {
   },
 };
 
+/** For older eyes: the largest type, the strongest contrast, a face designed for low vision. */
+const mayores: Skin = {
+  id: 'mayores',
+  fonts: {
+    display: 'AtkinsonHyperlegible_700Bold',
+    prayer: 'AtkinsonHyperlegible_400Regular',
+    prayerItalic: 'AtkinsonHyperlegible_400Regular_Italic',
+    ui: 'AtkinsonHyperlegible_400Regular',
+  },
+  radius: 16,
+  dropCap: false,
+  artwork: 'classic',
+  textScale: 1.25,
+  light: {
+    background: '#FFFFFF',
+    surface: '#F1F1F1',
+    'surface-raised': '#FFFFFF',
+    foreground: '#000000',
+    muted: '#383838',
+    faint: '#6E6E6E',
+    border: '#B8B8B8',
+    accent: '#0B4F9C',
+    'accent-foreground': '#FFFFFF',
+    rubric: '#9E1220',
+    bead: '#C4C4C4',
+    'bead-done': '#0B4F9C',
+  },
+  dark: {
+    background: '#000000',
+    surface: '#141414',
+    'surface-raised': '#1F1F1F',
+    foreground: '#FFFFFF',
+    muted: '#D2D2D2',
+    faint: '#8E8E8E',
+    border: '#3C3C3C',
+    accent: '#FFD54A',
+    'accent-foreground': '#000000',
+    rubric: '#FF8A80',
+    bead: '#3C3C3C',
+    'bead-done': '#FFD54A',
+  },
+};
+
+/** Modern vector illustrations, a clean sans and the colours of terracotta and night. */
+const trazo: Skin = {
+  id: 'trazo',
+  fonts: {
+    display: 'DMSans_700Bold',
+    prayer: 'DMSans_400Regular',
+    prayerItalic: 'DMSans_400Regular_Italic',
+    ui: 'DMSans_500Medium',
+  },
+  radius: 22,
+  dropCap: false,
+  artwork: 'trazo',
+  light: {
+    background: '#F6F2EA',
+    surface: '#ECE6DA',
+    'surface-raised': '#FFFFFF',
+    foreground: '#17213A',
+    muted: '#4A536B',
+    faint: '#8E95A6',
+    border: '#DED6C6',
+    accent: '#A84A2E',
+    'accent-foreground': '#FFFFFF',
+    rubric: '#9A3B25',
+    bead: '#DDD3C2',
+    'bead-done': '#A84A2E',
+  },
+  dark: {
+    background: '#101626',
+    surface: '#172036',
+    'surface-raised': '#1E2942',
+    foreground: '#F4EFE6',
+    muted: '#B8BFD1',
+    faint: '#6C7590',
+    border: '#27324D',
+    accent: '#E8A27C',
+    'accent-foreground': '#101626',
+    rubric: '#F0A58C',
+    bead: '#2C3654',
+    'bead-done': '#E8A27C',
+  },
+};
+
+/** The colours of the tilma: the teal-green mantle with its gold stars and the rose of the tunic. */
+const guadalupana: Skin = {
+  id: 'guadalupana',
+  fonts: {
+    display: 'EBGaramond_600SemiBold',
+    prayer: 'EBGaramond_400Regular',
+    prayerItalic: 'EBGaramond_400Regular_Italic',
+  },
+  radius: 18,
+  dropCap: true,
+  artwork: 'guadalupana',
+  light: {
+    background: '#F8F2E7',
+    surface: '#EFE5D3',
+    'surface-raised': '#FFFBF3',
+    foreground: '#1C2321',
+    muted: '#4A5550',
+    faint: '#8A938D',
+    border: '#DDCFB6',
+    accent: '#1C5D58',
+    'accent-foreground': '#FFFFFF',
+    rubric: '#A33652',
+    bead: '#D9CDB5',
+    'bead-done': '#1C5D58',
+  },
+  dark: {
+    background: '#0B1514',
+    surface: '#12201F',
+    'surface-raised': '#192B29',
+    foreground: '#F3EBDD',
+    muted: '#B9C4BC',
+    faint: '#6E7C77',
+    border: '#24373A',
+    accent: '#D9B45A',
+    'accent-foreground': '#0B1514',
+    rubric: '#E8899E',
+    bead: '#2A3B3A',
+    'bead-done': '#D9B45A',
+  },
+};
+
 export const skins: Record<SkinId, Skin> = {
   silence,
   simple: baseSkins.simple,
+  mayores,
+  trazo,
   manuscript: baseSkins.manuscript,
   glass,
+  guadalupana,
   kids,
 };
 
 /** From the barest to the most detailed. */
-export const skinIds: SkinId[] = ['silence', 'simple', 'manuscript', 'glass', 'kids'];
+export const skinIds: SkinId[] = [
+  'silence',
+  'simple',
+  'mayores',
+  'trazo',
+  'manuscript',
+  'glass',
+  'guadalupana',
+  'kids',
+];
 
 function triplet(hex: string): string {
   const value = Number.parseInt(hex.slice(1), 16);

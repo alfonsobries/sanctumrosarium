@@ -1,7 +1,21 @@
 import { Text as NativeText, type TextProps } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
+import { useSkin } from '@/shared/theme/SkinProvider';
+
 type Variant = 'display' | 'title' | 'headline' | 'body' | 'callout' | 'footnote' | 'caption' | 'eyebrow';
+
+/** Size and line height of each variant, so a skin can scale them together. */
+const metrics: Record<Variant, { size: number; line: number }> = {
+  display: { size: 34, line: 40 },
+  title: { size: 26, line: 32 },
+  headline: { size: 17, line: 22 },
+  body: { size: 17, line: 24 },
+  callout: { size: 16, line: 21 },
+  footnote: { size: 13, line: 18 },
+  caption: { size: 12, line: 16 },
+  eyebrow: { size: 12, line: 16 },
+};
 
 const variants: Record<Variant, string> = {
   display: 'font-display text-[34px] leading-[40px] text-foreground',
@@ -16,6 +30,11 @@ const variants: Record<Variant, string> = {
 
 export type TextProperties = TextProps & { variant?: Variant };
 
-export function Text({ variant = 'body', className, ...rest }: TextProperties) {
-  return <NativeText className={twMerge(variants[variant], className)} {...rest} />;
+export function Text({ variant = 'body', className, style, ...rest }: TextProperties) {
+  const scale = useSkin().skin.textScale ?? 1;
+  const scaled =
+    scale === 1
+      ? undefined
+      : { fontSize: metrics[variant].size * scale, lineHeight: metrics[variant].line * scale };
+  return <NativeText className={twMerge(variants[variant], className)} style={[scaled, style]} {...rest} />;
 }

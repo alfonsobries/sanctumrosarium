@@ -2,7 +2,7 @@ import type { Evangelist } from '@sanctamaria/rosary';
 import { Image } from 'expo-image';
 import { Stack, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Text as NativeText, Pressable, ScrollView, View } from 'react-native';
 
 import { rates, type Settings } from '@/domains/settings/settings';
 import { AccountSection } from '@/domains/sync/AccountSection';
@@ -57,6 +57,8 @@ const previewArt: Record<ArtworkStyle, Artwork | undefined> = {
   none: undefined,
   classic: artworks['joyful-1-annunciation'],
   glass: illustrated.glass['joyful-1-annunciation'],
+  guadalupana: illustrated.guadalupana['joyful-1-annunciation'],
+  trazo: illustrated.trazo['joyful-1-annunciation'],
   kids: illustrated.kids['joyful-1-annunciation'],
 };
 
@@ -88,12 +90,13 @@ function SkinPreview({ id, selected, onPress }: { id: SkinId; selected: boolean;
         {texture !== undefined && (
           <Image source={texture} contentFit="cover" style={{ position: 'absolute', inset: 0 }} />
         )}
-        <Text
-          style={{ fontFamily: skin.fonts.display, color: palette.foreground, fontSize: 17 }}
+        {/* Each preview shows its own skin's type, never the scale of the skin in use. */}
+        <NativeText
+          style={{ fontFamily: skin.fonts.display, color: palette.foreground, fontSize: 17, lineHeight: 21 }}
           numberOfLines={2}
         >
           {t('sets.joyful')}
-        </Text>
+        </NativeText>
         {art !== undefined ? (
           <View
             className="flex-1 overflow-hidden"
@@ -107,12 +110,17 @@ function SkinPreview({ id, selected, onPress }: { id: SkinId; selected: boolean;
             />
           </View>
         ) : (
-          <Text
-            style={{ fontFamily: skin.fonts.prayer, color: palette.foreground, fontSize: 14, lineHeight: 19 }}
-            className="flex-1"
+          <NativeText
+            style={{
+              flex: 1,
+              fontFamily: skin.fonts.prayer,
+              color: palette.foreground,
+              fontSize: 14,
+              lineHeight: 19,
+            }}
           >
             Ave Maria, gratia plena, Dominus tecum.
-          </Text>
+          </NativeText>
         )}
         <View className="flex-row items-center justify-between">
           <View className="flex-row gap-1">

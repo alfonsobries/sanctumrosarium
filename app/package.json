@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "dependencies": {
     "@bacons/apple-targets": "^5.0.0",
+    "@expo-google-fonts/atkinson-hyperlegible": "^0.4.1",
     "@expo-google-fonts/cinzel": "^0.4.2",
+    "@expo-google-fonts/dm-sans": "^0.4.2",
     "@expo-google-fonts/eb-garamond": "^0.4.3",
     "@expo-google-fonts/im-fell-english": "^0.4.0",
     "@expo-google-fonts/nunito": "^0.4.2",
