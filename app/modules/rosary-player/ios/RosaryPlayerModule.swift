@@ -72,8 +72,7 @@ public final class RosaryPlayerModule: Module {
       }
     }
 
-    // Progress only lights up words on screen; with the screen off it would wake
-    // JavaScript twenty times a second for nobody.
+    // Nothing reads progress with the app in the background; it would only wake JavaScript.
     OnAppEntersBackground {
       Task { @MainActor in
         SharedPlayer.core.progressEnabled = false

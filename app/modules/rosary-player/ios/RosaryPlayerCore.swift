@@ -103,8 +103,7 @@ public final class RosaryPlayerCore {
   // apps that play short voice cues often deactivate without notifying others.
   private static let resumeWindow: TimeInterval = 180
   private static let lookahead = 2
-  // Fine enough for the words to light up as they are said; only runs while the text is on screen.
-  private static let progressInterval = CMTime(value: 1, timescale: 20)
+  private static let progressInterval = CMTime(value: 1, timescale: 4)
   private static let timescale: CMTimeScale = 44_100
 
   public var onStepChange: ((Int, String) -> Void)?
@@ -288,6 +287,14 @@ public final class RosaryPlayerCore {
     }
   }
 
+  /** The voice's level within the system volume; the watch turns it with the crown. */
+  public var volume: Float = 1 {
+    didSet {
+      volume = min(max(volume, 0), 1)
+      player.volume = volume
+    }
+  }
+
   public func setRate(_ newRate: Float) {
     rate = Self.clampRate(newRate)
     player.defaultRate = rate
@@ -340,6 +347,7 @@ public final class RosaryPlayerCore {
   }
 
   private func preparePlayer() {
+    player.volume = volume
     player.automaticallyWaitsToMinimizeStalling = false
     player.actionAtItemEnd = .advance
     player.defaultRate = rate
@@ -563,9 +571,10 @@ public final class RosaryPlayerCore {
         else {
           return
         }
-        self.wantsToPlay = false
-        self.setStatus(.paused, reason: nil)
-        self.updateNowPlaying()
+        // Nobody asked to pause (every pause command clears wantsToPlay first): another
+        // app took the audio without an interruption notice, as notification sounds and
+        // workout voice cues do. Treat it as an interruption so it comes back by itself.
+        self.beginInterruption()
       }
     case .waitingToPlayAtSpecifiedRate:
       break
@@ -778,9 +787,7 @@ public final class RosaryPlayerCore {
       guard wantsToPlay else {
         return
       }
-      interruption = (wasPlaying: true, startedAt: Date())
-      setStatus(.interrupted, reason: .interruption)
-      updateNowPlaying()
+      beginInterruption()
     case .ended:
       guard let pending = interruption else {
         return
@@ -798,6 +805,34 @@ public final class RosaryPlayerCore {
       }
     @unknown default:
       break
+    }
+  }
+
+  private func beginInterruption() {
+    interruption = (wasPlaying: true, startedAt: Date())
+    setStatus(.interrupted, reason: .interruption)
+    updateNowPlaying()
+    watchForQuiet(generation: generation)
+  }
+
+  // Many interruptions never deliver an "ended" notification: a notification sound, a
+  // workout app's voice cue. While the app is still awake, resume as soon as no other
+  // audio is playing; music another app started keeps playing, since it is still heard.
+  private func watchForQuiet(generation expected: Int) {
+    Task { [weak self] in
+      for _ in 0..<Int(Self.resumeWindow / 2) {
+        try? await Task.sleep(nanoseconds: 2_000_000_000)
+        guard let self, expected == self.generation, let pending = self.interruption, pending.wasPlaying else {
+          return
+        }
+        guard Date().timeIntervalSince(pending.startedAt) < Self.resumeWindow else {
+          return
+        }
+        if !AVAudioSession.sharedInstance().isOtherAudioPlaying {
+          self.resume(reason: .interruption)
+          return
+        }
+      }
     }
   }
 
