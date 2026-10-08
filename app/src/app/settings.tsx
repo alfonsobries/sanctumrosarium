@@ -1,9 +1,13 @@
 import type { Evangelist } from '@sanctamaria/rosary';
+import Constants from 'expo-constants';
 import { Image } from 'expo-image';
+import * as Linking from 'expo-linking';
 import { Stack, useRouter } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
 import { useTranslation } from 'react-i18next';
 import { Text as NativeText, Pressable, ScrollView, View } from 'react-native';
 
+import { contactUrl, siteLanguageOf, siteUrl, type SitePage } from '@/domains/about/links';
 import { rates, type Settings } from '@/domains/settings/settings';
 import { useSettings } from '@/domains/settings/use-settings';
 import { artworks, type Artwork } from '@/domains/artwork/artworks';
@@ -15,6 +19,7 @@ import { Card } from '@/shared/ui/Card';
 import { Segmented } from '@/shared/ui/Segmented';
 import { SwitchRow } from '@/shared/ui/SwitchRow';
 import { Icon, type IconName } from '@/shared/ui/Icon';
+import { Row } from '@/shared/ui/Row';
 import { Text } from '@/shared/ui/Text';
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -138,6 +143,49 @@ function SkinPreview({ id, selected, onPress }: { id: SkinId; selected: boolean;
         {t(`settings.skins.${id}`)}
       </Text>
     </Pressable>
+  );
+}
+
+function AboutSection() {
+  const { t, i18n } = useTranslation();
+  const language = siteLanguageOf(i18n.language);
+  const version = Constants.expoConfig?.version;
+
+  function handleOpen(page: SitePage) {
+    void WebBrowser.openBrowserAsync(siteUrl(page, language));
+  }
+
+  return (
+    <Section title={t('settings.about')}>
+      <Card>
+        <Row
+          icon="website"
+          title={t('settings.aboutWebsite')}
+          detail={t('settings.aboutWebsiteDetail')}
+          onPress={() => handleOpen('home')}
+        />
+        <Row
+          icon="mail"
+          title={t('settings.aboutContact')}
+          detail={t('settings.aboutContactDetail')}
+          onPress={() => void Linking.openURL(contactUrl('Sanctum Rosarium'))}
+        />
+        <Row
+          icon="help"
+          title={t('settings.aboutHelp')}
+          detail={t('settings.aboutHelpDetail')}
+          onPress={() => handleOpen('help')}
+        />
+        <Row icon="support" title={t('settings.aboutSupport')} onPress={() => handleOpen('support')} />
+        <Row icon="privacy" title={t('settings.aboutPrivacy')} onPress={() => handleOpen('privacy')} />
+        <Row icon="terms" title={t('settings.aboutTerms')} onPress={() => handleOpen('terms')} />
+      </Card>
+      {version !== undefined && (
+        <Text variant="footnote" className="px-1 text-center">
+          {t('settings.aboutVersion', { version })}
+        </Text>
+      )}
+    </Section>
   );
 }
 
@@ -307,6 +355,7 @@ export default function SettingsScreen() {
             </Field>
           </Card>
         </Section>
+        <AboutSection />
       </ScrollView>
     </>
   );

@@ -14,6 +14,12 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
+  FileText,
+  Globe,
+  HandHeart,
+  LifeBuoy,
+  Mail,
+  ShieldCheck,
   Ellipsis,
   Hand,
   Icon as LucideIcon,
@@ -57,6 +63,12 @@ const library = {
   skin: Palette,
   theme: SunMoon,
   prayer: ScrollText,
+  website: Globe,
+  mail: Mail,
+  support: LifeBuoy,
+  privacy: ShieldCheck,
+  terms: FileText,
+  help: HandHeart,
 } satisfies Record<string, LucideComponent>;
 
 const custom = {
