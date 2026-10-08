@@ -5,6 +5,8 @@
  *
  * Run: pnpm store:frames            → store/apple/{es-MX,en-US}/screenshots/APP_IPHONE_67/NN-name.jpg
  *      pnpm store:frames --ipad     → the 13" iPad set from store/raw/ipad/<lang>/, in APP_IPAD_PRO_3GEN_129
+ *      pnpm store:frames --android  → Google Play phone screenshots from store/raw/android/<lang>/, at
+ *                                     2:1 (Play's tallest allowed ratio), in store/google/<lang>/images/phoneScreenshots
  *      pnpm store:frames --preview  → a contact sheet per language in store/preview/
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -16,14 +18,17 @@ import sharp from 'sharp';
 
 const root = join(import.meta.dirname, '..');
 const ipad = process.argv.includes('--ipad');
+const android = process.argv.includes('--android');
 const W = ipad ? 2064 : 1320;
-const H = ipad ? 2752 : 2868;
+const H = ipad ? 2752 : android ? 2640 : 2868;
 
 type Lang = 'es' | 'en';
 const folders: Record<Lang, string> = { es: 'es-MX', en: 'en-US' };
+const googleFolders: Record<Lang, string> = { es: 'es-419', en: 'en-US' };
 
 const file = (path: string) => pathToFileURL(join(root, path)).href;
-const raw = (lang: Lang, name: string) => file(`store/raw/${ipad ? 'ipad/' : ''}${lang}/${name}.png`);
+const raw = (lang: Lang, name: string) =>
+  file(`store/raw/${ipad ? 'ipad/' : android ? 'android/' : ''}${lang}/${name}.png`);
 const art = (name: string) => file(`app/assets/mysteries/${name}.jpg`);
 const fonts = {
   serif: file('site/node_modules/@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-normal.woff2'),
@@ -159,6 +164,7 @@ function page(frame: Frame, lang: Lang, index: number): string {
     .phone { position: relative; aspect-ratio: 1206 / 2622; padding: 2.4%; border-radius: 13% / 6%;
       background: linear-gradient(145deg, #2f3440, #0b0d12 60%);
       box-shadow: 0 0 0 2px rgb(255 255 255 / .08) inset, 0 60px 140px -30px rgb(0 0 0 / .65); }
+    ${android ? `.phone { aspect-ratio: 1080 / 2424; border-radius: 9% / 4.2%; } .phone img { border-radius: 7.4% / 3.4% !important; } header { flex-shrink: 0; }` : ''}
     ${ipad ? `header { padding: 0 240px; height: 620px; flex-shrink: 0; } .hero-mark { width: 150px; height: 150px; } .kicker { font-size: 50px; } h1 { font-size: 168px; }` : ''}
     .tablet { aspect-ratio: 2064 / 2752; padding: 1.8%; border-radius: 5% / 3.8%; }
     .tablet img { border-radius: 3.4% / 2.6% !important; }
@@ -204,11 +210,13 @@ const temp = join(root, 'store/.render');
 mkdirSync(temp, { recursive: true });
 
 for (const lang of ['es', 'en'] as const) {
-  const out = join(root, 'store/apple', folders[lang], 'screenshots', ipad ? 'APP_IPAD_PRO_3GEN_129' : 'APP_IPHONE_67');
+  const out = android
+    ? join(root, 'store/google', googleFolders[lang], 'images/phoneScreenshots')
+    : join(root, 'store/apple', folders[lang], 'screenshots', ipad ? 'APP_IPAD_PRO_3GEN_129' : 'APP_IPHONE_67');
   mkdirSync(out, { recursive: true });
   const shots: string[] = [];
-  // The watch frame shows the watch, not the iPad app.
-  for (const [index, frame] of frames.filter((f) => !ipad || f.name !== 'watch').entries()) {
+  // The watch frame shows the watch, which is neither the iPad nor the Android app.
+  for (const [index, frame] of frames.filter((f) => !(ipad || android) || f.name !== 'watch').entries()) {
     const html = join(temp, `${lang}-${frame.name}.html`);
     writeFileSync(html, page(frame, lang, index));
     await tab.goto(pathToFileURL(html).href, { waitUntil: 'load' });
@@ -225,7 +233,7 @@ for (const lang of ['es', 'en'] as const) {
     await sharp({ create: { width: tiles.length * 340, height: 718, channels: 3, background: '#777' } })
       .composite(tiles.map((input, i) => ({ input, left: i * 340, top: 0 })))
       .png()
-      .toFile(join(root, `store/preview/${ipad ? 'ipad-' : ''}${folders[lang]}.png`));
+      .toFile(join(root, `store/preview/${ipad ? 'ipad-' : android ? 'android-' : ''}${folders[lang]}.png`));
   }
 }
 await browser.close();
