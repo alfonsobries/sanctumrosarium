@@ -36,6 +36,9 @@ const medallion = readFileSync(join(root, 'app/assets/brand/sanctumrosarium-logo
 const phone = (src: string, width: number, style = '') =>
   `<div class="phone" style="width:${width}px;${style}"><img src="${src}" /></div>`;
 
+/** The main phone: the same size and place on every frame, so the set reads as one strip. */
+const hero = (src: string, style = '') => phone(src, 900, `position:relative;margin-top:110px;${style}`);
+
 /** An Apple Watch case drawn in CSS, crown included. */
 const watch = (src: string, width: number, style = '') =>
   `<div class="watch" style="width:${width}px;${style}"><div class="case"><img src="${src}" /></div><span class="crown"></span><span class="button"></span></div>`;
@@ -55,29 +58,26 @@ const frames: Frame[] = [
     name: 'pray',
     ground: 'night',
     painting: 'annunciation',
-    kicker: { es: 'Gratis · Sin cuentas · Sin anuncios', en: 'Free · No account · No ads' },
+    // App Review guideline 2.3.7: no price references, "free" included.
+    kicker: { es: 'Sin cuentas · Sin anuncios', en: 'No account · No ads' },
     title: { es: 'Reza el Rosario <em>cada día</em>', en: 'Pray the Rosary <em>every day</em>' },
-    body: (lang) => phone(raw(lang, 'pray-dark'), 940, 'margin-top:90px'),
+    body: (lang) => hero(raw(lang, 'pray-dark')),
   },
   {
     name: 'watch',
     ground: 'deep',
     kicker: { es: 'Apple Watch', en: 'Apple Watch' },
     title: { es: 'El Rosario completo, <em>en tu muñeca</em>', en: 'The whole Rosary, <em>on your wrist</em>' },
-    body: (lang) => `
-      <div class="duo">
-        ${phone(raw(lang, 'pray-light'), 600, 'position:absolute;left:-40px;top:300px;transform:rotate(-8deg);opacity:.9')}
-        ${watch(raw(lang, 'watch-text'), 470, 'position:absolute;right:40px;top:1080px;transform:rotate(7deg)')}
-        ${watch(raw(lang, 'watch-beads'), 760, 'position:absolute;left:300px;top:120px;transform:rotate(-2deg)')}
-      </div>
-      <p class="note">${lang === 'es' ? 'Con su propia voz, el texto y una vibración en cada cuenta' : 'With its own voice, the words and a tap on every bead'}</p>`,
+    body: (lang) =>
+      hero(raw(lang, 'pray-light')) +
+      watch(raw(lang, 'watch-beads'), 700, 'position:absolute;left:50%;top:1130px;transform:translateX(-50%)'),
   },
   {
     name: 'voice',
     ground: 'copper',
     kicker: { es: 'Con voz o a tu ritmo', en: 'With a voice or at your pace' },
     title: { es: 'Dos voces rezan <em>contigo</em>', en: 'Two voices pray <em>with you</em>' },
-    body: (lang) => phone(raw(lang, 'pray-light'), 940, 'margin-top:90px'),
+    body: (lang) => hero(raw(lang, 'pray-light')),
   },
   {
     name: 'gospel',
@@ -85,19 +85,17 @@ const frames: Frame[] = [
     painting: 'baptism',
     kicker: { es: 'Antes de cada decena', en: 'Before each decade' },
     title: { es: 'El Evangelio de <em>cada misterio</em>', en: 'The Gospel of <em>each mystery</em>' },
-    body: (lang) => phone(raw(lang, 'gospel'), 940, 'margin-top:90px'),
+    body: (lang) => hero(raw(lang, 'gospel')),
   },
   {
     name: 'styles',
     ground: 'ivory',
     kicker: { es: 'Claro y oscuro en cada uno', en: 'Light and dark in each' },
     title: { es: 'Ocho estilos, de sencillo <em>a iluminado</em>', en: 'Eight styles, plain <em>to illuminated</em>' },
-    body: (lang) => `
-      <div class="fan">
-        ${phone(raw(lang, 'announce-glass'), 600, 'transform:translate(-330px,90px) rotate(-9deg)')}
-        ${phone(raw(lang, 'pray-dark'), 600, 'transform:translate(330px,90px) rotate(9deg)')}
-        ${phone(raw(lang, 'announce'), 640, 'transform:translateY(0);z-index:2')}
-      </div>`,
+    body: (lang) =>
+      phone(raw(lang, 'announce-glass'), 760, 'position:absolute;top:230px;left:50%;transform:translateX(-112%);opacity:.95') +
+      phone(raw(lang, 'pray-dark'), 760, 'position:absolute;top:230px;left:50%;transform:translateX(12%);opacity:.95') +
+      hero(raw(lang, 'announce'), 'z-index:2'),
   },
   {
     name: 'learn',
@@ -105,14 +103,14 @@ const frames: Frame[] = [
     painting: 'finding-in-the-temple',
     kicker: { es: 'Para quien empieza', en: 'For those beginning' },
     title: { es: 'Aprende a <em>rezarlo</em>', en: 'Learn to <em>pray it</em>' },
-    body: (lang) => phone(raw(lang, 'learn'), 940, 'margin-top:90px'),
+    body: (lang) => hero(raw(lang, 'learn')),
   },
   {
     name: 'journal',
     ground: 'deep',
     kicker: { es: 'Sin cuentas ni servidor', en: 'No account, no server' },
     title: { es: 'Lo que rezas <em>se queda contigo</em>', en: 'What you pray <em>stays with you</em>' },
-    body: (lang) => phone(raw(lang, 'journal'), 940, 'margin-top:90px'),
+    body: (lang) => hero(raw(lang, 'journal')),
   },
 ];
 
@@ -133,7 +131,7 @@ function page(frame: Frame, lang: Lang, index: number): string {
     * { box-sizing: border-box; margin: 0; }
     html, body { width: ${W}px; height: ${H}px; overflow: hidden; }
     body { position: relative; background: ${g.bg}; color: ${g.ink}; font-family: Inter, sans-serif;
-      display: flex; flex-direction: column; align-items: center; padding-top: 210px; }
+      display: flex; flex-direction: column; align-items: center; padding-top: 120px; }
     .painting { position: absolute; inset: -80px; background-size: cover; background-position: center top;
       filter: blur(10px) saturate(1.05); opacity: .78; transform: scale(1.06); }
     .painting::after { content: ''; position: absolute; inset: 0;
@@ -144,7 +142,7 @@ function page(frame: Frame, lang: Lang, index: number): string {
     .mark svg { width: 100%; height: 100%; }
     .hero-mark { width: 170px; height: 170px; margin: -40px auto 0; color: ${g.accent}; }
     .hero-mark svg { width: 100%; height: 100%; }
-    header { position: relative; z-index: 3; text-align: center; padding: 0 110px; display: grid; gap: 36px; }
+    header { position: relative; z-index: 3; text-align: center; padding: 0 110px; display: grid; gap: 36px; align-content: end; height: 520px; }
     .kicker { font-size: 38px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: ${g.accent}; }
     h1 { font-family: Garamond, serif; font-weight: 500; font-size: 132px; line-height: 1.02; letter-spacing: -.01em; text-wrap: balance; }
     h1 em { font-style: italic; color: ${g.accent}; }
