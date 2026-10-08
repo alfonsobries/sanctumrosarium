@@ -26,12 +26,18 @@ export type RosaryLoadOptions = {
   startIndex?: number;
   rate?: number;
   nowPlaying: RosaryNowPlaying;
+  /**
+   * Silence in the same format as the queue's recordings: it fills the pause that ends
+   * each step. A file in another format is never mixed in, since that breaks timing.
+   */
+  silenceUri?: string;
 };
 
 export type RosaryNativeLoadOptions = {
   startIndex: number;
   rate: number;
   nowPlaying: RosaryNowPlaying;
+  silenceUri?: string;
 };
 
 export type RosaryPlayerState = {

@@ -55,6 +55,9 @@ export function normalizeLoad(
       startIndex,
       rate: clampRate(options.rate ?? 1),
       nowPlaying: options.nowPlaying,
+      ...(options.silenceUri === undefined || options.silenceUri.length === 0
+        ? {}
+        : { silenceUri: options.silenceUri }),
     },
   };
 }

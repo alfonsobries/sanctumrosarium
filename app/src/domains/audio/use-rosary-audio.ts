@@ -153,6 +153,7 @@ export function useRosaryAudio(options: Options): RosaryAudio {
         startIndex: latest.current.position,
         rate,
         nowPlaying: { album: latest.current.nowPlaying.album, artist: latest.current.nowPlaying.artist },
+        silenceUri,
       });
       if (cancelled) {
         return;

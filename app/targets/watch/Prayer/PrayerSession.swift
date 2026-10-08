@@ -32,6 +32,8 @@ final class PrayerSession: Identifiable {
 
   /** Pack parts resolved to files; nil while this language's pack is not on the watch. */
   private let audioSteps: [RosaryStep]?
+  /// The pack's silence, in the recordings' format: it pads the end of each step.
+  private let silenceURL: URL?
   private let settings: WatchSettings
   private let earlierSeconds: Double
   private var activeSeconds: Double = 0
@@ -82,7 +84,11 @@ final class PrayerSession: Identifiable {
     self.content = content
     self.steps = steps
     self.settings = settings
-    self.audioSteps = PackStore.shared.pack(for: content.locale).flatMap {
+    let installed = PackStore.shared.pack(for: content.locale)
+    self.silenceURL = installed.map { $0.url(of: "silence.mp3") }.flatMap {
+      FileManager.default.fileExists(atPath: $0.path) ? $0 : nil
+    }
+    self.audioSteps = installed.flatMap {
       Self.audioSteps(steps, set: set, content: content, pack: $0, pauseSeconds: settings.pauseSeconds)
     }
 
@@ -200,7 +206,13 @@ final class PrayerSession: Identifiable {
     let nowPlaying = RosaryNowPlaying(album: setTitle, artist: "Sanctum Rosarium", artworkURL: nil)
     Task {
       do {
-        try await core.load(steps: audioSteps, startIndex: position, rate: Float(settings.rate), nowPlaying: nowPlaying)
+        try await core.load(
+          steps: audioSteps,
+          startIndex: position,
+          rate: Float(settings.rate),
+          nowPlaying: nowPlaying,
+          silence: silenceURL
+        )
         core.play()
       } catch {
         audioLoaded = false

@@ -142,7 +142,10 @@ export default function TodayScreen() {
           </View>
 
           {artwork !== null && (
-            <ArtworkFrame artwork={artwork} style={{ height: Math.min(width - 40, wide ? 600 : 460) * 0.95 }} />
+            <ArtworkFrame
+              artwork={artwork}
+              style={{ height: Math.min(width - 40, wide ? 600 : 460) * 0.95 }}
+            />
           )}
 
           <View className="gap-2.5">

@@ -6,7 +6,9 @@ import type { AudioManifest } from '@/domains/audio/queue';
 
 import type { WatchAudioPackOffer } from '../../../modules/watch-bridge';
 
-import { watchAudioPack } from './watch-pack';
+import { watchAudioPack, watchSilenceFile } from './watch-pack';
+
+const silence = require('@/assets/audio/silence.mp3') as number;
 
 type Pack = { manifest: AudioManifest; files: Record<string, number> };
 
@@ -32,7 +34,7 @@ export async function watchAudioPackOffer(locale: Locale): Promise<WatchAudioPac
   }
   const files: { name: string; path: string }[] = [];
   for (const name of plan.files) {
-    const module = pack.files[name];
+    const module = name === watchSilenceFile ? silence : pack.files[name];
     const path = module === undefined ? null : await pathOf(module);
     if (path === null) {
       return { locale, files: [] };

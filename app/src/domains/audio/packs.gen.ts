@@ -334,7 +334,7 @@ export const audioPacks = {
       'announce.glorious-5-coronation-5e9d8dda.mp3': require('@/assets/audio/en-US/announce.glorious-5-coronation-5e9d8dda.mp3'),
     },
   },
-  'la': {
+  la: {
     manifest: require('@/assets/audio/la/manifest.json'),
     files: {
       'sign-of-the-cross.leader-bbbe39a5.mp3': require('@/assets/audio/la/sign-of-the-cross.leader-bbbe39a5.mp3'),

@@ -12,6 +12,12 @@ import WatchKit
 // Every step becomes one AVPlayerItem whose timeline holds the voice parts and
 // the silent gaps between them, so a gap is playback time the system sees as
 // audio, never a timer that lets the process be suspended.
+//
+// A composition track must not mix audio formats: AVQueuePlayer loses its clock
+// across items that do, and starts the next step seconds into its audio. Gaps
+// between parts are empty edits, which carry no format; the gap that ends a step
+// needs real samples (a trailing empty edit does not count towards the duration),
+// so it comes from the queue's silence file, used only where its format matches.
 
 public struct RosaryPart: Sendable {
   public let url: URL
@@ -137,7 +143,23 @@ public final class RosaryPlayerCore {
   private var remoteCommandsRegistered = false
   // The asset is kept with its track: a track only holds its asset weakly and
   // cannot be inserted once the asset is gone.
-  private var silence: (asset: AVURLAsset, track: AVAssetTrack, duration: CMTime)?
+  private var silenceURL: URL?
+  private var silence: Silence?
+  private var reportedMismatch = false
+
+  private struct Silence {
+    let asset: AVURLAsset
+    let track: AVAssetTrack
+    let duration: CMTime
+    let format: AudioFormat?
+  }
+
+  /// What a composition track needs to be uniform: codec, sample rate and channels.
+  private struct AudioFormat: Equatable {
+    let codec: AudioFormatID
+    let sampleRate: Float64
+    let channels: UInt32
+  }
 
   public init() {
     preparePlayer()
@@ -146,7 +168,7 @@ public final class RosaryPlayerCore {
 
   // MARK: - Commands
 
-  public func load(steps: [RosaryStep], startIndex: Int, rate: Float, nowPlaying: RosaryNowPlaying) async throws {
+  public func load(steps: [RosaryStep], startIndex: Int, rate: Float, nowPlaying: RosaryNowPlaying, silence silenceURL: URL?) async throws {
     guard !steps.isEmpty else {
       throw RosaryPlayerError.emptyQueue
     }
@@ -158,6 +180,11 @@ public final class RosaryPlayerCore {
     // Compositions are cached by position; a new queue puts different audio at the same
     // positions (a Gospel reading where a Hail Mary was), so the cache starts over.
     compositions.removeAll()
+    if self.silenceURL != silenceURL {
+      self.silenceURL = silenceURL
+      silence = nil
+    }
+    reportedMismatch = false
     self.steps = steps
     self.nowPlaying = nowPlaying
     self.artwork = nil
@@ -454,7 +481,7 @@ public final class RosaryPlayerCore {
       throw RosaryPlayerError.emptyStep(step.id)
     }
     var cursor = CMTime.zero
-    for part in step.parts {
+    for (position, part) in step.parts.enumerated() {
       let asset = AVURLAsset(url: part.url)
       guard let source = try await asset.loadTracks(withMediaType: .audio).first else {
         throw RosaryPlayerError.missingAudioTrack(part.url)
@@ -464,8 +491,15 @@ public final class RosaryPlayerCore {
         try track.insertTimeRange(range, of: source, at: cursor)
       }
       cursor = cursor + range.duration
-      if part.gapAfter > 0 {
-        cursor = try await insertSilence(part.gapAfter, into: track, at: cursor)
+      guard part.gapAfter > 0 else {
+        continue
+      }
+      let gap = CMTime(seconds: part.gapAfter, preferredTimescale: Self.timescale)
+      if position < step.parts.count - 1 {
+        track.insertEmptyTimeRange(CMTimeRange(start: cursor, duration: gap))
+        cursor = cursor + gap
+      } else {
+        cursor = try await insertTrailingSilence(gap, after: source, into: track, at: cursor, stepID: step.id)
       }
     }
     if steps.indices.contains(stepIndex), steps[stepIndex].id == step.id {
@@ -474,12 +508,26 @@ public final class RosaryPlayerCore {
     return composition
   }
 
-  // A trailing empty edit does not extend a composition's duration, so gaps are
-  // built from a real silent PCM file instead of insertEmptyTimeRange.
-  private func insertSilence(_ seconds: TimeInterval, into track: AVMutableCompositionTrack, at start: CMTime) async throws -> CMTime {
-    let silence = try await silenceSource()
+  // The step's closing gap, in samples of the queue's silence file. A silence in another
+  // format would break the queue's timing, so then the gap is left out and reported.
+  private func insertTrailingSilence(
+    _ gap: CMTime,
+    after voice: AVAssetTrack,
+    into track: AVMutableCompositionTrack,
+    at start: CMTime,
+    stepID: String
+  ) async throws -> CMTime {
+    guard let silence = try await silenceSource() else {
+      reportMismatch("no silence file for the gap after \(stepID)")
+      return start
+    }
+    let voiceFormat = try await Self.format(of: voice)
+    guard silence.format != nil, silence.format == voiceFormat else {
+      reportMismatch("the silence file does not match the audio of \(stepID)")
+      return start
+    }
     var cursor = start
-    var remaining = CMTime(seconds: seconds, preferredTimescale: Self.timescale)
+    var remaining = gap
     while remaining > .zero {
       let chunk = CMTimeMinimum(remaining, silence.duration)
       try track.insertTimeRange(CMTimeRange(start: .zero, duration: chunk), of: silence.track, at: cursor)
@@ -489,46 +537,39 @@ public final class RosaryPlayerCore {
     return cursor
   }
 
-  private func silenceSource() async throws -> (asset: AVURLAsset, track: AVAssetTrack, duration: CMTime) {
+  private func silenceSource() async throws -> Silence? {
     if let silence {
       return silence
     }
-    let url = try Self.silenceFileURL()
-    let asset = AVURLAsset(url: url)
+    guard let silenceURL else {
+      return nil
+    }
+    let asset = AVURLAsset(url: silenceURL)
     guard let track = try await asset.loadTracks(withMediaType: .audio).first else {
-      throw RosaryPlayerError.missingAudioTrack(url)
+      throw RosaryPlayerError.missingAudioTrack(silenceURL)
     }
     let duration = try await track.load(.timeRange).duration
-    let source = (asset: asset, track: track, duration: duration)
+    let source = Silence(asset: asset, track: track, duration: duration, format: try await Self.format(of: track))
     silence = source
     return source
   }
 
-  private nonisolated static func silenceFileURL() throws -> URL {
-    let directory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-    let url = directory.appendingPathComponent("rosary-player-silence-1s.caf")
-    if FileManager.default.fileExists(atPath: url.path) {
-      return url
-    }
-    let sampleRate = 22_050.0
+  private nonisolated static func format(of track: AVAssetTrack) async throws -> AudioFormat? {
     guard
-      let format = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: sampleRate, channels: 1, interleaved: true),
-      let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(sampleRate))
+      let description = try await track.load(.formatDescriptions).first,
+      let basic = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee
     else {
-      throw RosaryPlayerError.missingAudioTrack(url)
+      return nil
     }
-    buffer.frameLength = buffer.frameCapacity
-    let temporary = directory.appendingPathComponent("rosary-player-silence-\(UUID().uuidString).caf")
-    do {
-      let file = try AVAudioFile(forWriting: temporary, settings: format.settings, commonFormat: .pcmFormatInt16, interleaved: true)
-      try file.write(from: buffer)
+    return AudioFormat(codec: basic.mFormatID, sampleRate: basic.mSampleRate, channels: basic.mChannelsPerFrame)
+  }
+
+  private func reportMismatch(_ message: String) {
+    guard !reportedMismatch else {
+      return
     }
-    if !FileManager.default.fileExists(atPath: url.path) {
-      try FileManager.default.moveItem(at: temporary, to: url)
-    } else {
-      try? FileManager.default.removeItem(at: temporary)
-    }
-    return url
+    reportedMismatch = true
+    onError?("Rosary audio gap skipped: \(message)")
   }
 
   // MARK: - Player observation

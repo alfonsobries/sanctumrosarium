@@ -22,6 +22,7 @@ struct LoadOptionsRecord: Record {
   @Field var startIndex: Int = 0
   @Field var rate: Double = 1
   @Field var nowPlaying: NowPlayingRecord = NowPlayingRecord()
+  @Field var silenceUri: String?
 }
 
 // The core outlives module instances, so a JS reload or an unmounted screen
@@ -94,7 +95,13 @@ public final class RosaryPlayerModule: Module {
       )
       let startIndex = options.startIndex
       let rate = Float(options.rate)
-      try await SharedPlayer.core.load(steps: steps, startIndex: startIndex, rate: rate, nowPlaying: nowPlaying)
+      try await SharedPlayer.core.load(
+        steps: steps,
+        startIndex: startIndex,
+        rate: rate,
+        nowPlaying: nowPlaying,
+        silence: options.silenceUri.flatMap(Self.url)
+      )
     }
 
     AsyncFunction("play") { () async in

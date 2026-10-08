@@ -47,6 +47,9 @@ export function audioKeyOf(step: Step): string {
 }
 
 /** `pause`: the gap stretches to the person's pause when that is longer than `minGapMs`. */
+/** Pads the end of each step on the watch; it shares the recordings' format. */
+export const watchSilenceFile = 'silence.mp3';
+
 export type WatchAudioPart = { file: string; minGapMs: number; pause: boolean };
 
 export type WatchAudioPack = {
@@ -95,7 +98,9 @@ export function watchAudioPack(locale: string, manifest: AudioManifest): WatchAu
       });
     });
   }
-  const files = [...new Set(Object.values(parts).flatMap((list) => list.map((part) => part.file)))].sort();
-  const version = fnv1a(`${locale}\n${JSON.stringify(parts)}`);
+  const files = [
+    ...new Set([watchSilenceFile, ...Object.values(parts).flatMap((list) => list.map((part) => part.file))]),
+  ].sort();
+  const version = fnv1a(`${locale}\n${JSON.stringify(parts)}\n${files.join(',')}`);
   return { locale, version, parts, files };
 }

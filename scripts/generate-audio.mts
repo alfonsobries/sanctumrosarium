@@ -35,6 +35,8 @@ import { mysterySets } from '../packages/rosary/src/index';
 
 const root = join(import.meta.dirname, '..');
 const audioRoot = join(root, 'app/assets/audio');
+/** Every recording and the silence share this rate; the player relies on it. */
+const sampleRate = 48_000;
 
 type Voice = { id: string; name: string };
 type PackSpec = {
@@ -230,22 +232,36 @@ async function synthesize(
   }
   const raw = `${out}.raw.mp3`;
   writeFileSync(raw, Buffer.from(await response.arrayBuffer()));
-  // Same loudness for every track and both voices; mono 64 kbps keeps packs small.
+  encode(['-i', raw], out, bitrate, ['loudnorm=I=-18:TP=-2', 'silenceremove=start_periods=1:start_threshold=-50dB']);
+  execFileSync('rm', [raw]);
+}
+
+/**
+ * The one encoding every recording goes through: same loudness for every track and both
+ * voices, mono 64 kbps to keep packs small. The silence the player pads steps with comes
+ * out of it too, so it always shares the voices' format (a composition that mixes formats
+ * loses its timing on iOS).
+ */
+function encode(input: string[], out: string, bitrate: string, filters: string[]): void {
   execFileSync('ffmpeg', [
     '-loglevel',
     'error',
     '-y',
-    '-i',
-    raw,
-    '-af',
-    'loudnorm=I=-18:TP=-2,silenceremove=start_periods=1:start_threshold=-50dB',
+    ...input,
+    ...(filters.length === 0 ? [] : ['-af', filters.join(',')]),
+    '-ar',
+    String(sampleRate),
     '-ac',
     '1',
     '-b:a',
     bitrate,
     out,
   ]);
-  execFileSync('rm', [raw]);
+}
+
+/** One second of silence in the recordings' format; loudness filters stay out of it. */
+function writeSilence(): void {
+  encode(['-f', 'lavfi', '-t', '1', '-i', `anullsrc=r=${sampleRate}:cl=mono`], join(audioRoot, 'silence.mp3'), '64k', []);
 }
 
 type Job = { key: string; text: string; voice: Voice };
@@ -452,5 +468,6 @@ if (args.has('--registry')) {
 process.stdout.write(`${dryRun ? 'Would synthesize' : 'Synthesized'} ${total} characters\n`);
 if (!dryRun) {
   mkdirSync(join(root, 'app/src/domains/audio'), { recursive: true });
+  writeSilence();
   writeRegistry();
 }
