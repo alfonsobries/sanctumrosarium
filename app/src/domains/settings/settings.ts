@@ -1,6 +1,6 @@
 import type { ReadingPreference } from '@sanctamaria/rosary';
 
-import type { Locale } from '@/domains/sync/api.gen';
+import type { Locale } from '@sanctamaria/content';
 import type { SkinId } from '@/shared/theme/skins';
 
 export type PrayMode = 'listen' | 'tap';

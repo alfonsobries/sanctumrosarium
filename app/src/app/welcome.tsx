@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
-import type { Locale } from '@/domains/sync/api.gen';
+import type { Locale } from '@sanctamaria/content';
 import { useSettings } from '@/domains/settings/use-settings';
 import { useSkin } from '@/shared/theme/SkinProvider';
 import { Button } from '@/shared/ui/Button';
-import { Icon } from '@/shared/ui/Icon';
+import { BrandMark } from '@/shared/ui/BrandMark';
 import { Segmented } from '@/shared/ui/Segmented';
 import { SafeScreen } from '@/shared/ui/SafeScreen';
 import { Text } from '@/shared/ui/Text';
@@ -45,7 +45,7 @@ export default function WelcomeScreen() {
   return (
     <SafeScreen className="justify-between px-6" extraTop={24} extraBottom={12}>
       <Animated.View entering={FadeIn.duration(400)} className="flex-1 items-center justify-center gap-5">
-        <Icon name="cross" size={52} color={colors.accent} />
+        <BrandMark size={112} color={colors.accent} />
         <View className="items-center gap-2">
           <Text variant="display" className="text-center">
             {t('onboarding.title')}

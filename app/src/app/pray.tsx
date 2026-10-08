@@ -229,7 +229,7 @@ export default function PrayScreen() {
       : (steps.find((s) => s.kind === 'announce' && s.decade === step.decade) ?? null);
   const barTitle =
     mystery !== null && mystery.kind === 'announce'
-      ? mysteryTitle(mystery.mystery.id, headingLocale)
+      ? mysteryTitle(mystery.mystery.id, plan.locale)
       : step.section === 'closing'
         ? t('pray.closing')
         : t('pray.opening');
@@ -246,13 +246,19 @@ export default function PrayScreen() {
               accessible
               accessibilityRole="header"
               accessibilityLabel={`${barTitle}, ${t(`sets.${plan.set}`)}`}
-              className="max-w-[220px] items-center"
+              className="max-w-[260px] items-center"
             >
-              <Text variant="footnote" numberOfLines={1} className="font-semibold text-foreground">
+              <Text
+                variant="footnote"
+                numberOfLines={1}
+                maxFontSizeMultiplier={1.3}
+                className="font-semibold text-foreground"
+              >
                 {barTitle}
               </Text>
               <Text
                 numberOfLines={1}
+                maxFontSizeMultiplier={1.3}
                 className="text-[11px] uppercase leading-[15px] tracking-[1.2px] text-muted"
               >
                 {t(`sets.${plan.set}`)}
@@ -366,6 +372,20 @@ export default function PrayScreen() {
           />
         </StepStage>
 
+        {process.env.EXPO_OS === 'android' && (
+          // Android has no scroll edge effect: the page fades into the background under the controls.
+          <View
+            pointerEvents="none"
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: panelHeight + Math.max(insets.bottom, 12) + 48,
+              experimental_backgroundImage: `linear-gradient(to bottom, ${colors.background}00 0%, ${colors.background} 45%)`,
+            }}
+          />
+        )}
         <View
           pointerEvents="box-none"
           style={{ position: 'absolute', left: 0, right: 0, bottom: Math.max(insets.bottom, 12) }}

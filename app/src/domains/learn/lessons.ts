@@ -87,7 +87,7 @@ const howToPray: Record<InterfaceLanguage, Lesson> = {
     pages: [
       {
         title: 'What it is',
-        body: 'The Rosary is a Marian prayer centred on Christ (RVM 1). While simple prayers are repeated, you contemplate a mystery from the life of Jesus and Mary.',
+        body: 'The Rosary is a Marian prayer centered on Christ (RVM 1). While simple prayers are repeated, you contemplate a mystery from the life of Jesus and Mary.',
         quote: {
           text: 'To recite the Rosary is nothing other than to contemplate with Mary the face of Christ.',
           cite: 'RVM 3',

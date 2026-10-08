@@ -143,9 +143,11 @@ export function StepStage({
           contentContainerStyle={{
             paddingHorizontal: 24,
             paddingTop: 12,
-            // A centred page grows to the whole scroll view, which also runs under the
+            // On iOS a centred page grows to the whole scroll view, which also runs under the
             // title bar; the same room at the bottom keeps it centred in what is visible.
-            paddingBottom: centered ? bottomInset + topInset + 12 : bottomInset + 32,
+            paddingBottom: centered
+              ? bottomInset + (process.env.EXPO_OS === 'ios' ? topInset : 0) + 12
+              : bottomInset + 32,
             ...(centered ? { flexGrow: 1, justifyContent: 'center' } : null),
           }}
           showsVerticalScrollIndicator={false}

@@ -1,10 +1,25 @@
+import type { Locale } from '@sanctamaria/content';
 import type { MysterySet } from '@sanctamaria/rosary';
-
-import type { Locale, PrayerData, PrayerKind } from '@/domains/sync/api.gen';
 
 import type { SqlDatabase } from './sql';
 
-export type JournalEntry = PrayerData;
+export type PrayerKind = 'rosary' | 'decade';
+
+/** One Rosary or one decade prayed, as the journal keeps it. */
+export type JournalEntry = {
+  id: string;
+  kind: PrayerKind;
+  mysterySet: MysterySet;
+  locale: Locale;
+  prayedOn: string;
+  startedAt: string;
+  completedAt: string | null;
+  decades: number;
+  durationSeconds: number;
+  readings: Record<string, string> | null;
+  clientUpdatedAt: string;
+  deletedAt: string | null;
+};
 
 type Row = {
   id: string;
@@ -89,10 +104,7 @@ const upsert = `INSERT INTO prayers
 
 export type DaySummary = { prayedOn: string; decades: number; sets: MysterySet[] };
 
-/**
- * The record of what was prayed, kept on the device first. Every local write is marked
- * dirty until the server acknowledges it, so nothing is lost offline.
- */
+/** The record of what was prayed. It lives only on this device; nothing leaves it. */
 export class Journal {
   constructor(
     private readonly db: SqlDatabase,
@@ -188,40 +200,4 @@ export class Journal {
     return counts;
   }
 
-  async dirty(): Promise<JournalEntry[]> {
-    const rows = await this.db.getAllAsync<Row>('SELECT * FROM prayers WHERE dirty = 1', []);
-    return rows.map(toEntry);
-  }
-
-  /** Marks pushed entries as synced, unless they changed again while the push was in flight. */
-  async markSynced(pushed: readonly JournalEntry[]): Promise<void> {
-    await this.db.withTransactionAsync(async () => {
-      for (const entry of pushed) {
-        await this.db.runAsync('UPDATE prayers SET dirty = 0 WHERE id = ? AND client_updated_at = ?', [
-          entry.id,
-          entry.clientUpdatedAt,
-        ]);
-      }
-    });
-  }
-
-  /** Applies entries from the server; the newest edit wins and local unsynced edits survive. */
-  async applyRemote(entries: readonly JournalEntry[]): Promise<void> {
-    await this.db.withTransactionAsync(async () => {
-      for (const entry of entries) {
-        const local = await this.db.getFirstAsync<{ client_updated_at: string }>(
-          'SELECT client_updated_at FROM prayers WHERE id = ?',
-          [entry.id],
-        );
-        if (local !== null && Date.parse(local.client_updated_at) >= Date.parse(entry.clientUpdatedAt)) {
-          continue;
-        }
-        await this.db.runAsync(upsert, [...params(entry), 0]);
-      }
-    });
-  }
-
-  async clear(): Promise<void> {
-    await this.db.runAsync('DELETE FROM prayers', []);
-  }
 }

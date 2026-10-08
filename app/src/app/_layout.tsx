@@ -34,14 +34,12 @@ import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo } from 'react';
-import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useTranslation } from 'react-i18next';
 
 import { prepareAudio } from '@/domains/audio/use-rosary-audio';
 import { journalKeys } from '@/domains/journal/queries';
 import { useSettings, useSettingsHydrated } from '@/domains/settings/use-settings';
-import { syncNow } from '@/domains/sync/account';
 import { useWatchSync } from '@/domains/watch/use-watch-sync';
 import { SkinProvider, useSkin } from '@/shared/theme/SkinProvider';
 
@@ -51,24 +49,7 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: Infinity, retry: false } },
 });
 
-function useJournalSync(): void {
-  useEffect(() => {
-    const run = async () => {
-      await syncNow();
-      await queryClient.invalidateQueries({ queryKey: journalKeys.all });
-    };
-    void run();
-    const subscription = AppState.addEventListener('change', (state) => {
-      if (state === 'active') {
-        void run();
-      }
-    });
-    return () => subscription.remove();
-  }, []);
-}
-
 function Navigation() {
-  useJournalSync();
   const prayerLocale = useSettings((state) => state.prayerLocale);
   useEffect(() => {
     // Resolve the voice files in the background so pressing Pray starts at once.

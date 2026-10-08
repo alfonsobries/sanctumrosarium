@@ -30,10 +30,10 @@ Lo más importante es que sea simple. Cada pantalla tiene una tarea.
 6. **Skins.** De lo mínimo a un manuscrito iluminado. Cambian la apariencia, nunca la
    estructura ni el texto.
 
-## Cuenta y API
+## Sin cuentas ni servidor
 
-La app funciona completa sin cuenta y sin conexión. La cuenta es opcional y sirve para
-guardar el historial y sincronizarlo entre dispositivos. La API es Laravel (`api/`).
+La app funciona completa sin conexión. No hay cuentas ni servidor: el diario vive solo en
+el dispositivo, y lo que se reza en el reloj llega al teléfono directamente.
 
 ## Audio
 

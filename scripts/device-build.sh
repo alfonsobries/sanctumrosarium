@@ -2,7 +2,7 @@
 
 # Dev client compilado en esta Mac (EAS local, sin cola en la nube). Salida en
 # app/build/. El dev client carga el JavaScript de Metro, que `pnpm play`
-# levanta con la IP LAN ya inyectada (EXPO_PUBLIC_API_URL).
+# levanta en la red local.
 #
 # Uso (raíz):
 #   pnpm ios:build

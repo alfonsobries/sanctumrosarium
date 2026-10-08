@@ -27,7 +27,10 @@ export function SwitchRow({ title, icon, detail, value, onChange }: SwitchRowPro
         value={value}
         onValueChange={onChange}
         trackColor={{ true: colors.accent, false: colors.border }}
-        thumbColor={process.env.EXPO_OS === 'android' ? colors['surface-raised'] : undefined}
+        // Material 3: a muted thumb on the bare track when off, so it reads in dark mode too.
+        thumbColor={
+          process.env.EXPO_OS === 'android' ? (value ? colors['accent-foreground'] : colors.muted) : undefined
+        }
       />
     </View>
   );

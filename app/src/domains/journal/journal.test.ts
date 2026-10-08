@@ -52,36 +52,12 @@ describe('Journal', () => {
     expect(await journal.totals()).toEqual({ rosaries: 1, decades: 7, days: 2 });
   });
 
-  it('keeps deletions as dirty tombstones until synced', async () => {
+  it('hides deleted entries', async () => {
     await journal.save(entry());
-    await journal.markSynced(await journal.dirty());
     clock = new Date('2026-10-07T10:00:00Z');
     await journal.remove('a');
 
     expect(await journal.between('2026-10-01', '2026-10-31')).toHaveLength(0);
-    expect(await journal.dirty()).toMatchObject([{ id: 'a', deletedAt: '2026-10-07T10:00:00.000Z' }]);
-  });
-
-  it('does not lose an edit made while a push was in flight', async () => {
-    await journal.save(entry());
-    const pushed = await journal.dirty();
-    clock = new Date('2026-10-06T22:05:00Z');
-    await journal.save(entry({ decades: 3 }));
-    await journal.markSynced(pushed);
-
-    expect(await journal.dirty()).toHaveLength(1);
-  });
-
-  it('applies newer remote entries and ignores stale ones', async () => {
-    await journal.save(entry({ decades: 4 }));
-    const local = await journal.find('a');
-
-    await journal.applyRemote([{ ...local!, decades: 1, clientUpdatedAt: '2026-10-01T00:00:00.000Z' }]);
-    expect((await journal.find('a'))?.decades).toBe(4);
-
-    await journal.applyRemote([{ ...local!, decades: 5, clientUpdatedAt: '2026-10-09T00:00:00.000Z' }]);
-    expect((await journal.find('a'))?.decades).toBe(5);
-    expect(await journal.dirty()).toHaveLength(0);
   });
 
   it('counts readings per mystery for the Gospel rotation', async () => {

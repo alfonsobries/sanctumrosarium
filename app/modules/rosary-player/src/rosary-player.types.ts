@@ -5,6 +5,8 @@ export type RosaryStatusReason = 'interruption' | 'route' | 'remote' | 'user' | 
 export type RosaryStepPart = {
   uri: string;
   gapAfterMs: number;
+  /** Length of the recording when known; Android needs it to queue the file before reading it. */
+  durationMs?: number;
 };
 
 export type RosaryStep = {

@@ -10,7 +10,6 @@ import {
   ScrollText,
   SunMoon,
   Timer,
-  User,
   CalendarDays,
   Check,
   ChevronLeft,
@@ -57,7 +56,6 @@ const library = {
   pope: Church,
   skin: Palette,
   theme: SunMoon,
-  account: User,
   prayer: ScrollText,
 } satisfies Record<string, LucideComponent>;
 

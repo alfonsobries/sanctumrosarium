@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { Text as NativeText, Pressable, ScrollView, View } from 'react-native';
 
 import { rates, type Settings } from '@/domains/settings/settings';
-import { AccountSection } from '@/domains/sync/AccountSection';
 import { useSettings } from '@/domains/settings/use-settings';
 import { artworks, type Artwork } from '@/domains/artwork/artworks';
 import { illustrated } from '@/domains/artwork/illustrated';
@@ -153,13 +152,17 @@ export default function SettingsScreen() {
       <Stack.Screen
         options={{
           title: t('settings.title'),
-          headerRight: () => (
-            <Pressable accessibilityRole="button" onPress={() => router.back()} hitSlop={10}>
-              <Text variant="headline" className="text-accent">
-                {t('settings.done')}
-              </Text>
-            </Pressable>
-          ),
+          // A sheet on iOS closes with Done; Android has its back arrow and gesture.
+          headerRight:
+            process.env.EXPO_OS === 'ios'
+              ? () => (
+                  <Pressable accessibilityRole="button" onPress={() => router.back()} hitSlop={10}>
+                    <Text variant="headline" className="text-accent">
+                      {t('settings.done')}
+                    </Text>
+                  </Pressable>
+                )
+              : undefined,
         }}
       />
       <ScrollView
@@ -304,8 +307,6 @@ export default function SettingsScreen() {
             </Field>
           </Card>
         </Section>
-
-        <AccountSection />
       </ScrollView>
     </>
   );
