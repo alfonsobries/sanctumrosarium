@@ -1,0 +1,64 @@
+{
+  "store_dir": "store",
+  "apple": {
+    "bundle_id": "app.sanctamaria",
+    "app_id": "6803640796",
+    "devices": [
+      "iphone"
+    ],
+    "urls": {
+      "support": "https://sanctumrosarium.app/soporte/",
+      "marketing": "https://sanctumrosarium.app/",
+      "privacy": "https://sanctumrosarium.app/privacidad/"
+    },
+    "categories": {
+      "primary": "LIFESTYLE",
+      "secondary": "REFERENCE"
+    },
+    "content_rights": "USES_THIRD_PARTY_CONTENT",
+    "copyright": "2026 Vexilo LLC",
+    "age_rating": {
+      "advertising": false,
+      "gambling": false,
+      "healthOrWellnessTopics": false,
+      "lootBox": false,
+      "messagingAndChat": false,
+      "parentalControls": false,
+      "ageAssurance": false,
+      "socialMedia": false,
+      "unrestrictedWebAccess": false,
+      "userGeneratedContent": false,
+      "alcoholTobaccoOrDrugUseOrReferences": "NONE",
+      "contests": "NONE",
+      "gamblingSimulated": "NONE",
+      "gunsOrOtherWeapons": "NONE",
+      "horrorOrFearThemes": "NONE",
+      "matureOrSuggestiveThemes": "NONE",
+      "medicalOrTreatmentInformation": "NONE",
+      "profanityOrCrudeHumor": "NONE",
+      "sexualContentGraphicAndNudity": "NONE",
+      "sexualContentOrNudity": "NONE",
+      "violenceCartoonOrFantasy": "NONE",
+      "violenceRealistic": "NONE",
+      "violenceRealisticProlongedGraphicOrSadistic": "NONE"
+    },
+    "pricing": {
+      "base_territory": "USA"
+    },
+    "availability": {
+      "territories": "all",
+      "available_in_new_territories": true
+    },
+    "review": {
+      "contact_first_name": "Alfonso",
+      "contact_last_name": "Bribiesca",
+      "contact_email": "alfonso@vexilo.com",
+      "contact_phone": "+525516459538",
+      "demo_account_required": false,
+      "notes": "Sanctum Rosarium helps people pray the Catholic Rosary. It has no accounts, no server, no ads and no purchases; everything it needs ships inside the app and works offline.\n\nTo try it: tap the start button on the first tab to pray the mystery of the day. Prayers advance by tap or swipe, or by audio when voice is on. The Learn tab has a step-by-step guide, the mysteries and each prayer with its source. Settings change the prayer language (Spanish, English, Latin), the voice and the visual style.\n\nThe Apple Watch app is a full prayer surface with its own audio and haptics; it receives settings and audio from the iPhone over WatchConnectivity.\n\nThe paintings of the mysteries are public domain works; the prayer texts come from published Church sources cited in the app."
+    }
+  },
+  "google": {
+    "package_name": "app.sanctamaria"
+  }
+}
