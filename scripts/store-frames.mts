@@ -4,6 +4,7 @@
  * headless browser at the 6.9" size and flattened to JPEG with no alpha.
  *
  * Run: pnpm store:frames            → store/apple/{es-MX,en-US}/screenshots/APP_IPHONE_67/NN-name.jpg
+ *      pnpm store:frames --ipad     → the 13" iPad set from store/raw/ipad/<lang>/, in APP_IPAD_PRO_3GEN_129
  *      pnpm store:frames --preview  → a contact sheet per language in store/preview/
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -14,14 +15,15 @@ import { chromium } from 'playwright';
 import sharp from 'sharp';
 
 const root = join(import.meta.dirname, '..');
-const W = 1320;
-const H = 2868;
+const ipad = process.argv.includes('--ipad');
+const W = ipad ? 2064 : 1320;
+const H = ipad ? 2752 : 2868;
 
 type Lang = 'es' | 'en';
 const folders: Record<Lang, string> = { es: 'es-MX', en: 'en-US' };
 
 const file = (path: string) => pathToFileURL(join(root, path)).href;
-const raw = (lang: Lang, name: string) => file(`store/raw/${lang}/${name}.png`);
+const raw = (lang: Lang, name: string) => file(`store/raw/${ipad ? 'ipad/' : ''}${lang}/${name}.png`);
 const art = (name: string) => file(`app/assets/mysteries/${name}.jpg`);
 const fonts = {
   serif: file('site/node_modules/@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-normal.woff2'),
@@ -37,7 +39,15 @@ const phone = (src: string, width: number, style = '') =>
   `<div class="phone" style="width:${width}px;${style}"><img src="${src}" /></div>`;
 
 /** The main phone: the same size and place on every frame, so the set reads as one strip. */
-const hero = (src: string, style = '') => phone(src, 900, `position:relative;margin-top:110px;${style}`);
+/** An iPad drawn in CSS, the same generic slab with a wider screen. */
+const tablet = (src: string, width: number, style = '') =>
+  `<div class="phone tablet" style="width:${width}px;${style}"><img src="${src}" /></div>`;
+
+/** The device the set is for, phone or iPad. */
+const device = ipad ? tablet : phone;
+
+const hero = (src: string, style = '') =>
+  device(src, ipad ? 1560 : 900, `position:relative;margin-top:110px;${style}`);
 
 /** An Apple Watch case drawn in CSS, crown included. */
 const watch = (src: string, width: number, style = '', band = false) =>
@@ -92,8 +102,8 @@ const frames: Frame[] = [
     kicker: { es: 'Claro y oscuro en cada uno', en: 'Light and dark in each' },
     title: { es: 'Ocho estilos, de sencillo <em>a iluminado</em>', en: 'Eight styles, plain <em>to illuminated</em>' },
     body: (lang) =>
-      phone(raw(lang, 'announce-glass'), 760, 'position:absolute;top:230px;left:50%;transform:translateX(-112%);opacity:.95') +
-      phone(raw(lang, 'pray-dark'), 760, 'position:absolute;top:230px;left:50%;transform:translateX(12%);opacity:.95') +
+      device(raw(lang, 'announce-glass'), ipad ? 1240 : 760, `position:absolute;top:230px;left:50%;transform:translateX(${ipad ? -98 : -112}%);opacity:.95`) +
+      device(raw(lang, 'pray-dark'), ipad ? 1240 : 760, `position:absolute;top:230px;left:50%;transform:translateX(${ipad ? -2 : 12}%);opacity:.95`) +
       hero(raw(lang, 'announce'), 'z-index:2'),
   },
   {
@@ -149,6 +159,9 @@ function page(frame: Frame, lang: Lang, index: number): string {
     .phone { position: relative; aspect-ratio: 1206 / 2622; padding: 2.4%; border-radius: 13% / 6%;
       background: linear-gradient(145deg, #2f3440, #0b0d12 60%);
       box-shadow: 0 0 0 2px rgb(255 255 255 / .08) inset, 0 60px 140px -30px rgb(0 0 0 / .65); }
+    ${ipad ? `header { padding: 0 240px; height: 620px; flex-shrink: 0; } .hero-mark { width: 150px; height: 150px; } .kicker { font-size: 50px; } h1 { font-size: 168px; }` : ''}
+    .tablet { aspect-ratio: 2064 / 2752; padding: 1.8%; border-radius: 5% / 3.8%; }
+    .tablet img { border-radius: 3.4% / 2.6% !important; }
     .phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 11% / 5.1%; display: block; }
     .duo { position: relative; width: 100%; flex: 1; }
     .fan { position: relative; width: 100%; display: flex; justify-content: center; margin-top: 110px; }
@@ -191,10 +204,11 @@ const temp = join(root, 'store/.render');
 mkdirSync(temp, { recursive: true });
 
 for (const lang of ['es', 'en'] as const) {
-  const out = join(root, 'store/apple', folders[lang], 'screenshots/APP_IPHONE_67');
+  const out = join(root, 'store/apple', folders[lang], 'screenshots', ipad ? 'APP_IPAD_PRO_3GEN_129' : 'APP_IPHONE_67');
   mkdirSync(out, { recursive: true });
   const shots: string[] = [];
-  for (const [index, frame] of frames.entries()) {
+  // The watch frame shows the watch, not the iPad app.
+  for (const [index, frame] of frames.filter((f) => !ipad || f.name !== 'watch').entries()) {
     const html = join(temp, `${lang}-${frame.name}.html`);
     writeFileSync(html, page(frame, lang, index));
     await tab.goto(pathToFileURL(html).href, { waitUntil: 'load' });
@@ -211,7 +225,7 @@ for (const lang of ['es', 'en'] as const) {
     await sharp({ create: { width: tiles.length * 340, height: 718, channels: 3, background: '#777' } })
       .composite(tiles.map((input, i) => ({ input, left: i * 340, top: 0 })))
       .png()
-      .toFile(join(root, `store/preview/${folders[lang]}.png`));
+      .toFile(join(root, `store/preview/${ipad ? 'ipad-' : ''}${folders[lang]}.png`));
   }
 }
 await browser.close();
