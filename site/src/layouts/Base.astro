@@ -49,7 +49,7 @@ const translate = t(language);
 const suffix = ` · ${translate('site.name')}`;
 const pageTitle = rawTitle || `${title}${suffix}`.length > 60 ? title : `${title}${suffix}`;
 const canonical = absolute(alternates[language]);
-const image = absolute(`/og/${og}-${language}.png`);
+const image = absolute(`/og/${og}-${language}.jpg`);
 
 const graph: SchemaNode[] = [
   webPage({ language, url: canonical, title: pageTitle, description, image, type: pageType }),

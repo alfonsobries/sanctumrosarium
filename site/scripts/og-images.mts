@@ -8,6 +8,7 @@ import { createServer } from 'node:http';
 import { extname, join } from 'node:path';
 
 import { chromium } from 'playwright';
+import sharp from 'sharp';
 
 
 const root = join(import.meta.dirname, '..');
@@ -34,8 +35,10 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
 for (const name of readdirSync(join(dist, 'og-card')).sort()) {
   await page.goto(`http://localhost:4390/og-card/${name}/`, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
-  await page.screenshot({ path: join(root, 'public/og', `${name}.png`) });
-  console.log(`  og/${name}.png`);
+  // JPEG keeps the paintings under 200 KB, well inside what every network accepts.
+  const png = await page.screenshot({ type: 'png' });
+  await sharp(png).jpeg({ quality: 84, mozjpeg: true }).toFile(join(root, 'public/og', `${name}.jpg`));
+  console.log(`  og/${name}.jpg`);
 }
 await browser.close();
 server.close();

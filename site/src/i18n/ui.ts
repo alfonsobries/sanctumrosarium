@@ -141,6 +141,14 @@ const es = {
     'Los misterios del Rosario que se rezan hoy según el día de la semana, con los cinco misterios y su pasaje del Evangelio.',
   'today.kicker': 'Hoy',
   'today.lead': 'Según el día de la semana, como propone Rosarium Virginis Mariae 38.',
+  'today.why': '¿Por qué cada día tiene sus misterios?',
+  'today.whyOrder':
+    'San Juan Pablo II propuso en 2002 un orden semanal en su carta Rosarium Virginis Mariae: gozosos el lunes y el sábado, dolorosos el martes y el viernes, gloriosos el miércoles y el domingo, y el jueves los misterios de luz, que propuso en esa misma carta.',
+  'today.whyBefore':
+    'Antes, los gozosos se rezaban el lunes y el jueves, y los gloriosos también el sábado. Los gozosos pasaron al sábado para dejar libre el jueves.',
+  'today.whyFreedom':
+    'Es una sugerencia, no una regla: la carta deja libertad para elegir otros misterios según las necesidades de cada quien y el tiempo litúrgico. Por costumbre, los domingos de Adviento y Navidad se rezan los gozosos, y los de Cuaresma, los dolorosos.',
+  'today.whySource': 'Rosarium Virginis Mariae 19, 21 y 38; Directorio sobre la piedad popular y la liturgia 200; USCCB.',
   'today.week': 'Toda la semana',
 
   'prayers.title': 'Las oraciones del Rosario',
@@ -376,6 +384,14 @@ const en: Record<Key, string> = {
     'The mysteries of the Rosary prayed today by day of the week, with the five mysteries and their Gospel passage.',
   'today.kicker': 'Today',
   'today.lead': 'By day of the week, as Rosarium Virginis Mariae 38 proposes.',
+  'today.why': 'Why does each day have its own mysteries?',
+  'today.whyOrder':
+    'In 2002 Saint John Paul II proposed a weekly order in his letter Rosarium Virginis Mariae: the joyful on Monday and Saturday, the sorrowful on Tuesday and Friday, the glorious on Wednesday and Sunday, and on Thursday the mysteries of light, which he proposed in that same letter.',
+  'today.whyBefore':
+    'Before then, the joyful were prayed on Monday and Thursday, and the glorious on Saturday as well. The joyful moved to Saturday to leave Thursday free.',
+  'today.whyFreedom':
+    'It is a suggestion, not a rule: the letter leaves room to choose other mysteries as each person needs and as the liturgical season suggests. By custom, the Sundays of Advent and Christmas take the joyful, and the Sundays of Lent the sorrowful.',
+  'today.whySource': 'Rosarium Virginis Mariae 19, 21 and 38; Directory on Popular Piety and the Liturgy 200; USCCB.',
   'today.week': 'The whole week',
 
   'prayers.title': 'The Prayers of the Rosary',

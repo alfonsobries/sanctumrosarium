@@ -23,7 +23,12 @@ const week = [1, 2, 3, 4, 5, 6, 0].map((day) => ({
   alternates={alternatesOf('today')}
   trail={[{ name: translate('breadcrumb.home'), url: route('home', language) }]}
   og="today"
-  schema={[faq([{ question: translate('faq.today.q'), answer: translate('faq.today.a') }])]}
+  schema={[
+    faq([
+      { question: translate('faq.today.q'), answer: translate('faq.today.a') },
+      { question: translate('today.why'), answer: `${translate('today.whyOrder')} ${translate('today.whyFreedom')}` },
+    ]),
+  ]}
 >
   <header class="wrap page-head">
     <span class="kicker">{translate('today.kicker')}</span>
@@ -59,6 +64,16 @@ const week = [1, 2, 3, 4, 5, 6, 0].map((day) => ({
       <p class="source">{translate('mysteries.calendarSource')}</p>
     </div>
   </section>
+
+  <section class="section">
+    <div class="wrap narrow why">
+      <h2>{translate('today.why')}</h2>
+      <p data-speakable>{translate('today.whyOrder')}</p>
+      <p>{translate('today.whyBefore')}</p>
+      <p>{translate('today.whyFreedom')}</p>
+      <p class="source">{translate('today.whySource')}</p>
+    </div>
+  </section>
 </Base>
 
 <style>
@@ -81,6 +96,15 @@ const week = [1, 2, 3, 4, 5, 6, 0].map((day) => ({
   .app {
     display: grid;
     gap: var(--space-3);
+    color: var(--mute);
+  }
+
+  .why {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .why p:not(.source) {
     color: var(--mute);
   }
 
