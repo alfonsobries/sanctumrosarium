@@ -26,7 +26,7 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import com.google.common.util.concurrent.ListenableFuture
 
-data class RosaryPart(val uri: String, val gapAfterMs: Long)
+data class RosaryPart(val uri: String, val gapAfterMs: Long, val durationMs: Long = 0)
 
 data class RosaryStep(val id: String, val title: String, val subtitle: String?, val parts: List<RosaryPart>)
 
@@ -49,6 +49,7 @@ object RosaryPlayerEngine {
   const val MIN_RATE = 0.5f
   const val MAX_RATE = 2f
   private const val PROGRESS_INTERVAL_MS = 250L
+  private const val UNKNOWN_PART_MS = 1_000L
 
   var listener: RosaryPlayerListener? = null
 
@@ -301,7 +302,10 @@ object RosaryPlayerEngine {
       .build()
     val builder = ConcatenatingMediaSource2.Builder().setMediaItem(item)
     for (part in step.parts) {
-      builder.add(factory.createMediaSource(MediaItem.fromUri(parseUri(part.uri))))
+      // A concatenated progressive source must say how long it is before it is read; the
+      // manifest's duration is exact, and a short guess is corrected once the file loads.
+      val placeholderMs = if (part.durationMs > 0) part.durationMs else UNKNOWN_PART_MS
+      builder.add(factory.createMediaSource(MediaItem.fromUri(parseUri(part.uri))), placeholderMs)
       if (part.gapAfterMs > 0) {
         builder.add(SilenceMediaSource(Util.msToUs(part.gapAfterMs)), part.gapAfterMs)
       }

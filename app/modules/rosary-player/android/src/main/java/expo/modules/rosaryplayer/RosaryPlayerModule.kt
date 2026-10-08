@@ -14,6 +14,7 @@ import expo.modules.kotlin.records.Record
 class PartRecord : Record {
   @Field val uri: String = ""
   @Field val gapAfterMs: Double = 0.0
+  @Field val durationMs: Double = 0.0
 }
 
 class StepRecord : Record {
@@ -106,7 +107,9 @@ class RosaryPlayerModule : Module() {
           id = record.id,
           title = record.title,
           subtitle = record.subtitle,
-          parts = record.parts.map { RosaryPart(it.uri, it.gapAfterMs.toLong().coerceAtLeast(0)) }
+          parts = record.parts.map {
+            RosaryPart(it.uri, it.gapAfterMs.toLong().coerceAtLeast(0), it.durationMs.toLong().coerceAtLeast(0))
+          }
         )
       }
       val nowPlaying = RosaryNowPlaying(

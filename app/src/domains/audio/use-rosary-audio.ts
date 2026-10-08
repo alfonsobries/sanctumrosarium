@@ -140,6 +140,7 @@ export function useRosaryAudio(options: Options): RosaryAudio {
                     ? silenceUri
                     : await uriOf(pack.files[part.file] ?? scripture?.files[part.file] ?? silence),
                 gapAfterMs: part.gapAfterMs,
+                durationMs: part.durationMs,
               })),
             ),
           };

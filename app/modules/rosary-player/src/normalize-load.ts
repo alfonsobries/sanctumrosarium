@@ -31,7 +31,15 @@ export function normalizeLoad(
         if (!Number.isFinite(part.gapAfterMs) || part.gapAfterMs < 0) {
           throw new Error(`Step "${step.id}" has an invalid gapAfterMs: ${part.gapAfterMs}`);
         }
-        return { uri: part.uri, gapAfterMs: Math.round(part.gapAfterMs) };
+        const durationMs =
+          part.durationMs !== undefined && Number.isFinite(part.durationMs) && part.durationMs > 0
+            ? Math.round(part.durationMs)
+            : undefined;
+        return {
+          uri: part.uri,
+          gapAfterMs: Math.round(part.gapAfterMs),
+          ...(durationMs === undefined ? {} : { durationMs }),
+        };
       }),
     };
   });
