@@ -3,7 +3,7 @@ module.exports = () => ({
   type: 'watch',
   name: 'SanctaMariaWatch',
   displayName: 'SanctaMaria',
-  bundleIdentifier: '.watchkitapp',
+  bundleIdentifier: '.watch',
   // watchOS 11 runs on the same watches as watchOS 26 (Series 6 and later, SE 2nd gen,
   // every Ultra), so it reaches people who have not updated without losing any hardware.
   deploymentTarget: '11.0',
