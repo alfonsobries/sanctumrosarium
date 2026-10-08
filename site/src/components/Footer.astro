@@ -25,13 +25,13 @@ const year = new Date().getFullYear();
     </div>
 
     <nav aria-label={translate('footer.pray')}>
-      <h2>{translate('footer.pray')}</h2>
+      <p class="heading">{translate('footer.pray')}</p>
       <a href={route('today', language)}>{translate('today.title')}</a>
       {mysterySets.map((set) => <a href={setRoute(set, language)}>{setTitle(set, language)}</a>)}
     </nav>
 
     <nav aria-label={translate('footer.learn')}>
-      <h2>{translate('footer.learn')}</h2>
+      <p class="heading">{translate('footer.learn')}</p>
       <a href={route('how', language)}>{translate('nav.how')}</a>
       {
         prayerPageIds
@@ -42,7 +42,7 @@ const year = new Date().getFullYear();
     </nav>
 
     <nav aria-label={translate('footer.project')}>
-      <h2>{translate('footer.project')}</h2>
+      <p class="heading">{translate('footer.project')}</p>
       <a href={route('help', language)}>{translate('nav.help')}</a>
       <a href={route('support', language)}>{translate('support.title')}</a>
       <a href={route('privacy', language)}>{translate('privacy.title')}</a>
@@ -102,7 +102,7 @@ const year = new Date().getFullYear();
     gap: 0.55rem;
   }
 
-  h2 {
+  .heading {
     font: 600 var(--step--1) / 1.4 var(--sans);
     letter-spacing: 0.14em;
     text-transform: uppercase;

@@ -3,7 +3,7 @@ import { lesson } from '@sanctamaria/content';
 import type { Step } from '@sanctamaria/rosary';
 
 import { alternatesOf, prayerRoute, prayerSlugs, route, type Language, type PrayerPageId } from '../i18n/routes';
-import { t } from '../i18n/ui';
+import { t, type UiKey } from '../i18n/ui';
 import Base from '../layouts/Base.astro';
 import { prayerName } from '../lib/content';
 import { howTo } from '../lib/schema';
@@ -100,7 +100,7 @@ const howToSchema = howTo({
         <article class="step">
           <span class="number">{index + 1}</span>
           <div class="step-copy">
-            <h2>{page.title}</h2>
+            <h2>{translate(`how.question${index + 1}` as UiKey)}</h2>
             <p>{page.body}</p>
             {page.quote !== undefined && (
               <blockquote>
