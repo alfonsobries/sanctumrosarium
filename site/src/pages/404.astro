@@ -1,25 +1,25 @@
 ---
 import Base from '../layouts/Base.astro';
-import { route } from '../i18n/routes';
+import { alternatesOf, route } from '../i18n/routes';
 import { t } from '../i18n/ui';
 
-const translate = t('es');
+const translate = t('en');
 ---
 
 <Base
-  language="es"
+  language="en"
   title={translate('notFound.title')}
   description={translate('notFound.body')}
-  alternates={{ es: '/', en: '/en/' }}
+  alternates={alternatesOf('home')}
   noindex
 >
   <section class="wrap narrow page-head missing">
     <h1>{translate('notFound.title')}</h1>
     <p class="lead">{translate('notFound.body')}</p>
     <div class="links">
-      <a class="button is-solid" href={route('how', 'es')}>{translate('nav.how')}</a>
-      <a class="button" href={route('today', 'es')}>{translate('today.title')}</a>
-      <a class="button" href={route('home', 'en')} lang="en">English</a>
+      <a class="button is-solid" href={route('how', 'en')}>{translate('nav.how')}</a>
+      <a class="button" href={route('today', 'en')}>{translate('today.title')}</a>
+      <a class="button" href={route('home', 'es')} hreflang="es" lang="es">{translate('nav.language')}</a>
     </div>
   </section>
 </Base>

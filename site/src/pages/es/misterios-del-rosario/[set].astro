@@ -1,9 +1,9 @@
 ---
 import type { GetStaticPaths } from 'astro';
 
-import SetPage from '../../components/SetPage.astro';
-import { setSlugs } from '../../i18n/routes';
-import { mysterySets, type MysterySet } from '../../lib/content';
+import SetPage from '../../../components/SetPage.astro';
+import { setSlugs } from '../../../i18n/routes';
+import { mysterySets, type MysterySet } from '../../../lib/content';
 
 export const getStaticPaths = (() =>
   mysterySets.map((set) => ({ params: { set: setSlugs[set].es }, props: { set } }))) satisfies GetStaticPaths;

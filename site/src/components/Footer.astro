@@ -9,6 +9,7 @@ import Medallion from './Medallion.astro';
 type Props = { language: Language };
 const { language } = Astro.props;
 const translate = t(language);
+const other: Language = language === 'es' ? 'en' : 'es';
 const year = new Date().getFullYear();
 ---
 
@@ -46,7 +47,7 @@ const year = new Date().getFullYear();
       <a href={route('support', language)}>{translate('support.title')}</a>
       <a href={route('privacy', language)}>{translate('privacy.title')}</a>
       <a href={route('terms', language)}>{translate('terms.title')}</a>
-      <a href={language === 'es' ? '/en/' : '/'} hreflang={language === 'es' ? 'en' : 'es'}>
+      <a href={route('home', other)} hreflang={other} lang={other}>
         {translate('nav.language')}
       </a>
     </nav>

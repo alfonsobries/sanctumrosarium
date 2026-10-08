@@ -9,7 +9,7 @@ import inter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import type { Alternates, Language } from '../i18n/routes';
-import { stores } from '../i18n/routes';
+import { defaultLanguage, stores } from '../i18n/routes';
 import { t } from '../i18n/ui';
 import { absolute, breadcrumbs, organization, webPage, website, type SchemaNode } from '../lib/schema';
 
@@ -63,7 +63,7 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
 ---
 
 <!doctype html>
-<html lang={language === 'es' ? 'es-MX' : 'en-US'}>
+<html lang={language}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -75,9 +75,9 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
       ) : (
         <>
           <link rel="canonical" href={canonical} />
-          <link rel="alternate" hreflang="es" href={absolute(alternates.es)} />
           <link rel="alternate" hreflang="en" href={absolute(alternates.en)} />
-          <link rel="alternate" hreflang="x-default" href={absolute(alternates.es)} />
+          <link rel="alternate" hreflang="es" href={absolute(alternates.es)} />
+          <link rel="alternate" hreflang="x-default" href={absolute(alternates[defaultLanguage])} />
         </>
       )
     }
@@ -91,8 +91,8 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
     <meta name="apple-itunes-app" content={`app-id=${stores.appStoreId}`} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={translate('site.name')} />
-    <meta property="og:locale" content={language === 'es' ? 'es_MX' : 'en_US'} />
-    <meta property="og:locale:alternate" content={language === 'es' ? 'en_US' : 'es_MX'} />
+    <meta property="og:locale" content={language === 'es' ? 'es_ES' : 'en_US'} />
+    <meta property="og:locale:alternate" content={language === 'es' ? 'en_US' : 'es_ES'} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />

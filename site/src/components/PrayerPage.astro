@@ -39,7 +39,7 @@ const count =
 
 const others = prayerPageIds.filter((other) => other !== id && hasPrayerPage(other, language));
 const alternates = { es: prayerRoute(id, 'es'), en: prayerRoute(id, 'en') };
-const accessed = new Date(`${source.accessed}T12:00:00Z`).toLocaleDateString(language === 'es' ? 'es-MX' : 'en-US', {
+const accessed = new Date(`${source.accessed}T12:00:00Z`).toLocaleDateString(language, {
   year: 'numeric',
   month: 'long',
   day: 'numeric',

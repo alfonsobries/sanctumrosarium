@@ -1,9 +1,9 @@
 ---
 import type { GetStaticPaths } from 'astro';
 
-import PrayerPage from '../../components/PrayerPage.astro';
-import { prayerPageIds, prayerSlugs, type PrayerPageId } from '../../i18n/routes';
-import { hasPrayerPage } from '../../lib/content';
+import PrayerPage from '../../../components/PrayerPage.astro';
+import { prayerPageIds, prayerSlugs, type PrayerPageId } from '../../../i18n/routes';
+import { hasPrayerPage } from '../../../lib/content';
 
 export const getStaticPaths = (() =>
   prayerPageIds

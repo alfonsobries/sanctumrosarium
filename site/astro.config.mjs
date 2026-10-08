@@ -6,13 +6,13 @@ export default defineConfig({
   site: 'https://sanctumrosarium.app',
   trailingSlash: 'always',
   i18n: {
-    defaultLocale: 'es',
-    locales: ['es', 'en'],
+    defaultLocale: 'en',
+    locales: ['en', 'es'],
     routing: { prefixDefaultLocale: false },
   },
   integrations: [
     sitemap({
-      i18n: { defaultLocale: 'es', locales: { es: 'es-MX', en: 'en-US' } },
+      i18n: { defaultLocale: 'en', locales: { en: 'en', es: 'es' } },
       filter: (page) => !page.includes('/404'),
     }),
   ],

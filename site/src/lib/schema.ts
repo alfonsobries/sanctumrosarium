@@ -1,4 +1,4 @@
-import { repository, stores, type Language } from '../i18n/routes';
+import { repository, route, stores, type Language } from '../i18n/routes';
 
 /** schema.org nodes, joined into one @graph per page by the layout. */
 export type SchemaNode = Record<string, unknown>;
@@ -6,14 +6,14 @@ export type SchemaNode = Record<string, unknown>;
 export const siteUrl = 'https://sanctumrosarium.app';
 
 const organizationId = `${siteUrl}/#organization`;
-const websiteId = (language: Language) => `${siteUrl}/${language === 'en' ? 'en/' : ''}#website`;
+const websiteId = (language: Language) => `${absolute(route('home', language))}#website`;
 const appId = `${siteUrl}/#app`;
 
 export function absolute(path: string): string {
   return new URL(path, siteUrl).href;
 }
 
-const inLanguage = (language: Language) => (language === 'es' ? 'es-MX' : 'en-US');
+const inLanguage = (language: Language): string => language;
 
 /** The full organization only on the home page; elsewhere a reference to it. */
 export function organization(language: Language): SchemaNode {
@@ -35,7 +35,7 @@ export function website(language: Language, description: string): SchemaNode {
   return {
     '@type': 'WebSite',
     '@id': websiteId(language),
-    url: absolute(language === 'en' ? '/en/' : '/'),
+    url: absolute(route('home', language)),
     name: 'Sanctum Rosarium',
     description,
     inLanguage: inLanguage(language),
@@ -52,7 +52,7 @@ export function mobileApplication(language: Language, description: string): Sche
     applicationCategory: 'LifestyleApplication',
     applicationSubCategory: language === 'es' ? 'Oración católica' : 'Catholic prayer',
     operatingSystem: 'iOS, watchOS, Android',
-    inLanguage: ['es-MX', 'es-ES', 'en-US', 'la'],
+    inLanguage: ['en-US', 'es-MX', 'es-ES', 'la'],
     downloadUrl: stores.appStore,
     installUrl: stores.appStore,
     image: absolute('/icon.png'),

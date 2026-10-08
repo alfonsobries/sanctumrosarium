@@ -43,6 +43,18 @@ describe.skipIf(!existsSync(dist))('built site', () => {
     }
   });
 
+  it('serves English at the root and Spanish under /es/, with English as x-default', () => {
+    for (const page of html.filter((p) => !p.file.startsWith('/404'))) {
+      const spanish = page.file.startsWith('/es/');
+      expect(page.text, page.file).toContain(`<html lang="${spanish ? 'es' : 'en'}"`);
+      const canonical = page.text.match(/<link rel="canonical" href="https:\/\/sanctumrosarium\.app([^"]*)"/)?.[1];
+      expect(canonical, page.file).toBe(page.file.replace(/index\.html$/, ''));
+      const english = page.text.match(/hreflang="en" href="([^"]*)"/)?.[1];
+      expect(page.text, page.file).toContain(`hreflang="x-default" href="${english}"`);
+      expect(english, page.file).not.toMatch(/\/(?:es|en)\//);
+    }
+  });
+
   it('points every alternate language link at a page that exists', () => {
     for (const page of html) {
       for (const [, href] of page.text.matchAll(/hreflang="(?:es|en|x-default)" href="https:\/\/sanctumrosarium\.app([^"]*)"/g)) {

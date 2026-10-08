@@ -9,7 +9,7 @@ export const GET: APIRoute = ({ site }) => {
   const lines = [
     '# Sanctum Rosarium',
     '',
-    '> A free Catholic app with no ads to pray the Holy Rosary on iPhone, Apple Watch and Android, in Spanish, English and Latin. No account and no server: what you pray stays on your device. Every prayer comes from an official Church source.',
+    '> A free Catholic app with no ads to pray the Holy Rosary on iPhone, Apple Watch and Android, in English, Spanish and Latin. No account and no server: what you pray stays on your device. Every prayer comes from an official Church source.',
     '',
     `- App Store: ${stores.appStore}`,
     '',

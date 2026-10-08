@@ -1,21 +1,24 @@
 import type { MysterySet } from '@sanctamaria/rosary';
 
-export type Language = 'es' | 'en';
+export type Language = 'en' | 'es';
 
-export const languages: readonly Language[] = ['es', 'en'];
+/** English is the default and lives at the root; Spanish lives under /es/. */
+export const defaultLanguage: Language = 'en';
+
+export const languages: readonly Language[] = ['en', 'es'];
 
 /** Every page of the site, by name, in both languages. */
 export const routes = {
-  home: { es: '/', en: '/en/' },
-  how: { es: '/como-rezar-el-rosario/', en: '/en/how-to-pray-the-rosary/' },
-  mysteries: { es: '/misterios-del-rosario/', en: '/en/mysteries-of-the-rosary/' },
-  today: { es: '/misterios-de-hoy/', en: '/en/todays-mysteries/' },
-  prayers: { es: '/oraciones-del-rosario/', en: '/en/rosary-prayers/' },
-  promises: { es: '/promesas-del-rosario/', en: '/en/rosary-promises/' },
-  help: { es: '/ayudar/', en: '/en/help/' },
-  privacy: { es: '/privacidad/', en: '/en/privacy/' },
-  terms: { es: '/terminos/', en: '/en/terms/' },
-  support: { es: '/soporte/', en: '/en/support/' },
+  home: { en: '/', es: '/es/' },
+  how: { en: '/how-to-pray-the-rosary/', es: '/es/como-rezar-el-rosario/' },
+  mysteries: { en: '/mysteries-of-the-rosary/', es: '/es/misterios-del-rosario/' },
+  today: { en: '/todays-mysteries/', es: '/es/misterios-de-hoy/' },
+  prayers: { en: '/rosary-prayers/', es: '/es/oraciones-del-rosario/' },
+  promises: { en: '/rosary-promises/', es: '/es/promesas-del-rosario/' },
+  help: { en: '/help/', es: '/es/ayudar/' },
+  privacy: { en: '/privacy/', es: '/es/privacidad/' },
+  terms: { en: '/terms/', es: '/es/terminos/' },
+  support: { en: '/support/', es: '/es/soporte/' },
 } as const;
 
 export type RouteName = keyof typeof routes;
@@ -60,7 +63,7 @@ export function prayerRoute(id: PrayerPageId, language: Language): string {
 export type Alternates = Record<Language, string>;
 
 export function alternatesOf(name: RouteName): Alternates {
-  return { es: routes[name].es, en: routes[name].en };
+  return { en: routes[name].en, es: routes[name].es };
 }
 
 export const stores = {
