@@ -11,7 +11,8 @@
     "build": "astro build && rm -rf dist/og-card",
     "preview": "astro preview",
     "check": "astro check",
-    "og": "tsx scripts/og-images.mts"
+    "og": "tsx scripts/og-images.mts",
+    "test": "astro build && rm -rf dist/og-card && vitest run"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
@@ -25,6 +26,7 @@
     "@astrojs/check": "^0.9.4",
     "playwright": "^1.63.0",
     "tsx": "^4.23.15",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.3"
   }
 }

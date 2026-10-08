@@ -24,7 +24,10 @@
     "android:release:build": "bash scripts/release.sh android build",
     "android:release:submit": "bash scripts/release.sh android submit",
     "update:preview": "cd app && npx eas-cli@latest update --channel preview --auto",
-    "update:production": "cd app && npx eas-cli@latest update --channel production --auto"
+    "update:production": "cd app && npx eas-cli@latest update --channel production --auto",
+    "site": "pnpm --filter site dev",
+    "site:build": "pnpm --filter site build",
+    "site:test": "pnpm --filter site test"
   },
   "devDependencies": {
     "prettier": "^3.9.9",
