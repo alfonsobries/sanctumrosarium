@@ -246,13 +246,19 @@ export default function PrayScreen() {
               accessible
               accessibilityRole="header"
               accessibilityLabel={`${barTitle}, ${t(`sets.${plan.set}`)}`}
-              className="max-w-[220px] items-center"
+              className="max-w-[260px] items-center"
             >
-              <Text variant="footnote" numberOfLines={1} className="font-semibold text-foreground">
+              <Text
+                variant="footnote"
+                numberOfLines={1}
+                maxFontSizeMultiplier={1.3}
+                className="font-semibold text-foreground"
+              >
                 {barTitle}
               </Text>
               <Text
                 numberOfLines={1}
+                maxFontSizeMultiplier={1.3}
                 className="text-[11px] uppercase leading-[15px] tracking-[1.2px] text-muted"
               >
                 {t(`sets.${plan.set}`)}
