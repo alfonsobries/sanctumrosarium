@@ -152,13 +152,17 @@ export default function SettingsScreen() {
       <Stack.Screen
         options={{
           title: t('settings.title'),
-          headerRight: () => (
-            <Pressable accessibilityRole="button" onPress={() => router.back()} hitSlop={10}>
-              <Text variant="headline" className="text-accent">
-                {t('settings.done')}
-              </Text>
-            </Pressable>
-          ),
+          // A sheet on iOS closes with Done; Android has its back arrow and gesture.
+          headerRight:
+            process.env.EXPO_OS === 'ios'
+              ? () => (
+                  <Pressable accessibilityRole="button" onPress={() => router.back()} hitSlop={10}>
+                    <Text variant="headline" className="text-accent">
+                      {t('settings.done')}
+                    </Text>
+                  </Pressable>
+                )
+              : undefined,
         }}
       />
       <ScrollView
@@ -303,7 +307,6 @@ export default function SettingsScreen() {
             </Field>
           </Card>
         </Section>
-
       </ScrollView>
     </>
   );

@@ -159,9 +159,6 @@ export const es = {
     themes: { system: 'Automático', light: 'Claro', dark: 'Oscuro' },
     textSize: 'Tamaño del texto',
     textSizes: { regular: 'Normal', large: 'Grande', larger: 'Muy grande' },
-    about: 'Acerca de',
-    sources: 'Fuentes de los textos',
-    openSource: 'Código abierto',
     done: 'Listo',
   },
   onboarding: {

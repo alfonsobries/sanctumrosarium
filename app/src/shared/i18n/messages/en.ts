@@ -169,9 +169,6 @@ export const en: Messages<typeof es> = {
     themes: { system: 'Automatic', light: 'Light', dark: 'Dark' },
     textSize: 'Text size',
     textSizes: { regular: 'Regular', large: 'Large', larger: 'Larger' },
-    about: 'About',
-    sources: 'Text sources',
-    openSource: 'Open source',
     done: 'Done',
   },
   onboarding: {
