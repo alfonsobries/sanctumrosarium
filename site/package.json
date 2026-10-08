@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "og": "tsx scripts/og-images.mts",
+    "redirects": "tsx scripts/redirects.mts",
     "test": "astro build && rm -rf dist/og-card && vitest run"
   },
   "dependencies": {

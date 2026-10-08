@@ -1,0 +1,126 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/en/",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/:path*/",
+      "destination": "/:path*/",
+      "statusCode": 301
+    },
+    {
+      "source": "/como-rezar-el-rosario/",
+      "destination": "/es/como-rezar-el-rosario/",
+      "statusCode": 301
+    },
+    {
+      "source": "/misterios-del-rosario/",
+      "destination": "/es/misterios-del-rosario/",
+      "statusCode": 301
+    },
+    {
+      "source": "/misterios-de-hoy/",
+      "destination": "/es/misterios-de-hoy/",
+      "statusCode": 301
+    },
+    {
+      "source": "/oraciones-del-rosario/",
+      "destination": "/es/oraciones-del-rosario/",
+      "statusCode": 301
+    },
+    {
+      "source": "/promesas-del-rosario/",
+      "destination": "/es/promesas-del-rosario/",
+      "statusCode": 301
+    },
+    {
+      "source": "/ayudar/",
+      "destination": "/es/ayudar/",
+      "statusCode": 301
+    },
+    {
+      "source": "/privacidad/",
+      "destination": "/es/privacidad/",
+      "statusCode": 301
+    },
+    {
+      "source": "/terminos/",
+      "destination": "/es/terminos/",
+      "statusCode": 301
+    },
+    {
+      "source": "/soporte/",
+      "destination": "/es/soporte/",
+      "statusCode": 301
+    },
+    {
+      "source": "/misterios-del-rosario/gozosos/",
+      "destination": "/es/misterios-del-rosario/gozosos/",
+      "statusCode": 301
+    },
+    {
+      "source": "/misterios-del-rosario/luminosos/",
+      "destination": "/es/misterios-del-rosario/luminosos/",
+      "statusCode": 301
+    },
+    {
+      "source": "/misterios-del-rosario/dolorosos/",
+      "destination": "/es/misterios-del-rosario/dolorosos/",
+      "statusCode": 301
+    },
+    {
+      "source": "/misterios-del-rosario/gloriosos/",
+      "destination": "/es/misterios-del-rosario/gloriosos/",
+      "statusCode": 301
+    },
+    {
+      "source": "/oraciones-del-rosario/senal-de-la-cruz/",
+      "destination": "/es/oraciones-del-rosario/senal-de-la-cruz/",
+      "statusCode": 301
+    },
+    {
+      "source": "/oraciones-del-rosario/credo/",
+      "destination": "/es/oraciones-del-rosario/credo/",
+      "statusCode": 301
+    },
+    {
+      "source": "/oraciones-del-rosario/padre-nuestro/",
+      "destination": "/es/oraciones-del-rosario/padre-nuestro/",
+      "statusCode": 301
+    },
+    {
+      "source": "/oraciones-del-rosario/ave-maria/",
+      "destination": "/es/oraciones-del-rosario/ave-maria/",
+      "statusCode": 301
+    },
+    {
+      "source": "/oraciones-del-rosario/gloria/",
+      "destination": "/es/oraciones-del-rosario/gloria/",
+      "statusCode": 301
+    },
+    {
+      "source": "/oraciones-del-rosario/oracion-de-fatima/",
+      "destination": "/es/oraciones-del-rosario/oracion-de-fatima/",
+      "statusCode": 301
+    },
+    {
+      "source": "/oraciones-del-rosario/salve/",
+      "destination": "/es/oraciones-del-rosario/salve/",
+      "statusCode": 301
+    },
+    {
+      "source": "/oraciones-del-rosario/oracion-final/",
+      "destination": "/es/oraciones-del-rosario/oracion-final/",
+      "statusCode": 301
+    },
+    {
+      "source": "/oraciones-del-rosario/letania-lauretana/",
+      "destination": "/es/oraciones-del-rosario/letania-lauretana/",
+      "statusCode": 301
+    }
+  ]
+}
