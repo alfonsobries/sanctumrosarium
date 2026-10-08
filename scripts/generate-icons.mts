@@ -148,12 +148,70 @@ await png(svg(whole, palette.copper), 600, 'images/splash-icon-dark.png');
 // Web.
 await png(framed(palette.copper, 0.9), 64, 'images/favicon.png', palette.night);
 
-// The website: favicons and the touch icon in the same night and copper.
+// The website. Favicons use a simpler mark: at 16 to 48 px the rings and stars blur into
+// a disc, while the beads, the cross and her mantle stay legible.
 const sitePublic = join(root, 'site/public');
-writeFileSync(join(sitePublic, 'favicon.svg'), framed(palette.copper, 0.9).replace('<svg ', `<svg style="background:${palette.night}" `));
-await sharp(Buffer.from(framed(palette.copper, 0.9)), { density: 300 }).resize(32, 32).flatten({ background: palette.night }).png().toFile(join(sitePublic, 'favicon.ico'));
-await sharp(Buffer.from(framed(palette.copper, 0.8)), { density: 300 }).resize(180, 180).flatten({ background: palette.night }).png().toFile(join(sitePublic, 'apple-touch-icon.png'));
-await sharp(Buffer.from(framed(palette.copper, 0.8)), { density: 300 }).resize(512, 512).flatten({ background: palette.night }).png().toFile(join(sitePublic, 'icon.png'));
+const virginOnly = virgin.replace(/<g id="sun">[\s\S]*?<\/g>/, '');
+const small = [
+  beads.replaceAll('r="36.068"', 'r="58"'),
+  cross.replace('stroke-width="10.524"', 'stroke-width="40"'),
+  clip,
+  virginOnly.replace('stroke-width="13.777"', 'stroke-width="34"'),
+].join('');
+const tileCanvas = logoSize * 1.1;
+const tileOrigin = -(tileCanvas - logoSize) / 2;
+const tile = (fill: string, mark: string): string => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${tileOrigin} ${tileOrigin} ${tileCanvas} ${tileCanvas}" width="${tileCanvas}" height="${tileCanvas}">
+  <rect x="${tileOrigin}" y="${tileOrigin}" width="${tileCanvas}" height="${tileCanvas}" rx="${tileCanvas * 0.22}" fill="${fill}"/>
+  ${small.replaceAll('currentColor', mark)}
+</svg>
+`;
+
+// The SVG favicon follows the system theme: ivory tile in light mode, night tile in dark.
+writeFileSync(
+  join(sitePublic, 'icon.svg'),
+  tile('var(--tile)', 'var(--mark)').replace(
+    '<rect',
+    `<style>svg{--tile:${palette.ivory};--mark:${palette.copperOnLight}}@media (prefers-color-scheme:dark){svg{--tile:${palette.night};--mark:${palette.copper}}}</style>\n  <rect`,
+  ),
+);
+
+// favicon.ico for browsers and crawlers that skip the SVG: 16, 32 and 48 px PNG entries.
+const icoSizes = [16, 32, 48];
+const icoImages = await Promise.all(
+  icoSizes.map((width) =>
+    sharp(Buffer.from(tile(palette.night, palette.copper)), { density: 300 }).resize(width, width).png().toBuffer(),
+  ),
+);
+const icoHeader = Buffer.alloc(6 + 16 * icoSizes.length);
+icoHeader.writeUInt16LE(1, 2);
+icoHeader.writeUInt16LE(icoSizes.length, 4);
+let icoOffset = icoHeader.length;
+icoSizes.forEach((width, index) => {
+  const entry = 6 + 16 * index;
+  icoHeader.writeUInt8(width, entry);
+  icoHeader.writeUInt8(width, entry + 1);
+  icoHeader.writeUInt16LE(1, entry + 4);
+  icoHeader.writeUInt16LE(32, entry + 6);
+  icoHeader.writeUInt32LE(icoImages[index].length, entry + 8);
+  icoHeader.writeUInt32LE(icoOffset, entry + 12);
+  icoOffset += icoImages[index].length;
+});
+writeFileSync(join(sitePublic, 'favicon.ico'), Buffer.concat([icoHeader, ...icoImages]));
+
+// Home screen and install icons show the whole medallion; iOS and Android round the corners.
+const fullBleed = async (share: number, width: number, file: string): Promise<void> => {
+  await sharp(Buffer.from(framed(palette.copper, share)), { density: 300 })
+    .resize(width, width)
+    .flatten({ background: palette.night })
+    .png()
+    .toFile(join(sitePublic, file));
+};
+await fullBleed(0.8, 180, 'apple-touch-icon.png');
+await fullBleed(0.8, 192, 'icon-192.png');
+await fullBleed(0.8, 512, 'icon.png');
+// Maskable: launchers may crop to a circle of 80%, so the medallion stays inside it.
+await fullBleed(0.62, 512, 'icon-maskable.png');
+rmSync(join(sitePublic, 'favicon.svg'), { force: true });
 console.log('  site/public icons');
 
 // In the app: the medallion as markup, painted with each skin's accent through currentColor.
