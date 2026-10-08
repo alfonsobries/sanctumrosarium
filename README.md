@@ -96,7 +96,7 @@ The audio is regenerated with `pnpm audio:generate` (ElevenLabs, key in
 
 ## Contributing
 
-Ways to help, with or without code, are on the [help page](https://sanctumrosarium.app/en/help/).
+Ways to help, with or without code, are on the [help page](https://sanctumrosarium.app/help/).
 Open an issue for a mistake in a text, an audio problem or an idea.
 
 ## License
