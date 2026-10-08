@@ -554,7 +554,7 @@ public final class RosaryPlayerCore {
     return source
   }
 
-  private nonisolated static func format(of track: AVAssetTrack) async throws -> AudioFormat? {
+  private static func format(of track: AVAssetTrack) async throws -> AudioFormat? {
     guard
       let description = try await track.load(.formatDescriptions).first,
       let basic = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee
