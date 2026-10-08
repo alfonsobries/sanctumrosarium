@@ -1,0 +1,53 @@
+---
+import type { GetStaticPaths } from 'astro';
+import '@fontsource-variable/eb-garamond';
+import '@fontsource-variable/inter';
+
+import Medallion from '../../components/Medallion.astro';
+import { ogCards } from '../../lib/og';
+
+/** Templates for the social cards; scripts/og-images.mts photographs them at 1200x630. */
+export const getStaticPaths = (() =>
+  ogCards.map((card) => ({ params: { card: `${card.name}-${card.language}` }, props: { card } }))) satisfies GetStaticPaths;
+
+const { card } = Astro.props;
+---
+
+<html lang={card.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <style is:global>
+      html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        align-items: center;
+        gap: 40px;
+        padding: 0 80px 40px;
+        box-sizing: border-box;
+        background: radial-gradient(circle at 85% 30%, rgb(214 164 143 / 0.22), transparent 55%), #0f1420;
+        color: #efe8dc;
+        font-family: 'Inter Variable', sans-serif;
+      }
+      .kicker { font-size: 22px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #d6a48f; }
+      h1 { margin: 20px 0 0; font: 500 76px/1.04 'EB Garamond Variable', serif; letter-spacing: -0.01em; text-wrap: balance; }
+      p { margin: 24px 0 0; font-size: 26px; line-height: 1.4; color: #b4ad9f; max-width: 620px; }
+      .brand { position: absolute; left: 80px; bottom: 50px; display: flex; align-items: center; gap: 14px; font: 500 30px 'EB Garamond Variable', serif; }
+      .medallion { display: block; aspect-ratio: 1; }
+      .medallion svg { width: 100%; height: 100%; }
+      .brand .medallion { width: 44px; color: #d6a48f; }
+      .art .medallion { width: 340px; color: #d6a48f; }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="kicker">{card.kicker}</div>
+      <h1>{card.title}</h1>
+      {card.subtitle !== undefined && <p>{card.subtitle}</p>}
+    </div>
+    <div class="art"><Medallion /></div>
+    <div class="brand"><Medallion /> SanctaMaria</div>
+  </body>
+</html>

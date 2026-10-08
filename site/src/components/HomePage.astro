@@ -12,6 +12,7 @@ import Medallion from './Medallion.astro';
 import Phone from './Phone.astro';
 import StoreButtons from './StoreButtons.astro';
 import Today from './Today.astro';
+import Watch from './Watch.astro';
 
 type Props = { language: Language };
 const { language } = Astro.props;
@@ -89,11 +90,15 @@ const quote = lesson('how-to-pray', language)?.pages[0]?.quote;
                 <h3>{translate(`feature.${feature.key}.title` as UiKey)}</h3>
                 <p>{translate(`feature.${feature.key}.body` as UiKey)}</p>
               </div>
-              <Phone
-                class="feature-phone"
-                src={screens[feature.screen]}
-                alt={translate(`feature.${feature.key}.title` as UiKey)}
-              />
+              {feature.screen === 'watch' ? (
+                <Watch class="feature-phone" src={screens.watch} alt={translate('feature.watch.title')} />
+              ) : (
+                <Phone
+                  class="feature-phone"
+                  src={screens[feature.screen]}
+                  alt={translate(`feature.${feature.key}.title` as UiKey)}
+                />
+              )}
             </article>
           ))
         }

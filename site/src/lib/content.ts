@@ -21,30 +21,13 @@ import credits from '../../../app/assets/mysteries/credits.json';
 import type { Language, PrayerPageId } from '../i18n/routes';
 
 export { mysterySets };
+export { setTitle, weekdaysOf } from './sets';
 export type { MysterySet, Mystery, PrayerText, Source };
 
 /** The text each site language shows: Mexican Spanish and American English, as in the app. */
 export function localeOf(language: Language): Locale {
   return language === 'es' ? 'es-MX' : 'en-US';
 }
-
-export function setTitle(set: MysterySet, language: Language): string {
-  const titles: Record<MysterySet, Record<Language, string>> = {
-    joyful: { es: 'Misterios gozosos', en: 'The Joyful Mysteries' },
-    luminous: { es: 'Misterios luminosos', en: 'The Luminous Mysteries' },
-    sorrowful: { es: 'Misterios dolorosos', en: 'The Sorrowful Mysteries' },
-    glorious: { es: 'Misterios gloriosos', en: 'The Glorious Mysteries' },
-  };
-  return titles[set][language];
-}
-
-/** Weekdays of each set, Sunday first, from Rosarium Virginis Mariae 38. */
-export const weekdaysOf: Record<MysterySet, readonly number[]> = {
-  joyful: [1, 6],
-  luminous: [4],
-  sorrowful: [2, 5],
-  glorious: [0, 3],
-};
 
 export function mysteries(set: MysterySet): Mystery[] {
   return mysteriesOf(set);
