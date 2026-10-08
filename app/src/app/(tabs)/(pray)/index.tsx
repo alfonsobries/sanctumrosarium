@@ -34,19 +34,25 @@ function WeekDay({ label, prayed, today }: { label: string; prayed: boolean; tod
       <Text variant="caption" className={today ? 'font-semibold text-foreground' : undefined}>
         {label}
       </Text>
-      <View className={`h-2.5 w-2.5 rounded-full ${prayed ? 'bg-accent' : ''}`} />
+      {/* An exact radius: Android draws a bordered view with the huge rounded-full radius square. */}
+      <View
+        className={`h-2.5 w-2.5 ${prayed ? 'bg-accent' : 'border border-border'}`}
+        style={{ borderRadius: 5 }}
+      />
     </View>
   );
 }
 
 function SetChip({ set, onPress, active }: { set: MysterySet; onPress: () => void; active: boolean }) {
   const { t } = useTranslation();
+  const { colors } = useSkin();
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityState={{ selected: active }}
       onPress={onPress}
-      className={`min-h-[44px] items-center justify-center rounded-full border px-4 active:opacity-70 ${active ? 'border-accent bg-surface-raised' : 'border-border'}`}
+      android_ripple={{ color: colors.border }}
+      className={`ios:active:opacity-70 min-h-[44px] grow basis-[45%] items-center justify-center overflow-hidden rounded-full border px-4 ${active ? 'border-accent bg-surface-raised' : 'border-border'}`}
     >
       <Text variant="callout" className={active ? 'text-accent' : 'text-muted'}>
         {t(`setShort.${set}`)}
@@ -222,6 +228,14 @@ export default function TodayScreen() {
           />
         </View>
       </ScrollView>
+      {process.env.EXPO_OS === 'android' && (
+        // Edge to edge, the page would scroll under the clock and icons with nothing behind them.
+        <View
+          pointerEvents="none"
+          className="absolute left-0 right-0 top-0 bg-background"
+          style={{ height: insets.top }}
+        />
+      )}
     </>
   );
 }
