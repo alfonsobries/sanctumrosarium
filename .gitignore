@@ -26,3 +26,7 @@ app/assets/mysteries/original/
 # Site build output
 site/dist/
 site/.astro/
+
+# Design research: third-party screenshots, kept local
+_design/research/
+_design/watch/
