@@ -1,6 +1,6 @@
 # Contenido litúrgico
 
-Textos que se rezan en Sanctum Rosarium: oraciones, misterios, lecturas bíblicas y estructura del Rosario. Cada texto viene de una fuente citable consultada en línea el 2026-10-06 y guarda esa fuente junto al dato. Nada está escrito de memoria.
+Textos que se rezan en Sanctum Rosarium: oraciones, misterios, lecturas bíblicas y estructura del Rosario. Cada texto viene de una fuente citable consultada en línea el 2026-10-06 (las Avemarías de las tres virtudes, el 2026-10-09) y guarda esa fuente junto al dato. Nada está escrito de memoria.
 
 Idiomas: `es-MX`, `es-ES`, `en-US`, `la`.
 
@@ -8,7 +8,7 @@ Idiomas: `es-MX`, `es-ES`, `en-US`, `la`.
 
 | Archivo | Contenido |
 | --- | --- |
-| `prayers.json` | 15 oraciones con texto por idioma y fuente |
+| `prayers.json` | 19 oraciones con texto por idioma y fuente |
 | `mysteries.json` | 4 series, 20 misterios, lecturas y calendario semanal |
 | `scripture/es.json`, `en.json`, `la.json` | Texto de cada pasaje citado en `mysteries.json` (76 citas) |
 | `structure.md` | Cómo se reza, variantes regionales e indulgencia plenaria |
@@ -37,7 +37,8 @@ Idiomas: `es-MX`, `es-ES`, `en-US`, `la`.
 
 - `litany-of-loreto` usa `structured` en lugar de `lines`: `opening`, `trinity`, `invocations` (54, en orden), `invocationResponse`, `agnusDei`. `additions` registra las tres invocaciones de 2020 con el documento que las ordena.
 - `prayer-for-the-pope` no tiene texto propio: `composition` indica qué oraciones se rezan.
-- Ids: `sign-of-the-cross`, `by-the-sign-of-the-holy-cross`, `o-god-come-to-my-aid`, `apostles-creed`, `our-father`, `hail-mary`, `glory-be`, `fatima-prayer`, `hail-holy-queen`, `pray-for-us-holy-mother-of-god`, `rosary-closing-prayer`, `grant-us-your-servants`, `litany-of-loreto`, `act-of-contrition`, `prayer-for-the-pope`.
+- `openingForm` marca las oraciones de una forma alternativa de las tres Avemarías iniciales. `three-virtues`: `hail-mary-faith`, `hail-mary-hope`, `hail-mary-charity` (con `virtue`) y `trinity-salutation`. Un idioma ofrece la forma solo si tiene texto de todas sus oraciones.
+- Ids: `sign-of-the-cross`, `by-the-sign-of-the-holy-cross`, `o-god-come-to-my-aid`, `apostles-creed`, `our-father`, `hail-mary`, `glory-be`, `fatima-prayer`, `hail-holy-queen`, `pray-for-us-holy-mother-of-god`, `rosary-closing-prayer`, `grant-us-your-servants`, `litany-of-loreto`, `act-of-contrition`, `prayer-for-the-pope`, `hail-mary-faith`, `hail-mary-hope`, `hail-mary-charity`, `trinity-salutation`.
 
 ## `mysteries.json`
 
@@ -107,6 +108,7 @@ Antes de publicar se necesita permiso o confirmar el uso permitido para todo lo 
    - es-ES: `fatima-prayer`, `by-the-sign-of-the-holy-cross`.
    - es-MX: `rosary-closing-prayer` y `o-god-come-to-my-aid` usan `sameAs: es-ES`.
    - la: `fatima-prayer` no tiene versión latina oficial; `grant-us-your-servants` (*Concede nos famulos tuos*) no se encontró en una fuente oficial en línea.
+   - Avemarías de las tres virtudes (`hail-mary-faith`, `hail-mary-hope`, `hail-mary-charity`, `trinity-salutation`): solo en español. No hay forma inglesa ni latina publicada.
 10. `litany-of-loreto` es-ES es el texto de vatican.va, que no es específico de España. No se encontró texto de la Conferencia Episcopal Española con las invocaciones de 2020. EWTN omite "Mother of Mercy": no usarlo.
 11. Latín de la letanía: la fuente (CEI, 2021) no lleva acentos y escribe "Ianua coeli". No trae el versículo ni la oración finales en latín.
 12. Erratas del Apéndice del Compendio en español ("Ave, Maríæ", "Eva", "Maríae", "quasumus", "Agonía in Hortu"). Se usó la columna latina de la edición inglesa, que corrige la mayoría. "Agonía in Hortu" está en ambas y se dejó como en la fuente.
@@ -117,21 +119,22 @@ Antes de publicar se necesita permiso o confirmar el uso permitido para todo lo 
 17. No incluidos:
    - San Miguel Arcángel (opcional).
    - "Yo confieso".
-   - Las tres Avemarías mexicanas finales ("Dios te salve, María Santísima, Hija de Dios Padre...").
    - Las jaculatorias "María, Madre de gracia" y "Sagrado Corazón".
    - La oración a san José que menciona USCCB.
    
    Están citadas en `structure.md` con su fuente si se quieren modelar.
 
+18. Avemarías de las tres virtudes: el texto principal viene de El Rosario de María (web de un laico dominico, no de una diócesis), porque es el único que trae la redacción completa que se reza ("ponemos", "nuestros dones y carismas...", "Templo, Trono y Sagrario"). Desde la fe (Arquidiócesis de México) coincide en lo esencial y está como variante. Las fuentes las rezan al final del Rosario; la app las ofrece como forma de las tres Avemarías iniciales. Confirmar ambas decisiones.
+
 **Misterios**
 
-18. La Asunción y la Coronación no se narran en la Escritura. Sus lecturas son `related` y siguen las citas de vatican.va, USCCB y Desde la fe.
-19. Los paralelos y los límites de cada perícopa (por ejemplo, Jn 18, 38-19, 1 para la flagelación o Lc 4, 14-21 para el anuncio del Reino) son una selección editorial. Revisarlos con un biblista.
-20. Frutos de los misterios: solo existen en inglés (USCCB). No hay fuente para es ni la.
+19. La Asunción y la Coronación no se narran en la Escritura. Sus lecturas son `related` y siguen las citas de vatican.va, USCCB y Desde la fe.
+20. Los paralelos y los límites de cada perícopa (por ejemplo, Jn 18, 38-19, 1 para la flagelación o Lc 4, 14-21 para el anuncio del Reino) son una selección editorial. Revisarlos con un biblista.
+21. Frutos de los misterios: solo existen en inglés (USCCB). No hay fuente para es ni la.
 
 **Indulgencias**
 
-21. El *Enchiridion* (1999) no tiene versión oficial en español en línea. `structure.md` cita el latín y da un resumen de trabajo. Su texto habla de quince decenas porque es anterior a 2002.
+22. El *Enchiridion* (1999) no tiene versión oficial en español en línea. `structure.md` cita el latín y da un resumen de trabajo. Su texto habla de quince decenas porque es anterior a 2002.
 
 ## Promesas del Rosario
 

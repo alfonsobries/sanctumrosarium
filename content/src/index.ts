@@ -1,4 +1,11 @@
-import type { MysteryRef, MysterySet, Reading } from '@sanctamaria/rosary';
+import {
+  openingFormPrayers,
+  openingForms,
+  type MysteryRef,
+  type MysterySet,
+  type OpeningForm,
+  type Reading,
+} from '@sanctamaria/rosary';
 
 import mysteriesFile from '../mysteries.json';
 import prayersFile from '../prayers.json';
@@ -83,6 +90,16 @@ export function prayerText(id: string, locale: Locale): PrayerText {
     return text;
   }
   throw new MissingContentError(`Prayer ${id} has no text in ${locale}`);
+}
+
+/** Forms of the opening Hail Marys this locale has a sourced text for; the standard form first. */
+export function openingFormsFor(locale: Locale): OpeningForm[] {
+  return openingForms.filter((form) => openingFormPrayers(form).every((id) => hasPrayerText(id, locale)));
+}
+
+/** The chosen form when the locale has it, otherwise the standard one. */
+export function openingFormFor(chosen: OpeningForm, locale: Locale): OpeningForm {
+  return openingFormsFor(locale).includes(chosen) ? chosen : 'standard';
 }
 
 export type LitanyPair = { call: string; response: string };

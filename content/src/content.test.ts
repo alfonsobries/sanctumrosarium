@@ -6,6 +6,8 @@ import {
   hasPrayerText,
   litany,
   locales,
+  openingFormFor,
+  openingFormsFor,
   mysteriesOf,
   mysteryRefsOf,
   mysterySlug,
@@ -66,6 +68,7 @@ describe('content', () => {
       mysteries: mysteryRefsOf('sorrowful'),
       scope: { kind: 'full' },
       opening: true,
+      openingForm: 'standard',
       readingFor: (m) => m.readings[0] ?? null,
       fatimaPrayer: true,
       prayerForThePope: false,
@@ -83,6 +86,26 @@ describe('content', () => {
   it('has no official Latin Fatima prayer, so it is never shown in Latin', () => {
     expect(hasPrayerText('fatima-prayer', 'la')).toBe(false);
     expect(hasPrayerText('fatima-prayer', 'es-ES')).toBe(true);
+  });
+
+  it('offers the three-virtues opening only where every one of its prayers has a source', () => {
+    expect(openingFormsFor('es-MX')).toEqual(['standard', 'three-virtues']);
+    expect(openingFormsFor('es-ES')).toEqual(['standard', 'three-virtues']);
+    expect(openingFormsFor('en-US')).toEqual(['standard']);
+    expect(openingFormsFor('la')).toEqual(['standard']);
+  });
+
+  it('falls back to the standard opening in a locale without the chosen form', () => {
+    expect(openingFormFor('three-virtues', 'es-MX')).toBe('three-virtues');
+    expect(openingFormFor('three-virtues', 'en-US')).toBe('standard');
+  });
+
+  it('splits each virtue Hail Mary for the response at Holy Mary', () => {
+    for (const id of ['hail-mary-faith', 'hail-mary-hope', 'hail-mary-charity']) {
+      const text = prayerText(id, 'es-MX');
+      expect(text.lines[text.responseFrom ?? -1], id).toBe('Santa María, Madre de Dios,');
+      expect(text.source.url, id).toMatch(/^https:\/\//);
+    }
   });
 
   it('reads the litany as call and response', () => {

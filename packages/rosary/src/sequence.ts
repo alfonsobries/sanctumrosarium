@@ -1,4 +1,4 @@
-import type { MysteryRef, RosaryOptions, Step } from './types';
+import type { MysteryRef, OpeningForm, PrayerId, RosaryOptions, Step } from './types';
 
 export class InvalidRosaryOptions extends Error {}
 
@@ -74,7 +74,21 @@ function decadeSteps(decade: number, mystery: MysteryRef, options: RosaryOptions
   return steps;
 }
 
-function openingSteps(): Step[] {
+const openingHailMarys: Record<OpeningForm, readonly [PrayerId, PrayerId, PrayerId]> = {
+  standard: ['hail-mary', 'hail-mary', 'hail-mary'],
+  'three-virtues': ['hail-mary-faith', 'hail-mary-hope', 'hail-mary-charity'],
+};
+
+/** Every prayer a form of the opening says, so a caller can check each one has a text. */
+export function openingFormPrayers(form: OpeningForm): PrayerId[] {
+  const prayers: PrayerId[] = [...new Set(openingHailMarys[form])];
+  if (form === 'three-virtues') {
+    prayers.push('trinity-salutation');
+  }
+  return prayers;
+}
+
+function openingSteps(form: OpeningForm): Step[] {
   const steps: Step[] = [
     {
       id: 'opening-creed',
@@ -96,15 +110,28 @@ function openingSteps(): Step[] {
     },
   ];
 
-  for (let index = 1; index <= 3; index++) {
+  openingHailMarys[form].forEach((prayer, offset) => {
+    const index = offset + 1;
     steps.push({
       id: `opening-hail-mary-${index}`,
       kind: 'prayer',
-      prayer: 'hail-mary',
+      prayer,
       section: 'opening',
       decade: null,
       count: { index, total: 3 },
       bead: { kind: 'opening-small', index },
+    });
+  });
+
+  if (form === 'three-virtues') {
+    steps.push({
+      id: 'opening-trinity-salutation',
+      kind: 'prayer',
+      prayer: 'trinity-salutation',
+      section: 'opening',
+      decade: null,
+      count: null,
+      bead: null,
     });
   }
 
@@ -199,7 +226,7 @@ export function buildSequence(options: RosaryOptions): Step[] {
   ];
 
   if (options.opening && options.scope.kind === 'full') {
-    steps.push(...openingSteps());
+    steps.push(...openingSteps(options.openingForm));
   }
 
   for (const decade of decades) {

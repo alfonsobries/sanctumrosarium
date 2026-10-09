@@ -14,6 +14,7 @@ const steps = buildSequence({
   })),
   scope: { kind: 'full' },
   opening: true,
+  openingForm: 'standard',
   readingFor: null,
   fatimaPrayer: false,
   prayerForThePope: false,

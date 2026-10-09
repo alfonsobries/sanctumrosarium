@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildSequence, InvalidRosaryOptions } from './sequence';
+import { buildSequence, InvalidRosaryOptions, openingFormPrayers } from './sequence';
 import type { MysteryRef, RosaryOptions } from './types';
 
 const sorrowful: MysteryRef[] = [1, 2, 3, 4, 5].map((order) => ({
@@ -18,6 +18,7 @@ const base: RosaryOptions = {
   mysteries: sorrowful,
   scope: { kind: 'full' },
   opening: true,
+  openingForm: 'standard',
   readingFor: null,
   fatimaPrayer: false,
   prayerForThePope: false,
@@ -37,6 +38,42 @@ describe('buildSequence', () => {
     expect(count(steps, 'our-father')).toBe(6);
     expect(count(steps, 'glory-be')).toBe(6);
     expect(steps.filter((step) => step.kind === 'announce')).toHaveLength(5);
+  });
+
+  it('says the opening Hail Marys for faith, hope and charity in the three-virtues form', () => {
+    const steps = buildSequence({ ...base, openingForm: 'three-virtues' });
+    const opening = steps.filter((step) => step.section === 'opening').map((step) => step.id);
+    const prayers = steps
+      .filter((step) => step.section === 'opening' && step.kind === 'prayer')
+      .map((step) => (step.kind === 'prayer' ? step.prayer : null));
+
+    expect(prayers).toEqual([
+      'sign-of-the-cross',
+      'apostles-creed',
+      'our-father',
+      'hail-mary-faith',
+      'hail-mary-hope',
+      'hail-mary-charity',
+      'trinity-salutation',
+      'glory-be',
+    ]);
+    expect(opening).toContain('opening-hail-mary-1');
+    expect(count(steps, 'hail-mary')).toBe(50);
+  });
+
+  it('keeps the counted beads of the opening in the three-virtues form', () => {
+    const steps = buildSequence({ ...base, openingForm: 'three-virtues' });
+    const charity = steps.find((step) => step.id === 'opening-hail-mary-3');
+
+    expect(charity?.kind === 'prayer' && charity.count).toEqual({ index: 3, total: 3 });
+    expect(charity?.bead).toEqual({ kind: 'opening-small', index: 3 });
+  });
+
+  it('leaves a single decade alone whatever the opening form', () => {
+    const steps = buildSequence({ ...base, openingForm: 'three-virtues', scope: { kind: 'decade', decade: 1 } });
+
+    expect(count(steps, 'hail-mary-faith')).toBe(0);
+    expect(count(steps, 'trinity-salutation')).toBe(0);
   });
 
   it('announces the mysteries in order', () => {
@@ -129,5 +166,17 @@ describe('prayer for the Pope', () => {
   it('is left out of a single decade', () => {
     const steps = buildSequence({ ...base, prayerForThePope: true, scope: { kind: 'decade', decade: 2 } });
     expect(steps.some((step) => step.id.startsWith('closing-pope'))).toBe(false);
+  });
+});
+
+describe('openingFormPrayers', () => {
+  it('lists every prayer each form says', () => {
+    expect(openingFormPrayers('standard')).toEqual(['hail-mary']);
+    expect(openingFormPrayers('three-virtues')).toEqual([
+      'hail-mary-faith',
+      'hail-mary-hope',
+      'hail-mary-charity',
+      'trinity-salutation',
+    ]);
   });
 });
