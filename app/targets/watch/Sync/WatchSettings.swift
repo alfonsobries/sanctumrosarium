@@ -51,8 +51,9 @@ final class WatchSettings {
     litany = stored["litany"] as? Bool ?? false
     prayerForThePope = stored["prayerForThePope"] as? Bool ?? true
     pauseSeconds = stored["pauseSeconds"] as? Double ?? 1
-    phoneRate = stored["phoneRate"] as? Double ?? stored["rate"] as? Double
-    rate = UserDefaults.standard.object(forKey: Self.rateKey) as? Double ?? phoneRate ?? 1
+    let storedPhoneRate = stored["phoneRate"] as? Double ?? stored["rate"] as? Double
+    phoneRate = storedPhoneRate
+    rate = UserDefaults.standard.object(forKey: Self.rateKey) as? Double ?? storedPhoneRate ?? 1
     mode = stored["mode"] as? String ?? "listen"
     reading = stored["reading"] as? Bool ?? true
     readings = stored["readings"] as? [String: String] ?? [:]
