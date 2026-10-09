@@ -35,3 +35,4 @@ _design/watch/
 store/raw/
 store/.render/
 store/preview/
+.claude/worktrees/

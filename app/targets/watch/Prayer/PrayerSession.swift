@@ -34,12 +34,17 @@ final class PrayerSession: Identifiable {
   private let audioSteps: [RosaryStep]?
   /// The pack's silence, in the recordings' format: it pads the end of each step.
   private let silenceURL: URL?
+  /** The passage each reading step reads, by step id. */
+  private let readingRefs: [String: String]
+  private let passages: [String: PassagesFile.Passage]
   private let settings: WatchSettings
   private let earlierSeconds: Double
   private var activeSeconds: Double = 0
   private var lastTick = Date()
   private var counting = true
   private var savedDecades = 0
+  /** Where praying began on this watch; a continued Rosary was prayed before it elsewhere. */
+  private var firstPosition = 0
   private var ticker: Timer?
   private var quietClick = false
 
@@ -69,6 +74,9 @@ final class PrayerSession: Identifiable {
     }
     // Mirrors `keeps` in scripts/build-watch-content.mts, which checks it against the engine.
     let steps = template.filter { step in
+      if step.isReading {
+        return settings.reading
+      }
       if step.prayer == "fatima-prayer" {
         return fatima
       }
@@ -85,11 +93,31 @@ final class PrayerSession: Identifiable {
     self.steps = steps
     self.settings = settings
     let installed = PackStore.shared.pack(for: content.locale)
-    self.silenceURL = installed.map { $0.url(of: "silence.mp3") }.flatMap {
+    let silenceURL = installed.map { $0.url(of: "silence.mp3") }.flatMap {
       FileManager.default.fileExists(atPath: $0.path) ? $0 : nil
     }
+    // The passage heard is the one in the pack; while a newer choice is still on its way
+    // from the phone, the words shown follow the voice.
+    var refs: [String: String] = [:]
+    for step in steps where step.isReading {
+      refs[step.id] = installed?.parts[step.audio]?.first?.ref
+        ?? step.mystery.flatMap { settings.readings[$0] }
+        ?? step.reading
+    }
+    let passages = ContentStore.shared.passages(for: content.locale)
+    self.readingRefs = refs
+    self.passages = passages
+    self.silenceURL = silenceURL
     self.audioSteps = installed.flatMap {
-      Self.audioSteps(steps, set: set, content: content, pack: $0, pauseSeconds: settings.pauseSeconds)
+      Self.audioSteps(
+        steps,
+        set: set,
+        content: content,
+        pack: $0,
+        silence: silenceURL,
+        reading: { id in refs[id].flatMap { passages[$0] } },
+        pauseSeconds: settings.pauseSeconds
+      )
     }
 
     switch scope {
@@ -101,6 +129,7 @@ final class PrayerSession: Identifiable {
       earlierSeconds = Double(entry.durationSeconds)
       savedDecades = entry.decades
       position = steps.firstIndex { $0.isAnnounce && $0.decade == entry.decades + 1 } ?? 0
+      firstPosition = position
     case .rosary, .decade:
       id = UUID().uuidString.lowercased()
       if case .decade = scope {
@@ -126,10 +155,21 @@ final class PrayerSession: Identifiable {
 
   var setTitle: String { content.setTitles[set.id] ?? set.id }
 
-  /** The prayer being said, or the Gospel passage while a mystery is announced. */
+  /** The Gospel passage of the current step, when it is a reading. */
+  var passage: PassagesFile.Passage? {
+    readingRefs[step.id].flatMap { passages[$0] }
+  }
+
+  /** The prayer being said, or the Gospel passage while a mystery is announced or read. */
   var prayerTitle: String {
+    if step.isReading {
+      return passage?.displayRef ?? readingRefs[step.id] ?? ""
+    }
     if step.isAnnounce, let mystery = step.mystery {
-      return content.mysteries[mystery]?.reading ?? ""
+      let reading = steps.first { $0.isReading && $0.mystery == mystery }
+      return reading.flatMap { readingRefs[$0.id] }.flatMap { passages[$0]?.displayRef }
+        ?? content.mysteries[mystery]?.reading
+        ?? ""
     }
     guard let prayer = step.prayer else {
       return ""
@@ -221,6 +261,17 @@ final class PrayerSession: Identifiable {
     }
   }
 
+  /** The voice's speed, applied to the voice already playing and kept for the next time. */
+  var rate: Double {
+    get { settings.rate }
+    set {
+      settings.rate = newValue
+      if audioLoaded {
+        SharedPlayer.core.setRate(Float(newValue))
+      }
+    }
+  }
+
   /** Ends the session, keeping in the journal whatever decades were prayed. */
   func end() {
     guard !finished else {
@@ -291,7 +342,7 @@ final class PrayerSession: Identifiable {
     PhoneLink.shared.send(entry: journalEntry(decades: decades))
   }
 
-  /** Same shape as the phone's journalEntryFor, without readings: the watch has none. */
+  /** Same shape as the phone's journalEntryFor. */
   private func journalEntry(decades: Int) -> [String: Any] {
     var entry: [String: Any] = [
       "id": id,
@@ -306,6 +357,16 @@ final class PrayerSession: Identifiable {
     if isComplete {
       entry["completedAt"] = Self.iso(Date())
     }
+    // The passages reached here, so the phone turns to the next account of each mystery.
+    var heard: [String: String] = [:]
+    for step in steps[min(firstPosition, position)...position] where step.isReading {
+      if let mystery = step.mystery, let ref = readingRefs[step.id] {
+        heard[mystery] = ref
+      }
+    }
+    if !heard.isEmpty {
+      entry["readings"] = heard
+    }
     return entry
   }
 
@@ -316,25 +377,35 @@ final class PrayerSession: Identifiable {
     set: SetTemplate,
     content: LocaleContent,
     pack: PackStore.Installed,
+    silence: URL?,
+    reading: (String) -> PassagesFile.Passage?,
     pauseSeconds: Double
   ) -> [RosaryStep]? {
     let pauseMs = pauseSeconds * 1000
     var result: [RosaryStep] = []
     for step in steps {
-      guard let parts = pack.parts[step.audio], !parts.isEmpty else {
+      let resolved: [RosaryPart]
+      if let parts = pack.parts[step.audio], !parts.isEmpty {
+        resolved = parts.map { part in
+          let gapMs = part.pause ? max(part.minGapMs, pauseMs) : part.minGapMs
+          return RosaryPart(url: pack.url(of: part.file), gapAfter: gapMs / 1000)
+        }
+      } else if step.isReading, let silence, let passage = reading(step.id) {
+        // A pack from before readings were turned on: time to read it, as on the phone.
+        resolved = [RosaryPart(url: silence, gapAfter: passage.silenceMs / 1000)]
+      } else {
         return nil
       }
-      let resolved = parts.map { part in
-        let gapMs = part.pause ? max(part.minGapMs, pauseMs) : part.minGapMs
-        return RosaryPart(url: pack.url(of: part.file), gapAfter: gapMs / 1000)
-      }
-      let title = step.prayer.flatMap { content.prayers[$0]?.title }
-        ?? step.mystery.flatMap { content.mysteries[$0]?.title }
-        ?? ""
+      let title = step.isReading
+        ? reading(step.id)?.displayRef ?? ""
+        : step.prayer.flatMap { content.prayers[$0]?.title }
+          ?? step.mystery.flatMap { content.mysteries[$0]?.title }
+          ?? ""
       let mystery = step.decade.flatMap { decade in
         set.mysteries.indices.contains(decade - 1) ? content.mysteries[set.mysteries[decade - 1]]?.title : nil
       }
-      result.append(RosaryStep(id: step.id, title: title, subtitle: mystery, parts: resolved))
+      let artwork = step.cover.flatMap { Bundle.main.url(forResource: $0, withExtension: "jpg", subdirectory: "artwork") }
+      result.append(RosaryStep(id: step.id, title: title, subtitle: mystery, parts: resolved, artworkURL: artwork))
     }
     return result
   }

@@ -2,7 +2,13 @@ import { describe, expect, it } from 'vitest';
 
 import { defaultSettings } from '@/domains/settings/settings';
 
-import { sameWatchSettings, watchEntryFrom, watchSettingsOf, watchTodayOf } from './watch-entry';
+import {
+  sameWatchSettings,
+  watchEntryFrom,
+  watchSettingsOf,
+  watchTodayOf,
+  withEarlierReadings,
+} from './watch-entry';
 
 const payload = {
   id: '7c1d2c55-0b4f-4f43-9a55-0f3f5d1d9b1e',
@@ -54,12 +60,38 @@ describe('watch settings', () => {
       pauseSeconds: 1,
       rate: 1,
       mode: 'listen',
+      reading: true,
+      readings: expect.objectContaining({ 'joyful-1-annunciation': expect.any(String) }),
     });
+  });
+
+  it('sends the passage each mystery reads next, and none with readings off', () => {
+    const first = watchSettingsOf(defaultSettings).readings;
+    const turned = watchSettingsOf(defaultSettings, { 'luminous-1-baptism': 1 }).readings;
+    expect(turned['luminous-1-baptism']).not.toBe(first['luminous-1-baptism']);
+    expect(watchSettingsOf({ ...defaultSettings, reading: false }).readings).toEqual({});
   });
 
   it('ignores changes the watch does not use', () => {
     expect(sameWatchSettings(defaultSettings, { ...defaultSettings, skin: 'manuscript' })).toBe(true);
     expect(sameWatchSettings(defaultSettings, { ...defaultSettings, litany: true })).toBe(false);
+    expect(sameWatchSettings(defaultSettings, { ...defaultSettings, gospel: 'john' })).toBe(false);
+  });
+});
+
+describe('withEarlierReadings', () => {
+  const continued = { ...watchEntryFrom({ ...payload, readings: { m3: 'Lk 2:1-20' } })! };
+
+  it('keeps the passages read on the phone before the watch carried on', () => {
+    expect(withEarlierReadings(continued, { readings: { m1: 'Lk 1:26-38' } }).readings).toEqual({
+      m1: 'Lk 1:26-38',
+      m3: 'Lk 2:1-20',
+    });
+  });
+
+  it('leaves a new session as it came', () => {
+    expect(withEarlierReadings(continued, null)).toBe(continued);
+    expect(withEarlierReadings(continued, { readings: null })).toBe(continued);
   });
 });
 

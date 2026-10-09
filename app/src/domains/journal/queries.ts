@@ -24,6 +24,14 @@ export function useJournalEntries(from: string, to: string) {
   });
 }
 
+/** How many times each mystery's Gospel was read, which turns the passage it reads next. */
+export function useReadingCounts() {
+  return useQuery({
+    queryKey: journalKeys.readingCounts,
+    queryFn: async () => (await appJournal()).readingCounts(),
+  });
+}
+
 export function useJournalTotals() {
   return useQuery({
     queryKey: journalKeys.totals,

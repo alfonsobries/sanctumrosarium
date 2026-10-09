@@ -13,6 +13,7 @@ const options: RosaryOptions = {
   })),
   scope: { kind: 'full' },
   opening: true,
+  openingForm: 'standard',
   readingFor: null,
   fatimaPrayer: true,
   prayerForThePope: true,

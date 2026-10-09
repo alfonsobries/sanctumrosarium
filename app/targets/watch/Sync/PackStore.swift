@@ -17,6 +17,8 @@ final class PackStore {
     let file: String
     let minGapMs: Double
     let pause: Bool
+    /** On a reading, the passage it reads. */
+    let ref: String?
   }
 
   struct Installed {
@@ -35,6 +37,8 @@ final class PackStore {
     let locale: String
     let version: String?
     let bytes: Int
+    /** Each file's size by name; names change with their content. */
+    let files: [String: Int]
   }
 
   enum Status: Equatable {
@@ -66,7 +70,12 @@ final class PackStore {
 
   private init() {
     if let stored = UserDefaults.standard.dictionary(forKey: Self.offerKey), let locale = stored["locale"] as? String {
-      offer = Offer(locale: locale, version: stored["version"] as? String, bytes: stored["bytes"] as? Int ?? 0)
+      offer = Offer(
+        locale: locale,
+        version: stored["version"] as? String,
+        bytes: stored["bytes"] as? Int ?? 0,
+        files: stored["files"] as? [String: Int] ?? [:]
+      )
     }
     if let version = UserDefaults.standard.string(forKey: Self.currentKey) {
       current = Self.verified(version: version)
@@ -96,12 +105,18 @@ final class PackStore {
     guard let locale = context["locale"] as? String else {
       return
     }
-    let next = Offer(locale: locale, version: context["version"] as? String, bytes: context["bytes"] as? Int ?? 0)
+    var files: [String: Int] = [:]
+    for file in context["files"] as? [[String: Any]] ?? [] {
+      if let name = file["name"] as? String, let size = file["size"] as? Int {
+        files[name] = size
+      }
+    }
+    let next = Offer(locale: locale, version: context["version"] as? String, bytes: context["bytes"] as? Int ?? 0, files: files)
     guard next != offer else {
       return
     }
     offer = next
-    var stored: [String: Any] = ["locale": next.locale, "bytes": next.bytes]
+    var stored: [String: Any] = ["locale": next.locale, "bytes": next.bytes, "files": next.files]
     stored["version"] = next.version
     UserDefaults.standard.set(stored, forKey: Self.offerKey)
     refresh()
@@ -110,6 +125,9 @@ final class PackStore {
   /** Re-reads the wanted pack's folder, installs it when complete and drops what is not needed. */
   func refresh() {
     let wanted = offer?.version
+    if let wanted, let offer, let current, wanted != current.version {
+      Self.reuse(offer.files, from: current.directory, into: wanted)
+    }
     if let wanted, wanted != current?.version, let installed = Self.verified(version: wanted) {
       current = installed
       UserDefaults.standard.set(wanted, forKey: Self.currentKey)
@@ -168,6 +186,29 @@ final class PackStore {
       return true
     } catch {
       return false
+    }
+  }
+
+  /**
+   * Links into a new pack's folder the files it shares with the pack in use, so a new
+   * version (another Gospel passage chosen, one prayer re-recorded) only sends what changed.
+   */
+  private static func reuse(_ files: [String: Int], from directory: URL, into version: String) {
+    let destination = root.appendingPathComponent(version, isDirectory: true)
+    let manager = FileManager.default
+    for (name, size) in files where name != manifestName {
+      let source = directory.appendingPathComponent(name)
+      let target = destination.appendingPathComponent(name)
+      guard
+        !manager.fileExists(atPath: target.path),
+        (try? manager.attributesOfItem(atPath: source.path)[.size] as? Int) == size
+      else {
+        continue
+      }
+      try? manager.createDirectory(at: destination, withIntermediateDirectories: true)
+      if (try? manager.linkItem(at: source, to: target)) == nil {
+        try? manager.copyItem(at: source, to: target)
+      }
     }
   }
 

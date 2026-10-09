@@ -10,7 +10,7 @@ import { ActivityIndicator, Alert, Pressable, View, useWindowDimensions } from '
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
-import { useArtwork } from '@/domains/artwork/use-artwork';
+import { artworkFor, useArtwork } from '@/domains/artwork/use-artwork';
 import { hasAudio, useRosaryAudio } from '@/domains/audio/use-rosary-audio';
 import { beadState } from '@/domains/prayer/bead-state';
 import { ControlDock, dockHeight } from '@/domains/prayer/ControlDock';
@@ -122,7 +122,7 @@ export default function PrayScreen() {
   useKeepAwake();
   const { t } = useTranslation();
   const router = useRouter();
-  const { colors, texture } = useSkin();
+  const { colors, texture, skin } = useSkin();
   const headingLocale = useContentLocale();
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
@@ -159,6 +159,9 @@ export default function PrayScreen() {
       album: plan === null ? '' : t(`sets.${plan.set}`),
       artist: 'Sanctum Rosarium',
       titles: (s) => stepHeading(s, headingLocale, t),
+      mysteryTitle: (id) => mysteryTitle(id, headingLocale),
+      // A skin that keeps to text on screen still gives Now Playing a cover.
+      artwork: (id) => artworkFor(skin.artwork === 'none' ? 'classic' : skin.artwork, id)?.source ?? null,
     },
     onStep: (index) => moveTo(index),
   });

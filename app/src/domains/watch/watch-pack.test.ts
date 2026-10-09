@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import type { AudioManifest } from '../audio/queue';
 
-import { watchAudioPack, watchSequence } from './watch-pack';
+import { watchAudioPack, watchReadings, watchSequence, type WatchScripture } from './watch-pack';
 
 function manifestFor(keys: string[]): AudioManifest {
   const tracks: AudioManifest['tracks'] = {};
@@ -19,7 +19,7 @@ const keys = [
       watchSequence(
         set as 'joyful',
         { kind: 'full' },
-        { fatimaPrayer: true, litany: false, prayerForThePope: true },
+        { fatimaPrayer: true, litany: false, prayerForThePope: true, readings: false },
       ).map((step) =>
         step.kind === 'announce' ? `announce.${step.mystery.id}` : step.kind === 'prayer' ? step.prayer : '',
       ),
@@ -30,11 +30,40 @@ const complete = manifestFor(
   keys.flatMap((key) => (key.startsWith('announce.') ? [key] : [`${key}.leader`, `${key}.response`])),
 );
 
-describe('watchAudioPack', () => {
-  it('has no reading steps, which are not for the wrist', () => {
-    expect(steps.some((step) => step.kind === 'reading')).toBe(false);
+const scripture = (readings = watchReadings('rotate', {})): WatchScripture => ({
+  readings,
+  track: (ref) =>
+    ref === 'Lk 1:26-38' ? { file: 'reading.annunciation.mp3', durationMs: 60_000 } : undefined,
+  text: () => 'x'.repeat(280),
+});
+
+describe('watchSequence', () => {
+  it('reads a passage after each mystery is announced', () => {
+    const readings = steps.filter((step) => step.kind === 'reading');
+    expect(readings).toHaveLength(5);
+    expect(steps[steps.findIndex((step) => step.kind === 'reading') - 1]?.kind).toBe('announce');
   });
 
+  it('reads the chosen passage, else the primary one', () => {
+    const chosen = watchSequence('joyful', { kind: 'full' }, undefined, {
+      'joyful-1-annunciation': 'Lk 1:26-38',
+    });
+    const first = chosen.find((step) => step.kind === 'reading');
+    expect(first?.kind === 'reading' && first.reading.ref).toBe('Lk 1:26-38');
+  });
+});
+
+describe('watchReadings', () => {
+  it('turns to the next account each time a mystery is prayed', () => {
+    const first = watchReadings('rotate', {});
+    const next = watchReadings('rotate', { 'luminous-1-baptism': 1 });
+    expect(Object.keys(first)).toHaveLength(20);
+    expect(next['luminous-1-baptism']).not.toBe(first['luminous-1-baptism']);
+    expect(next['joyful-1-annunciation']).toBe(first['joyful-1-annunciation']);
+  });
+});
+
+describe('watchAudioPack', () => {
   it('marks which gaps stretch to the pause chosen on the phone', () => {
     const pack = watchAudioPack('es-MX', complete);
     expect(pack?.parts['hail-mary']).toEqual([
@@ -44,6 +73,42 @@ describe('watchAudioPack', () => {
     expect(pack?.parts['announce.joyful-1-annunciation']).toEqual([
       { file: 'announce.joyful-1-annunciation.mp3', minGapMs: 4000, pause: true },
     ]);
+  });
+
+  it('has no readings unless they are asked for', () => {
+    const pack = watchAudioPack('es-MX', complete);
+    expect(Object.keys(pack?.parts ?? {}).some((key) => key.startsWith('reading.'))).toBe(false);
+  });
+
+  it('reads each chosen passage, or leaves silence to read it without a recording', () => {
+    const pack = watchAudioPack('es-MX', complete, scripture({ 'joyful-1-annunciation': 'Lk 1:26-38' }));
+    expect(pack?.parts['reading.joyful-1-annunciation']).toEqual([
+      { file: 'reading.annunciation.mp3', minGapMs: 1500, pause: true, ref: 'Lk 1:26-38' },
+    ]);
+    expect(pack?.parts['reading.joyful-2-visitation']).toEqual([
+      { file: 'silence.mp3', minGapMs: 20_000, pause: false, ref: expect.any(String) },
+    ]);
+    expect(pack?.files).toContain('reading.annunciation.mp3');
+  });
+
+  it('changes version when another passage is chosen', () => {
+    const first = watchAudioPack('es-MX', complete, scripture());
+    const next = watchAudioPack(
+      'es-MX',
+      complete,
+      scripture(watchReadings('rotate', { 'luminous-1-baptism': 1 })),
+    );
+    expect(next?.version).not.toBe(first?.version);
+  });
+
+  it('needs no recording of a prayer the language has no text for', () => {
+    const latin = structuredClone(complete);
+    delete latin.tracks['fatima-prayer.leader'];
+    delete latin.tracks['fatima-prayer.response'];
+    const pack = watchAudioPack('la', latin);
+    expect(pack).not.toBeNull();
+    expect(pack?.parts['fatima-prayer']).toBeUndefined();
+    expect(watchAudioPack('es-MX', latin)).toBeNull();
   });
 
   it('is null when a recording is missing', () => {

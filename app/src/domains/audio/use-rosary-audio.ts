@@ -15,6 +15,7 @@ import {
   type RosaryPlaybackStatus,
 } from '../../../modules/rosary-player';
 
+import { coverMysteries } from './now-playing';
 import { audioPacks, scripturePacks } from './packs.gen';
 import { buildQueue, type AudioManifest, type ManifestTrack } from './queue';
 
@@ -84,7 +85,15 @@ type Options = {
   position: number;
   rate: number;
   pauseSeconds: number;
-  nowPlaying: { album: string; artist: string; titles: (step: Step) => string };
+  nowPlaying: {
+    album: string;
+    artist: string;
+    titles: (step: Step) => string;
+    /** Shown under the prayer while its decade plays. */
+    mysteryTitle: (mysteryId: string) => string;
+    /** The bundled image of a mystery, shown as the cover while its decade plays. */
+    artwork: (mysteryId: string) => number | null;
+  };
   onStep: (index: number) => void;
 };
 
@@ -127,12 +136,20 @@ export function useRosaryAudio(options: Options): RosaryAudio {
     void (async () => {
       await prepareAudio(locale);
       const silenceUri = await uriOf(silence);
+      const covers = coverMysteries(steps);
       const entries = await Promise.all(
         built.map(async (entry, index) => {
           const step = steps[index];
+          const cover = covers[index];
+          const artwork =
+            cover === null || cover === undefined ? null : latest.current.nowPlaying.artwork(cover);
+          const inDecade =
+            step !== undefined && step.decade !== null && cover !== null && cover !== undefined;
           return {
             id: entry.id,
             title: step === undefined ? '' : latest.current.nowPlaying.titles(step),
+            ...(inDecade ? { subtitle: latest.current.nowPlaying.mysteryTitle(cover) } : {}),
+            ...(artwork === null ? {} : { artworkUri: await uriOf(artwork) }),
             parts: await Promise.all(
               entry.parts.map(async (part) => ({
                 uri:

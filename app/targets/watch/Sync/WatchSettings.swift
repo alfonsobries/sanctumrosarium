@@ -2,9 +2,9 @@ import Foundation
 import Observation
 
 /**
- * How the Rosary is prayed on the wrist. Everything but haptics and the text view comes from the phone,
- * which is where settings are changed; the watch keeps the last values it received so it
- * prays the same way without the phone nearby.
+ * How the Rosary is prayed on the wrist. Everything but haptics, the text view and the
+ * voice's speed comes from the phone, which is where settings are changed; the watch keeps
+ * the last values it received so it prays the same way without the phone nearby.
  */
 @MainActor
 @Observable
@@ -14,15 +14,26 @@ final class WatchSettings {
   private static let storageKey = "settings"
   private static let hapticsKey = "haptics"
   private static let showsTextKey = "showsText"
+  private static let rateKey = "rate"
 
   var prayerLocale: String
   var fatimaPrayer: Bool
   var litany: Bool
   var prayerForThePope: Bool
   var pauseSeconds: Double
-  var rate: Double
+  /**
+   * The voice's speed. It can be changed on the watch while praying; a new speed chosen
+   * on the phone replaces it, the same one sent again does not.
+   */
+  var rate: Double {
+    didSet { UserDefaults.standard.set(rate, forKey: Self.rateKey) }
+  }
   /** "listen" starts the audio with the prayer; "tap" waits for the person to start it. */
   var mode: String
+  /** A Gospel passage after each mystery is announced. */
+  var reading: Bool
+  /** The passage each mystery reads next, by mystery id, as the phone turns them. */
+  var readings: [String: String]
   var haptics: Bool {
     didSet { UserDefaults.standard.set(haptics, forKey: Self.hapticsKey) }
   }
@@ -30,6 +41,8 @@ final class WatchSettings {
   var showsText: Bool {
     didSet { UserDefaults.standard.set(showsText, forKey: Self.showsTextKey) }
   }
+  /** The last speed the phone sent, to tell a new choice there from the same context again. */
+  private var phoneRate: Double?
 
   private init() {
     let stored = UserDefaults.standard.dictionary(forKey: Self.storageKey) ?? [:]
@@ -38,8 +51,11 @@ final class WatchSettings {
     litany = stored["litany"] as? Bool ?? false
     prayerForThePope = stored["prayerForThePope"] as? Bool ?? true
     pauseSeconds = stored["pauseSeconds"] as? Double ?? 1
-    rate = stored["rate"] as? Double ?? 1
+    phoneRate = stored["phoneRate"] as? Double ?? stored["rate"] as? Double
+    rate = UserDefaults.standard.object(forKey: Self.rateKey) as? Double ?? phoneRate ?? 1
     mode = stored["mode"] as? String ?? "listen"
+    reading = stored["reading"] as? Bool ?? true
+    readings = stored["readings"] as? [String: String] ?? [:]
     haptics = UserDefaults.standard.object(forKey: Self.hapticsKey) as? Bool ?? true
     showsText = UserDefaults.standard.object(forKey: Self.showsTextKey) as? Bool ?? false
   }
@@ -61,11 +77,18 @@ final class WatchSettings {
     if let value = context["pauseSeconds"] as? Double {
       pauseSeconds = max(0, value)
     }
-    if let value = context["rate"] as? Double {
+    if let value = context["rate"] as? Double, value != phoneRate {
+      phoneRate = value
       rate = value
     }
     if let value = context["mode"] as? String, value == "listen" || value == "tap" {
       mode = value
+    }
+    if let value = context["reading"] as? Bool {
+      reading = value
+    }
+    if let value = context["readings"] as? [String: String] {
+      readings = value
     }
     UserDefaults.standard.set(
       [
@@ -74,14 +97,21 @@ final class WatchSettings {
         "litany": litany,
         "prayerForThePope": prayerForThePope,
         "pauseSeconds": pauseSeconds,
-        "rate": rate,
+        "phoneRate": phoneRate ?? rate,
         "mode": mode,
+        "reading": reading,
+        "readings": readings,
       ],
       forKey: Self.storageKey
     )
   }
 
+  /** The phone's first-run choice: English, Spanish from Spain, or Spanish otherwise. */
   private static func deviceLocale() -> String {
-    Locale.preferredLanguages.first?.hasPrefix("en") == true ? "en-US" : "es-MX"
+    let preferred = Locale(identifier: Locale.preferredLanguages.first ?? "es")
+    if preferred.language.languageCode == .english {
+      return "en-US"
+    }
+    return (preferred.region ?? Locale.current.region) == .spain ? "es-ES" : "es-MX"
   }
 }

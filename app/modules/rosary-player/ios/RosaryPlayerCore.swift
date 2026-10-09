@@ -34,12 +34,15 @@ public struct RosaryStep: Sendable {
   public let title: String
   public let subtitle: String?
   public let parts: [RosaryPart]
+  /** The cover Now Playing shows during this step, such as its mystery's image; else the queue's. */
+  public let artworkURL: URL?
 
-  public init(id: String, title: String, subtitle: String?, parts: [RosaryPart]) {
+  public init(id: String, title: String, subtitle: String?, parts: [RosaryPart], artworkURL: URL? = nil) {
     self.id = id
     self.title = title
     self.subtitle = subtitle
     self.parts = parts
+    self.artworkURL = artworkURL
   }
 }
 
@@ -128,7 +131,8 @@ public final class RosaryPlayerCore {
   private var player = AVQueuePlayer()
   private var steps: [RosaryStep] = []
   private var nowPlaying: RosaryNowPlaying?
-  private var artwork: MPMediaItemArtwork?
+  private var artworks: [URL: MPMediaItemArtwork] = [:]
+  private var loadingArtworks: Set<URL> = []
   private var wantsToPlay = false
   private var generation = 0
   private var fillingGeneration: Int?
@@ -187,7 +191,7 @@ public final class RosaryPlayerCore {
     reportedMismatch = false
     self.steps = steps
     self.nowPlaying = nowPlaying
-    self.artwork = nil
+    artworks.removeAll()
     self.index = min(max(0, startIndex), steps.count - 1)
     self.rate = Self.clampRate(rate)
     player.defaultRate = self.rate
@@ -196,7 +200,6 @@ public final class RosaryPlayerCore {
 
     configureSession()
     registerRemoteCommands()
-    loadArtwork(nowPlaying.artworkURL)
     setStatus(.loading, reason: nil)
     onStepChange?(index, steps[index].id)
 
@@ -336,7 +339,7 @@ public final class RosaryPlayerCore {
     compositions.removeAll()
     steps = []
     nowPlaying = nil
-    artwork = nil
+    artworks.removeAll()
     wantsToPlay = false
     interruption = nil
     index = 0
@@ -1022,7 +1025,8 @@ public final class RosaryPlayerCore {
     let playing = status == .playing && isAudible
     var info: [String: Any] = [
       MPMediaItemPropertyTitle: step.title,
-      MPMediaItemPropertyArtist: nowPlaying.artist,
+      // The mystery reads under the prayer, as an artist under a song; the app outside decades.
+      MPMediaItemPropertyArtist: step.subtitle ?? nowPlaying.artist,
       MPMediaItemPropertyAlbumTitle: nowPlaying.album,
       MPMediaItemPropertyPlaybackDuration: currentDuration.seconds.isFinite ? currentDuration.seconds : 0,
       MPNowPlayingInfoPropertyElapsedPlaybackTime: currentPosition.seconds.isFinite ? currentPosition.seconds : 0,
@@ -1032,25 +1036,37 @@ public final class RosaryPlayerCore {
       MPNowPlayingInfoPropertyPlaybackQueueIndex: index,
       MPNowPlayingInfoPropertyPlaybackQueueCount: steps.count,
     ]
-    if let artwork {
-      info[MPMediaItemPropertyArtwork] = artwork
+    if let url = step.artworkURL ?? nowPlaying.artworkURL {
+      if let artwork = artworks[url] {
+        info[MPMediaItemPropertyArtwork] = artwork
+      } else {
+        loadArtwork(url)
+      }
     }
     MPNowPlayingInfoCenter.default().nowPlayingInfo = info
   }
 
-  private func loadArtwork(_ url: URL?) {
-    guard let url else {
+  private func loadArtwork(_ url: URL) {
+    guard !loadingArtworks.contains(url) else {
       return
     }
+    loadingArtworks.insert(url)
     Task { [weak self] in
-      guard let image = await Self.loadImage(from: url) else {
+      let image = await Self.loadImage(from: url)
+      guard let self else {
         return
       }
-      guard let self, self.nowPlaying?.artworkURL == url else {
+      self.loadingArtworks.remove(url)
+      guard let image, self.nowPlaying != nil else {
         return
       }
-      self.artwork = Self.makeArtwork(image)
-      self.updateNowPlaying()
+      self.artworks[url] = Self.makeArtwork(image)
+      guard self.steps.indices.contains(self.index) else {
+        return
+      }
+      if (self.steps[self.index].artworkURL ?? self.nowPlaying?.artworkURL) == url {
+        self.updateNowPlaying()
+      }
     }
   }
 
@@ -1061,10 +1077,39 @@ public final class RosaryPlayerCore {
     } else {
       data = try? await URLSession.shared.data(from: url).0
     }
-    guard let data else {
+    guard let data, let image = UIImage(data: data) else {
       return nil
     }
-    return UIImage(data: data)
+    return squared(image)
+  }
+
+  /**
+   * A centred square, as album covers are, small enough to keep a few in memory. Images
+   * that are already square and small are kept as they are.
+   */
+  private nonisolated static func squared(_ image: UIImage) -> UIImage {
+    #if os(iOS)
+    let side = min(image.size.width, image.size.height)
+    let target = min(side, 600)
+    guard image.size.width != image.size.height || side > target else {
+      return image
+    }
+    let scale = target / side
+    let drawn = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+    let format = UIGraphicsImageRendererFormat()
+    format.scale = 1
+    let renderer = UIGraphicsImageRenderer(size: CGSize(width: target, height: target), format: format)
+    return renderer.image { _ in
+      image.draw(in: CGRect(
+        x: (target - drawn.width) / 2,
+        y: (target - drawn.height) / 2,
+        width: drawn.width,
+        height: drawn.height
+      ))
+    }
+    #else
+    return image
+    #endif
   }
 
   // Nonisolated so the request handler is not bound to the main actor:

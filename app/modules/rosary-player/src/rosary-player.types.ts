@@ -14,6 +14,8 @@ export type RosaryStep = {
   title: string;
   subtitle?: string;
   parts: RosaryStepPart[];
+  /** Local image shown as the cover in Now Playing during this step; else the queue's. */
+  artworkUri?: string;
 };
 
 export type RosaryNowPlaying = {

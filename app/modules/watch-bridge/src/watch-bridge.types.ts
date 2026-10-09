@@ -7,6 +7,10 @@ export type WatchSettings = {
   pauseSeconds: number;
   rate: number;
   mode: 'listen' | 'tap';
+  /** A Gospel passage after each mystery is announced. */
+  reading: boolean;
+  /** The passage each mystery reads next, by mystery id; empty with readings off. */
+  readings: Record<string, string>;
 };
 
 /** A journal entry as the watch reads it; values that would be null are left out. */
