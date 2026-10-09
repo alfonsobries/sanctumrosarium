@@ -2,8 +2,8 @@
  * Exports what the Apple Watch prays, bundled in the watch app, so Swift reads data
  * instead of re-implementing the content rules: each set as a complete Rosary and as each
  * single decade (every optional prayer included; the watch drops the Fatima prayer, the
- * litany and the prayer for the Pope when they are off), the weekday calendar, and per locale the prayer and
- * mystery texts. Audio is not bundled: the phone sends the chosen language's pack.
+ * litany and the prayer for the Pope when they are off), the weekday calendar, the voice
+ * speeds offered, and per locale the prayer and mystery texts. Audio is not bundled: the phone sends the chosen language's pack.
  *
  * Run after content changes: pnpm watch:content
  */
@@ -30,6 +30,7 @@ import {
   type Step,
 } from '../packages/rosary/src/index';
 import { beadState } from '../app/src/domains/prayer/bead-state';
+import { rates } from '../app/src/domains/settings/settings';
 import { audioKeyOf, watchSequence, type WatchSequenceOptions } from '../app/src/domains/watch/watch-pack';
 
 const root = join(import.meta.dirname, '..');
@@ -165,7 +166,7 @@ function main(): void {
     mysterySets.map((set) => [set, watchSequence(set, { kind: 'full' })]),
   ) as Record<MysterySet, Step[]>;
 
-  const rosary = { version: 1, weekdays: weekdays(), sets: mysterySets.map(exportSet) };
+  const rosary = { version: 1, weekdays: weekdays(), rates, sets: mysterySets.map(exportSet) };
   writeFileSync(join(outDir, 'rosary.json'), `${JSON.stringify(rosary)}\n`);
   console.log(`rosary.json: ${rosary.sets.length} sets, ${rosary.sets[0]?.steps.length} steps each`);
 

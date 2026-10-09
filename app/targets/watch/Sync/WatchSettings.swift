@@ -14,13 +14,20 @@ final class WatchSettings {
   private static let storageKey = "settings"
   private static let hapticsKey = "haptics"
   private static let showsTextKey = "showsText"
+  private static let rateKey = "rate"
 
   var prayerLocale: String
   var fatimaPrayer: Bool
   var litany: Bool
   var prayerForThePope: Bool
   var pauseSeconds: Double
-  var rate: Double
+  /**
+   * The voice's speed. It can be changed on the watch while praying; a new speed chosen
+   * on the phone replaces it, the same one sent again does not.
+   */
+  var rate: Double {
+    didSet { UserDefaults.standard.set(rate, forKey: Self.rateKey) }
+  }
   /** "listen" starts the audio with the prayer; "tap" waits for the person to start it. */
   var mode: String
   var haptics: Bool {
@@ -30,6 +37,8 @@ final class WatchSettings {
   var showsText: Bool {
     didSet { UserDefaults.standard.set(showsText, forKey: Self.showsTextKey) }
   }
+  /** The last speed the phone sent, to tell a new choice there from the same context again. */
+  private var phoneRate: Double?
 
   private init() {
     let stored = UserDefaults.standard.dictionary(forKey: Self.storageKey) ?? [:]
@@ -38,7 +47,8 @@ final class WatchSettings {
     litany = stored["litany"] as? Bool ?? false
     prayerForThePope = stored["prayerForThePope"] as? Bool ?? true
     pauseSeconds = stored["pauseSeconds"] as? Double ?? 1
-    rate = stored["rate"] as? Double ?? 1
+    phoneRate = stored["phoneRate"] as? Double ?? stored["rate"] as? Double
+    rate = UserDefaults.standard.object(forKey: Self.rateKey) as? Double ?? phoneRate ?? 1
     mode = stored["mode"] as? String ?? "listen"
     haptics = UserDefaults.standard.object(forKey: Self.hapticsKey) as? Bool ?? true
     showsText = UserDefaults.standard.object(forKey: Self.showsTextKey) as? Bool ?? false
@@ -61,7 +71,8 @@ final class WatchSettings {
     if let value = context["pauseSeconds"] as? Double {
       pauseSeconds = max(0, value)
     }
-    if let value = context["rate"] as? Double {
+    if let value = context["rate"] as? Double, value != phoneRate {
+      phoneRate = value
       rate = value
     }
     if let value = context["mode"] as? String, value == "listen" || value == "tap" {
@@ -74,7 +85,7 @@ final class WatchSettings {
         "litany": litany,
         "prayerForThePope": prayerForThePope,
         "pauseSeconds": pauseSeconds,
-        "rate": rate,
+        "phoneRate": phoneRate ?? rate,
         "mode": mode,
       ],
       forKey: Self.storageKey

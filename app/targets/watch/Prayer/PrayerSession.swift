@@ -221,6 +221,17 @@ final class PrayerSession: Identifiable {
     }
   }
 
+  /** The voice's speed, applied to the voice already playing and kept for the next time. */
+  var rate: Double {
+    get { settings.rate }
+    set {
+      settings.rate = newValue
+      if audioLoaded {
+        SharedPlayer.core.setRate(Float(newValue))
+      }
+    }
+  }
+
   /** Ends the session, keeping in the journal whatever decades were prayed. */
   func end() {
     guard !finished else {

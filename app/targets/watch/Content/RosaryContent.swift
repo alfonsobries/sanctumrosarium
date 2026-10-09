@@ -5,6 +5,8 @@ import Foundation
 
 struct RosaryFile: Decodable {
   let weekdays: [String]
+  /** Voice speeds offered, the same as on the phone. */
+  let rates: [Double]
   let sets: [SetTemplate]
 }
 

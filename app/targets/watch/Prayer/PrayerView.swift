@@ -349,6 +349,13 @@ private struct PrayerOptions: View {
         VolumeControl()
           .frame(height: 44)
           .listRowBackground(Color.clear)
+        Picker(selection: $session.rate) {
+          ForEach(ContentStore.shared.rosary.rates, id: \.self) { rate in
+            Text(verbatim: "\(rate.formatted(.number))×").tag(rate)
+          }
+        } label: {
+          Label("options.rate", systemImage: "gauge.with.dots.needle.50percent")
+        }
       }
       Button(role: .destructive, action: onEnd) {
         Label("prayer.end", systemImage: "xmark")
