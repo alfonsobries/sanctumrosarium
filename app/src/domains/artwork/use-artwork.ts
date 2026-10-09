@@ -11,10 +11,7 @@ export function useArtwork(mysteryId: string): Artwork | null {
       return null;
     case 'classic':
       return classic[mysteryId] ?? null;
-    case 'glass':
-    case 'guadalupana':
-    case 'trazo':
-    case 'kids':
+    default:
       return illustrated[skin.artwork][mysteryId] ?? classic[mysteryId] ?? null;
   }
 }
