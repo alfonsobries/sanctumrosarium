@@ -12,7 +12,7 @@ import { evangelistOf, type Step } from '@sanctamaria/rosary';
 import { useTranslation } from 'react-i18next';
 import { View, useWindowDimensions } from 'react-native';
 
-import { ArtworkFrame } from '@/domains/artwork/ArtworkFrame';
+import { ArtworkFrame, artworkMaxWidth } from '@/domains/artwork/ArtworkFrame';
 import { useArtwork } from '@/domains/artwork/use-artwork';
 
 import type { Settings } from '@/domains/settings/settings';
@@ -80,7 +80,7 @@ function PrayerLines({ id, locale, textSize }: PrayerLinesProperties) {
 export function StepContent({ step, locale, textSize }: StepContentProperties) {
   const { t } = useTranslation();
   const announceArtwork = useArtwork(step.kind === 'announce' ? step.mystery.id : '');
-  const { width, height } = useWindowDimensions();
+  const { height } = useWindowDimensions();
   const { size, line } = useSizes(textSize);
 
   if (step.kind === 'announce') {
@@ -90,7 +90,7 @@ export function StepContent({ step, locale, textSize }: StepContentProperties) {
         {artwork !== null && (
           <ArtworkFrame
             artwork={artwork}
-            style={{ width: '100%', height: Math.min(width * 1.1, height * 0.46) }}
+            style={{ width: '100%', maxWidth: Math.min(artworkMaxWidth, height * 0.46) }}
           />
         )}
         <Text

@@ -37,7 +37,7 @@ el dispositivo, y lo que se reza en el reloj llega al teléfono directamente.
 
 ## Audio
 
-Voces generadas con ElevenLabs v4, tono de un Rosario rezado en comunidad: claro,
+Voces generadas con ElevenLabs, tono de un Rosario rezado en comunidad: claro,
 pausado, sin dramatismo. Quien dirige dice la primera parte y otra voz responde.
 
 El audio no se corta cuando otra app suena (un aviso del entrenamiento, una

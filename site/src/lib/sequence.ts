@@ -8,6 +8,7 @@ export function rosarySteps(set: MysterySet = 'joyful'): Step[] {
     mysteries: mysteryRefsOf(set),
     scope: { kind: 'full' },
     opening: true,
+    openingForm: 'standard',
     readingFor: (mystery) => mystery.readings[0] ?? null,
     fatimaPrayer: true,
     prayerForThePope: true,

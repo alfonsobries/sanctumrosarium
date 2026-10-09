@@ -11,6 +11,11 @@ describe('normalizeSettings', () => {
     expect(normalizeSettings({ pauseSeconds: 'long', legacy: true })).toEqual(defaultSettings);
   });
 
+  it('keeps a known opening form and drops an unknown one', () => {
+    expect(normalizeSettings({ openingForm: 'three-virtues' }).openingForm).toBe('three-virtues');
+    expect(normalizeSettings({ openingForm: 'five-virtues' }).openingForm).toBe('standard');
+  });
+
   it('survives garbage', () => {
     expect(normalizeSettings(null)).toEqual(defaultSettings);
   });

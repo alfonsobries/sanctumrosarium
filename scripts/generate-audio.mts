@@ -4,10 +4,14 @@
  * announcement of each mystery. Writes MP3s, a manifest with durations and a registry
  * the app can require.
  *
- * Voices are ElevenLabs v4 read as evenly as the model allows: the most stable setting, no
- * style, and a spoken text without exclamations or hard breaks, which pull it toward
- * declaiming. The words on screen keep their punctuation. Tracks that already exist are
- * kept; delete a file (or pass --force) to regenerate it.
+ * Every pack is read as evenly as its model allows: the most stable setting and a spoken
+ * text without exclamations or hard breaks, which pull it toward declaiming. The words on
+ * screen keep their punctuation. Spanish is read by Multilingual v2: Eleven v4 hears
+ * "Oh Jesús mío" or "Señor, ten piedad" as exclamations and stretches their vowels, and no
+ * v4 setting, text or audio tag flattens it (tags on short lines make it repeat words).
+ * English and Latin stay on v4, which reads them evenly and is the only one that takes the
+ * Italian pronunciation Latin needs. Tracks that already exist are kept; delete a file
+ * (or pass --force) to regenerate it.
  *
  * The Gospel passages are their own packs, one per language (both Spanish locales read
  * the same translation), read by the leader at a lower bitrate that suits speech.
@@ -18,7 +22,16 @@
  */
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
@@ -39,9 +52,33 @@ const audioRoot = join(root, 'app/assets/audio');
 const sampleRate = 48_000;
 
 type Voice = { id: string; name: string };
+type Delivery = {
+  model: string;
+  /** Changes whenever the settings or the spoken text rules change, so every track is made again. */
+  version: string;
+  settings: Record<string, number | boolean>;
+  /** Multilingual v2 rejects a language code and detects the language from the text. */
+  takesLanguageCode: boolean;
+};
+
+/** v4 only reads stability and similarity; style and speed are not available on it. */
+const v4: Delivery = {
+  model: 'eleven_v4',
+  version: 'even-1',
+  settings: { stability: 1, similarity_boost: 0.6 },
+  takesLanguageCode: true,
+};
+const multilingualV2: Delivery = {
+  model: 'eleven_multilingual_v2',
+  version: 'even-2',
+  settings: { stability: 1, similarity_boost: 0.6, style: 0, use_speaker_boost: false, speed: 0.85 },
+  takesLanguageCode: false,
+};
+
 type PackSpec = {
   locale: Locale;
   languageCode: string;
+  delivery: Delivery;
   leader: Voice;
   response: Voice;
   announce: (order: number, set: string, title: string) => string;
@@ -78,6 +115,7 @@ const packs: PackSpec[] = [
   {
     locale: 'es-MX',
     languageCode: 'es',
+    delivery: multilingualV2,
     leader: giacomo,
     response: tatiana,
     announce: (order, set, title) => `${esOrdinals[order - 1]} misterio ${esSets[set]}: ${title}.`,
@@ -85,6 +123,7 @@ const packs: PackSpec[] = [
   {
     locale: 'es-ES',
     languageCode: 'es',
+    delivery: multilingualV2,
     leader: giacomo,
     response: tatiana,
     announce: (order, set, title) => `${esOrdinals[order - 1]} misterio ${esSets[set]}: ${title}.`,
@@ -92,6 +131,7 @@ const packs: PackSpec[] = [
   {
     locale: 'en-US',
     languageCode: 'en',
+    delivery: v4,
     leader: marcus,
     response: katie,
     announce: (order, set, title) => `The ${enOrdinals[order - 1]} ${enSets[set]} Mystery: ${title}.`,
@@ -100,6 +140,7 @@ const packs: PackSpec[] = [
     locale: 'la',
     // Ecclesiastical Latin is read with Italian vowels and consonants.
     languageCode: 'it',
+    delivery: v4,
     leader: giacomo,
     response: tatiana,
     announce: (order, set, title) =>
@@ -107,12 +148,17 @@ const packs: PackSpec[] = [
   },
 ];
 
-type ScriptureSpec = { language: 'es' | 'en' | 'la'; languageCode: string; reader: Voice };
+type ScriptureSpec = {
+  language: 'es' | 'en' | 'la';
+  languageCode: string;
+  delivery: Delivery;
+  reader: Voice;
+};
 
 const scripturePacks: ScriptureSpec[] = [
-  { language: 'es', languageCode: 'es', reader: giacomo },
-  { language: 'en', languageCode: 'en', reader: marcus },
-  { language: 'la', languageCode: 'it', reader: giacomo },
+  { language: 'es', languageCode: 'es', delivery: v4, reader: giacomo },
+  { language: 'en', languageCode: 'en', delivery: v4, reader: marcus },
+  { language: 'la', languageCode: 'it', delivery: v4, reader: giacomo },
 ];
 
 const rosaryPrayers = [
@@ -124,6 +170,10 @@ const rosaryPrayers = [
   'fatima-prayer',
   'hail-holy-queen',
   'rosary-closing-prayer',
+  'hail-mary-faith',
+  'hail-mary-hope',
+  'hail-mary-charity',
+  'trinity-salutation',
 ];
 
 type Track = { file: string; durationMs: number };
@@ -135,7 +185,6 @@ type Manifest = {
   tracks: Record<string, Track>;
 };
 
-const model = 'eleven_v4';
 const args = new Set(process.argv.slice(2));
 const force = args.has('--force');
 const dryRun = args.has('--dry-run');
@@ -164,10 +213,6 @@ function durationMs(file: string): number {
   );
   return Math.round(Number.parseFloat(output.trim()) * 1000);
 }
-
-const delivery = { stability: 1, similarity_boost: 0.6, style: 0, use_speaker_boost: false, speed: 0.92 };
-/** Changes whenever the delivery or the spoken text rules change, so every track is made again. */
-const deliveryVersion = 'even-1';
 
 /** What the voice is given to say: the same words, without what makes it declaim. */
 function spoken(text: string): string {
@@ -199,9 +244,9 @@ async function request(url: string, init: RequestInit): Promise<Response> {
   }
 }
 
-function fileFor(key: string, text: string, voice: Voice): string {
+function fileFor(key: string, text: string, voice: Voice, delivery: Delivery): string {
   const hash = createHash('sha1')
-    .update(`${model}|${deliveryVersion}|${voice.id}|${text}`)
+    .update(`${delivery.model}|${delivery.version}|${voice.id}|${text}`)
     .digest('hex')
     .slice(0, 8);
   return `${key}-${hash}.mp3`;
@@ -211,6 +256,7 @@ async function synthesize(
   text: string,
   voice: Voice,
   languageCode: string,
+  delivery: Delivery,
   out: string,
   bitrate = '64k',
 ): Promise<void> {
@@ -221,9 +267,9 @@ async function synthesize(
       headers: { 'xi-api-key': apiKey(), 'Content-Type': 'application/json' },
       body: JSON.stringify({
         text: spoken(text),
-        model_id: model,
-        language_code: languageCode,
-        voice_settings: delivery,
+        model_id: delivery.model,
+        ...(delivery.takesLanguageCode ? { language_code: languageCode } : {}),
+        voice_settings: delivery.settings,
       }),
     },
   );
@@ -232,7 +278,10 @@ async function synthesize(
   }
   const raw = `${out}.raw.mp3`;
   writeFileSync(raw, Buffer.from(await response.arrayBuffer()));
-  encode(['-i', raw], out, bitrate, ['loudnorm=I=-18:TP=-2', 'silenceremove=start_periods=1:start_threshold=-50dB']);
+  encode(['-i', raw], out, bitrate, [
+    'loudnorm=I=-18:TP=-2',
+    'silenceremove=start_periods=1:start_threshold=-50dB',
+  ]);
   execFileSync('rm', [raw]);
 }
 
@@ -261,7 +310,12 @@ function encode(input: string[], out: string, bitrate: string, filters: string[]
 
 /** One second of silence in the recordings' format; loudness filters stay out of it. */
 function writeSilence(): void {
-  encode(['-f', 'lavfi', '-t', '1', '-i', `anullsrc=r=${sampleRate}:cl=mono`], join(audioRoot, 'silence.mp3'), '64k', []);
+  encode(
+    ['-f', 'lavfi', '-t', '1', '-i', `anullsrc=r=${sampleRate}:cl=mono`],
+    join(audioRoot, 'silence.mp3'),
+    '64k',
+    [],
+  );
 }
 
 type Job = { key: string; text: string; voice: Voice };
@@ -322,18 +376,35 @@ async function buildPack(pack: PackSpec): Promise<number> {
   const manifest: Manifest = {
     version: 1,
     locale: pack.locale,
-    model,
+    model: pack.delivery.model,
     voices: { leader: pack.leader.name, response: pack.response.name },
     tracks: {},
   };
 
+  // A file name stands for one request (model, delivery, voice and text), so a track another
+  // pack in the same language already holds is copied instead of paid for again.
+  const siblings = packs
+    .filter((other) => other.locale !== pack.locale && other.languageCode === pack.languageCode)
+    .map((other) => join(audioRoot, other.locale));
+
   let characters = 0;
   for (const job of jobsFor(pack)) {
-    const file = fileFor(job.key, job.text, job.voice);
+    const file = fileFor(job.key, job.text, job.voice, pack.delivery);
     const path = join(dir, file);
-    if (!force && existsSync(path) && previous?.tracks[job.key]?.file === file) {
-      const { file: keptFile, durationMs: keptDuration } = previous.tracks[job.key]!;
-      manifest.tracks[job.key] = { file: keptFile, durationMs: keptDuration };
+    if (!force && existsSync(path)) {
+      const kept = previous?.tracks[job.key];
+      manifest.tracks[job.key] = {
+        file,
+        durationMs: kept?.file === file ? kept.durationMs : durationMs(path),
+      };
+      continue;
+    }
+    const twin = siblings.map((sibling) => join(sibling, file)).find((candidate) => existsSync(candidate));
+    if (!force && twin !== undefined) {
+      if (!dryRun) {
+        copyFileSync(twin, path);
+        manifest.tracks[job.key] = { file, durationMs: durationMs(path) };
+      }
       continue;
     }
     characters += job.text.length;
@@ -341,7 +412,7 @@ async function buildPack(pack: PackSpec): Promise<number> {
       continue;
     }
     process.stdout.write(`${pack.locale} ${job.key}\n`);
-    await synthesize(job.text, job.voice, pack.languageCode, path);
+    await synthesize(job.text, job.voice, pack.languageCode, pack.delivery, path);
     manifest.tracks[job.key] = { file, durationMs: durationMs(path) };
   }
 
@@ -355,7 +426,13 @@ async function buildPack(pack: PackSpec): Promise<number> {
   return characters;
 }
 
-type ScriptureManifest = { version: 1; language: string; model: string; reader: string; tracks: Record<string, Track> };
+type ScriptureManifest = {
+  version: 1;
+  language: string;
+  model: string;
+  reader: string;
+  tracks: Record<string, Track>;
+};
 
 async function buildScripture(spec: ScriptureSpec): Promise<number> {
   const dir = join(audioRoot, `scripture-${spec.language}`);
@@ -367,7 +444,7 @@ async function buildScripture(spec: ScriptureSpec): Promise<number> {
   const manifest: ScriptureManifest = {
     version: 1,
     language: spec.language,
-    model,
+    model: spec.delivery.model,
     reader: spec.reader.name,
     tracks: {},
   };
@@ -375,10 +452,20 @@ async function buildScripture(spec: ScriptureSpec): Promise<number> {
   let characters = 0;
   for (const [ref, passage] of Object.entries(passagesOf(spec.language))) {
     // References carry spaces and colons; file names stay to letters, digits and dashes.
-    const file = fileFor(`reading.${ref.replace(/[^A-Za-z0-9]+/g, '-')}`, passage.text, spec.reader);
+    const file = fileFor(
+      `reading.${ref.replace(/[^A-Za-z0-9]+/g, '-')}`,
+      passage.text,
+      spec.reader,
+      spec.delivery,
+    );
     const path = join(dir, file);
     const kept = previous?.tracks[ref];
-    if (!force && kept !== undefined && kept.file.slice(-13) === file.slice(-13) && existsSync(join(dir, kept.file))) {
+    if (
+      !force &&
+      kept !== undefined &&
+      kept.file.slice(-13) === file.slice(-13) &&
+      existsSync(join(dir, kept.file))
+    ) {
       // Same recording under an older name: rename it rather than pay for it again.
       if (kept.file !== file) {
         renameSync(join(dir, kept.file), path);
@@ -391,7 +478,7 @@ async function buildScripture(spec: ScriptureSpec): Promise<number> {
       continue;
     }
     process.stdout.write(`scripture-${spec.language} ${ref}\n`);
-    await synthesize(passage.text, spec.reader, spec.languageCode, path, '40k');
+    await synthesize(passage.text, spec.reader, spec.languageCode, spec.delivery, path, '40k');
     manifest.tracks[ref] = { file, durationMs: durationMs(path) };
     // Saved as it goes: a long run that stops halfway keeps what it already paid for.
     writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -456,7 +543,9 @@ if (args.has('--registry')) {
   // Only rewrites the app's registry from the packs already on disk.
 } else if (args.has('--scripture')) {
   const language = [...args].find((arg) => arg.startsWith('--language='))?.split('=')[1];
-  for (const spec of scripturePacks.filter((candidate) => language === undefined || candidate.language === language)) {
+  for (const spec of scripturePacks.filter(
+    (candidate) => language === undefined || candidate.language === language,
+  )) {
     total += await buildScripture(spec);
   }
 } else {

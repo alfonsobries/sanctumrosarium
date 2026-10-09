@@ -30,8 +30,8 @@
 - **Learn.** How to pray it in five short steps, the twenty mysteries and every prayer,
   each with its source.
 - **A quiet journal.** It counts rosaries and decades, never streaks.
-- **Eight styles,** from plain to an illuminated manuscript, Our Lady of Guadalupe and a
-  large print edition, each in light and dark.
+- **Nine styles,** from plain to an illuminated manuscript, the old masters, Our Lady of
+  Guadalupe and a large print edition, each in light and dark.
 - **Four languages:** Spanish (Mexico and Spain), English and Latin, with a voice in all
   four.
 

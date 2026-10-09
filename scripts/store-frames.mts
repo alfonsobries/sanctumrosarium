@@ -105,7 +105,7 @@ const frames: Frame[] = [
     name: 'styles',
     ground: 'ivory',
     kicker: { es: 'Claro y oscuro en cada uno', en: 'Light and dark in each' },
-    title: { es: 'Ocho estilos, de sencillo <em>a iluminado</em>', en: 'Eight styles, plain <em>to illuminated</em>' },
+    title: { es: 'Nueve estilos, de sencillo <em>a iluminado</em>', en: 'Nine styles, plain <em>to illuminated</em>' },
     body: (lang) =>
       device(raw(lang, 'announce-glass'), ipad ? 1240 : 760, `position:absolute;top:230px;left:50%;transform:translateX(${ipad ? -98 : -112}%);opacity:.95`) +
       device(raw(lang, 'pray-dark'), ipad ? 1240 : 760, `position:absolute;top:230px;left:50%;transform:translateX(${ipad ? -2 : 12}%);opacity:.95`) +

@@ -231,6 +231,16 @@ struct PrayerView: View {
           .font(.footnote)
           .foregroundStyle(.secondary)
           .multilineTextAlignment(.center)
+      } else if session.step.isReading {
+        VStack(spacing: 2) {
+          Image(systemName: "book")
+            .font(.title3)
+            .foregroundStyle(Color.accentColor)
+          Text("prayer.reading")
+            .font(.footnote)
+            .foregroundStyle(.secondary)
+        }
+        .multilineTextAlignment(.center)
       } else if let count = session.step.count {
         Text(count.index, format: .number)
           .font(.title.monospacedDigit().weight(.semibold))
@@ -273,6 +283,8 @@ private struct PrayerText: View {
 
           if session.step.isAnnounce {
             announce
+          } else if session.step.isReading {
+            reading
           } else {
             heading
             lines
@@ -320,6 +332,23 @@ private struct PrayerText: View {
   }
 
   @ViewBuilder
+  private var reading: some View {
+    HStack(alignment: .firstTextBaseline) {
+      Text("prayer.reading")
+        .font(.headline)
+      Spacer(minLength: 4)
+      Text(session.prayerTitle)
+        .font(.footnote)
+        .foregroundStyle(Color.accentColor)
+    }
+    if let passage = session.passage {
+      Text(passage.text)
+        .font(.body)
+        .fixedSize(horizontal: false, vertical: true)
+    }
+  }
+
+  @ViewBuilder
   private var lines: some View {
     if let prayer = session.prayer {
       let split = prayer.responseFrom ?? prayer.lines.count
@@ -349,6 +378,13 @@ private struct PrayerOptions: View {
         VolumeControl()
           .frame(height: 44)
           .listRowBackground(Color.clear)
+        Picker(selection: $session.rate) {
+          ForEach(ContentStore.shared.rosary.rates, id: \.self) { rate in
+            Text(verbatim: "\(rate.formatted(.number))×").tag(rate)
+          }
+        } label: {
+          Label("options.rate", systemImage: "gauge.with.dots.needle.50percent")
+        }
       }
       Button(role: .destructive, action: onEnd) {
         Label("prayer.end", systemImage: "xmark")

@@ -4,6 +4,7 @@ import {
   decadesCompleted,
   type MysteryRef,
   type MysterySet,
+  type OpeningForm,
   type Reading,
   type ReadingPreference,
   type Scope,
@@ -18,6 +19,8 @@ export type SessionPlan = {
   set: MysterySet;
   scope: Scope;
   locale: Locale;
+  /** Absent in plans saved before the opening had forms. */
+  openingForm?: OpeningForm;
   fatimaPrayer: boolean;
   litany: boolean;
   prayerForThePope: boolean;
@@ -33,6 +36,7 @@ export type PlanInput = {
   set: MysterySet;
   scope: Scope;
   locale: Locale;
+  openingForm: OpeningForm;
   fatimaPrayer: boolean;
   litany: boolean;
   prayerForThePope: boolean;
@@ -60,6 +64,7 @@ export function planSession(input: PlanInput): SessionPlan {
     set: input.set,
     scope: input.scope,
     locale: input.locale,
+    openingForm: input.openingForm,
     fatimaPrayer: input.fatimaPrayer,
     litany: input.litany,
     prayerForThePope: input.prayerForThePope,
@@ -76,6 +81,7 @@ export function stepsFor(plan: SessionPlan, mysteries: readonly MysteryRef[]): S
     mysteries,
     scope: plan.scope,
     opening: true,
+    openingForm: plan.openingForm ?? 'standard',
     readingFor: readings === null ? null : (mystery) => readings[mystery.id] ?? null,
     fatimaPrayer: plan.fatimaPrayer,
     prayerForThePope: plan.prayerForThePope ?? true,

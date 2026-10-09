@@ -1,4 +1,5 @@
-import type { Evangelist } from '@sanctamaria/rosary';
+import { openingFormsFor } from '@sanctamaria/content';
+import type { Evangelist, OpeningForm } from '@sanctamaria/rosary';
 import Constants from 'expo-constants';
 import { Image } from 'expo-image';
 import { Stack, useRouter } from 'expo-router';
@@ -64,6 +65,7 @@ const previewArt: Record<ArtworkStyle, Artwork | undefined> = {
   guadalupana: illustrated.guadalupana['joyful-1-annunciation'],
   trazo: illustrated.trazo['joyful-1-annunciation'],
   kids: illustrated.kids['joyful-1-annunciation'],
+  maestros: illustrated.maestros['joyful-1-annunciation'],
 };
 
 function SkinPreview({ id, selected, onPress }: { id: SkinId; selected: boolean; onPress: () => void }) {
@@ -188,6 +190,8 @@ export default function SettingsScreen() {
   const router = useRouter();
   const settings = useSettings();
   const update = settings.update;
+  const forms = openingFormsFor(settings.prayerLocale);
+  const openingForm = forms.includes(settings.openingForm) ? settings.openingForm : 'standard';
 
   return (
     <>
@@ -288,6 +292,20 @@ export default function SettingsScreen() {
               value={settings.guided}
               onChange={(value) => update({ guided: value })}
             />
+            {forms.length > 1 && (
+              <Field
+                icon="rosary"
+                label={t('settings.openingForm')}
+                hint={t(`settings.openingFormHints.${openingForm}`)}
+              >
+                <Segmented<OpeningForm>
+                  accessibilityLabel={t('settings.openingForm')}
+                  value={openingForm}
+                  onChange={(value) => update({ openingForm: value })}
+                  options={forms.map((value) => ({ value, label: t(`settings.openingForms.${value}`) }))}
+                />
+              </Field>
+            )}
             <SwitchRow
               icon="prayer"
               title={t('settings.fatima')}

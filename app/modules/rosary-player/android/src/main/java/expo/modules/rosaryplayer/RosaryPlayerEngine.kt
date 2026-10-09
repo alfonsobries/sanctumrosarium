@@ -28,7 +28,14 @@ import com.google.common.util.concurrent.ListenableFuture
 
 data class RosaryPart(val uri: String, val gapAfterMs: Long, val durationMs: Long = 0)
 
-data class RosaryStep(val id: String, val title: String, val subtitle: String?, val parts: List<RosaryPart>)
+data class RosaryStep(
+  val id: String,
+  val title: String,
+  val subtitle: String?,
+  val parts: List<RosaryPart>,
+  /** The cover shown during this step, such as its mystery's image; else the queue's. */
+  val artworkUri: String? = null
+)
 
 data class RosaryNowPlaying(val album: String, val artist: String, val artworkUri: String?)
 
@@ -296,9 +303,9 @@ object RosaryPlayerEngine {
     val metadata = MediaMetadata.Builder()
       .setTitle(step.title)
       .setSubtitle(step.subtitle)
-      .setArtist(nowPlaying.artist)
+      .setArtist(step.subtitle ?: nowPlaying.artist)
       .setAlbumTitle(nowPlaying.album)
-      .setArtworkUri(nowPlaying.artworkUri?.let(::parseUri))
+      .setArtworkUri((step.artworkUri ?: nowPlaying.artworkUri)?.let(::parseUri))
       .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
       .build()
     val item = MediaItem.Builder()

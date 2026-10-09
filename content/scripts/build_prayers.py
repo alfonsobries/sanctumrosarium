@@ -5,8 +5,8 @@ OUT = sys.argv[1]
 ACC = "2026-10-06"
 
 
-def src(publisher, url, title, via=None):
-    s = {"publisher": publisher, "title": title, "url": url, "accessed": ACC}
+def src(publisher, url, title, via=None, accessed=ACC):
+    s = {"publisher": publisher, "title": title, "url": url, "accessed": accessed}
     if via:
         s["retrievedVia"] = via
     return s
@@ -42,6 +42,11 @@ US_PR = src("United States Conference of Catholic Bishops", "https://www.usccb.o
 US_HOW = src("United States Conference of Catholic Bishops", "https://www.usccb.org/how-to-pray-the-rosary", "How to Pray the Rosary", wb("https://www.usccb.org/how-to-pray-the-rosary"))
 NV_PS70 = src("Santa Sede (vatican.va)", "https://www.vatican.va/archive/bible/nova_vulgata/documents/nova-vulgata_vt_psalmorum_lt.html", "Nova Vulgata, Psalmus 70 (69), 2")
 EI_1999 = src("Paenitentiaria Apostolica (vatican.va)", "https://www.vatican.va/roman_curia/tribunals/apost_penit/documents/rc_trib_appen_doc_20020826_enchiridion-indulgentiarum_lt.html", "Enchiridion Indulgentiarum, editio quarta (1999), Normae N. 20 § 5")
+ACC_VIRTUES = "2026-10-09"
+RDM_REZAR = src("El Rosario de María (Carlos José Romero Mensaque, laico dominico; web dedicada al Rosario en España)", "https://www.rosariodemaria.org/rezar.html", "Forma de rezar el Rosario", accessed=ACC_VIRTUES)
+DLF_GOZ_V = src("Desde la fe (Arquidiócesis Primada de México)", "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/", "Rosario del lunes y sábado: Misterios Gozosos", accessed=ACC_VIRTUES)
+OAX_COF = src("Cofradía de Nuestra Señora del Santísimo Rosario, Templo de Santo Domingo de Guzmán (Oaxaca, México)", "https://cofradiadelrosarioax.wixsite.com/oaxaca/rezo-del-sant%C3%ADsimo-rosario", "Rezo del Santísimo Rosario", accessed=ACC_VIRTUES)
+CNET_ROS = src("Catholic.net", "https://es.catholic.net/op/articulos/13325/el-santo-rosario", "El Santo Rosario", accessed=ACC_VIRTUES)
 RVM_ES = src("Santa Sede (vatican.va)", "https://www.vatican.va/content/john-paul-ii/es/apost_letters/2002/documents/hf_jp-ii_apl_20021016_rosarium-virginis-mariae.html", "Juan Pablo II, Rosarium Virginis Mariae (16-X-2002)")
 
 
@@ -330,6 +335,88 @@ prayers.append({
     "compositionNote": "Enchiridion Indulgentiarum N. 20 § 5: la condición se cumple rezando a su intención un Padrenuestro y un Avemaría; cada fiel puede rezar cualquier otra oración según su piedad. Desde la fe (México): 'Reza un Padrenuestro y un Avemaría por las intenciones del Papa.' Muchas guías añaden un Gloria; no es requisito.",
     "sources": [RVM_ES, EI_1999, DLF_RR],
     "titles": {"es-MX": "Por las intenciones del Papa", "es-ES": "Por las intenciones del Papa", "en-US": "For the intentions of the Holy Father", "la": "Ad mentem Summi Pontificis"},
+})
+
+HAIL_MARY_REST_MX = ["llena eres de gracia, el Señor es contigo.", "Bendita tú eres entre todas las mujeres y bendito es el fruto de tu vientre, Jesús.", "Santa María, Madre de Dios,", "ruega por nosotros pecadores,", "ahora y en la hora de nuestra muerte. Amén."]
+DLF_SANTA_MARIA = "Santa María, Madre de Dios, ruega por nosotros pecadores, ahora y en la hora de nuestra muerte. Amén."
+OAX_RESPUESTA = "Santa María, Madre de Dios, ruega por nosotros los pecadores ahora y en la hora de nuestra muerte. Amén."
+VIRTUES_NOTE = ("Forma hispana de las tres Avemarías: cada una va precedida de una salutación a María como Hija del Padre, Madre del Hijo y Esposa del Espíritu Santo, "
+                "y encomienda la fe, la esperanza y la caridad. Las fuentes la ponen al final del Rosario, después de los cinco misterios y antes de la Salve "
+                "(El Rosario de María: 'lo que sigue es opcional'; Desde la fe: 'Oraciones finales'); en la app es una forma opcional de las tres Avemarías iniciales. "
+                "No es texto litúrgico y la redacción varía según la región ('ponemos'/'encomendamos', 'ilumines'/'alumbres').")
+VIRTUES_TEXT_NOTE = ("Normalizado de la fuente: 'Dios te Salve María Santísima' → 'Dios te salve, María Santísima' (como en Desde la fe); 'esposa' → 'Esposa'; "
+                     "'culpa Original' → 'culpa original'; coma tras 'parto'. La fuente abrevia el resto con 'llena eres de gracia...'; se completa con el Avemaría es-MX "
+                     "de este paquete (hail-mary, Desde la fe). La parte de la asamblea empieza en 'Santa María', como marca la Cofradía del Rosario de Oaxaca "
+                     "(Lector / Respuesta). Saltos de línea editoriales.")
+ES_ES_VIRTUES = "La fuente principal es una web dedicada al Rosario en España; Catholic.net trae la forma con 'encomendamos' (variante en es-MX)."
+EN_VIRTUES = ("No se encontró una forma inglesa publicada de estas salutaciones. Las guías inglesas rezan las tres Avemarías por la fe, la esperanza y la caridad "
+              "sin cambiar el texto del Avemaría (USCCB, Catholic Online).")
+LA_VIRTUES = "No se encontró texto latino con fuente."
+
+
+def virtue_hail_mary(pid, virtue, title, opening, dlf_first, oax_first, cnet_first, oax_note=None):
+    return {
+        "id": pid,
+        "category": "pious-tradition",
+        "categoryNote": VIRTUES_NOTE,
+        "openingForm": "three-virtues",
+        "virtue": virtue,
+        "titles": {"es-MX": title, "es-ES": title},
+        "texts": {
+            "es-MX": t(opening + HAIL_MARY_REST_MX, RDM_REZAR, len(opening) + 2, VIRTUES_TEXT_NOTE, [
+                var("Desde la fe (Arquidiócesis de México), Misterios Gozosos", [dlf_first, DLF_SANTA_MARIA], DLF_GOZ_V, 1,
+                    "Igual a la forma principal salvo 'está contigo', la tercera sin 'nuestros dones y carismas...' y 'esposa' en minúscula. La fuente abrevia la segunda y la tercera con 'Llena eres de gracia…'."),
+                var("Cofradía del Rosario de Oaxaca ('Señora', 'alumbres')", [oax_first, OAX_RESPUESTA], OAX_COF, 1, oax_note),
+                var("Catholic.net ('encomendamos')", [cnet_first], CNET_ROS, None, "Sin 'Virgen Purísima...'; la fuente abrevia el resto del Avemaría."),
+            ]),
+            "es-ES": same("es-MX", ES_ES_VIRTUES),
+            "en-US": missing(EN_VIRTUES),
+            "la": missing(LA_VIRTUES),
+        },
+    }
+
+
+prayers.append(virtue_hail_mary(
+    "hail-mary-faith", "faith", "Avemaría por la fe",
+    ["Dios te salve, María Santísima, Hija de Dios Padre,", "Virgen Purísima antes del parto,", "en tus manos ponemos nuestra fe para que la ilumines,"],
+    "Dios te salve, María Santísima, Hija de Dios Padre, Virgen Purísima antes del parto, en tus manos ponemos nuestra fe para que la ilumines. Llena eres de gracia, el Señor está contigo. Bendita tú eres entre todas las mujeres y bendito es el fruto de tu vientre, Jesús.",
+    "Dios te salve María Santísima, Hija de Dios Padre; Virgen Purísima antes del Parto; en tus manos, Señora, ponemos nuestra Fe, para que la alumbres, llena eres de gracia, el Señor es contigo, bendita eres entre las mujeres y bendito es el fruto de tu vientre, Jesús.",
+    "Dios te salve María, Hija de Dios Padre, en tus manos encomendamos nuestra fe para que la ilumines, llena eres de gracia..",
+))
+
+prayers.append(virtue_hail_mary(
+    "hail-mary-hope", "hope", "Avemaría por la esperanza",
+    ["Dios te salve, María Santísima, Madre de Dios Hijo,", "Virgen Purísima en el parto,", "en tus manos ponemos nuestra esperanza para que la alientes,"],
+    "Dios te salve, María Santísima, Madre de Dios Hijo, Virgen Purísima en el parto, en tus manos ponemos nuestra esperanza para que la alientes. Llena eres de gracia…",
+    "Dios te salve María Santísima, Madre de Dios Hijo; Virgen Purísima en el Parto; en tus manos, Señora, ponemos nuestra Esperanza, para que la alientes, llena eres de gracia, el Señor es contigo, bendita eres entre las mujeres y bendito es el fruto de tu vientre, Jesús.",
+    "Dios te salve María, Madre de Dios Hijo, en tus manos encomendamos nuestra esperanza para que la alientes, llena eres de gracia...",
+    "La fuente parte 'muje- res' por un salto de línea; se une.",
+))
+
+prayers.append(virtue_hail_mary(
+    "hail-mary-charity", "charity", "Avemaría por la caridad",
+    ["Dios te salve, María Santísima, Esposa de Dios Espíritu Santo,", "Virgen Purísima después del parto,", "en tus manos ponemos nuestra caridad para que la inflames,", "nuestros dones y carismas para que los perfecciones", "y todas nuestras necesidades para que las remedies,"],
+    "Dios te salve, María Santísima, esposa de Dios Espíritu Santo, Virgen Purísima después del parto, en tus manos ponemos nuestra caridad para que la inflames. Llena eres de gracia…",
+    "Dios te salve María Santísima, Esposa de Dios Espíritu Santo; Virgen Purísima después del Parto; en tus manos, Señora, ponemos nuestra Caridad, para que la inflames, llena eres de gracia, el Señor es contigo, bendita eres entre las mujeres y bendito es el fruto de tu vientre, Jesús.",
+    "Dios te salve María, Esposa de Dios Espíritu Santo, en tus manos encomendamos nuestra caridad para que la inflames, llena eres de gracia...",
+))
+
+prayers.append({
+    "id": "trinity-salutation",
+    "category": "pious-tradition",
+    "categoryNote": VIRTUES_NOTE + " Esta cuarta salutación se dice sola, sin Avemaría, tras las tres (El Rosario de María, Desde la fe, Cofradía de Oaxaca); Catholic.net la sigue con 'llena eres de gracia...'.",
+    "openingForm": "three-virtues",
+    "titles": {"es-MX": "Templo de la Santísima Trinidad", "es-ES": "Templo de la Santísima Trinidad"},
+    "texts": {
+        "es-MX": t(["Dios te salve, María Santísima,", "Templo, Trono y Sagrario de la Santísima Trinidad,", "Virgen concebida sin la culpa original."], RDM_REZAR, None,
+                   "Normalizado de la fuente: 'Dios te Salve, María' → 'Dios te salve, María'; 'culpa Original' → 'culpa original'. Saltos de línea editoriales.", [
+                       var("Desde la fe (Arquidiócesis de México), Misterios Gozosos", ["Dios te salve, María Santísima, Templo y Sagrario de la Santísima Trinidad, Virgen concebida sin la culpa original."], DLF_GOZ_V),
+                       var("Cofradía del Rosario de Oaxaca", ["Dios te salve María Santísima, Hija de Dios Padre, Madre de Dios Hijo y Esposa del Espíritu Santo; Templo, Trono y Sagrario de la Santísima Trinidad; Virgen concebida sin la culpa del pecado original. Amén."], OAX_COF),
+                   ]),
+        "es-ES": same("es-MX", ES_ES_VIRTUES),
+        "en-US": missing(EN_VIRTUES),
+        "la": missing(LA_VIRTUES),
+    },
 })
 
 with open(OUT, "w", encoding="utf-8") as f:

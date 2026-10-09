@@ -3,9 +3,9 @@ import { evangelistOf } from '@sanctamaria/rosary';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View, useWindowDimensions } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
-import { ArtworkFrame } from '@/domains/artwork/ArtworkFrame';
+import { ArtworkFrame, artworkMaxWidth } from '@/domains/artwork/ArtworkFrame';
 import { useArtwork } from '@/domains/artwork/use-artwork';
 import { useContentLocale } from '@/shared/i18n/use-content-locale';
 import { Segmented } from '@/shared/ui/Segmented';
@@ -16,7 +16,6 @@ export default function MysteryScreen() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
   const locale = useContentLocale();
-  const { width } = useWindowDimensions();
   const mystery = findMystery(id ?? '');
   const [ref, setRef] = useState(mystery.readings[0]?.ref ?? '');
   const artwork = useArtwork(mystery.id);
@@ -34,7 +33,12 @@ export default function MysteryScreen() {
         contentInsetAdjustmentBehavior="automatic"
         contentContainerClassName={`gap-6 px-5 pb-16 pt-2 ${readableWidth}`}
       >
-        {artwork !== null && <ArtworkFrame artwork={artwork} style={{ height: (width - 40) * 1.15 }} />}
+        {artwork !== null && (
+          <ArtworkFrame
+            artwork={artwork}
+            style={{ width: '100%', maxWidth: artworkMaxWidth, alignSelf: 'center' }}
+          />
+        )}
         <View className="gap-1">
           <Text variant="eyebrow">
             {t('pray.mystery', {

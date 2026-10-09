@@ -1,10 +1,13 @@
 export type SkinId =
-  'silence' | 'simple' | 'mayores' | 'trazo' | 'manuscript' | 'glass' | 'guadalupana' | 'kids';
+  'silence' | 'simple' | 'mayores' | 'trazo' | 'manuscript' | 'glass' | 'maestros' | 'guadalupana' | 'kids';
 
 /** Which set of mystery images a skin shows; `none` keeps the prayer to text alone. */
 export type TextureId = 'parchment';
 
-export type ArtworkStyle = 'none' | 'classic' | 'glass' | 'guadalupana' | 'trazo' | 'kids';
+export type ArtworkStyle = 'none' | 'classic' | IllustratedStyle;
+
+/** The sets painted for this app, square and meant to fill their frame. */
+export type IllustratedStyle = 'glass' | 'guadalupana' | 'trazo' | 'kids' | 'maestros';
 
 export type ColorRole =
   | 'background'
@@ -367,6 +370,47 @@ const guadalupana: Skin = {
   },
 };
 
+/** Oil on canvas in the manner of the Renaissance and Baroque masters: umber, madder, ultramarine and gold leaf. */
+const maestros: Skin = {
+  id: 'maestros',
+  fonts: {
+    display: 'Cinzel_600SemiBold',
+    prayer: 'IMFellEnglish_400Regular',
+    prayerItalic: 'IMFellEnglish_400Regular_Italic',
+  },
+  radius: 6,
+  dropCap: false,
+  artwork: 'maestros',
+  light: {
+    background: '#F3ECE0',
+    surface: '#E9DFCE',
+    'surface-raised': '#FBF7F0',
+    foreground: '#211912',
+    muted: '#5E4F40',
+    faint: '#978876',
+    border: '#D9CAB2',
+    accent: '#862B22',
+    'accent-foreground': '#FFF8EE',
+    rubric: '#2D4A86',
+    bead: '#DBCCB4',
+    'bead-done': '#862B22',
+  },
+  dark: {
+    background: '#110D0A',
+    surface: '#1B1511',
+    'surface-raised': '#251D17',
+    foreground: '#F0E6D4',
+    muted: '#BBAA91',
+    faint: '#786A58',
+    border: '#33281F',
+    accent: '#D8A957',
+    'accent-foreground': '#140F0A',
+    rubric: '#E58C74',
+    bead: '#3A2E24',
+    'bead-done': '#D8A957',
+  },
+};
+
 export const skins: Record<SkinId, Skin> = {
   silence,
   simple: baseSkins.simple,
@@ -374,6 +418,7 @@ export const skins: Record<SkinId, Skin> = {
   trazo,
   manuscript: baseSkins.manuscript,
   glass,
+  maestros,
   guadalupana,
   kids,
 };
@@ -386,6 +431,7 @@ export const skinIds: SkinId[] = [
   'trazo',
   'manuscript',
   'glass',
+  'maestros',
   'guadalupana',
   'kids',
 ];

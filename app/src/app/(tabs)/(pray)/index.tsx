@@ -9,10 +9,10 @@ import {
 import { Link, Stack, useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View, useWindowDimensions } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ArtworkFrame } from '@/domains/artwork/ArtworkFrame';
+import { ArtworkFrame, artworkMaxWidth } from '@/domains/artwork/ArtworkFrame';
 import { useArtwork } from '@/domains/artwork/use-artwork';
 import { hasAudio } from '@/domains/audio/use-rosary-audio';
 import { weekOf } from '@/domains/calendar/dates';
@@ -28,7 +28,6 @@ import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
 import { Text } from '@/shared/ui/Text';
 import { readableWidth } from '@/shared/ui/layout';
-import { useWideLayout } from '@/shared/ui/use-wide-layout';
 
 function WeekDay({ label, prayed, today }: { label: string; prayed: boolean; today: boolean }) {
   return (
@@ -68,8 +67,6 @@ export default function TodayScreen() {
   const router = useRouter();
   const { colors } = useSkin();
   const locale = useContentLocale();
-  const { width } = useWindowDimensions();
-  const wide = useWideLayout();
   const insets = useSafeAreaInsets();
   const mode = useSettings((state) => state.mode);
   const prayerLocale = useSettings((state) => state.prayerLocale);
@@ -144,7 +141,7 @@ export default function TodayScreen() {
           {artwork !== null && (
             <ArtworkFrame
               artwork={artwork}
-              style={{ height: Math.min(width - 40, wide ? 600 : 460) * 0.95 }}
+              style={{ width: '100%', maxWidth: artworkMaxWidth, alignSelf: 'center' }}
             />
           )}
 

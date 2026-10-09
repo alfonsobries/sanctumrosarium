@@ -1858,6 +1858,346 @@
         "en-US": "For the intentions of the Holy Father",
         "la": "Ad mentem Summi Pontificis"
       }
+    },
+    {
+      "id": "hail-mary-faith",
+      "category": "pious-tradition",
+      "categoryNote": "Forma hispana de las tres Avemarías: cada una va precedida de una salutación a María como Hija del Padre, Madre del Hijo y Esposa del Espíritu Santo, y encomienda la fe, la esperanza y la caridad. Las fuentes la ponen al final del Rosario, después de los cinco misterios y antes de la Salve (El Rosario de María: 'lo que sigue es opcional'; Desde la fe: 'Oraciones finales'); en la app es una forma opcional de las tres Avemarías iniciales. No es texto litúrgico y la redacción varía según la región ('ponemos'/'encomendamos', 'ilumines'/'alumbres').",
+      "openingForm": "three-virtues",
+      "virtue": "faith",
+      "titles": {
+        "es-MX": "Avemaría por la fe",
+        "es-ES": "Avemaría por la fe"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Dios te salve, María Santísima, Hija de Dios Padre,",
+            "Virgen Purísima antes del parto,",
+            "en tus manos ponemos nuestra fe para que la ilumines,",
+            "llena eres de gracia, el Señor es contigo.",
+            "Bendita tú eres entre todas las mujeres y bendito es el fruto de tu vientre, Jesús.",
+            "Santa María, Madre de Dios,",
+            "ruega por nosotros pecadores,",
+            "ahora y en la hora de nuestra muerte. Amén."
+          ],
+          "responseFrom": 5,
+          "source": {
+            "publisher": "El Rosario de María (Carlos José Romero Mensaque, laico dominico; web dedicada al Rosario en España)",
+            "title": "Forma de rezar el Rosario",
+            "url": "https://www.rosariodemaria.org/rezar.html",
+            "accessed": "2026-10-09"
+          },
+          "notes": "Normalizado de la fuente: 'Dios te Salve María Santísima' → 'Dios te salve, María Santísima' (como en Desde la fe); 'esposa' → 'Esposa'; 'culpa Original' → 'culpa original'; coma tras 'parto'. La fuente abrevia el resto con 'llena eres de gracia...'; se completa con el Avemaría es-MX de este paquete (hail-mary, Desde la fe). La parte de la asamblea empieza en 'Santa María', como marca la Cofradía del Rosario de Oaxaca (Lector / Respuesta). Saltos de línea editoriales.",
+          "variants": [
+            {
+              "label": "Desde la fe (Arquidiócesis de México), Misterios Gozosos",
+              "lines": [
+                "Dios te salve, María Santísima, Hija de Dios Padre, Virgen Purísima antes del parto, en tus manos ponemos nuestra fe para que la ilumines. Llena eres de gracia, el Señor está contigo. Bendita tú eres entre todas las mujeres y bendito es el fruto de tu vientre, Jesús.",
+                "Santa María, Madre de Dios, ruega por nosotros pecadores, ahora y en la hora de nuestra muerte. Amén."
+              ],
+              "responseFrom": 1,
+              "source": {
+                "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+                "title": "Rosario del lunes y sábado: Misterios Gozosos",
+                "url": "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/",
+                "accessed": "2026-10-09"
+              },
+              "notes": "Igual a la forma principal salvo 'está contigo', la tercera sin 'nuestros dones y carismas...' y 'esposa' en minúscula. La fuente abrevia la segunda y la tercera con 'Llena eres de gracia…'."
+            },
+            {
+              "label": "Cofradía del Rosario de Oaxaca ('Señora', 'alumbres')",
+              "lines": [
+                "Dios te salve María Santísima, Hija de Dios Padre; Virgen Purísima antes del Parto; en tus manos, Señora, ponemos nuestra Fe, para que la alumbres, llena eres de gracia, el Señor es contigo, bendita eres entre las mujeres y bendito es el fruto de tu vientre, Jesús.",
+                "Santa María, Madre de Dios, ruega por nosotros los pecadores ahora y en la hora de nuestra muerte. Amén."
+              ],
+              "responseFrom": 1,
+              "source": {
+                "publisher": "Cofradía de Nuestra Señora del Santísimo Rosario, Templo de Santo Domingo de Guzmán (Oaxaca, México)",
+                "title": "Rezo del Santísimo Rosario",
+                "url": "https://cofradiadelrosarioax.wixsite.com/oaxaca/rezo-del-sant%C3%ADsimo-rosario",
+                "accessed": "2026-10-09"
+              }
+            },
+            {
+              "label": "Catholic.net ('encomendamos')",
+              "lines": [
+                "Dios te salve María, Hija de Dios Padre, en tus manos encomendamos nuestra fe para que la ilumines, llena eres de gracia.."
+              ],
+              "responseFrom": null,
+              "source": {
+                "publisher": "Catholic.net",
+                "title": "El Santo Rosario",
+                "url": "https://es.catholic.net/op/articulos/13325/el-santo-rosario",
+                "accessed": "2026-10-09"
+              },
+              "notes": "Sin 'Virgen Purísima...'; la fuente abrevia el resto del Avemaría."
+            }
+          ]
+        },
+        "es-ES": {
+          "sameAs": "es-MX",
+          "notes": "La fuente principal es una web dedicada al Rosario en España; Catholic.net trae la forma con 'encomendamos' (variante en es-MX)."
+        },
+        "en-US": {
+          "missing": true,
+          "notes": "No se encontró una forma inglesa publicada de estas salutaciones. Las guías inglesas rezan las tres Avemarías por la fe, la esperanza y la caridad sin cambiar el texto del Avemaría (USCCB, Catholic Online)."
+        },
+        "la": {
+          "missing": true,
+          "notes": "No se encontró texto latino con fuente."
+        }
+      }
+    },
+    {
+      "id": "hail-mary-hope",
+      "category": "pious-tradition",
+      "categoryNote": "Forma hispana de las tres Avemarías: cada una va precedida de una salutación a María como Hija del Padre, Madre del Hijo y Esposa del Espíritu Santo, y encomienda la fe, la esperanza y la caridad. Las fuentes la ponen al final del Rosario, después de los cinco misterios y antes de la Salve (El Rosario de María: 'lo que sigue es opcional'; Desde la fe: 'Oraciones finales'); en la app es una forma opcional de las tres Avemarías iniciales. No es texto litúrgico y la redacción varía según la región ('ponemos'/'encomendamos', 'ilumines'/'alumbres').",
+      "openingForm": "three-virtues",
+      "virtue": "hope",
+      "titles": {
+        "es-MX": "Avemaría por la esperanza",
+        "es-ES": "Avemaría por la esperanza"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Dios te salve, María Santísima, Madre de Dios Hijo,",
+            "Virgen Purísima en el parto,",
+            "en tus manos ponemos nuestra esperanza para que la alientes,",
+            "llena eres de gracia, el Señor es contigo.",
+            "Bendita tú eres entre todas las mujeres y bendito es el fruto de tu vientre, Jesús.",
+            "Santa María, Madre de Dios,",
+            "ruega por nosotros pecadores,",
+            "ahora y en la hora de nuestra muerte. Amén."
+          ],
+          "responseFrom": 5,
+          "source": {
+            "publisher": "El Rosario de María (Carlos José Romero Mensaque, laico dominico; web dedicada al Rosario en España)",
+            "title": "Forma de rezar el Rosario",
+            "url": "https://www.rosariodemaria.org/rezar.html",
+            "accessed": "2026-10-09"
+          },
+          "notes": "Normalizado de la fuente: 'Dios te Salve María Santísima' → 'Dios te salve, María Santísima' (como en Desde la fe); 'esposa' → 'Esposa'; 'culpa Original' → 'culpa original'; coma tras 'parto'. La fuente abrevia el resto con 'llena eres de gracia...'; se completa con el Avemaría es-MX de este paquete (hail-mary, Desde la fe). La parte de la asamblea empieza en 'Santa María', como marca la Cofradía del Rosario de Oaxaca (Lector / Respuesta). Saltos de línea editoriales.",
+          "variants": [
+            {
+              "label": "Desde la fe (Arquidiócesis de México), Misterios Gozosos",
+              "lines": [
+                "Dios te salve, María Santísima, Madre de Dios Hijo, Virgen Purísima en el parto, en tus manos ponemos nuestra esperanza para que la alientes. Llena eres de gracia…",
+                "Santa María, Madre de Dios, ruega por nosotros pecadores, ahora y en la hora de nuestra muerte. Amén."
+              ],
+              "responseFrom": 1,
+              "source": {
+                "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+                "title": "Rosario del lunes y sábado: Misterios Gozosos",
+                "url": "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/",
+                "accessed": "2026-10-09"
+              },
+              "notes": "Igual a la forma principal salvo 'está contigo', la tercera sin 'nuestros dones y carismas...' y 'esposa' en minúscula. La fuente abrevia la segunda y la tercera con 'Llena eres de gracia…'."
+            },
+            {
+              "label": "Cofradía del Rosario de Oaxaca ('Señora', 'alumbres')",
+              "lines": [
+                "Dios te salve María Santísima, Madre de Dios Hijo; Virgen Purísima en el Parto; en tus manos, Señora, ponemos nuestra Esperanza, para que la alientes, llena eres de gracia, el Señor es contigo, bendita eres entre las mujeres y bendito es el fruto de tu vientre, Jesús.",
+                "Santa María, Madre de Dios, ruega por nosotros los pecadores ahora y en la hora de nuestra muerte. Amén."
+              ],
+              "responseFrom": 1,
+              "source": {
+                "publisher": "Cofradía de Nuestra Señora del Santísimo Rosario, Templo de Santo Domingo de Guzmán (Oaxaca, México)",
+                "title": "Rezo del Santísimo Rosario",
+                "url": "https://cofradiadelrosarioax.wixsite.com/oaxaca/rezo-del-sant%C3%ADsimo-rosario",
+                "accessed": "2026-10-09"
+              },
+              "notes": "La fuente parte 'muje- res' por un salto de línea; se une."
+            },
+            {
+              "label": "Catholic.net ('encomendamos')",
+              "lines": [
+                "Dios te salve María, Madre de Dios Hijo, en tus manos encomendamos nuestra esperanza para que la alientes, llena eres de gracia..."
+              ],
+              "responseFrom": null,
+              "source": {
+                "publisher": "Catholic.net",
+                "title": "El Santo Rosario",
+                "url": "https://es.catholic.net/op/articulos/13325/el-santo-rosario",
+                "accessed": "2026-10-09"
+              },
+              "notes": "Sin 'Virgen Purísima...'; la fuente abrevia el resto del Avemaría."
+            }
+          ]
+        },
+        "es-ES": {
+          "sameAs": "es-MX",
+          "notes": "La fuente principal es una web dedicada al Rosario en España; Catholic.net trae la forma con 'encomendamos' (variante en es-MX)."
+        },
+        "en-US": {
+          "missing": true,
+          "notes": "No se encontró una forma inglesa publicada de estas salutaciones. Las guías inglesas rezan las tres Avemarías por la fe, la esperanza y la caridad sin cambiar el texto del Avemaría (USCCB, Catholic Online)."
+        },
+        "la": {
+          "missing": true,
+          "notes": "No se encontró texto latino con fuente."
+        }
+      }
+    },
+    {
+      "id": "hail-mary-charity",
+      "category": "pious-tradition",
+      "categoryNote": "Forma hispana de las tres Avemarías: cada una va precedida de una salutación a María como Hija del Padre, Madre del Hijo y Esposa del Espíritu Santo, y encomienda la fe, la esperanza y la caridad. Las fuentes la ponen al final del Rosario, después de los cinco misterios y antes de la Salve (El Rosario de María: 'lo que sigue es opcional'; Desde la fe: 'Oraciones finales'); en la app es una forma opcional de las tres Avemarías iniciales. No es texto litúrgico y la redacción varía según la región ('ponemos'/'encomendamos', 'ilumines'/'alumbres').",
+      "openingForm": "three-virtues",
+      "virtue": "charity",
+      "titles": {
+        "es-MX": "Avemaría por la caridad",
+        "es-ES": "Avemaría por la caridad"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Dios te salve, María Santísima, Esposa de Dios Espíritu Santo,",
+            "Virgen Purísima después del parto,",
+            "en tus manos ponemos nuestra caridad para que la inflames,",
+            "nuestros dones y carismas para que los perfecciones",
+            "y todas nuestras necesidades para que las remedies,",
+            "llena eres de gracia, el Señor es contigo.",
+            "Bendita tú eres entre todas las mujeres y bendito es el fruto de tu vientre, Jesús.",
+            "Santa María, Madre de Dios,",
+            "ruega por nosotros pecadores,",
+            "ahora y en la hora de nuestra muerte. Amén."
+          ],
+          "responseFrom": 7,
+          "source": {
+            "publisher": "El Rosario de María (Carlos José Romero Mensaque, laico dominico; web dedicada al Rosario en España)",
+            "title": "Forma de rezar el Rosario",
+            "url": "https://www.rosariodemaria.org/rezar.html",
+            "accessed": "2026-10-09"
+          },
+          "notes": "Normalizado de la fuente: 'Dios te Salve María Santísima' → 'Dios te salve, María Santísima' (como en Desde la fe); 'esposa' → 'Esposa'; 'culpa Original' → 'culpa original'; coma tras 'parto'. La fuente abrevia el resto con 'llena eres de gracia...'; se completa con el Avemaría es-MX de este paquete (hail-mary, Desde la fe). La parte de la asamblea empieza en 'Santa María', como marca la Cofradía del Rosario de Oaxaca (Lector / Respuesta). Saltos de línea editoriales.",
+          "variants": [
+            {
+              "label": "Desde la fe (Arquidiócesis de México), Misterios Gozosos",
+              "lines": [
+                "Dios te salve, María Santísima, esposa de Dios Espíritu Santo, Virgen Purísima después del parto, en tus manos ponemos nuestra caridad para que la inflames. Llena eres de gracia…",
+                "Santa María, Madre de Dios, ruega por nosotros pecadores, ahora y en la hora de nuestra muerte. Amén."
+              ],
+              "responseFrom": 1,
+              "source": {
+                "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+                "title": "Rosario del lunes y sábado: Misterios Gozosos",
+                "url": "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/",
+                "accessed": "2026-10-09"
+              },
+              "notes": "Igual a la forma principal salvo 'está contigo', la tercera sin 'nuestros dones y carismas...' y 'esposa' en minúscula. La fuente abrevia la segunda y la tercera con 'Llena eres de gracia…'."
+            },
+            {
+              "label": "Cofradía del Rosario de Oaxaca ('Señora', 'alumbres')",
+              "lines": [
+                "Dios te salve María Santísima, Esposa de Dios Espíritu Santo; Virgen Purísima después del Parto; en tus manos, Señora, ponemos nuestra Caridad, para que la inflames, llena eres de gracia, el Señor es contigo, bendita eres entre las mujeres y bendito es el fruto de tu vientre, Jesús.",
+                "Santa María, Madre de Dios, ruega por nosotros los pecadores ahora y en la hora de nuestra muerte. Amén."
+              ],
+              "responseFrom": 1,
+              "source": {
+                "publisher": "Cofradía de Nuestra Señora del Santísimo Rosario, Templo de Santo Domingo de Guzmán (Oaxaca, México)",
+                "title": "Rezo del Santísimo Rosario",
+                "url": "https://cofradiadelrosarioax.wixsite.com/oaxaca/rezo-del-sant%C3%ADsimo-rosario",
+                "accessed": "2026-10-09"
+              }
+            },
+            {
+              "label": "Catholic.net ('encomendamos')",
+              "lines": [
+                "Dios te salve María, Esposa de Dios Espíritu Santo, en tus manos encomendamos nuestra caridad para que la inflames, llena eres de gracia..."
+              ],
+              "responseFrom": null,
+              "source": {
+                "publisher": "Catholic.net",
+                "title": "El Santo Rosario",
+                "url": "https://es.catholic.net/op/articulos/13325/el-santo-rosario",
+                "accessed": "2026-10-09"
+              },
+              "notes": "Sin 'Virgen Purísima...'; la fuente abrevia el resto del Avemaría."
+            }
+          ]
+        },
+        "es-ES": {
+          "sameAs": "es-MX",
+          "notes": "La fuente principal es una web dedicada al Rosario en España; Catholic.net trae la forma con 'encomendamos' (variante en es-MX)."
+        },
+        "en-US": {
+          "missing": true,
+          "notes": "No se encontró una forma inglesa publicada de estas salutaciones. Las guías inglesas rezan las tres Avemarías por la fe, la esperanza y la caridad sin cambiar el texto del Avemaría (USCCB, Catholic Online)."
+        },
+        "la": {
+          "missing": true,
+          "notes": "No se encontró texto latino con fuente."
+        }
+      }
+    },
+    {
+      "id": "trinity-salutation",
+      "category": "pious-tradition",
+      "categoryNote": "Forma hispana de las tres Avemarías: cada una va precedida de una salutación a María como Hija del Padre, Madre del Hijo y Esposa del Espíritu Santo, y encomienda la fe, la esperanza y la caridad. Las fuentes la ponen al final del Rosario, después de los cinco misterios y antes de la Salve (El Rosario de María: 'lo que sigue es opcional'; Desde la fe: 'Oraciones finales'); en la app es una forma opcional de las tres Avemarías iniciales. No es texto litúrgico y la redacción varía según la región ('ponemos'/'encomendamos', 'ilumines'/'alumbres'). Esta cuarta salutación se dice sola, sin Avemaría, tras las tres (El Rosario de María, Desde la fe, Cofradía de Oaxaca); Catholic.net la sigue con 'llena eres de gracia...'.",
+      "openingForm": "three-virtues",
+      "titles": {
+        "es-MX": "Templo de la Santísima Trinidad",
+        "es-ES": "Templo de la Santísima Trinidad"
+      },
+      "texts": {
+        "es-MX": {
+          "lines": [
+            "Dios te salve, María Santísima,",
+            "Templo, Trono y Sagrario de la Santísima Trinidad,",
+            "Virgen concebida sin la culpa original."
+          ],
+          "responseFrom": null,
+          "source": {
+            "publisher": "El Rosario de María (Carlos José Romero Mensaque, laico dominico; web dedicada al Rosario en España)",
+            "title": "Forma de rezar el Rosario",
+            "url": "https://www.rosariodemaria.org/rezar.html",
+            "accessed": "2026-10-09"
+          },
+          "notes": "Normalizado de la fuente: 'Dios te Salve, María' → 'Dios te salve, María'; 'culpa Original' → 'culpa original'. Saltos de línea editoriales.",
+          "variants": [
+            {
+              "label": "Desde la fe (Arquidiócesis de México), Misterios Gozosos",
+              "lines": [
+                "Dios te salve, María Santísima, Templo y Sagrario de la Santísima Trinidad, Virgen concebida sin la culpa original."
+              ],
+              "responseFrom": null,
+              "source": {
+                "publisher": "Desde la fe (Arquidiócesis Primada de México)",
+                "title": "Rosario del lunes y sábado: Misterios Gozosos",
+                "url": "https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/",
+                "accessed": "2026-10-09"
+              }
+            },
+            {
+              "label": "Cofradía del Rosario de Oaxaca",
+              "lines": [
+                "Dios te salve María Santísima, Hija de Dios Padre, Madre de Dios Hijo y Esposa del Espíritu Santo; Templo, Trono y Sagrario de la Santísima Trinidad; Virgen concebida sin la culpa del pecado original. Amén."
+              ],
+              "responseFrom": null,
+              "source": {
+                "publisher": "Cofradía de Nuestra Señora del Santísimo Rosario, Templo de Santo Domingo de Guzmán (Oaxaca, México)",
+                "title": "Rezo del Santísimo Rosario",
+                "url": "https://cofradiadelrosarioax.wixsite.com/oaxaca/rezo-del-sant%C3%ADsimo-rosario",
+                "accessed": "2026-10-09"
+              }
+            }
+          ]
+        },
+        "es-ES": {
+          "sameAs": "es-MX",
+          "notes": "La fuente principal es una web dedicada al Rosario en España; Catholic.net trae la forma con 'encomendamos' (variante en es-MX)."
+        },
+        "en-US": {
+          "missing": true,
+          "notes": "No se encontró una forma inglesa publicada de estas salutaciones. Las guías inglesas rezan las tres Avemarías por la fe, la esperanza y la caridad sin cambiar el texto del Avemaría (USCCB, Catholic Online)."
+        },
+        "la": {
+          "missing": true,
+          "notes": "No se encontró texto latino con fuente."
+        }
+      }
     }
   ]
 }

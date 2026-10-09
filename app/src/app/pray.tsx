@@ -1,4 +1,4 @@
-import { mysteryRefsOf, mysteryTitle, type Locale } from '@sanctamaria/content';
+import { mysteryRefsOf, mysteryTitle, prayerTitle, type Locale } from '@sanctamaria/content';
 import { decadesCompleted, type Step } from '@sanctamaria/rosary';
 import * as Haptics from 'expo-haptics';
 import { Image } from 'expo-image';
@@ -10,12 +10,13 @@ import { ActivityIndicator, Alert, Pressable, View, useWindowDimensions } from '
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
-import { useArtwork } from '@/domains/artwork/use-artwork';
+import { artworkFor, useArtwork } from '@/domains/artwork/use-artwork';
 import { hasAudio, useRosaryAudio } from '@/domains/audio/use-rosary-audio';
 import { beadState } from '@/domains/prayer/bead-state';
 import { ControlDock, dockHeight } from '@/domains/prayer/ControlDock';
 import { StepStage } from '@/domains/prayer/StepStage';
 import { guideFor } from '@/domains/prayer/guide';
+import { sectionsOf, type Section } from '@/domains/prayer/sections';
 import { stepsFor } from '@/domains/prayer/session';
 import { StepContent, stepHeading } from '@/domains/prayer/StepContent';
 import { useSession } from '@/domains/prayer/use-session';
@@ -121,7 +122,7 @@ export default function PrayScreen() {
   useKeepAwake();
   const { t } = useTranslation();
   const router = useRouter();
-  const { colors, texture } = useSkin();
+  const { colors, texture, skin } = useSkin();
   const headingLocale = useContentLocale();
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
@@ -140,6 +141,7 @@ export default function PrayScreen() {
   const [direction, setDirection] = useState<1 | -1>(1);
 
   const steps = useMemo(() => (plan === null ? [] : stepsFor(plan, mysteryRefsOf(plan.set))), [plan]);
+  const sections = useMemo(() => sectionsOf(steps), [steps]);
   const currentDecade = steps[position]?.decade ?? null;
   const currentAnnounce = steps.find((s) => s.kind === 'announce' && s.decade === currentDecade);
   const thumbnail = useArtwork(currentAnnounce?.kind === 'announce' ? currentAnnounce.mystery.id : '');
@@ -157,6 +159,9 @@ export default function PrayScreen() {
       album: plan === null ? '' : t(`sets.${plan.set}`),
       artist: 'Sanctum Rosarium',
       titles: (s) => stepHeading(s, headingLocale, t),
+      mysteryTitle: (id) => mysteryTitle(id, headingLocale),
+      // A skin that keeps to text on screen still gives Now Playing a cover.
+      artwork: (id) => artworkFor(skin.artwork === 'none' ? 'classic' : skin.artwork, id)?.source ?? null,
     },
     onStep: (index) => moveTo(index),
   });
@@ -196,6 +201,19 @@ export default function PrayScreen() {
   function handlePrevious() {
     if (position > 0) {
       goTo(position - 1);
+    }
+  }
+
+  function sectionLabel(section: Section): string {
+    switch (section.kind) {
+      case 'opening':
+        return t('pray.opening');
+      case 'decade':
+        return `${section.decade}. ${mysteryTitle(section.mysteryId, plan?.locale ?? headingLocale)}`;
+      case 'pope':
+        return t('pray.forThePope');
+      case 'closing':
+        return prayerTitle(section.prayer, headingLocale);
     }
   }
 
@@ -277,26 +295,26 @@ export default function PrayScreen() {
       </Stack.Toolbar>
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.Menu
+          icon={require('@/assets/images/toolbar/index.png')}
+          tintColor={colors.foreground}
+          accessibilityLabel={t('pray.goTo')}
+          title={t('pray.goTo')}
+        >
+          {sections.map((section) => (
+            <Stack.Toolbar.MenuAction
+              key={section.start}
+              isOn={position >= section.start && position <= section.end}
+              onPress={() => goTo(section.start)}
+            >
+              {sectionLabel(section)}
+            </Stack.Toolbar.MenuAction>
+          ))}
+        </Stack.Toolbar.Menu>
+        <Stack.Toolbar.Menu
           icon={require('@/assets/images/toolbar/display.png')}
           tintColor={colors.foreground}
           accessibilityLabel={t('display.title')}
         >
-          <Stack.Toolbar.Menu title={t('pray.goToDecade')} icon="list.number">
-            {[1, 2, 3, 4, 5].map((decade) => (
-              <Stack.Toolbar.MenuAction
-                key={decade}
-                isOn={step.decade === decade}
-                onPress={() => {
-                  const target = steps.findIndex((s) => s.kind === 'announce' && s.decade === decade);
-                  if (target !== -1) {
-                    goTo(target);
-                  }
-                }}
-              >
-                {t('pray.decadeOf', { decade })}
-              </Stack.Toolbar.MenuAction>
-            ))}
-          </Stack.Toolbar.Menu>
           {audioAvailable && (
             <Stack.Toolbar.Menu title={t('options.mode')} icon="speaker.wave.2">
               <Stack.Toolbar.MenuAction

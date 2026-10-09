@@ -8,9 +8,26 @@ import Medallion from './Medallion.astro';
 type Props = { language: Language };
 const { language } = Astro.props;
 const translate = t(language);
-const costs = ['cost1', 'cost2', 'cost3', 'cost4'];
-const ways = ['pray', 'review', 'translate', 'report', 'code'];
-const github: Record<string, string> = { report: `${repository}/issues`, code: repository };
+const ways = ['pray', 'donate', 'share', 'review', 'translate', 'report', 'code'] as const;
+const links: Partial<Record<(typeof ways)[number], { href: string; label: string }>> = {
+  donate: { href: sponsors, label: translate('help.donate.cta') },
+  report: { href: `${repository}/issues`, label: translate('help.github') },
+  code: { href: repository, label: translate('help.github') },
+};
+/** Line icons on a 24px grid, drawn with the current color. */
+const icons: Record<(typeof ways)[number], string> = {
+  pray: '<path d="M12 3v18"/><path d="M7 8h10"/>',
+  donate:
+    '<path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/>',
+  share:
+    '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4"/><path d="m15.4 6.5-6.8 4"/>',
+  review:
+    '<path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2Z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7Z"/>',
+  translate:
+    '<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/>',
+  report: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/><path d="M12 7v4"/><path d="M12 14h.01"/>',
+  code: '<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>',
+};
 ---
 
 <Base
@@ -28,41 +45,37 @@ const github: Record<string, string> = { report: `${repository}/issues`, code: r
     <p class="lead" data-speakable>{translate('help.lead')}</p>
   </header>
 
-  <section class="wrap donate">
-    <div class="card donate-card" id="donar">
-      <h2>{translate('help.donate.title')}</h2>
-      <p>{translate('help.donate.body')}</p>
-      <ul>
-        {costs.map((cost) => <li>{translate(`help.donate.${cost}` as UiKey)}</li>)}
-      </ul>
-      <p class="ask">{translate('help.donate.ask')}</p>
-      <a class="button is-solid" href={sponsors} rel="noopener">{translate('help.donate.cta')}</a>
-    </div>
-  </section>
-
   <section class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>{translate('help.contribute.title')}</h2>
-        <p class="lead">{translate('help.contribute.lead')}</p>
-      </div>
-      <div class="ways">
-        {
-          ways.map((way) => (
-            <article class="card way">
-              <h3>{translate(`help.${way}.title` as UiKey)}</h3>
-              <p>{translate(`help.${way}.body` as UiKey)}</p>
-              {github[way] !== undefined ? (
-                <a class="link" href={github[way]}>
-                  {translate('help.github')} →
-                </a>
-              ) : (
-                way !== 'pray' && <ContactLink class="link" label={`${translate('help.contact')} →`} subject="Sanctum Rosarium" />
-              )}
-            </article>
-          ))
-        }
-      </div>
+    <div class="wrap ways">
+      {
+        ways.map((way) => (
+          <article class="card way" id={way === 'donate' ? 'donar' : undefined}>
+            <svg
+              class="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={icons[way]}
+            />
+            <h3>{translate(`help.${way}.title` as UiKey)}</h3>
+            <p>{translate(`help.${way}.body` as UiKey)}</p>
+            {links[way] !== undefined ? (
+              <a class="link" href={links[way].href} rel="noopener">
+                {links[way].label} →
+              </a>
+            ) : (
+              way !== 'pray' &&
+              way !== 'share' && (
+                <ContactLink class="link" label={`${translate('help.contact')} →`} subject="Sanctum Rosarium" />
+              )
+            )}
+          </article>
+        ))
+      }
     </div>
   </section>
 </Base>
@@ -78,38 +91,6 @@ const github: Record<string, string> = { report: `${repository}/issues`, code: r
     margin-bottom: var(--space-2);
   }
 
-  .donate-card {
-    padding: var(--space-5) var(--space-4);
-    display: grid;
-    gap: var(--space-2);
-    background: linear-gradient(150deg, var(--glow), var(--surface) 60%);
-    max-width: 48rem;
-  }
-
-  .donate-card h2 {
-    font-size: var(--step-3);
-  }
-
-  .donate-card p {
-    color: var(--mute);
-  }
-
-  .donate-card ul {
-    margin: 0;
-    padding-left: 1.2rem;
-    display: grid;
-    gap: 0.4rem;
-  }
-
-  .ask {
-    margin-top: var(--space-2);
-    color: var(--ink) !important;
-  }
-
-  .donate-card .button {
-    justify-self: start;
-  }
-
   .ways {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
@@ -121,6 +102,12 @@ const github: Record<string, string> = { report: `${repository}/issues`, code: r
     display: grid;
     gap: 0.6rem;
     align-content: start;
+  }
+
+  .icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    color: var(--accent);
   }
 
   .way p {
