@@ -37,6 +37,8 @@ struct StepTemplate: Decodable, Hashable {
   let ring: RingState
   let decadesBefore: Int
   let audio: String
+  /** The mystery whose image is the Now Playing cover during this step. */
+  let cover: String?
 
   var isAnnounce: Bool { kind == "announce" }
   var isOurFather: Bool { prayer == "our-father" }

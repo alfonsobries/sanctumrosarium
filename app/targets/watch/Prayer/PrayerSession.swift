@@ -345,7 +345,8 @@ final class PrayerSession: Identifiable {
       let mystery = step.decade.flatMap { decade in
         set.mysteries.indices.contains(decade - 1) ? content.mysteries[set.mysteries[decade - 1]]?.title : nil
       }
-      result.append(RosaryStep(id: step.id, title: title, subtitle: mystery, parts: resolved))
+      let artwork = step.cover.flatMap { Bundle.main.url(forResource: $0, withExtension: "jpg", subdirectory: "artwork") }
+      result.append(RosaryStep(id: step.id, title: title, subtitle: mystery, parts: resolved, artworkURL: artwork))
     }
     return result
   }

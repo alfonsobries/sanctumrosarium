@@ -10,6 +10,7 @@ struct StepRecord: Record {
   @Field var title: String = ""
   @Field var subtitle: String?
   @Field var parts: [PartRecord] = []
+  @Field var artworkUri: String?
 }
 
 struct NowPlayingRecord: Record {
@@ -175,7 +176,8 @@ public final class RosaryPlayerModule: Module {
       subtitle: record.subtitle,
       parts: record.parts.compactMap { part in
         url(part.uri).map { RosaryPart(url: $0, gapAfter: part.gapAfterMs / 1000) }
-      }
+      },
+      artworkURL: record.artworkUri.flatMap(url)
     )
   }
 

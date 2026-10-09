@@ -43,6 +43,19 @@ describe('normalizeLoad', () => {
     expect(result.options.rate).toBe(2);
   });
 
+  it('keeps a step cover and drops an empty one', () => {
+    const result = normalizeLoad(
+      [
+        { ...step('a'), artworkUri: 'file:///art/annunciation.jpg' },
+        { ...step('b'), artworkUri: '' },
+      ],
+      { nowPlaying },
+    );
+
+    expect(result.steps[0].artworkUri).toBe('file:///art/annunciation.jpg');
+    expect(result.steps[1]).not.toHaveProperty('artworkUri');
+  });
+
   it('does not mutate the input steps', () => {
     const input = [step('a', 10.4)];
     normalizeLoad(input, { nowPlaying });

@@ -22,6 +22,7 @@ class StepRecord : Record {
   @Field val title: String = ""
   @Field val subtitle: String? = null
   @Field val parts: List<PartRecord> = emptyList()
+  @Field val artworkUri: String? = null
 }
 
 class NowPlayingRecord : Record {
@@ -109,7 +110,8 @@ class RosaryPlayerModule : Module() {
           subtitle = record.subtitle,
           parts = record.parts.map {
             RosaryPart(it.uri, it.gapAfterMs.toLong().coerceAtLeast(0), it.durationMs.toLong().coerceAtLeast(0))
-          }
+          },
+          artworkUri = record.artworkUri
         )
       }
       val nowPlaying = RosaryNowPlaying(

@@ -22,8 +22,10 @@ export function normalizeLoad(
     if (step.parts.length === 0) {
       throw new Error(`Step "${step.id}" has no parts`);
     }
+    const { artworkUri, ...rest } = step;
     return {
-      ...step,
+      ...rest,
+      ...(artworkUri === undefined || artworkUri.length === 0 ? {} : { artworkUri }),
       parts: step.parts.map((part) => {
         if (part.uri.length === 0) {
           throw new Error(`Step "${step.id}" has a part without uri`);
