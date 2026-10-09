@@ -11,10 +11,7 @@ export function artworkFor(style: ArtworkStyle, mysteryId: string): Artwork | nu
       return null;
     case 'classic':
       return classic[mysteryId] ?? null;
-    case 'glass':
-    case 'guadalupana':
-    case 'trazo':
-    case 'kids':
+    default:
       return illustrated[style][mysteryId] ?? classic[mysteryId] ?? null;
   }
 }

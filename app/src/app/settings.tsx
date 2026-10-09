@@ -65,6 +65,7 @@ const previewArt: Record<ArtworkStyle, Artwork | undefined> = {
   guadalupana: illustrated.guadalupana['joyful-1-annunciation'],
   trazo: illustrated.trazo['joyful-1-annunciation'],
   kids: illustrated.kids['joyful-1-annunciation'],
+  maestros: illustrated.maestros['joyful-1-annunciation'],
 };
 
 function SkinPreview({ id, selected, onPress }: { id: SkinId; selected: boolean; onPress: () => void }) {

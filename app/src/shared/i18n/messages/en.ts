@@ -172,6 +172,7 @@ export const en: Messages<typeof es> = {
       mayores: 'Large print',
       trazo: 'Line',
       guadalupana: 'Guadalupe',
+      maestros: 'Old masters',
     },
     theme: 'Theme',
     themes: { system: 'Automatic', light: 'Light', dark: 'Dark' },

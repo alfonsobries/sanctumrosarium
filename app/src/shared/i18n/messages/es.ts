@@ -162,6 +162,7 @@ export const es = {
       mayores: 'Letra grande',
       trazo: 'Trazo',
       guadalupana: 'Guadalupana',
+      maestros: 'Maestros',
     },
     theme: 'Tema',
     themes: { system: 'Automático', light: 'Claro', dark: 'Oscuro' },

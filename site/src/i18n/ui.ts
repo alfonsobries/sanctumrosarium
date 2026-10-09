@@ -52,9 +52,9 @@ const es = {
   'feature.journal.title': 'Un diario tranquilo',
   'feature.journal.body':
     'Recuerda los días que rezaste. Cuenta rosarios y decenas, sin rachas ni comparaciones.',
-  'feature.styles.title': 'Ocho estilos',
+  'feature.styles.title': 'Nueve estilos',
   'feature.styles.body':
-    'De lo más sencillo a un manuscrito iluminado, la Virgen de Guadalupe y una versión con letra grande. Claro y oscuro en cada uno.',
+    'De lo más sencillo a un manuscrito iluminado, los grandes maestros, la Virgen de Guadalupe y una versión con letra grande. Claro y oscuro en cada uno.',
   'feature.languages.title': 'Cuatro idiomas',
   'feature.languages.body': 'Inglés, latín y español en sus formas de España y de México, con voz en los cuatro.',
   'home.privacy.title': 'Lo que rezas se queda contigo',
@@ -293,9 +293,9 @@ const en: Record<Key, string> = {
   'feature.journal.title': 'A quiet journal',
   'feature.journal.body':
     'Remember the days you prayed. It counts rosaries and decades, with no streaks and no comparisons.',
-  'feature.styles.title': 'Eight styles',
+  'feature.styles.title': 'Nine styles',
   'feature.styles.body':
-    'From the plainest to an illuminated manuscript, Our Lady of Guadalupe and a large print edition. Light and dark in each.',
+    'From the plainest to an illuminated manuscript, the old masters, Our Lady of Guadalupe and a large print edition. Light and dark in each.',
   'feature.languages.title': 'Four languages',
   'feature.languages.body': 'English, Latin and Spanish as prayed in Spain and in Mexico, with a voice in all four.',
   'home.privacy.title': 'What you pray stays with you',

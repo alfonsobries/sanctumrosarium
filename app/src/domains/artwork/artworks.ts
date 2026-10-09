@@ -1,4 +1,12 @@
-export type Artwork = { source: number; thumbhash: string; color: string; title: string; artist: string };
+export type Artwork = {
+  source: number;
+  thumbhash: string;
+  color: string;
+  title: string;
+  artist: string;
+  /** `cover` fills a square frame edge to edge; `contain` shows a work of any shape whole. */
+  fill: 'cover' | 'contain';
+};
 
 /** Public domain artwork for each mystery, keyed by content mystery id; credits in assets/mysteries/credits.json. */
 export const artworks: Record<string, Artwork> = {
@@ -8,6 +16,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#c9aa97',
     title: 'Annunciation (cell 3)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'joyful-2-visitation': {
     source: require('@/assets/mysteries/visitation.jpg'),
@@ -15,6 +24,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#302519',
     title: 'Visitation (predella of the Cortona Annunciation)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'joyful-3-nativity': {
     source: require('@/assets/mysteries/nativity.jpg'),
@@ -22,6 +32,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#ac926f',
     title: 'Nativity (cell 5)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'joyful-4-presentation': {
     source: require('@/assets/mysteries/presentation.jpg'),
@@ -29,6 +40,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#6e311a',
     title: 'Presentation in the Temple (cell 10)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'joyful-5-finding-in-the-temple': {
     source: require('@/assets/mysteries/finding-in-the-temple.jpg'),
@@ -36,6 +48,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#ae8953',
     title: 'Christ among the Doctors (Maestà, front predella)',
     artist: 'Duccio di Buoninsegna',
+    fill: 'contain',
   },
   'luminous-1-baptism': {
     source: require('@/assets/mysteries/baptism.jpg'),
@@ -43,6 +56,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#8f6b53',
     title: 'Baptism of Christ (cell 24)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'luminous-2-wedding-at-cana': {
     source: require('@/assets/mysteries/wedding-at-cana.jpg'),
@@ -50,6 +64,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#d2ac90',
     title: 'Wedding at Cana (Maestà, back predella)',
     artist: 'Duccio di Buoninsegna',
+    fill: 'contain',
   },
   'luminous-3-proclamation-of-the-kingdom': {
     source: require('@/assets/mysteries/proclamation.jpg'),
@@ -57,6 +72,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#b2a894',
     title: 'Sermon on the Mount (cell 32)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'luminous-4-transfiguration': {
     source: require('@/assets/mysteries/transfiguration.jpg'),
@@ -64,6 +80,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#ead6ad',
     title: 'Transfiguration (cell 6)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'luminous-5-institution-of-the-eucharist': {
     source: require('@/assets/mysteries/institution-of-the-eucharist.jpg'),
@@ -71,6 +88,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#886c57',
     title: 'Communion of the Apostles (cell 35)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'sorrowful-1-agony-in-the-garden': {
     source: require('@/assets/mysteries/agony-in-the-garden.jpg'),
@@ -78,6 +96,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#8d6e57',
     title: 'Agony in the Garden (cell 34)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'sorrowful-2-scourging-at-the-pillar': {
     source: require('@/assets/mysteries/scourging.jpg'),
@@ -85,6 +104,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#91502e',
     title: 'Flagellation (Maestà, back)',
     artist: 'Duccio di Buoninsegna',
+    fill: 'contain',
   },
   'sorrowful-3-crowning-with-thorns': {
     source: require('@/assets/mysteries/crowning-with-thorns.jpg'),
@@ -92,6 +112,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#d0b08d',
     title: 'Mocking of Christ (cell 7)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'sorrowful-4-carrying-of-the-cross': {
     source: require('@/assets/mysteries/carrying-the-cross.jpg'),
@@ -99,6 +120,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#ab6c34',
     title: 'Way to Calvary (Maestà, back)',
     artist: 'Duccio di Buoninsegna',
+    fill: 'contain',
   },
   'sorrowful-5-crucifixion': {
     source: require('@/assets/mysteries/crucifixion.jpg'),
@@ -106,6 +128,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#736756',
     title: 'Crucifixion with the Virgin, Mary Magdalene and St Dominic (cell 25)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'glorious-1-resurrection': {
     source: require('@/assets/mysteries/resurrection.jpg'),
@@ -113,6 +136,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#907051',
     title: 'The Holy Women at the Tomb (cell 8)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'glorious-2-ascension': {
     source: require('@/assets/mysteries/ascension.jpg'),
@@ -120,6 +144,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#ad8a50',
     title: 'Ascension (left wing of the Corsini Triptych)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'glorious-3-descent-of-the-holy-spirit': {
     source: require('@/assets/mysteries/pentecost.jpg'),
@@ -127,6 +152,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#a59a76',
     title: 'Pentecost (right wing of the Corsini Triptych)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'glorious-4-assumption': {
     source: require('@/assets/mysteries/assumption.jpg'),
@@ -134,6 +160,7 @@ export const artworks: Record<string, Artwork> = {
     color: '#b29056',
     title: 'The Dormition and Assumption of the Virgin (detail: Assumption)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
   'glorious-5-coronation': {
     source: require('@/assets/mysteries/coronation-of-mary.jpg'),
@@ -141,5 +168,6 @@ export const artworks: Record<string, Artwork> = {
     color: '#cab395',
     title: 'Coronation of the Virgin (cell 9)',
     artist: 'Fra Angelico',
+    fill: 'contain',
   },
 };
