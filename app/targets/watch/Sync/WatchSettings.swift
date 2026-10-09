@@ -81,7 +81,12 @@ final class WatchSettings {
     )
   }
 
+  /** The phone's first-run choice: English, Spanish from Spain, or Spanish otherwise. */
   private static func deviceLocale() -> String {
-    Locale.preferredLanguages.first?.hasPrefix("en") == true ? "en-US" : "es-MX"
+    let preferred = Locale(identifier: Locale.preferredLanguages.first ?? "es")
+    if preferred.language.languageCode == .english {
+      return "en-US"
+    }
+    return (preferred.region ?? Locale.current.region) == .spain ? "es-ES" : "es-MX"
   }
 }
