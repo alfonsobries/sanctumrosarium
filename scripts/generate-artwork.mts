@@ -1,7 +1,8 @@
 /**
  * Paints the illustrated mystery sets: each image comes from the set's style
- * (scripts/artwork/style-<set>.txt) plus the scene of the mystery (scripts/artwork/scenes.json),
- * through the OpenAI Images API. Square, saved as JPG in app/assets/mysteries/<set>/, then
+ * (scripts/artwork/style-<set>.txt) plus the scene of the mystery (scripts/artwork/scenes.json,
+ * where scripts/artwork/scenes-<set>.json may retell a scene for one set), through the OpenAI
+ * Images API. Square, saved as JPG in app/assets/mysteries/<set>/, then
  * app/src/domains/artwork/illustrated.ts is rebuilt with a thumbhash and dominant color for
  * every image on disk.
  *
@@ -60,9 +61,17 @@ function apiKey(): string {
 const scenes: Record<string, string> = JSON.parse(readFileSync(join(artworkDir, 'scenes.json'), 'utf8'));
 const mysteryIds = Object.keys(scenes).sort();
 
+function sceneOf(set: SetId, id: string): string {
+  const overrides = join(artworkDir, `scenes-${set}.json`);
+  const own: Record<string, string> = existsSync(overrides)
+    ? JSON.parse(readFileSync(overrides, 'utf8'))
+    : {};
+  return own[id] ?? scenes[id] ?? '';
+}
+
 async function paint(set: SetId, id: string): Promise<void> {
   const style = readFileSync(join(artworkDir, `style-${set}.txt`), 'utf8').trim();
-  const prompt = `${style}\n\nScene: ${scenes[id]}`;
+  const prompt = `${style}\n\nScene: ${sceneOf(set, id)}`;
   for (let attempt = 1; ; attempt++) {
     try {
       const response = await fetch('https://api.openai.com/v1/images/generations', {
