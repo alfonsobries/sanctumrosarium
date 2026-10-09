@@ -1,11 +1,12 @@
 /**
  * Exports what the Apple Watch prays, bundled in the watch app, so Swift reads data
  * instead of re-implementing the content rules: each set as a complete Rosary and as each
- * single decade (every optional prayer included; the watch drops the Fatima prayer, the
- * litany and the prayer for the Pope when they are off), the weekday calendar, the voice
- * speeds offered, per locale the prayer and mystery texts, and a small square image per
- * mystery for the Now Playing cover. Audio is not bundled: the phone sends the chosen
- * language's pack.
+ * single decade (every optional step included; the watch drops the Fatima prayer, the
+ * litany, the prayer for the Pope and the Gospel readings when they are off), the weekday
+ * calendar, the voice speeds offered, per locale the prayer and mystery texts, per
+ * translation the Gospel passages, and a small square image per mystery for the Now
+ * Playing cover. Audio is not bundled: the phone sends the chosen language's pack, with
+ * the recordings of the passages it chose.
  *
  * Run after content changes: pnpm watch:content
  */
@@ -22,6 +23,7 @@ import {
   mysteryRefsOf,
   mysteryTitle,
   passage,
+  passagesOf,
   prayerText,
   prayerTitle,
   type Locale,
@@ -34,6 +36,7 @@ import {
   type Step,
 } from '../packages/rosary/src/index';
 import { coverMysteries } from '../app/src/domains/audio/now-playing';
+import { readingSilenceMs } from '../app/src/domains/audio/queue';
 import { beadState } from '../app/src/domains/prayer/bead-state';
 import { rates } from '../app/src/domains/settings/settings';
 import { audioKeyOf, watchSequence, type WatchSequenceOptions } from '../app/src/domains/watch/watch-pack';
@@ -82,6 +85,9 @@ async function exportArtwork(): Promise<void> {
 
 /** Whether the watch keeps a step, given the options; mirrored in PrayerSession.swift. */
 function keeps(step: Step, options: WatchSequenceOptions): boolean {
+  if (step.kind === 'reading') {
+    return options.readings;
+  }
   if (step.kind !== 'prayer') {
     return true;
   }
@@ -98,18 +104,24 @@ function keeps(step: Step, options: WatchSequenceOptions): boolean {
 }
 
 /**
- * The watch filters optional prayers out of the full sequence; check that this always
- * gives exactly what the engine builds with those options off.
+ * The watch filters optional steps out of the full sequence and keeps each step's
+ * exported ring and count; check that this always gives exactly what the engine builds
+ * with those options off.
  */
 function assertFilterMatchesEngine(set: MysterySet, full: Step[]): void {
+  const exported = exportSteps(full);
   for (const fatimaPrayer of [true, false]) {
     for (const litany of [true, false]) {
       for (const prayerForThePope of [true, false]) {
-        const options = { fatimaPrayer, litany, prayerForThePope };
-        const expected = watchSequence(set, { kind: 'full' }, options).map((step) => step.id);
-        const filtered = full.filter((step) => keeps(step, options)).map((step) => step.id);
-        if (JSON.stringify(expected) !== JSON.stringify(filtered)) {
-          throw new Error(`Filtered ${set} sequence differs from the engine: ${JSON.stringify(options)}`);
+        for (const readings of [true, false]) {
+          const options = { fatimaPrayer, litany, prayerForThePope, readings };
+          const expected = exportSteps(watchSequence(set, { kind: 'full' }, options));
+          const filtered = exported.filter((_, index) => keeps(full[index] as Step, options));
+          const shape = (steps: ReturnType<typeof exportSteps>) =>
+            JSON.stringify(steps.map(({ id, ring, decadesBefore }) => ({ id, ring, decadesBefore })));
+          if (shape(expected) !== shape(filtered)) {
+            throw new Error(`Filtered ${set} sequence differs from the engine: ${JSON.stringify(options)}`);
+          }
         }
       }
     }
@@ -131,6 +143,8 @@ function exportSteps(steps: Step[]) {
     decadesBefore: decadesCompleted(steps, index),
     audio: audioKeyOf(step),
     cover: covers[index] ?? null,
+    /** On a reading, the passage it reads until the phone chooses one. */
+    reading: step.kind === 'reading' ? step.reading.ref : null,
   }));
 }
 
@@ -195,6 +209,30 @@ function exportLocale(locale: Locale, sets: Record<MysterySet, Step[]>) {
   return { version: 1, locale, setTitles, mysteries, prayers };
 }
 
+/**
+ * Every passage a mystery can read, per translation, with how long the phone leaves to
+ * read it in silence when it has no recording.
+ */
+function exportPassages(language: 'es' | 'en' | 'la') {
+  const texts = passagesOf(language);
+  const refs = mysterySets.flatMap((set) =>
+    mysteriesOf(set).flatMap((mystery) => mystery.readings.map((r) => r.ref)),
+  );
+  const passages = Object.fromEntries(
+    [...new Set(refs)].map((ref) => {
+      const found = texts[ref];
+      if (found === undefined) {
+        throw new Error(`No ${language} text for ${ref}`);
+      }
+      return [
+        ref,
+        { displayRef: found.displayRef, text: found.text, silenceMs: readingSilenceMs(found.text) },
+      ];
+    }),
+  );
+  return { version: 1, language, passages };
+}
+
 type SetFile = { sets: { id: MysterySet; titles: Partial<Record<Locale, string>> }[] };
 const setFile = JSON.parse(readFileSync(join(root, 'content/mysteries.json'), 'utf8')) as SetFile;
 
@@ -220,6 +258,12 @@ async function main(): Promise<void> {
     const data = exportLocale(locale, sets);
     writeFileSync(join(outDir, `${locale}.json`), `${JSON.stringify(data)}\n`);
     console.log(`${locale}.json: ${Object.keys(data.prayers).length} prayers`);
+  }
+
+  for (const language of ['es', 'en', 'la'] as const) {
+    const data = exportPassages(language);
+    writeFileSync(join(outDir, `passages-${language}.json`), `${JSON.stringify(data)}\n`);
+    console.log(`passages-${language}.json: ${Object.keys(data.passages).length} passages`);
   }
 
   await exportArtwork();

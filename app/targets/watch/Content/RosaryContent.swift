@@ -39,8 +39,11 @@ struct StepTemplate: Decodable, Hashable {
   let audio: String
   /** The mystery whose image is the Now Playing cover during this step. */
   let cover: String?
+  /** On a reading, the passage it reads until the phone chooses one. */
+  let reading: String?
 
   var isAnnounce: Bool { kind == "announce" }
+  var isReading: Bool { kind == "reading" }
   var isOurFather: Bool { prayer == "our-father" }
 }
 
@@ -87,6 +90,18 @@ struct LocaleContent: Decodable {
   let prayers: [String: Prayer]
 }
 
+/** The Gospel passages of one translation, by reference. */
+struct PassagesFile: Decodable {
+  struct Passage: Decodable {
+    let displayRef: String
+    let text: String
+    /** Silence left to read it when it has no recording. */
+    let silenceMs: Double
+  }
+
+  let passages: [String: Passage]
+}
+
 enum ContentError: Error {
   case missing(String)
 }
@@ -100,6 +115,7 @@ final class ContentStore {
 
   let rosary: RosaryFile
   private var byLocale: [String: LocaleContent] = [:]
+  private var passagesByLanguage: [String: [String: PassagesFile.Passage]] = [:]
 
   private init() {
     do {
@@ -121,6 +137,17 @@ final class ContentStore {
     } catch {
       fatalError("The watch bundle has no \(resolved).json: \(error)")
     }
+  }
+
+  /** The passages in the translation `locale` reads; both Spanish locales share one. */
+  func passages(for locale: String) -> [String: PassagesFile.Passage] {
+    let language = locale == "la" ? "la" : locale.hasPrefix("en") ? "en" : "es"
+    if let cached = passagesByLanguage[language] {
+      return cached
+    }
+    let loaded = (try? Self.decode(PassagesFile.self, named: "passages-\(language)"))?.passages ?? [:]
+    passagesByLanguage[language] = loaded
+    return loaded
   }
 
   func set(_ id: String) -> SetTemplate {

@@ -141,8 +141,10 @@ export function useRosaryAudio(options: Options): RosaryAudio {
         built.map(async (entry, index) => {
           const step = steps[index];
           const cover = covers[index];
-          const artwork = cover === null || cover === undefined ? null : latest.current.nowPlaying.artwork(cover);
-          const inDecade = step !== undefined && step.decade !== null && cover !== null && cover !== undefined;
+          const artwork =
+            cover === null || cover === undefined ? null : latest.current.nowPlaying.artwork(cover);
+          const inDecade =
+            step !== undefined && step.decade !== null && cover !== null && cover !== undefined;
           return {
             id: entry.id,
             title: step === undefined ? '' : latest.current.nowPlaying.titles(step),

@@ -6,12 +6,20 @@ import type { Locale } from '@sanctamaria/content';
 
 import type { WatchSettings, WatchToday } from '../../../modules/watch-bridge';
 
+import { watchReadings } from './watch-pack';
+
 export type WatchJournalEntry = Omit<JournalEntry, 'clientUpdatedAt' | 'deletedAt'>;
 
 const locales: readonly Locale[] = ['es-MX', 'es-ES', 'en-US', 'la'];
 
-/** The part of the settings the watch prays with. */
-export function watchSettingsOf(settings: Settings): WatchSettings {
+/**
+ * The part of the settings the watch prays with, and with readings on, the passage each
+ * mystery reads next given how many times each was prayed (`readingCounts`).
+ */
+export function watchSettingsOf(
+  settings: Settings,
+  readingCounts: Record<string, number> = {},
+): WatchSettings {
   return {
     prayerLocale: settings.prayerLocale,
     fatimaPrayer: settings.fatimaPrayer,
@@ -20,13 +28,13 @@ export function watchSettingsOf(settings: Settings): WatchSettings {
     pauseSeconds: settings.pauseSeconds,
     rate: settings.rate,
     mode: settings.mode,
+    reading: settings.reading,
+    readings: settings.reading ? watchReadings(settings.gospel, readingCounts) : {},
   };
 }
 
 export function sameWatchSettings(a: Settings, b: Settings): boolean {
-  const left = watchSettingsOf(a);
-  const right = watchSettingsOf(b);
-  return (Object.keys(left) as (keyof WatchSettings)[]).every((key) => left[key] === right[key]);
+  return JSON.stringify(watchSettingsOf(a)) === JSON.stringify(watchSettingsOf(b));
 }
 
 function isString(value: unknown): value is string {
@@ -94,6 +102,20 @@ export function watchEntryFrom(payload: Record<string, unknown>): WatchJournalEn
     durationSeconds: Math.round(durationSeconds),
     readings: readings ?? null,
   };
+}
+
+/**
+ * A Rosary continued on the watch reports only the passages read there; the ones read
+ * before, on the phone, stay in the entry.
+ */
+export function withEarlierReadings(
+  entry: WatchJournalEntry,
+  stored: Pick<JournalEntry, 'readings'> | null,
+): WatchJournalEntry {
+  if (stored?.readings === null || stored?.readings === undefined) {
+    return entry;
+  }
+  return { ...entry, readings: { ...stored.readings, ...entry.readings } };
 }
 
 /** Today's journal for the watch, without null values (they cannot cross to it). */

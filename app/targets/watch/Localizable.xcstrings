@@ -416,6 +416,23 @@
           }
         }
       }
+    },
+    "prayer.reading": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Evangelio"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gospel"
+          }
+        }
+      }
     }
   }
 }
