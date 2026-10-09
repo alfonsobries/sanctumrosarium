@@ -101,6 +101,16 @@ describe('watchAudioPack', () => {
     expect(next?.version).not.toBe(first?.version);
   });
 
+  it('needs no recording of a prayer the language has no text for', () => {
+    const latin = structuredClone(complete);
+    delete latin.tracks['fatima-prayer.leader'];
+    delete latin.tracks['fatima-prayer.response'];
+    const pack = watchAudioPack('la', latin);
+    expect(pack).not.toBeNull();
+    expect(pack?.parts['fatima-prayer']).toBeUndefined();
+    expect(watchAudioPack('es-MX', latin)).toBeNull();
+  });
+
   it('is null when a recording is missing', () => {
     expect(watchAudioPack('es-MX', manifestFor(['hail-mary.leader']))).toBeNull();
   });

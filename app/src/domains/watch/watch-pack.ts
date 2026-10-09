@@ -1,4 +1,4 @@
-import { mysteriesOf, mysteryRefsOf } from '@sanctamaria/content';
+import { hasPrayerText, mysteriesOf, mysteryRefsOf, type Locale } from '@sanctamaria/content';
 import {
   buildSequence,
   chooseReading,
@@ -136,16 +136,22 @@ function fnv1a(text: string): string {
  * stretches to that pause: the queue is built with no pause and with a huge one, and the
  * gaps that change are the ones the pause controls. With `scripture`, each mystery's
  * chosen passage is in it too, read aloud when it has a recording and otherwise silence
- * long enough to read it, as on the phone. Null when the pack is incomplete.
+ * long enough to read it, as on the phone. A prayer the language has no text for (the
+ * Fatima prayer in Latin) is never prayed in it, so it needs no recording. Null when the
+ * pack is incomplete.
  */
 export function watchAudioPack(
-  locale: string,
+  locale: Locale,
   manifest: AudioManifest,
   scripture: WatchScripture | null = null,
 ): WatchAudioPack | null {
   const huge = 10_000_000;
   const timing = (pauseMs: number) => ({ pauseMs, responseGapMs: 450, afterAnnounceMs: 4000 });
-  const options = { ...everyOptionalPrayer, readings: scripture !== null };
+  const options = {
+    ...everyOptionalPrayer,
+    fatimaPrayer: hasPrayerText('fatima-prayer', locale),
+    readings: scripture !== null,
+  };
   const text = scripture?.text ?? (() => '');
   const track = scripture?.track ?? (() => undefined);
   const parts: Record<string, WatchAudioPart[]> = {};
