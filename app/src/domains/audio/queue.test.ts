@@ -37,12 +37,33 @@ const manifest: AudioManifest = {
 
 const timing = { pauseMs: 1000, responseGapMs: 500, afterAnnounceMs: 4000 };
 
-const steps = (overrides: { reading?: boolean; litany?: boolean; fatima?: boolean } = {}) =>
+const virtues: AudioManifest = {
+  ...manifest,
+  tracks: {
+    ...manifest.tracks,
+    ...Object.fromEntries(
+      [
+        'hail-mary-faith.leader',
+        'hail-mary-faith.response',
+        'hail-mary-hope.leader',
+        'hail-mary-hope.response',
+        'hail-mary-charity.leader',
+        'hail-mary-charity.response',
+        'trinity-salutation.leader',
+      ].map((key) => [key, track(key)]),
+    ),
+  },
+};
+
+const steps = (
+  overrides: { reading?: boolean; litany?: boolean; fatima?: boolean; virtues?: boolean } = {},
+) =>
   buildSequence({
     set: 'joyful',
     mysteries,
     scope: { kind: 'full' },
     opening: true,
+    openingForm: overrides.virtues ? 'three-virtues' : 'standard',
     readingFor: overrides.reading ? (m) => m.readings[0] ?? null : null,
     fatimaPrayer: overrides.fatima ?? false,
     prayerForThePope: false,
@@ -65,6 +86,25 @@ describe('buildQueue', () => {
       { file: 'hail-mary.leader.mp3', gapAfterMs: 500 },
       { file: 'hail-mary.response.mp3', gapAfterMs: 1000 },
     ]);
+  });
+
+  it('plays the tracks of the chosen opening form', () => {
+    const queue = buildQueue(steps({ virtues: true }), virtues, timing, () => '')!;
+    const files = (id: string) => queue.find((entry) => entry.id === id)?.parts.map((p) => p.file);
+    expect(files('opening-hail-mary-1')).toEqual([
+      'hail-mary-faith.leader.mp3',
+      'hail-mary-faith.response.mp3',
+    ]);
+    expect(files('opening-hail-mary-3')).toEqual([
+      'hail-mary-charity.leader.mp3',
+      'hail-mary-charity.response.mp3',
+    ]);
+    expect(files('opening-trinity-salutation')).toEqual(['trinity-salutation.leader.mp3']);
+    expect(files('d1-hail-mary-1')).toEqual(['hail-mary.leader.mp3', 'hail-mary.response.mp3']);
+  });
+
+  it('refuses a pack without the opening form it is asked to play', () => {
+    expect(buildQueue(steps({ virtues: true }), manifest, timing, () => '')).toBeNull();
   });
 
   it('keeps silence after announcing a mystery', () => {

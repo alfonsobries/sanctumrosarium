@@ -124,6 +124,10 @@ const rosaryPrayers = [
   'fatima-prayer',
   'hail-holy-queen',
   'rosary-closing-prayer',
+  'hail-mary-faith',
+  'hail-mary-hope',
+  'hail-mary-charity',
+  'trinity-salutation',
 ];
 
 type Track = { file: string; durationMs: number };
