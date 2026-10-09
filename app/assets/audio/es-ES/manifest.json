@@ -51,6 +51,34 @@
       "file": "rosary-closing-prayer.leader-821425bd.mp3",
       "durationMs": 20511
     },
+    "hail-mary-faith.leader": {
+      "file": "hail-mary-faith.leader-3156fb03.mp3",
+      "durationMs": 18445
+    },
+    "hail-mary-faith.response": {
+      "file": "hail-mary-faith.response-3e3fe337.mp3",
+      "durationMs": 8240
+    },
+    "hail-mary-hope.leader": {
+      "file": "hail-mary-hope.leader-b50d6a43.mp3",
+      "durationMs": 17807
+    },
+    "hail-mary-hope.response": {
+      "file": "hail-mary-hope.response-3e3fe337.mp3",
+      "durationMs": 8232
+    },
+    "hail-mary-charity.leader": {
+      "file": "hail-mary-charity.leader-1f037d72.mp3",
+      "durationMs": 25009
+    },
+    "hail-mary-charity.response": {
+      "file": "hail-mary-charity.response-3e3fe337.mp3",
+      "durationMs": 8227
+    },
+    "trinity-salutation.leader": {
+      "file": "trinity-salutation.leader-5c8687b1.mp3",
+      "durationMs": 8687
+    },
     "litany.0.call": {
       "file": "litany.0.call-14f9a3ad.mp3",
       "durationMs": 2071

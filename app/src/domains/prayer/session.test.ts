@@ -19,6 +19,7 @@ const plan = (overrides: Partial<Parameters<typeof planSession>[0]> = {}) =>
     set: 'sorrowful',
     scope: { kind: 'full' },
     locale: 'es-MX',
+    openingForm: 'standard',
     fatimaPrayer: true,
     litany: false,
     prayerForThePope: true,
@@ -38,6 +39,16 @@ describe('planSession', () => {
 
   it('skips readings when they are off', () => {
     expect(plan({ reading: false }).readings).toBeNull();
+  });
+
+  it('keeps the opening form, and reads an older plan without one as standard', () => {
+    const virtues = plan({ openingForm: 'three-virtues' });
+    const { openingForm: _openingForm, ...older } = virtues;
+    const prayerOf = (steps: ReturnType<typeof stepsFor>) =>
+      steps.find((step) => step.id === 'opening-hail-mary-1');
+
+    expect(prayerOf(stepsFor(virtues, mysteries))).toMatchObject({ prayer: 'hail-mary-faith' });
+    expect(prayerOf(stepsFor(older, mysteries))).toMatchObject({ prayer: 'hail-mary' });
   });
 });
 

@@ -1,4 +1,4 @@
-import type { ReadingPreference } from '@sanctamaria/rosary';
+import { openingForms, type OpeningForm, type ReadingPreference } from '@sanctamaria/rosary';
 
 import type { Locale } from '@sanctamaria/content';
 import type { SkinId } from '@/shared/theme/skins';
@@ -19,6 +19,8 @@ export type Settings = {
   /** Silence after each prayer, to meditate. */
   pauseSeconds: number;
   rate: number;
+  /** Form of the three opening Hail Marys; applied only when the prayer locale has it. */
+  openingForm: OpeningForm;
   fatimaPrayer: boolean;
   prayerForThePope: boolean;
   litany: boolean;
@@ -45,6 +47,7 @@ export const defaultSettings: Settings = {
   gospel: 'rotate',
   pauseSeconds: 1,
   rate: 1,
+  openingForm: 'standard',
   fatimaPrayer: true,
   prayerForThePope: true,
   litany: false,
@@ -63,6 +66,9 @@ export function normalizeSettings(stored: unknown): Settings {
     if (typeof source[key] === typeof defaultSettings[key]) {
       result[key] = source[key];
     }
+  }
+  if (!(openingForms as readonly unknown[]).includes(result.openingForm)) {
+    result.openingForm = defaultSettings.openingForm;
   }
   return result as Settings;
 }

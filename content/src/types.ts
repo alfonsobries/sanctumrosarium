@@ -1,4 +1,4 @@
-import type { MysterySet } from '@sanctamaria/rosary';
+import type { MysterySet, OpeningForm } from '@sanctamaria/rosary';
 
 export type Locale = 'es-MX' | 'es-ES' | 'en-US' | 'la';
 export const locales: readonly Locale[] = ['es-MX', 'es-ES', 'en-US', 'la'];
@@ -25,6 +25,8 @@ export type Prayer = {
   category: Category;
   titles: Partial<Record<Locale, string>>;
   texts: Partial<Record<Locale, PrayerText>>;
+  /** Part of an alternative form of the opening Hail Marys. */
+  openingForm?: Exclude<OpeningForm, 'standard'>;
 };
 
 export type MysteryReading = { ref: string; kind: 'primary' | 'parallel' | string };

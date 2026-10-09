@@ -1,4 +1,5 @@
-import { mysterySets, type MysterySet } from '@sanctamaria/rosary';
+import { openingFormsFor } from '@sanctamaria/content';
+import { mysterySets, type MysterySet, type OpeningForm } from '@sanctamaria/rosary';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +28,10 @@ export default function BeginSheet() {
   const reading = useSettings((state) => state.reading);
   const prayerLocale = useSettings((state) => state.prayerLocale);
   const appearance = useSettings((state) => state.appearance);
+  const storedOpeningForm = useSettings((state) => state.openingForm);
   const update = useSettings((state) => state.update);
+  const forms = openingFormsFor(prayerLocale);
+  const openingForm = forms.includes(storedOpeningForm) ? storedOpeningForm : 'standard';
 
   async function handleStart() {
     await startSession(set, { kind: 'full' });
@@ -76,6 +80,19 @@ export default function BeginSheet() {
           }))}
         />
       </View>
+
+      {forms.length > 1 && (
+        <View className="gap-2">
+          <Text variant="eyebrow">{t('settings.openingForm')}</Text>
+          <Segmented<OpeningForm>
+            accessibilityLabel={t('settings.openingForm')}
+            value={openingForm}
+            onChange={(value) => update({ openingForm: value })}
+            options={forms.map((value) => ({ value, label: t(`settings.openingForms.${value}`) }))}
+          />
+          <Text variant="footnote">{t(`settings.openingFormHints.${openingForm}`)}</Text>
+        </View>
+      )}
 
       <View className="gap-2">
         <Text variant="eyebrow">{t('settings.theme')}</Text>

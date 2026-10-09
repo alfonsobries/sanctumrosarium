@@ -74,7 +74,7 @@ Es la forma inicial más difundida (Credo, Padrenuestro, tres Avemarías, Gloria
 1. `by-the-sign-of-the-holy-cross` (persignarse) con `sign-of-the-cross`.
 2. `act-of-contrition` ("Haz un acto de contrición"). La guía de los misterios gozosos usa en su lugar el "Yo confieso" y un `glory-be`. (El "Yo confieso" no está en este paquete.)
 3. Cinco decenas: `our-father`, 10 × `hail-mary`, `glory-be`, y una o varias jaculatorias: "María, Madre de gracia, Madre de misericordia, en la vida y en la muerte ampáranos, gran Señora", `fatima-prayer`, "Sagrado Corazón de Jesús, en Ti confío", "Bendito san José, aumenta nuestra fe" (textos citados de DLF; solo `fatima-prayer` está modelada).
-4. Al final: tres Avemarías con invocaciones a la Santísima Trinidad ("Dios te salve, María Santísima, Hija de Dios Padre..."; textos en la guía de los gozosos, no modelados), `hail-holy-queen`, `pray-for-us-holy-mother-of-god`, `litany-of-loreto`, `grant-us-your-servants`.
+4. Al final: las Avemarías de las tres virtudes (`hail-mary-faith`, `hail-mary-hope`, `hail-mary-charity`) y la salutación `trinity-salutation` (ver abajo), `hail-holy-queen`, `pray-for-us-holy-mother-of-god`, `litany-of-loreto`, `grant-us-your-servants`.
 5. "Reza un Padrenuestro y un Avemaría por las intenciones del Papa" (`prayer-for-the-pope`).
 
 DLF no incluye el Credo al inicio.
@@ -82,6 +82,28 @@ DLF no incluye el Credo al inicio.
 ### España (Compendio)
 
 El Compendio no describe la secuencia; da los misterios con sus días, `pray-for-us-holy-mother-of-god`, `rosary-closing-prayer` y, como "tradición española", `grant-us-your-servants`.
+
+## Avemarías de las tres virtudes
+
+Forma hispana, de piedad popular (`pious-tradition`), de tres Avemarías: cada una empieza con una salutación a María en relación con una Persona de la Trinidad y encomienda una virtud teologal, y sigue con el Avemaría desde "llena eres de gracia". Las fuentes no le dan un nombre fijo: Desde la fe dice "Se rezan 3 Avemarías"; otras guías las llaman "salutaciones a la Virgen María".
+
+1. `hail-mary-faith`: "Hija de Dios Padre, Virgen Purísima antes del parto", la fe "para que la ilumines".
+2. `hail-mary-hope`: "Madre de Dios Hijo, Virgen Purísima en el parto", la esperanza "para que la alientes".
+3. `hail-mary-charity`: "Esposa de Dios Espíritu Santo, Virgen Purísima después del parto", la caridad "para que la inflames"; El Rosario de María añade "nuestros dones y carismas para que los perfecciones y todas nuestras necesidades para que las remedies".
+4. `trinity-salutation`: "Dios te salve, María Santísima, Templo, Trono y Sagrario de la Santísima Trinidad, Virgen concebida sin la culpa original." Se dice sola, sin Avemaría.
+
+| Fuente | Dónde | Redacción |
+| --- | --- | --- |
+| El Rosario de María, "Forma de rezar el Rosario" (https://www.rosariodemaria.org/rezar.html) | España | "ponemos", "dones y carismas", "Templo, Trono y Sagrario". Texto principal |
+| Desde la fe, guías de los misterios (https://desdelafe.mx/rosarios/rosario-lunes-rosario-sabado-misterios-gozosos/) | México | "ponemos", sin "dones y carismas", "Templo y Sagrario" |
+| Cofradía del Rosario, Santo Domingo de Oaxaca (https://cofradiadelrosarioax.wixsite.com/oaxaca/rezo-del-sant%C3%ADsimo-rosario) | México | "Señora", "alumbres"; marca Lector y Respuesta |
+| Catholic.net, "El Santo Rosario" (https://es.catholic.net/op/articulos/13325/el-santo-rosario) | General | "encomendamos", sin "Virgen Purísima..." |
+
+Todas las fuentes las rezan **al final** del Rosario, después de los cinco misterios y antes de la Salve. En la app son una forma opcional de las tres Avemarías iniciales: con `three-virtues`, las tres Avemarías del inicio se rezan con estas salutaciones (fe, esperanza, caridad, en ese orden) y la salutación a la Trinidad va antes del Gloria.
+
+Al rezar en común, quien dirige dice la salutación y el Avemaría hasta "Jesús"; la asamblea responde desde "Santa María" (Cofradía de Oaxaca: Lector / Respuesta). Es la misma división del Avemaría es-MX.
+
+En inglés no se encontró una forma publicada: las guías rezan las tres Avemarías por la fe, la esperanza y la caridad sin cambiar el texto. En latín no hay texto.
 
 ## Indulgencia plenaria (EI)
 

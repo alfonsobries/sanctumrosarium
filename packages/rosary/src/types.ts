@@ -26,7 +26,20 @@ export type PrayerId =
   | 'fatima-prayer'
   | 'hail-holy-queen'
   | 'rosary-closing-prayer'
-  | 'litany-of-loreto';
+  | 'litany-of-loreto'
+  | 'hail-mary-faith'
+  | 'hail-mary-hope'
+  | 'hail-mary-charity'
+  | 'trinity-salutation';
+
+/**
+ * How the three Hail Marys before the first mystery are said. `three-virtues` is the
+ * Hispanic form where each Hail Mary opens with a salutation entrusting faith, hope and
+ * charity to Mary, followed by a salutation to her as temple of the Trinity.
+ */
+export type OpeningForm = 'standard' | 'three-virtues';
+
+export const openingForms: readonly OpeningForm[] = ['standard', 'three-virtues'];
 
 export type Section = 'opening' | 'decade' | 'closing';
 
@@ -68,6 +81,7 @@ export type RosaryOptions = {
   scope: Scope;
   /** Creed, Our Father, three Hail Marys and Glory Be before the first mystery. */
   opening: boolean;
+  openingForm: OpeningForm;
   /** Reading chosen for each mystery, or none to skip the reading step. */
   readingFor: ((mystery: MysteryRef) => Reading | null) | null;
   fatimaPrayer: boolean;
