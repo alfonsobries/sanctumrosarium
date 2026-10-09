@@ -81,6 +81,8 @@ export const en: Messages<typeof es> = {
     creed: 'At the crucifix, the Creed: one of the ways to begin (RVM 37).',
     openingOurFather: 'On the first large bead, an Our Father.',
     openingHailMary: 'On the three small beads, three Hail Marys.',
+    openingVirtues:
+      'On the three small beads, three Hail Marys that entrust faith, hope and charity to Mary, each with its own greeting. It is a Hispanic custom; you can change it in Settings.',
     openingGlory: 'A Glory Be before the first mystery.',
     announce:
       'The mystery is announced. Picture the scene; before praying, keep a moment of silence (RVM 29, 31).',
@@ -153,6 +155,13 @@ export const en: Messages<typeof es> = {
     fatima: 'Fatima Prayer',
     pope: 'For the intentions of the Pope',
     litany: 'Litany at the end',
+    openingForm: 'Opening Hail Marys',
+    openingForms: { standard: 'Hail Mary', 'three-virtues': 'Faith, hope and charity' },
+    openingFormHints: {
+      standard: 'The usual Hail Mary on each of the three beads.',
+      'three-virtues':
+        'Each Hail Mary opens with "Dios te salve, María Santísima" and entrusts faith, hope and charity to Mary.',
+    },
     appearance: 'Appearance',
     skin: 'Style',
     skins: {

@@ -71,6 +71,8 @@ export const es = {
     creed: 'En el crucifijo se reza el Credo, uno de los modos de comenzar (RVM 37).',
     openingOurFather: 'En la primera cuenta grande, un Padrenuestro.',
     openingHailMary: 'En las tres cuentas pequeñas, tres Avemarías.',
+    openingVirtues:
+      'En las tres cuentas pequeñas, tres Avemarías que encomiendan a María la fe, la esperanza y la caridad, cada una con su salutación. Es una costumbre hispana; puedes cambiarla en Ajustes.',
     openingGlory: 'Un Gloria antes del primer misterio.',
     announce:
       'Se anuncia el misterio. Imagina la escena; antes de rezar, guarda un momento de silencio (RVM 29, 31).',
@@ -143,6 +145,13 @@ export const es = {
     fatima: 'Oración de Fátima',
     pope: 'Por las intenciones del Papa',
     litany: 'Letanías al final',
+    openingForm: 'Tres Avemarías del inicio',
+    openingForms: { standard: 'Avemaría', 'three-virtues': 'Fe, esperanza y caridad' },
+    openingFormHints: {
+      standard: 'El Avemaría de siempre en cada una de las tres cuentas.',
+      'three-virtues':
+        'Cada Avemaría empieza con "Dios te salve, María Santísima" y encomienda la fe, la esperanza y la caridad.',
+    },
     appearance: 'Apariencia',
     skin: 'Estilo',
     skins: {

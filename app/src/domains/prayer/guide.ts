@@ -5,6 +5,7 @@ export type GuideKey =
   | 'creed'
   | 'openingOurFather'
   | 'openingHailMary'
+  | 'openingVirtues'
   | 'openingGlory'
   | 'announce'
   | 'reading'
@@ -37,6 +38,12 @@ function keyOf(step: Step): GuideKey | null {
       return opening ? 'openingOurFather' : 'ourFather';
     case 'hail-mary':
       return step.count?.index === 1 ? (opening ? 'openingHailMary' : 'hailMary') : null;
+    case 'hail-mary-faith':
+      return 'openingVirtues';
+    case 'hail-mary-hope':
+    case 'hail-mary-charity':
+    case 'trinity-salutation':
+      return null;
     case 'glory-be':
       return opening ? 'openingGlory' : 'glory';
     case 'fatima-prayer':

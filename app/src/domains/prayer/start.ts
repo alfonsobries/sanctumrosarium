@@ -1,4 +1,4 @@
-import { hasPrayerText, mysteryRefsOf } from '@sanctamaria/content';
+import { hasPrayerText, mysteryRefsOf, openingFormFor } from '@sanctamaria/content';
 import { formatLocalDate, localDateOf, type MysterySet, type Scope } from '@sanctamaria/rosary';
 import { randomUUID } from 'expo-crypto';
 
@@ -20,6 +20,7 @@ export async function startSession(set: MysterySet, scope: Scope): Promise<void>
       set,
       scope,
       locale: settings.prayerLocale,
+      openingForm: openingFormFor(settings.openingForm, settings.prayerLocale),
       fatimaPrayer: settings.fatimaPrayer && hasPrayerText('fatima-prayer', settings.prayerLocale),
       litany: settings.litany,
       prayerForThePope: settings.prayerForThePope,

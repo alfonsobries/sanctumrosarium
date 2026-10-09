@@ -13,8 +13,8 @@ export const everyOptionalPrayer: WatchSequenceOptions = {
 
 /**
  * The sequence the watch prays: by default every optional prayer included (the watch
- * drops the Fatima prayer, the litany and the prayer for the Pope when they are off) and
- * no Gospel readings, which are not for the wrist.
+ * drops the Fatima prayer, the litany and the prayer for the Pope when they are off), the
+ * standard opening Hail Marys and no Gospel readings, which are not for the wrist.
  */
 export function watchSequence(
   set: MysterySet,
@@ -26,6 +26,7 @@ export function watchSequence(
     mysteries: mysteryRefsOf(set),
     scope,
     opening: true,
+    openingForm: 'standard',
     readingFor: null,
     fatimaPrayer: options.fatimaPrayer,
     hailHolyQueen: true,
