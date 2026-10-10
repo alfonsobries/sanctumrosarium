@@ -1,10 +1,17 @@
-import { hasPrayerText, mysteriesOf, mysteryRefsOf, type Locale } from '@sanctamaria/content';
+import {
+  hasPrayerText,
+  mysteriesOf,
+  mysteryRefsOf,
+  openingFormsFor,
+  type Locale,
+} from '@sanctamaria/content';
 import {
   buildSequence,
   chooseReading,
   mysterySets,
   type MysteryRef,
   type MysterySet,
+  type OpeningForm,
   type ReadingPreference,
   type Scope,
   type Step,
@@ -18,6 +25,8 @@ export type WatchSequenceOptions = {
   prayerForThePope: boolean;
   /** A Gospel passage after each mystery is announced. */
   readings: boolean;
+  /** The opening Hail Marys; the standard form when left out. */
+  openingForm?: OpeningForm;
 };
 
 export const everyOptionalPrayer: WatchSequenceOptions = {
@@ -39,8 +48,7 @@ export function defaultReadingRef(mystery: MysteryRef): string | null {
 }
 
 /**
- * The sequence the watch prays: the standard opening Hail Marys, every optional prayer
- * included by default and a reading
+ * The sequence the watch prays: every optional prayer included by default and a reading
  * for each mystery (the watch drops the Fatima prayer, the litany, the prayer for the Pope
  * and the readings when they are off). Each mystery reads `readings[id]`, else its primary
  * passage.
@@ -56,7 +64,7 @@ export function watchSequence(
     mysteries: mysteryRefsOf(set),
     scope,
     opening: true,
-    openingForm: 'standard',
+    openingForm: options.openingForm ?? 'standard',
     readingFor: options.readings
       ? (mystery) => {
           const ref = readings[mystery.id] ?? defaultReadingRef(mystery);
@@ -157,14 +165,16 @@ export function watchAudioPack(
   const text = scripture?.text ?? (() => '');
   const track = scripture?.track ?? (() => undefined);
   const parts: Record<string, WatchAudioPart[]> = {};
-  for (const set of mysterySets) {
-    const steps = watchSequence(set, { kind: 'full' }, options, scripture?.readings);
+  const add = (steps: Step[], onlyNew = false): boolean => {
     const none = buildQueue(steps, manifest, timing(0), text, track);
     const long = buildQueue(steps, manifest, timing(huge), text, track);
     if (none === null || long === null) {
-      return null;
+      return false;
     }
     steps.forEach((step, index) => {
+      if (onlyNew && parts[audioKeyOf(step)] !== undefined) {
+        return;
+      }
       const short = none[index]?.parts ?? [];
       const stretched = long[index]?.parts ?? [];
       parts[audioKeyOf(step)] = short.map((part: QueuePart, partIndex) => {
@@ -180,6 +190,19 @@ export function watchAudioPack(
         };
       });
     });
+    return true;
+  };
+  for (const set of mysterySets) {
+    if (!add(watchSequence(set, { kind: 'full' }, options, scripture?.readings))) {
+      return null;
+    }
+  }
+  // Another form of the opening is only a few recordings more; without them the watch
+  // prays the standard one.
+  for (const openingForm of openingFormsFor(locale)) {
+    if (openingForm !== 'standard') {
+      add(watchSequence('joyful', { kind: 'full' }, { ...options, openingForm }, scripture?.readings), true);
+    }
   }
   const files = [
     ...new Set([watchSilenceFile, ...Object.values(parts).flatMap((list) => list.map((part) => part.file))]),

@@ -111,6 +111,23 @@ describe('watchAudioPack', () => {
     expect(watchAudioPack('es-MX', latin)).toBeNull();
   });
 
+  it('carries the three-virtues opening when its recordings are there', () => {
+    const virtues = ['hail-mary-faith', 'hail-mary-hope', 'hail-mary-charity', 'trinity-salutation'];
+    const withVirtues = manifestFor([
+      ...Object.keys(complete.tracks),
+      ...virtues.flatMap((key) => [`${key}.leader`, `${key}.response`]),
+    ]);
+    const pack = watchAudioPack('es-MX', withVirtues);
+    for (const key of virtues) {
+      expect(pack?.parts[key]?.length).toBeGreaterThan(0);
+    }
+    expect(pack?.parts['glory-be']).toEqual(watchAudioPack('es-MX', complete)?.parts['glory-be']);
+
+    const without = watchAudioPack('es-MX', complete);
+    expect(without).not.toBeNull();
+    expect(without?.parts['hail-mary-faith']).toBeUndefined();
+  });
+
   it('is null when a recording is missing', () => {
     expect(watchAudioPack('es-MX', manifestFor(['hail-mary.leader']))).toBeNull();
   });

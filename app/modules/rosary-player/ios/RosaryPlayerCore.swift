@@ -677,8 +677,11 @@ public final class RosaryPlayerCore {
   // (the audio server is another process), so they never run on the main thread.
   private nonisolated static let sessionQueue = DispatchQueue(label: "rosary-player.session", qos: .userInitiated)
 
+  // Not `.spokenAudio`: that mode asks the system to pause the voice rather than lower it
+  // when it hears speech, as AirPods do when the wearer talks, and praying aloud with it
+  // would stop it at every bead.
   private nonisolated static func applyCategory() throws {
-    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio, policy: .longFormAudio, options: [])
+    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, policy: .longFormAudio, options: [])
   }
 
   private func configureSession() {

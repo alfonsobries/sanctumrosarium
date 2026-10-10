@@ -15,6 +15,8 @@ struct SetTemplate: Decodable, Identifiable, Hashable {
   let mysteries: [String]
   /** The whole Rosary. */
   let steps: [StepTemplate]
+  /** The opening section in each other form of the opening Hail Marys, by form. */
+  let openings: [String: [StepTemplate]]?
   /** Each mystery prayed as a single decade. */
   let decades: [[StepTemplate]]
 }
@@ -45,6 +47,7 @@ struct StepTemplate: Decodable, Hashable {
   var isAnnounce: Bool { kind == "announce" }
   var isReading: Bool { kind == "reading" }
   var isOurFather: Bool { prayer == "our-father" }
+  var isOpening: Bool { section == "opening" }
 }
 
 /** What the bead ring shows for a step; mirrors the phone's BeadRingState. */
