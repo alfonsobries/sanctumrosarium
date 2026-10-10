@@ -16,6 +16,8 @@ struct PrayerView: View {
   @Bindable private var settings = WatchSettings.shared
   @State private var crown = 0.0
   @State private var volume = 1.0
+  /** The crown's own value while it is the volume: 1 - volume, so turning it up is louder, as in Now Playing. */
+  @State private var volumeCrown = 0.0
   @State private var showingOptions = false
 
   var body: some View {
@@ -44,6 +46,7 @@ struct PrayerView: View {
       .onAppear {
         crown = Double(session.position)
         volume = session.volume
+        volumeCrown = 1 - volume
         session.start()
       }
       // The system close button dismisses the cover; what was prayed still reaches the journal.
@@ -141,7 +144,7 @@ struct PrayerView: View {
       .focusable()
       .focusEffectDisabled()
       .digitalCrownRotation(
-        $volume,
+        $volumeCrown,
         from: 0,
         through: 1,
         by: 0.05,
@@ -154,8 +157,9 @@ struct PrayerView: View {
           .foregroundStyle(Color.accentColor)
           .accessibilityLabel(Text("prayer.volume"))
       }
-      .onChange(of: volume) { _, value in
-        session.volume = value
+      .onChange(of: volumeCrown) { _, value in
+        volume = 1 - value
+        session.volume = volume
       }
       .onChange(of: session.position) { _, position in
         crown = Double(position)
