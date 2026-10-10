@@ -2,7 +2,8 @@
  * Exports what the Apple Watch prays, bundled in the watch app, so Swift reads data
  * instead of re-implementing the content rules: each set as a complete Rosary and as each
  * single decade (every optional step included; the watch drops the Fatima prayer, the
- * litany, the prayer for the Pope and the Gospel readings when they are off), the weekday
+ * litany, the prayer for the Pope and the Gospel readings when they are off) with its
+ * opening in each other form of the opening Hail Marys, the weekday
  * calendar, the voice speeds offered, per locale the prayer and mystery texts, per
  * translation the Gospel passages, and a small square image per mystery for the Now
  * Playing cover. Audio is not bundled: the phone sends the chosen language's pack, with
@@ -32,6 +33,8 @@ import {
   decadesCompleted,
   mysterySetFor,
   mysterySets,
+  openingFormPrayers,
+  openingForms,
   type MysterySet,
   type Step,
 } from '../packages/rosary/src/index';
@@ -39,7 +42,12 @@ import { coverMysteries } from '../app/src/domains/audio/now-playing';
 import { readingSilenceMs } from '../app/src/domains/audio/queue';
 import { beadState } from '../app/src/domains/prayer/bead-state';
 import { rates } from '../app/src/domains/settings/settings';
-import { audioKeyOf, watchSequence, type WatchSequenceOptions } from '../app/src/domains/watch/watch-pack';
+import {
+  audioKeyOf,
+  everyOptionalPrayer,
+  watchSequence,
+  type WatchSequenceOptions,
+} from '../app/src/domains/watch/watch-pack';
 
 const root = join(import.meta.dirname, '..');
 const outDir = join(root, 'app/targets/watch/assets/content');
@@ -148,13 +156,37 @@ function exportSteps(steps: Step[]) {
   }));
 }
 
+/**
+ * The opening section of the whole Rosary in each other form of the opening Hail Marys.
+ * The watch swaps it in for the standard opening; check that doing so gives exactly the
+ * sequence the engine builds in that form.
+ */
+function exportOpenings(set: MysterySet, standard: ReturnType<typeof exportSteps>) {
+  const openings: Record<string, ReturnType<typeof exportSteps>> = {};
+  for (const openingForm of openingForms) {
+    if (openingForm === 'standard') {
+      continue;
+    }
+    const full = exportSteps(watchSequence(set, { kind: 'full' }, { ...everyOptionalPrayer, openingForm }));
+    const opening = full.filter((step) => step.section === 'opening');
+    const spliced = [...opening, ...standard.filter((step) => step.section !== 'opening')];
+    if (JSON.stringify(spliced) !== JSON.stringify(full)) {
+      throw new Error(`The ${openingForm} opening of ${set} does not splice into the standard sequence`);
+    }
+    openings[openingForm] = opening;
+  }
+  return openings;
+}
+
 function exportSet(set: MysterySet) {
   const steps = watchSequence(set, { kind: 'full' });
   assertFilterMatchesEngine(set, steps);
+  const exported = exportSteps(steps);
   return {
     id: set,
     mysteries: mysteriesOf(set).map((mystery) => mystery.id),
-    steps: exportSteps(steps),
+    steps: exported,
+    openings: exportOpenings(set, exported),
     decades: [1, 2, 3, 4, 5].map((decade) => exportSteps(watchSequence(set, { kind: 'decade', decade }))),
   };
 }
@@ -166,11 +198,12 @@ function weekdays(): MysterySet[] {
 
 function exportLocale(locale: Locale, sets: Record<MysterySet, Step[]>) {
   const prayerIds = [
-    ...new Set(
-      Object.values(sets)
+    ...new Set([
+      ...Object.values(sets)
         .flat()
         .flatMap((step) => (step.kind === 'prayer' ? [step.prayer] : [])),
-    ),
+      ...openingForms.flatMap(openingFormPrayers),
+    ]),
   ];
   const prayers: Record<string, { title: string; lines: string[]; responseFrom: number | null }> = {};
   for (const id of prayerIds) {
