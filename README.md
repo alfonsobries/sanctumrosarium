@@ -11,7 +11,12 @@
 
 <p align="center">
   <a href="https://sanctumrosarium.app">sanctumrosarium.app</a> ·
-  <a href="https://apps.apple.com/app/id6803640796">App Store</a>
+  <a href="https://apps.apple.com/app/id6803640796">App Store</a> ·
+  <a href="https://play.google.com/store/apps/details?id=app.sanctamaria">Google Play</a>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License" /></a>
 </p>
 
 ---
@@ -38,13 +43,11 @@
 Nothing leaves the device. There are no accounts, no server and no analytics; the watch
 receives the journal straight from the phone.
 
-## Faithful by construction
+## Content
 
-Every prayer, mystery and Gospel passage comes from a published Church source (the Holy
-See, the Mexican bishops' _Desde la fe_, the USCCB) and carries that source with it. No
-liturgical text is written from memory. Magisterium, liturgy and pious tradition are
-always told apart, and the promises of the Rosary are shown as a pious tradition with
-their origin. See [`content/README.md`](content/README.md).
+Every prayer, mystery and Gospel passage comes from a published source (the Holy See,
+the Mexican bishops' _Desde la fe_, the USCCB) and is stored with it. See
+[`content/README.md`](content/README.md).
 
 ## Repository
 
@@ -91,16 +94,18 @@ pnpm update:production               # JavaScript and assets over the air
 An over-the-air update only reaches binaries with the same `runtimeVersion` in
 `app/app.json`; raise it whenever the native layer or the watch changes.
 
-The audio is regenerated with `pnpm audio:generate` (ElevenLabs, key in
-`~/.config/aikit/audio-gen.env`) and the icons with `pnpm icons:generate`.
+The audio is regenerated with `pnpm audio:generate` (needs an ElevenLabs API key) and the
+icons with `pnpm icons:generate`.
 
 ## Contributing
 
-Ways to help, with or without code, are on the [help page](https://sanctumrosarium.app/help/).
-Open an issue for a mistake in a text, an audio problem or an idea.
+Issues and pull requests are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md). Ways to help
+without code are on the [help page](https://sanctumrosarium.app/help/). This project
+follows the [Code of Conduct](CODE_OF_CONDUCT.md). To report a vulnerability, see
+[SECURITY.md](SECURITY.md).
 
 ## License
 
-A license for the code has not been chosen yet. The Bible translations and some prayers
-belong to their publishers; [`content/README.md`](content/README.md) lists each source and
-its terms.
+The code is under the [MIT License](LICENSE). The Bible translations and prayer texts
+belong to their publishers and are not covered by it;
+[`content/README.md`](content/README.md) lists each source and its terms.
