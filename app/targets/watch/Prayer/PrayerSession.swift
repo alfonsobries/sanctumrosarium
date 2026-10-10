@@ -183,8 +183,26 @@ final class PrayerSession: Identifiable {
     ticker = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
       Task { @MainActor in self?.tick() }
     }
+    followRate()
     if hasAudio && settings.mode == "listen" {
       toggleAudio()
+    }
+  }
+
+  /** A speed chosen on the phone while the voice plays here reaches the voice right away. */
+  private func followRate() {
+    withObservationTracking {
+      _ = settings.rate
+    } onChange: { [weak self] in
+      Task { @MainActor in
+        guard let self, !self.finished else {
+          return
+        }
+        if self.audioLoaded {
+          SharedPlayer.core.setRate(Float(self.settings.rate))
+        }
+        self.followRate()
+      }
     }
   }
 
