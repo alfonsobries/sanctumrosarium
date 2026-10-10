@@ -1,0 +1,28 @@
+name: Bug
+description: Something does not work as expected
+labels: [bug]
+body:
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options: [iPhone, Apple Watch, Android, Website]
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App and OS version
+      placeholder: App 1.0.0, iOS 26.1
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What happened and what you expected
+    validations:
+      required: true

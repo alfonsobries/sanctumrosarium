@@ -1,6 +1,7 @@
 {
   "name": "sanctumrosarium",
   "private": true,
+  "license": "MIT",
   "packageManager": "pnpm@11.18.0",
   "scripts": {
     "app": "pnpm --filter app start",

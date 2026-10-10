@@ -1,0 +1,24 @@
+name: Text correction
+description: A mistake in a prayer, mystery, passage or translation
+labels: [content]
+body:
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      placeholder: Hail Holy Queen, Spanish (Mexico)
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Text as it appears
+    validations:
+      required: true
+  - type: textarea
+    id: correct
+    attributes:
+      label: Correct text and its source
+      description: A published source (a link or the book and page) the correction matches.
+    validations:
+      required: true
