@@ -24,9 +24,18 @@ struct PrayerView: View {
     content
       .toolbar { toolbar }
       .sheet(isPresented: $showingOptions) {
-        PrayerOptions(session: session) {
-          showingOptions = false
-          session.end()
+        NavigationStack {
+          PrayerOptions(
+            session: session,
+            onJump: { position in
+              showingOptions = false
+              session.go(to: position)
+            },
+            onEnd: {
+              showingOptions = false
+              session.end()
+            }
+          )
         }
       }
       .onChange(of: session.finished) { _, finished in
@@ -371,11 +380,19 @@ private struct PrayerText: View {
 
 private struct PrayerOptions: View {
   @Bindable var session: PrayerSession
+  let onJump: (Int) -> Void
   let onEnd: () -> Void
   @Bindable private var settings = WatchSettings.shared
 
   var body: some View {
     List {
+      if session.sections.count > 1 {
+        NavigationLink {
+          SectionList(session: session, onJump: onJump)
+        } label: {
+          Label("prayer.goTo", systemImage: "list.bullet")
+        }
+      }
       Toggle("options.haptics", isOn: $settings.haptics)
       Toggle("prayer.showText", isOn: $settings.showsText)
       if session.hasAudio {
@@ -395,6 +412,72 @@ private struct PrayerOptions: View {
       }
     }
     .navigationTitle(Text("prayer.options"))
+  }
+}
+
+/** Every section of the Rosary in order, the one being prayed marked. */
+private struct SectionList: View {
+  let session: PrayerSession
+  let onJump: (Int) -> Void
+
+  var body: some View {
+    ScrollViewReader { proxy in
+      List(session.sections) { section in
+        SectionRow(session: session, section: section, isCurrent: section == session.section) {
+          onJump(section.start)
+        }
+        .id(section.id)
+      }
+      .onAppear {
+        if let current = session.section {
+          proxy.scrollTo(current.id, anchor: .center)
+        }
+      }
+    }
+    .navigationTitle(Text("prayer.goTo"))
+  }
+}
+
+private struct SectionRow: View {
+  let session: PrayerSession
+  let section: PrayerSession.Section
+  let isCurrent: Bool
+  let onSelect: () -> Void
+
+  var body: some View {
+    Button(action: onSelect) {
+      HStack(spacing: 6) {
+        VStack(alignment: .leading, spacing: 1) {
+          if case let .decade(decade) = section.kind {
+            Text("prayer.mystery \(decade)")
+              .font(.caption2)
+              .foregroundStyle(.secondary)
+          }
+          title
+            .lineLimit(2)
+            .minimumScaleFactor(0.8)
+        }
+        Spacer(minLength: 0)
+        if isCurrent {
+          Image(systemName: "checkmark")
+            .foregroundStyle(Color.accentColor)
+            .accessibilityHidden(true)
+        }
+      }
+    }
+    .accessibilityAddTraits(isCurrent ? .isSelected : [])
+  }
+
+  @ViewBuilder
+  private var title: some View {
+    switch section.kind {
+    case .opening:
+      Text("prayer.opening")
+    case .pope:
+      Text("prayer.pope")
+    case .decade, .closing:
+      Text(verbatim: session.title(of: section))
+    }
   }
 }
 

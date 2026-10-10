@@ -10,6 +10,23 @@ import WatchKit
 @MainActor
 @Observable
 final class PrayerSession: Identifiable {
+  /** A place in the Rosary to jump to: the opening, a mystery or a closing prayer. */
+  struct Section: Identifiable, Hashable {
+    enum Kind: Hashable {
+      case opening
+      case decade(Int)
+      case pope
+      case closing(String)
+    }
+
+    let kind: Kind
+    /** The first and last step it covers. */
+    let start: Int
+    fileprivate(set) var end: Int
+
+    var id: Int { start }
+  }
+
   enum Scope: Equatable {
     case rosary
     case decade(Int)
@@ -24,6 +41,7 @@ final class PrayerSession: Identifiable {
   let kind: String
   let startedAt: Date
   let prayedOn: String
+  let sections: [Section]
 
   private(set) var position = 0
   private(set) var isPlaying = false
@@ -92,6 +110,7 @@ final class PrayerSession: Identifiable {
     self.set = set
     self.content = content
     self.steps = steps
+    self.sections = Self.sections(of: steps)
     self.settings = settings
     let silenceURL = installed.map { $0.url(of: "silence.mp3") }.flatMap {
       FileManager.default.fileExists(atPath: $0.path) ? $0 : nil
@@ -175,6 +194,24 @@ final class PrayerSession: Identifiable {
       return ""
     }
     return content.prayers[prayer]?.title ?? ""
+  }
+
+  /** The section being prayed. */
+  var section: Section? {
+    sections.last { $0.start <= position }
+  }
+
+  func title(of section: Section) -> String {
+    switch section.kind {
+    case .opening, .pope:
+      return ""
+    case let .decade(decade):
+      return set.mysteries.indices.contains(decade - 1)
+        ? content.mysteries[set.mysteries[decade - 1]]?.title ?? ""
+        : ""
+    case let .closing(prayer):
+      return content.prayers[prayer]?.title ?? ""
+    }
   }
 
   // MARK: - Moving
@@ -389,6 +426,43 @@ final class PrayerSession: Identifiable {
   }
 
   // MARK: - Helpers
+
+  /**
+   * The sections of a sequence in order; the closing sign of the cross belongs to the
+   * prayer before it. Mirrors sectionsOf in app/src/domains/prayer/sections.ts.
+   */
+  private static func sections(of steps: [StepTemplate]) -> [Section] {
+    var sections: [Section] = []
+    var previous: String?
+    for (index, step) in steps.enumerated() {
+      let key: String
+      if step.isOpening {
+        key = "opening"
+      } else if step.section == "decade" {
+        key = "decade-\(step.decade ?? 0)"
+      } else if step.intention == "pope" {
+        key = "pope"
+      } else {
+        key = step.id
+      }
+      let closingCross = step.section == "closing" && step.prayer == "sign-of-the-cross"
+      if !sections.isEmpty, key == previous || closingCross {
+        sections[sections.count - 1].end = index
+        continue
+      }
+      previous = key
+      if step.isOpening {
+        sections.append(Section(kind: .opening, start: index, end: index))
+      } else if step.section == "decade", let decade = step.decade {
+        sections.append(Section(kind: .decade(decade), start: index, end: index))
+      } else if key == "pope" {
+        sections.append(Section(kind: .pope, start: index, end: index))
+      } else if let prayer = step.prayer {
+        sections.append(Section(kind: .closing(prayer), start: index, end: index))
+      }
+    }
+    return sections
+  }
 
   /**
    * The whole Rosary with the opening Hail Marys in `form`. The standard opening stays
