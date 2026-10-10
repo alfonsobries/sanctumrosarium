@@ -1,4 +1,10 @@
-import { hasPrayerText, mysteriesOf, mysteryRefsOf, openingFormsFor, type Locale } from '@sanctamaria/content';
+import {
+  hasPrayerText,
+  mysteriesOf,
+  mysteryRefsOf,
+  openingFormsFor,
+  type Locale,
+} from '@sanctamaria/content';
 import {
   buildSequence,
   chooseReading,
