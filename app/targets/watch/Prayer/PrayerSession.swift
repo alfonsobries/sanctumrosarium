@@ -65,10 +65,11 @@ final class PrayerSession: Identifiable {
   init(set: SetTemplate, scope: Scope, settings: WatchSettings, now: Date = Date()) {
     let content = ContentStore.shared.content(for: settings.prayerLocale)
     let fatima = settings.fatimaPrayer && content.prayers["fatima-prayer"] != nil
+    let installed = PackStore.shared.pack(for: content.locale)
     let template: [StepTemplate]
     switch scope {
     case .rosary, .continuing:
-      template = set.steps
+      template = Self.withOpening(settings.openingForm, of: set, content: content, pack: installed)
     case let .decade(decade):
       template = set.decades[min(max(1, decade), set.decades.count) - 1]
     }
@@ -92,7 +93,6 @@ final class PrayerSession: Identifiable {
     self.content = content
     self.steps = steps
     self.settings = settings
-    let installed = PackStore.shared.pack(for: content.locale)
     let silenceURL = installed.map { $0.url(of: "silence.mp3") }.flatMap {
       FileManager.default.fileExists(atPath: $0.path) ? $0 : nil
     }
@@ -389,6 +389,28 @@ final class PrayerSession: Identifiable {
   }
 
   // MARK: - Helpers
+
+  /**
+   * The whole Rosary with the opening Hail Marys in `form`. The standard opening stays
+   * while the language has no text for that form, or the pack on the watch no recording
+   * of it yet, so the voice never goes missing at the start.
+   */
+  private static func withOpening(
+    _ form: String,
+    of set: SetTemplate,
+    content: LocaleContent,
+    pack: PackStore.Installed?
+  ) -> [StepTemplate] {
+    guard let opening = set.openings?[form] else {
+      return set.steps
+    }
+    let hasText = opening.allSatisfy { step in step.prayer.map { content.prayers[$0] != nil } ?? true }
+    let hasAudio = pack.map { pack in opening.allSatisfy { pack.parts[$0.audio]?.isEmpty == false } } ?? true
+    guard hasText, hasAudio else {
+      return set.steps
+    }
+    return opening + set.steps.filter { !$0.isOpening }
+  }
 
   private static func audioSteps(
     _ steps: [StepTemplate],

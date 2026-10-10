@@ -34,6 +34,8 @@ final class WatchSettings {
   var reading: Bool
   /** The passage each mystery reads next, by mystery id, as the phone turns them. */
   var readings: [String: String]
+  /** The opening Hail Marys: "standard", or another form the prayer language has. */
+  var openingForm: String
   var haptics: Bool {
     didSet { UserDefaults.standard.set(haptics, forKey: Self.hapticsKey) }
   }
@@ -57,6 +59,7 @@ final class WatchSettings {
     mode = stored["mode"] as? String ?? "listen"
     reading = stored["reading"] as? Bool ?? true
     readings = stored["readings"] as? [String: String] ?? [:]
+    openingForm = stored["openingForm"] as? String ?? "standard"
     haptics = UserDefaults.standard.object(forKey: Self.hapticsKey) as? Bool ?? true
     showsText = UserDefaults.standard.object(forKey: Self.showsTextKey) as? Bool ?? false
   }
@@ -91,6 +94,9 @@ final class WatchSettings {
     if let value = context["readings"] as? [String: String] {
       readings = value
     }
+    if let value = context["openingForm"] as? String {
+      openingForm = value
+    }
     UserDefaults.standard.set(
       [
         "prayerLocale": prayerLocale,
@@ -102,6 +108,7 @@ final class WatchSettings {
         "mode": mode,
         "reading": reading,
         "readings": readings,
+        "openingForm": openingForm,
       ],
       forKey: Self.storageKey
     )
