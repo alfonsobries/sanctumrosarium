@@ -1,3 +1,5 @@
+import type { OpeningForm } from '@sanctamaria/rosary';
+
 /** What the watch needs to pray the way the phone does. */
 export type WatchSettings = {
   prayerLocale: string;
@@ -11,6 +13,8 @@ export type WatchSettings = {
   reading: boolean;
   /** The passage each mystery reads next, by mystery id; empty with readings off. */
   readings: Record<string, string>;
+  /** The opening Hail Marys, already the standard form where the language has no other. */
+  openingForm: OpeningForm;
 };
 
 /** A journal entry as the watch reads it; values that would be null are left out. */

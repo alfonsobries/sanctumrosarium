@@ -62,7 +62,14 @@ describe('watch settings', () => {
       mode: 'listen',
       reading: true,
       readings: expect.objectContaining({ 'joyful-1-annunciation': expect.any(String) }),
+      openingForm: 'standard',
     });
+  });
+
+  it('sends the three-virtues opening only to a language that has it', () => {
+    const virtues = { ...defaultSettings, openingForm: 'three-virtues' as const };
+    expect(watchSettingsOf(virtues).openingForm).toBe('three-virtues');
+    expect(watchSettingsOf({ ...virtues, prayerLocale: 'en-US' }).openingForm).toBe('standard');
   });
 
   it('sends the passage each mystery reads next, and none with readings off', () => {

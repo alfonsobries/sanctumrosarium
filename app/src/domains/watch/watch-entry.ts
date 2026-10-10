@@ -1,8 +1,8 @@
+import { openingFormFor, type Locale } from '@sanctamaria/content';
 import { mysterySets, type MysterySet } from '@sanctamaria/rosary';
 
 import type { JournalEntry } from '@/domains/journal/journal';
 import type { Settings } from '@/domains/settings/settings';
-import type { Locale } from '@sanctamaria/content';
 
 import type { WatchSettings, WatchToday } from '../../../modules/watch-bridge';
 
@@ -30,6 +30,7 @@ export function watchSettingsOf(
     mode: settings.mode,
     reading: settings.reading,
     readings: settings.reading ? watchReadings(settings.gospel, readingCounts) : {},
+    openingForm: openingFormFor(settings.openingForm, settings.prayerLocale),
   };
 }
 
