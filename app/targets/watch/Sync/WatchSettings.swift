@@ -17,6 +17,8 @@ final class WatchSettings {
   private static let rateKey = "rate"
 
   var prayerLocale: String
+  /** Off follows the week's order from before the luminous mysteries and hides them. */
+  var luminous: Bool
   var fatimaPrayer: Bool
   var litany: Bool
   var prayerForThePope: Bool
@@ -49,6 +51,7 @@ final class WatchSettings {
   private init() {
     let stored = UserDefaults.standard.dictionary(forKey: Self.storageKey) ?? [:]
     prayerLocale = stored["prayerLocale"] as? String ?? Self.deviceLocale()
+    luminous = stored["luminous"] as? Bool ?? true
     fatimaPrayer = stored["fatimaPrayer"] as? Bool ?? true
     litany = stored["litany"] as? Bool ?? false
     prayerForThePope = stored["prayerForThePope"] as? Bool ?? true
@@ -68,6 +71,9 @@ final class WatchSettings {
   func apply(_ context: [String: Any]) {
     if let value = context["prayerLocale"] as? String, ContentStore.locales.contains(value) {
       prayerLocale = value
+    }
+    if let value = context["luminous"] as? Bool {
+      luminous = value
     }
     if let value = context["fatimaPrayer"] as? Bool {
       fatimaPrayer = value
@@ -100,6 +106,7 @@ final class WatchSettings {
     UserDefaults.standard.set(
       [
         "prayerLocale": prayerLocale,
+        "luminous": luminous,
         "fatimaPrayer": fatimaPrayer,
         "litany": litany,
         "prayerForThePope": prayerForThePope,

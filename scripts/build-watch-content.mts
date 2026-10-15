@@ -37,6 +37,7 @@ import {
   openingForms,
   type MysterySet,
   type Step,
+  type WeekOptions,
 } from '../packages/rosary/src/index';
 import { coverMysteries } from '../app/src/domains/audio/now-playing';
 import { readingSilenceMs } from '../app/src/domains/audio/queue';
@@ -192,8 +193,10 @@ function exportSet(set: MysterySet) {
 }
 
 /** Weekday (0 Sunday) to set, from the engine's calendar. 2023-01-01 was a Sunday. */
-function weekdays(): MysterySet[] {
-  return Array.from({ length: 7 }, (_, weekday) => mysterySetFor({ year: 2023, month: 1, day: 1 + weekday }));
+function weekdays(options: WeekOptions): MysterySet[] {
+  return Array.from({ length: 7 }, (_, weekday) =>
+    mysterySetFor({ year: 2023, month: 1, day: 1 + weekday }, options),
+  );
 }
 
 function exportLocale(locale: Locale, sets: Record<MysterySet, Step[]>) {
@@ -283,7 +286,13 @@ async function main(): Promise<void> {
     mysterySets.map((set) => [set, watchSequence(set, { kind: 'full' })]),
   ) as Record<MysterySet, Step[]>;
 
-  const rosary = { version: 1, weekdays: weekdays(), rates, sets: mysterySets.map(exportSet) };
+  const rosary = {
+    version: 1,
+    weekdays: weekdays({ luminous: true }),
+    weekdaysWithoutLuminous: weekdays({ luminous: false }),
+    rates,
+    sets: mysterySets.map(exportSet),
+  };
   writeFileSync(join(outDir, 'rosary.json'), `${JSON.stringify(rosary)}\n`);
   console.log(`rosary.json: ${rosary.sets.length} sets, ${rosary.sets[0]?.steps.length} steps each`);
 

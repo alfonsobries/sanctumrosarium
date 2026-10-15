@@ -17,7 +17,7 @@ struct HomeView: View {
 
   var body: some View {
     let store = ContentStore.shared
-    let set = store.setFor(today)
+    let set = store.setFor(today, luminous: settings.luminous)
     let content = store.content(for: settings.prayerLocale)
 
     NavigationStack(path: $path) {
@@ -76,7 +76,7 @@ struct HomeView: View {
       .navigationTitle(Text(verbatim: "Sanctum Rosarium"))
       .navigationDestination(for: String.self) { destination in
         if destination == Self.setList {
-          SetList(content: content)
+          SetList(sets: store.offeredSets(luminous: settings.luminous), content: content)
         } else {
           MysteryPager(set: store.set(destination), content: content) { scope in
             start(store.set(destination), scope)
@@ -150,10 +150,11 @@ private struct AudioStatus: View {
 }
 
 private struct SetList: View {
+  let sets: [SetTemplate]
   let content: LocaleContent
 
   var body: some View {
-    List(ContentStore.shared.rosary.sets) { set in
+    List(sets) { set in
       NavigationLink(value: set.id) {
         Text(content.setTitles[set.id] ?? set.id)
       }
