@@ -1,5 +1,5 @@
 import { openingFormsFor } from '@sanctamaria/content';
-import { mysterySets, type MysterySet, type OpeningForm } from '@sanctamaria/rosary';
+import { offeredSets, type MysterySet, type OpeningForm } from '@sanctamaria/rosary';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,15 +14,17 @@ import { SwitchRow } from '@/shared/ui/SwitchRow';
 import { Text } from '@/shared/ui/Text';
 import { readableWidth } from '@/shared/ui/layout';
 
-function isSet(value: unknown): value is MysterySet {
-  return typeof value === 'string' && (mysterySets as readonly string[]).includes(value);
+function isOffered(value: unknown, sets: readonly MysterySet[]): value is MysterySet {
+  return typeof value === 'string' && (sets as readonly string[]).includes(value);
 }
 
 export default function BeginSheet() {
   const { t } = useTranslation();
   const router = useRouter();
   const params = useLocalSearchParams<{ set?: string }>();
-  const [set, setSet] = useState<MysterySet>(isSet(params.set) ? params.set : 'joyful');
+  const luminous = useSettings((state) => state.luminous);
+  const sets = offeredSets({ luminous });
+  const [set, setSet] = useState<MysterySet>(isOffered(params.set, sets) ? params.set : 'joyful');
   const mode = useSettings((state) => state.mode);
   const guided = useSettings((state) => state.guided);
   const reading = useSettings((state) => state.reading);
@@ -49,7 +51,7 @@ export default function BeginSheet() {
           accessibilityLabel={t('options.mysteries')}
           value={set}
           onChange={setSet}
-          options={mysterySets.map((value) => ({ value, label: t(`setShort.${value}`) }))}
+          options={sets.map((value) => ({ value, label: t(`setShort.${value}`) }))}
         />
       </View>
 

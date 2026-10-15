@@ -50,6 +50,7 @@ export default function LessonScreen() {
   const { colors } = useSkin();
   const { id } = useLocalSearchParams<{ id: string }>();
   const update = useSettings((state) => state.update);
+  const luminous = useSettings((state) => state.luminous);
   const [index, setIndex] = useState(0);
   const content = lesson(id ?? '', i18n.language === 'en' ? 'en' : 'es');
 
@@ -70,7 +71,7 @@ export default function LessonScreen() {
 
   async function handlePray() {
     update({ guided: true });
-    await startSession(mysterySetFor(localDateOf(new Date())), { kind: 'full' });
+    await startSession(mysterySetFor(localDateOf(new Date()), { luminous }), { kind: 'full' });
     router.dismiss();
     router.push('/pray');
   }

@@ -3,6 +3,8 @@ import type { OpeningForm } from '@sanctamaria/rosary';
 /** What the watch needs to pray the way the phone does. */
 export type WatchSettings = {
   prayerLocale: string;
+  /** Off follows the week's order from before the luminous mysteries and hides them. */
+  luminous: boolean;
   fatimaPrayer: boolean;
   litany: boolean;
   prayerForThePope: boolean;

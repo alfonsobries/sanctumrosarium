@@ -307,6 +307,13 @@ export default function SettingsScreen() {
               </Field>
             )}
             <SwitchRow
+              icon="calendar"
+              title={t('settings.luminous')}
+              detail={settings.luminous ? t('settings.luminousOn') : t('settings.luminousOff')}
+              value={settings.luminous}
+              onChange={(value) => update({ luminous: value })}
+            />
+            <SwitchRow
               icon="prayer"
               title={t('settings.fatima')}
               value={settings.fatimaPrayer}
