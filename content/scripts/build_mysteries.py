@@ -193,6 +193,18 @@ schedule = {
         "saturday": "joyful",
         "sunday": "glorious",
     },
+    "withoutLuminous": {
+        "note": "RVM 38: 'Según la praxis corriente, el lunes y el jueves están dedicados a los «misterios gozosos», el martes y el viernes a los «dolorosos», el miércoles, el sábado y el domingo a los «gloriosos»'. El orden anterior a los misterios de luz, para quien no los reza.",
+        "days": {
+            "monday": "joyful",
+            "tuesday": "sorrowful",
+            "wednesday": "glorious",
+            "thursday": "joyful",
+            "friday": "sorrowful",
+            "saturday": "glorious",
+            "sunday": "glorious",
+        },
+    },
     "flexibility": "RVM 38: 'esta indicación no pretende limitar una conveniente libertad en la meditación personal y comunitaria, según las exigencias espirituales y pastorales y, sobre todo, las coincidencias litúrgicas que pueden sugerir oportunas adaptaciones'.",
     "seasonalCustom": {
         "category": "pious-tradition",

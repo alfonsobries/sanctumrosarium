@@ -1,4 +1,4 @@
-import { buildSequence, mysterySets, type PrayerId } from '@sanctamaria/rosary';
+import { buildSequence, mysterySetFor, mysterySets, type PrayerId } from '@sanctamaria/rosary';
 import { describe, expect, it } from 'vitest';
 
 import {
@@ -16,6 +16,7 @@ import {
   allMysteries,
   allPrayers,
 } from './index';
+import mysteriesFile from '../mysteries.json';
 
 const rosaryPrayers: PrayerId[] = [
   'sign-of-the-cross',
@@ -49,6 +50,18 @@ describe('content', () => {
       expect(mysteriesOf(set).map((m) => m.order)).toEqual([1, 2, 3, 4, 5]);
     }
     expect(allMysteries()).toHaveLength(20);
+  });
+
+  it('follows the sourced weekly order, with and without the luminous mysteries', () => {
+    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as const;
+    // 2023-01-01 was a Sunday.
+    const week = days.map((day, index) => ({ day, date: { year: 2023, month: 1, day: 1 + index } }));
+    for (const { day, date } of week) {
+      expect(mysterySetFor(date), day).toBe(mysteriesFile.schedule.days[day]);
+      expect(mysterySetFor(date, { luminous: false }), day).toBe(
+        mysteriesFile.schedule.withoutLuminous.days[day],
+      );
+    }
   });
 
   it('has the text of every reading in every language', () => {

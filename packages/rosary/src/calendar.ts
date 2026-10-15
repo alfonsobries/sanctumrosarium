@@ -1,4 +1,4 @@
-import type { MysterySet } from './types';
+import { mysterySets, type MysterySet } from './types';
 
 /** A calendar day as the person praying sees it, with no time zone attached. */
 export type LocalDate = { year: number; month: number; day: number };
@@ -17,16 +17,40 @@ const byWeekday: readonly MysterySet[] = [
   'joyful',
 ];
 
+/**
+ * The order RVM 38 describes as the practice before the luminous mysteries: Monday and
+ * Thursday joyful, Tuesday and Friday sorrowful, Wednesday, Saturday and Sunday glorious.
+ */
+const byWeekdayWithoutLuminous: readonly MysterySet[] = [
+  'glorious', // Sunday
+  'joyful',
+  'sorrowful',
+  'glorious',
+  'joyful',
+  'sorrowful',
+  'glorious',
+];
+
+/** Whether the person prays the luminous mysteries, which changes the week's order. */
+export type WeekOptions = { luminous: boolean };
+
+const withLuminous: WeekOptions = { luminous: true };
+
 export function weekdayOf(date: LocalDate): number {
   return new Date(Date.UTC(date.year, date.month - 1, date.day)).getUTCDay();
 }
 
-export function mysterySetFor(date: LocalDate): MysterySet {
-  const set = byWeekday[weekdayOf(date)];
+export function mysterySetFor(date: LocalDate, options: WeekOptions = withLuminous): MysterySet {
+  const set = (options.luminous ? byWeekday : byWeekdayWithoutLuminous)[weekdayOf(date)];
   if (set === undefined) {
     throw new RangeError('Invalid date');
   }
   return set;
+}
+
+/** The sets offered to pray, in order. */
+export function offeredSets(options: WeekOptions = withLuminous): readonly MysterySet[] {
+  return options.luminous ? mysterySets : mysterySets.filter((set) => set !== 'luminous');
 }
 
 export function localDateOf(instant: Date): LocalDate {
