@@ -54,6 +54,7 @@ describe('watch settings', () => {
   it('sends only what the watch prays with', () => {
     expect(watchSettingsOf(defaultSettings)).toEqual({
       prayerLocale: 'es-MX',
+      luminous: true,
       fatimaPrayer: true,
       litany: false,
       prayerForThePope: true,
@@ -83,6 +84,7 @@ describe('watch settings', () => {
     expect(sameWatchSettings(defaultSettings, { ...defaultSettings, skin: 'manuscript' })).toBe(true);
     expect(sameWatchSettings(defaultSettings, { ...defaultSettings, litany: true })).toBe(false);
     expect(sameWatchSettings(defaultSettings, { ...defaultSettings, gospel: 'john' })).toBe(false);
+    expect(sameWatchSettings(defaultSettings, { ...defaultSettings, luminous: false })).toBe(false);
   });
 });
 

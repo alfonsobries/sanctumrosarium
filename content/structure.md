@@ -41,7 +41,7 @@ RVM 35 cita la colecta que pide "imitar lo que contienen y conseguir lo que prom
 
 ### Distribución semanal (RVM 38)
 
-Lunes y sábado: gozosos. Martes y viernes: dolorosos. Miércoles y domingo: gloriosos. Jueves: luminosos. RVM 38 añade que "esta indicación no pretende limitar una conveniente libertad [...] según las exigencias espirituales y pastorales y, sobre todo, las coincidencias litúrgicas". Datos en `mysteries.json` → `schedule`.
+Lunes y sábado: gozosos. Martes y viernes: dolorosos. Miércoles y domingo: gloriosos. Jueves: luminosos. Para quien no reza los luminosos, el orden que RVM 38 describe como la praxis anterior: lunes y jueves gozosos, martes y viernes dolorosos, miércoles, sábado y domingo gloriosos (`schedule.withoutLuminous`). RVM 38 añade que "esta indicación no pretende limitar una conveniente libertad [...] según las exigencias espirituales y pastorales y, sobre todo, las coincidencias litúrgicas". Datos en `mysteries.json` → `schedule`.
 
 ## Secuencia completa por fuente
 

@@ -21,6 +21,8 @@ export type Settings = {
   rate: number;
   /** Form of the three opening Hail Marys; applied only when the prayer locale has it. */
   openingForm: OpeningForm;
+  /** Off follows the week's order from before the luminous mysteries and hides them. */
+  luminous: boolean;
   fatimaPrayer: boolean;
   prayerForThePope: boolean;
   litany: boolean;
@@ -48,6 +50,7 @@ export const defaultSettings: Settings = {
   pauseSeconds: 1,
   rate: 1,
   openingForm: 'standard',
+  luminous: true,
   fatimaPrayer: true,
   prayerForThePope: true,
   litany: false,

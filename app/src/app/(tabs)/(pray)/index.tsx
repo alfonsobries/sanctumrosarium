@@ -3,7 +3,7 @@ import {
   formatLocalDate,
   localDateOf,
   mysterySetFor,
-  mysterySets,
+  offeredSets,
   type MysterySet,
 } from '@sanctamaria/rosary';
 import { Link, Stack, useRouter } from 'expo-router';
@@ -44,7 +44,17 @@ function WeekDay({ label, prayed, today }: { label: string; prayed: boolean; tod
   );
 }
 
-function SetChip({ set, onPress, active }: { set: MysterySet; onPress: () => void; active: boolean }) {
+function SetChip({
+  set,
+  onPress,
+  active,
+  basis,
+}: {
+  set: MysterySet;
+  onPress: () => void;
+  active: boolean;
+  basis: string;
+}) {
   const { t } = useTranslation();
   const { colors } = useSkin();
   return (
@@ -53,7 +63,7 @@ function SetChip({ set, onPress, active }: { set: MysterySet; onPress: () => voi
       accessibilityState={{ selected: active }}
       onPress={onPress}
       android_ripple={{ color: colors.border }}
-      className={`ios:active:opacity-70 min-h-[44px] grow basis-[45%] items-center justify-center overflow-hidden rounded-full border px-4 ${active ? 'border-accent bg-surface-raised' : 'border-border'}`}
+      className={`ios:active:opacity-70 min-h-[44px] grow ${basis} items-center justify-center overflow-hidden rounded-full border px-4 ${active ? 'border-accent bg-surface-raised' : 'border-border'}`}
     >
       <Text variant="callout" className={active ? 'text-accent' : 'text-muted'}>
         {t(`setShort.${set}`)}
@@ -70,13 +80,15 @@ export default function TodayScreen() {
   const insets = useSafeAreaInsets();
   const mode = useSettings((state) => state.mode);
   const prayerLocale = useSettings((state) => state.prayerLocale);
+  const luminous = useSettings((state) => state.luminous);
   const listens = mode === 'listen' && hasAudio(prayerLocale);
   const plan = useSession((state) => state.plan);
   const position = useSession((state) => state.position);
 
   const now = new Date();
   const today = localDateOf(now);
-  const todaySet = mysterySetFor(today);
+  const todaySet = mysterySetFor(today, { luminous });
+  const sets = offeredSets({ luminous });
   const mysteries = mysteriesOf(todaySet);
   const lead = mysteries[0];
   const artwork = useArtwork(lead?.id ?? '');
@@ -215,10 +227,12 @@ export default function TodayScreen() {
         <View className="gap-3">
           <Text variant="eyebrow">{t('home.otherSets')}</Text>
           <View className="flex-row flex-wrap gap-2">
-            {mysterySets.map((set) => (
+            {sets.map((set) => (
               <SetChip
                 key={set}
                 set={set}
+                // Two by two with four sets; three fit on one line.
+                basis={sets.length === 3 ? 'basis-[30%]' : 'basis-[45%]'}
                 active={set === todaySet}
                 onPress={() => router.push({ pathname: '/begin', params: { set } })}
               />

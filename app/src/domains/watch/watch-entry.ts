@@ -22,6 +22,7 @@ export function watchSettingsOf(
 ): WatchSettings {
   return {
     prayerLocale: settings.prayerLocale,
+    luminous: settings.luminous,
     fatimaPrayer: settings.fatimaPrayer,
     litany: settings.litany,
     prayerForThePope: settings.prayerForThePope,

@@ -5,6 +5,8 @@ import Foundation
 
 struct RosaryFile: Decodable {
   let weekdays: [String]
+  /** The week's order for those who do not pray the luminous mysteries. */
+  let weekdaysWithoutLuminous: [String]
   /** Voice speeds offered, the same as on the phone. */
   let rates: [Double]
   let sets: [SetTemplate]
@@ -158,9 +160,14 @@ final class ContentStore {
   }
 
   /** The set the Church assigns to this day of the week (RVM 38). */
-  func setFor(_ date: Date, calendar: Calendar = .current) -> SetTemplate {
+  func setFor(_ date: Date, luminous: Bool, calendar: Calendar = .current) -> SetTemplate {
     let weekday = calendar.component(.weekday, from: date) - 1
-    return set(rosary.weekdays[weekday])
+    return set((luminous ? rosary.weekdays : rosary.weekdaysWithoutLuminous)[weekday])
+  }
+
+  /** The sets offered to pray, in order. */
+  func offeredSets(luminous: Bool) -> [SetTemplate] {
+    luminous ? rosary.sets : rosary.sets.filter { $0.id != "luminous" }
   }
 
   private static func decode<T: Decodable>(_ type: T.Type, named name: String) throws -> T {
