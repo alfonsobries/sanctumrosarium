@@ -12,6 +12,7 @@ Idiomas: `es-MX`, `es-ES`, `en-US`, `la`.
 | `mysteries.json` | 4 series, 20 misterios, lecturas y calendario semanal |
 | `scripture/es.json`, `en.json`, `la.json` | Texto de cada pasaje citado en `mysteries.json` (76 citas) |
 | `structure.md` | Cómo se reza, variantes regionales e indulgencia plenaria |
+| `auxilium.json` | Oraciones diarias de la asociación Auxilium Christianorum, por idioma y con fuente |
 
 ## `prayers.json`
 
@@ -39,6 +40,32 @@ Idiomas: `es-MX`, `es-ES`, `en-US`, `la`.
 - `prayer-for-the-pope` no tiene texto propio: `composition` indica qué oraciones se rezan.
 - `openingForm` marca las oraciones de una forma alternativa de las tres Avemarías iniciales. `three-virtues`: `hail-mary-faith`, `hail-mary-hope`, `hail-mary-charity` (con `virtue`) y `trinity-salutation`. Un idioma ofrece la forma solo si tiene texto de todas sus oraciones.
 - Ids: `sign-of-the-cross`, `by-the-sign-of-the-holy-cross`, `o-god-come-to-my-aid`, `apostles-creed`, `our-father`, `hail-mary`, `glory-be`, `fatima-prayer`, `hail-holy-queen`, `pray-for-us-holy-mother-of-god`, `rosary-closing-prayer`, `grant-us-your-servants`, `litany-of-loreto`, `act-of-contrition`, `prayer-for-the-pope`, `hail-mary-faith`, `hail-mary-hope`, `hail-mary-charity`, `trinity-salutation`.
+
+## `auxilium.json`
+
+Oraciones diarias de los laicos de la asociación Auxilium Christianorum, de sus folletos oficiales en inglés, latín y español (consultados el 2026-10-19). `scripts/build_auxilium.py` las arma desde los tres PDF. Categoría `pious-tradition`: devoción privada de una asociación de fieles. Los folletos dicen "Con aprobación eclesiástica" sin nombrar obispo ni fecha.
+
+```jsonc
+{
+  "links": { "home", "prayers", "requirements", "faq" },
+  "texts": {
+    "en-US": {
+      "source": { ... },                     // el folleto
+      "sectionSources": { "saint-michael": { ... } },  // textos que el folleto solo nombra
+      "editorialCorrections": [{ "from", "to", "reason"? }],
+      "sections": [{ "id", "day"?, "blocks": [...] }]
+    },
+    "es-ES": { "sameAs": "es-MX" }
+  }
+}
+```
+
+- `sections`: todas las del día en orden; las que llevan `day` (0 = domingo) se rezan solo ese día.
+- Bloques: `versicle` (`call`, `response`), `text` (`lead` para "Oremos", `response` para el "Amén" de todos), `litany` (`items` con `call` y `response`; sin `response` lo dicen todos) y `prayer` (Padrenuestro, Avemaría y Gloria de `prayers.json`).
+- San Miguel y el Ángel de la Guarda: el folleto inglés y el español solo los nombran. Inglés: comunicado de la Sala de Prensa del 29-IX-2018 y Compendio. Español: EWTN Español y Compendio. El latín los trae completos.
+- Español: el folleto tiene erratas de acentos y de redacción ("tu que", "haz recibido", "rabia muerte", "Amen"); se corrigieron y quedan en `editorialCorrections`. Latín: "Audjutorium a nostrum" y la cruz de la fórmula final, que el PDF imprime como "a".
+- Derechos: "Copyright © Auxilium Christianorum". El sitio no dice si se pueden reproducir: falta pedir permiso antes de publicar.
+- Según su FAQ, rezar estas oraciones cada día basta para ser miembro; piden consultar antes al director espiritual o al confesor.
 
 ## `mysteries.json`
 
