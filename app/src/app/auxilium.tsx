@@ -84,7 +84,7 @@ function Block({ block, locale, style }: BlockProperties) {
             {item.call}
             {item.response !== undefined && (
               <Text className="font-prayer-italic text-muted" style={style}>
-                {' '}
+                {/[,;:—–-]$/.test(item.call) ? ' ' : ', '}
                 {item.response}
               </Text>
             )}
@@ -132,8 +132,8 @@ function SectionView({
   const { colors } = useSkin();
   return (
     <View
-      className="gap-3 border-l-2 pl-4"
-      style={{ borderColor: current ? colors.accent : 'transparent', marginLeft: -18 }}
+      className="gap-3 border-l-2 pl-3"
+      style={{ borderColor: current ? colors.accent : 'transparent', marginLeft: -14 }}
       onLayout={(event) => onLayout(event.nativeEvent.layout.y)}
     >
       <Pressable accessibilityRole="button" onPress={onPressTitle} hitSlop={8}>
@@ -190,7 +190,8 @@ export default function AuxiliumScreen() {
     }
     const y = offsets.current[audio.index];
     if (y !== undefined) {
-      scroll.current?.scrollTo({ y: Math.max(0, y - 120), animated: true });
+      // The header floats over the scroll on iOS; the section lands just under it.
+      scroll.current?.scrollTo({ y: Math.max(0, y - 170), animated: true });
     }
   }, [audio.index]);
 
