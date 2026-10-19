@@ -209,8 +209,9 @@ export const es = {
     title: 'Auxilium Christianorum',
     what: 'Auxilium Christianorum es una asociación de fieles. Sus miembros rezan cada día estas oraciones por los sacerdotes de la asociación y por la protección de sus familias y amigos.',
     membership:
-      'Según la asociación, quien las reza a diario ya es miembro. Pide consultarlo antes con tu confesor o director espiritual, y rezar también el Rosario cada día.',
-    approval: 'Es una devoción aparte del Rosario. Sus folletos llevan aprobación eclesiástica.',
+      'Según la asociación, quien reza estas oraciones cada día ya es miembro, y pide rezar también el Rosario a diario. Recomienda hablarlo antes con tu confesor o director espiritual. Ninguno de sus requisitos obliga bajo pena de pecado, y faltar algunos días no cambia la pertenencia.',
+    approval:
+      'Es una devoción privada, aparte del Rosario. Sus folletos dicen "Con aprobación eclesiástica", sin nombrar obispo ni fecha.',
     enable: 'Rezarlas desde Hoy',
     enableDetail: 'Aparecen en Hoy, debajo del Rosario, con la oración propia de cada día.',
     links: 'De la asociación',

@@ -584,6 +584,10 @@
           "to": "rabia y muerte"
         },
         {
+          "from": "consuelo del moribundo, Sálvanos ",
+          "to": "consuelo del moribundo, Sálvanos. "
+        },
+        {
           "from": "Tu que dijiste",
           "to": "Tú que dijiste"
         },
@@ -776,7 +780,11 @@
                   "response": "Sálvanos."
                 },
                 {
-                  "call": "Sangre de Cristo, consuelo del moribundo, Sálvanos Sangre de Cristo, paz y ternura para los corazones",
+                  "call": "Sangre de Cristo, consuelo del moribundo",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, paz y ternura para los corazones",
                   "response": "Sálvanos."
                 },
                 {
@@ -1386,7 +1394,7 @@
           "blocks": [
             {
               "kind": "text",
-              "text": "In Nomine Jesu Christi, Domini et Dei nostri, Te deprecamur efficere omnes spiritús esse impotentes, paralyticos, debiles in conatu ulcisci in ulla membra Auxilii Christianorum, familias, amicos, communitates eorum, pro nobis orantes familiasque illorum vel quicumque additus nobis et quibus sacerdotes Auxilii Christianorum orarent. Ligamus omnes spiritus malignos, omnes potentias in aëre, aquâ, terrâ, igne, sub terrâ vel ubicumque viribus suis utantur, et ullam copiam satanicam in naturâ et ullos emissarios pretorii satanici. Ligamus, in Pretiosissimo Sanguine Jesu, omnes attributa, idos, vulticulos, adjuncta, interactiones ludusque dolosos spirituum malignorum. Fregimus ulla et omnia ligamina, et adplicationes in nomine Patris, et Filii a et Spiritus Sancti. Amen."
+              "text": "In Nomine Jesu Christi, Domini et Dei nostri, Te deprecamur efficere omnes spiritús esse impotentes, paralyticos, debiles in conatu ulcisci in ulla membra Auxilii Christianorum, familias, amicos, communitates eorum, pro nobis orantes familiasque illorum vel quicumque additus nobis et quibus sacerdotes Auxilii Christianorum orarent. Ligamus omnes spiritus malignos, omnes potentias in aëre, aquâ, terrâ, igne, sub terrâ vel ubicumque viribus suis utantur, et ullam copiam satanicam in naturâ et ullos emissarios pretorii satanici. Ligamus, in Pretiosissimo Sanguine Jesu, omnes attributa, idos, vulticulos, adjuncta, interactiones ludusque dolosos spirituum malignorum. Fregimus ulla et omnia ligamina, et adplicationes in nomine Patris, et Filii, ✠ et Spiritus Sancti. Amen."
             }
           ],
           "day": 3

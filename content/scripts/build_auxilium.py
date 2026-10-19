@@ -145,7 +145,8 @@ en_sections = [
 la = load('Latinlaicis-1.txt')
 la = la[la.index('Preces sunt cotidie dicendae'):]
 la = la.replace('Audjutorium a nostrum', 'Adjutorium nostrum')
-la = la.replace('Filii a et', 'Filii, ✠ et').replace('Patris, a et Filii', 'Patris, ✠ et Filii')
+la = re.sub(r'Filii a\s+et', 'Filii, ✠ et', la).replace('Patris, a et Filii', 'Patris, ✠ et Filii')
+assert re.search(r'\ba\s+et\s+(Filii|Spiritus)', la) is None
 la_pb = between(la, 'Kyrie, eleison.', 'V. Redimisti')
 la_thu = between(la, 'Omnipotens Deus, Pater', 'Feria VI')
 la_thu_lit = la_thu[la_thu.index('Ab anxietate'):la_thu.index('Da, qui dixisti')]
@@ -186,7 +187,7 @@ es_fix = [
     ('tu que aplastas', 'tú que aplastas'), ('contra quien\nvengarse', 'contra quién\nvengarse'),
     ('tu que tienes', 'tú que tienes'), ('haz\nrecibido', 'has\nrecibido'),
     ('perseguir los\na espíritus', 'perseguir a\nlos espíritus'), ('sin hacer dañando a ninguno', 'sin hacer daño a ninguno'),
-    ('rabia muerte', 'rabia y muerte'), ('Tu que dijiste', 'Tú que dijiste'),
+    ('rabia muerte', 'rabia y muerte'), ('consuelo del moribundo, Sálvanos\n', 'consuelo del moribundo, Sálvanos.\n'), ('Tu que dijiste', 'Tú que dijiste'),
     ('tu eres Todopoderoso, tu eres Dios, tu eres mi Padre', 'tú eres Todopoderoso, tú eres Dios, tú eres mi Padre'),
 ]
 for a, b in es_fix:

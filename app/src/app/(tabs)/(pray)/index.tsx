@@ -215,7 +215,7 @@ export default function TodayScreen() {
             className="flex-row items-center gap-4 rounded-card bg-surface p-4 active:opacity-80"
             style={{ borderCurve: 'continuous' }}
           >
-            <Icon name="shield" color={colors.accent} />
+            <Icon name="cross" color={colors.accent} />
             <View className="flex-1 gap-0.5">
               <Text variant="headline">{t('auxilium.title')}</Text>
               <Text variant="footnote">{t('auxilium.today')}</Text>

@@ -35,7 +35,7 @@ export default function AuxiliumSettingsScreen() {
       <SettingsSection>
         <Card>
           <SwitchRow
-            icon="shield"
+            icon="cross"
             title={t('auxilium.enable')}
             detail={t('auxilium.enableDetail')}
             value={settings.auxilium}

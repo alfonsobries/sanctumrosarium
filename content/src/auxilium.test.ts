@@ -36,6 +36,25 @@ describe('auxilium christianorum', () => {
     }
   });
 
+  it.each(locales)('splits every litany line into its call and its answer in %s', (locale) => {
+    for (const section of auxiliumText(locale).sections) {
+      for (const block of section.blocks) {
+        if (block.kind !== 'litany') {
+          continue;
+        }
+        for (const item of block.items) {
+          expect(item.call, section.id).not.toMatch(
+            /Sálvanos|save us|salva nos|ora pro nobis|pray for us|Ruega/,
+          );
+        }
+      }
+    }
+  });
+
+  it('marks the sign of the cross in the Latin formulas', () => {
+    expect(JSON.stringify(auxiliumText('la').sections)).not.toMatch(/\ba\s+et\s+(Filii|Spiritus)/);
+  });
+
   it.each(locales)('keeps no empty text and no stray footnote in %s', (locale) => {
     const all = JSON.stringify(auxiliumText(locale).sections);
     expect(all).not.toMatch(/Copyright|Derechos de autor|""/);

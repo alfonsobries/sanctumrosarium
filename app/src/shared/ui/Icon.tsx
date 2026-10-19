@@ -3,7 +3,6 @@ import {
   BookOpen,
   Clock,
   ExternalLink,
-  Shield,
   BookOpenText,
   Church,
   Gauge,
@@ -74,7 +73,6 @@ const library = {
   bell: Bell,
   time: Clock,
   external: ExternalLink,
-  shield: Shield,
 } satisfies Record<string, LucideComponent>;
 
 const custom = {

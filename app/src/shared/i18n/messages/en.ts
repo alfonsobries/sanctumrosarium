@@ -219,8 +219,9 @@ export const en: Messages<typeof es> = {
     title: 'Auxilium Christianorum',
     what: "Auxilium Christianorum is an association of the faithful. Its members say these prayers every day for the association's priests and for the protection of their families and friends.",
     membership:
-      'The association counts anyone who says them daily as a member. It asks you to speak with your confessor or spiritual director first, and to pray the Rosary every day as well.',
-    approval: 'A devotion of its own, apart from the Rosary. Its booklets carry ecclesiastical approval.',
+      'The association counts anyone who says these prayers each day as a member, and asks members to pray the Rosary daily as well. It recommends speaking with your confessor or spiritual director first. None of its requirements binds under pain of sin, and missing a few days does not change membership.',
+    approval:
+      'A private devotion, apart from the Rosary. Its booklets say "With Ecclesiastical Approval" without naming a bishop or a date.',
     enable: 'Pray them from Today',
     enableDetail: "They appear on Today, below the Rosary, with each day's own prayer.",
     links: 'From the association',

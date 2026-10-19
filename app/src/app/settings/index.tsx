@@ -72,7 +72,7 @@ export default function SettingsScreen() {
       <SettingsSection title={t('settings.devotions')}>
         <Card>
           <Row
-            icon="shield"
+            icon="cross"
             title={t('auxilium.title')}
             value={settings.auxilium ? t('settings.on') : t('settings.off')}
             onPress={() => open('/settings/auxilium')}
