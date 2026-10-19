@@ -1,5 +1,5 @@
 ---
-import { alternatesOf, repository, route, sponsors, type Language } from '../i18n/routes';
+import { alternatesOf, donations, repository, route, type Language } from '../i18n/routes';
 import { t, type UiKey } from '../i18n/ui';
 import Base from '../layouts/Base.astro';
 import ContactLink from './ContactLink.astro';
@@ -10,7 +10,7 @@ const { language } = Astro.props;
 const translate = t(language);
 const ways = ['pray', 'donate', 'share', 'review', 'translate', 'report', 'code'] as const;
 const links: Partial<Record<(typeof ways)[number], { href: string; label: string }>> = {
-  donate: { href: sponsors, label: translate('help.donate.cta') },
+  donate: { href: donations, label: translate('help.donate.cta') },
   report: { href: `${repository}/issues`, label: translate('help.github') },
   code: { href: repository, label: translate('help.github') },
 };

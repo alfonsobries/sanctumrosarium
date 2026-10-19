@@ -194,7 +194,7 @@ const es = {
   'help.donate.title': 'Dona',
   'help.donate.body':
     'Tu donativo paga las cuentas de Apple y Google, las voces del audio, el hospedaje y el tiempo de desarrollo. Una sola vez o cada mes.',
-  'help.donate.cta': 'Donar en GitHub Sponsors',
+  'help.donate.cta': 'Donar',
   'help.share.title': 'Comparte',
   'help.share.body': 'Recomiéndala en tu parroquia, tu grupo de oración o tu familia. Cada persona que reza cuenta.',
   'help.review.title': 'Revisa los textos',
@@ -432,7 +432,7 @@ const en: Record<Key, string> = {
   'help.donate.title': 'Donate',
   'help.donate.body':
     'Your donation pays for the Apple and Google accounts, the audio voices, the hosting and the development time. Once or every month.',
-  'help.donate.cta': 'Donate on GitHub Sponsors',
+  'help.donate.cta': 'Donate',
   'help.share.title': 'Share it',
   'help.share.body': 'Recommend it to your parish, your prayer group or your family. Every person who prays counts.',
   'help.review.title': 'Review the texts',
