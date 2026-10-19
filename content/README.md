@@ -6,13 +6,13 @@ Idiomas: `es-MX`, `es-ES`, `en-US`, `la`.
 
 ## Archivos
 
-| Archivo | Contenido |
-| --- | --- |
-| `prayers.json` | 19 oraciones con texto por idioma y fuente |
-| `mysteries.json` | 4 series, 20 misterios, lecturas y calendario semanal |
-| `scripture/es.json`, `en.json`, `la.json` | Texto de cada pasaje citado en `mysteries.json` (76 citas) |
-| `structure.md` | Cómo se reza, variantes regionales e indulgencia plenaria |
-| `auxilium.json` | Oraciones diarias de la asociación Auxilium Christianorum, por idioma y con fuente |
+| Archivo                                   | Contenido                                                                          |
+| ----------------------------------------- | ---------------------------------------------------------------------------------- |
+| `prayers.json`                            | 19 oraciones con texto por idioma y fuente                                         |
+| `mysteries.json`                          | 4 series, 20 misterios, lecturas y calendario semanal                              |
+| `scripture/es.json`, `en.json`, `la.json` | Texto de cada pasaje citado en `mysteries.json` (76 citas)                         |
+| `structure.md`                            | Cómo se reza, variantes regionales e indulgencia plenaria                          |
+| `auxilium.json`                           | Oraciones diarias de la asociación Auxilium Christianorum, por idioma y con fuente |
 
 ## `prayers.json`
 
@@ -98,11 +98,11 @@ La clave es la misma en los tres archivos.
 
 ## Traducciones y licencias
 
-| Idioma | Texto | Fuente | Licencia |
-| --- | --- | --- | --- |
-| es | *El Libro del Pueblo de Dios* (traducción argentina, 1990) | vatican.va, ESL0506 | © Libreria Editrice Vaticana / Conferencia Episcopal Argentina. Publicado abierto en vatican.va, pero no es dominio público |
-| la | *Nova Vulgata*, editio typica altera | vatican.va | © Libreria Editrice Vaticana. No es dominio público |
-| en | Douay-Rheims, revisión de Challoner | Project Gutenberg #1581 | Dominio público |
+| Idioma | Texto                                                      | Fuente                  | Licencia                                                                                                                    |
+| ------ | ---------------------------------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| es     | _El Libro del Pueblo de Dios_ (traducción argentina, 1990) | vatican.va, ESL0506     | © Libreria Editrice Vaticana / Conferencia Episcopal Argentina. Publicado abierto en vatican.va, pero no es dominio público |
+| la     | _Nova Vulgata_, editio typica altera                       | vatican.va              | © Libreria Editrice Vaticana. No es dominio público                                                                         |
+| en     | Douay-Rheims, revisión de Challoner                        | Project Gutenberg #1581 | Dominio público                                                                                                             |
 
 Oraciones:
 
@@ -117,14 +117,14 @@ Antes de publicar se necesita permiso o confirmar el uso permitido para todo lo 
 
 **Licencias**
 
-1. Permisos para *El Libro del Pueblo de Dios* y la *Nova Vulgata* (LEV) y para los textos de oraciones con derechos (ICEL, CEM, LEV). Sin esto no se puede publicar.
+1. Permisos para _El Libro del Pueblo de Dios_ y la _Nova Vulgata_ (LEV) y para los textos de oraciones con derechos (ICEL, CEM, LEV). Sin esto no se puede publicar.
 
 **Biblia**
 
-2. La Biblia en español no es la de la liturgia mexicana. El Leccionario mexicano y la *Biblia de la Iglesia en América* no se encontraron en línea con licencia clara. El Libro del Pueblo de Dios es la traducción argentina. Decidir si sirve para México o si se pide licencia de otra.
+2. La Biblia en español no es la de la liturgia mexicana. El Leccionario mexicano y la _Biblia de la Iglesia en América_ no se encontraron en línea con licencia clara. El Libro del Pueblo de Dios es la traducción argentina. Decidir si sirve para México o si se pide licencia de otra.
 3. Douay-Rheims: 23 de 574 versículos difieren en detalles de redacción entre Gutenberg #1581 y drbo.org, que siguen ediciones distintas de Challoner. Ejemplos: Mt 27:25 "upon us and upon our children" / "upon us and our children"; Jn 19:17 "to the place" / "to that place"; Mk 15:17 "clothed" / "clothe". Hay que elegir una edición. El resto coincide palabra por palabra.
 4. Correcciones editoriales a erratas de vatican.va (`editorialCorrections`): Lc 1, 48 "el miró" → "él miró"; Lc 1, 49 "he hecho" → "ha hecho"; Ap 12, 1 "appa ruit" → "apparuit". Cotejar con la edición impresa.
-5. La *Nova Vulgata* no tiene Lc 23, 17 ni Mc 15, 28 (`omittedVerses`). El latín conserva las comillas con espacio de la fuente (`“ Ave ”`).
+5. La _Nova Vulgata_ no tiene Lc 23, 17 ni Mc 15, 28 (`omittedVerses`). El latín conserva las comillas con espacio de la fuente (`“ Ave ”`).
 6. El texto español y el latino tienen una sola fuente en línea. Falta cotejarlos con una segunda.
 
 **Oraciones**
@@ -134,22 +134,23 @@ Antes de publicar se necesita permiso o confirmar el uso permitido para todo lo 
 9. Huecos:
    - es-ES: `fatima-prayer`, `by-the-sign-of-the-holy-cross`.
    - es-MX: `rosary-closing-prayer` y `o-god-come-to-my-aid` usan `sameAs: es-ES`.
-   - la: `fatima-prayer` no tiene versión latina oficial; `grant-us-your-servants` (*Concede nos famulos tuos*) no se encontró en una fuente oficial en línea.
+   - la: `fatima-prayer` no tiene versión latina oficial; `grant-us-your-servants` (_Concede nos famulos tuos_) no se encontró en una fuente oficial en línea.
    - Avemarías de las tres virtudes (`hail-mary-faith`, `hail-mary-hope`, `hail-mary-charity`, `trinity-salutation`): solo en español. No hay forma inglesa ni latina publicada.
 10. `litany-of-loreto` es-ES es el texto de vatican.va, que no es específico de España. No se encontró texto de la Conferencia Episcopal Española con las invocaciones de 2020. EWTN omite "Mother of Mercy": no usarlo.
 11. Latín de la letanía: la fuente (CEI, 2021) no lleva acentos y escribe "Ianua coeli". No trae el versículo ni la oración finales en latín.
 12. Erratas del Apéndice del Compendio en español ("Ave, Maríæ", "Eva", "Maríae", "quasumus", "Agonía in Hortu"). Se usó la columna latina de la edición inglesa, que corrige la mayoría. "Agonía in Hortu" está en ambas y se dejó como en la fuente.
 13. es-MX `our-father`: el texto es el del Misal Romano para México, tomado del misal mensual de Desde la fe, no del libro impreso de la CEM. Coincide con España palabra por palabra ("venga a nosotros tu Reino", "no nos dejes caer en la tentación").
 14. Ave María: el Compendio y Desde la fe dicen "el Señor es contigo"; vatican.va ("El Santo Rosario") dice "el Señor está contigo". Guardado como variante.
-15. `o-god-come-to-my-aid` en latín sale del Sal 70 (69), 2 de la *Nova Vulgata*. La fórmula de la *Liturgia Horarum* no se verificó en línea.
+15. `o-god-come-to-my-aid` en latín sale del Sal 70 (69), 2 de la _Nova Vulgata_. La fórmula de la _Liturgia Horarum_ no se verificó en línea.
 16. USCCB bloquea la descarga automática. Las páginas se leyeron en copias de web.archive.org de 2026 (`retrievedVia`), salvo el Padrenuestro, que se descargó directo. Confirmar en usccb.org.
 17. No incluidos:
-   - San Miguel Arcángel (opcional).
-   - "Yo confieso".
-   - Las jaculatorias "María, Madre de gracia" y "Sagrado Corazón".
-   - La oración a san José que menciona USCCB.
-   
-   Están citadas en `structure.md` con su fuente si se quieren modelar.
+
+- San Miguel Arcángel (opcional).
+- "Yo confieso".
+- Las jaculatorias "María, Madre de gracia" y "Sagrado Corazón".
+- La oración a san José que menciona USCCB.
+
+Están citadas en `structure.md` con su fuente si se quieren modelar.
 
 18. Avemarías de las tres virtudes: el texto principal viene de El Rosario de María (web de un laico dominico, no de una diócesis), porque es el único que trae la redacción completa que se reza ("ponemos", "nuestros dones y carismas...", "Templo, Trono y Sagrario"). Desde la fe (Arquidiócesis de México) coincide en lo esencial y está como variante. Las fuentes las rezan al final del Rosario; la app las ofrece como forma de las tres Avemarías iniciales. Confirmar ambas decisiones.
 
@@ -161,7 +162,7 @@ Antes de publicar se necesita permiso o confirmar el uso permitido para todo lo 
 
 **Indulgencias**
 
-22. El *Enchiridion* (1999) no tiene versión oficial en español en línea. `structure.md` cita el latín y da un resumen de trabajo. Su texto habla de quince decenas porque es anterior a 2002.
+22. El _Enchiridion_ (1999) no tiene versión oficial en español en línea. `structure.md` cita el latín y da un resumen de trabajo. Su texto habla de quince decenas porque es anterior a 2002.
 
 ## Promesas del Rosario
 

@@ -60,5 +60,7 @@ export function auxiliumText(locale: Locale): AuxiliumText {
 
 /** The prayers of one day in the order they are said: every day's, with that weekday's own. */
 export function auxiliumFor(locale: Locale, weekday: number): AuxiliumSection[] {
-  return auxiliumText(locale).sections.filter((section) => section.day === undefined || section.day === weekday);
+  return auxiliumText(locale).sections.filter(
+    (section) => section.day === undefined || section.day === weekday,
+  );
 }

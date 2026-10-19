@@ -31,11 +31,11 @@ export function readingSilenceMs(text: string): number {
   return Math.min(90_000, Math.max(8_000, Math.round((text.length / 14) * 1000)));
 }
 
-function part(track: ManifestTrack, gapAfterMs: number): QueuePart {
+export function part(track: ManifestTrack, gapAfterMs: number): QueuePart {
   return { file: track.file, gapAfterMs, durationMs: track.durationMs };
 }
 
-function prayerParts(manifest: AudioManifest, id: string, timing: QueueTiming): QueuePart[] | null {
+export function prayerParts(manifest: AudioManifest, id: string, timing: QueueTiming): QueuePart[] | null {
   const leader = manifest.tracks[`${id}.leader`];
   if (leader === undefined) {
     return null;

@@ -29,6 +29,11 @@ Lo más importante es que sea simple. Cada pantalla tiene una tarea.
    se lee uno distinto. Se puede fijar uno.
 6. **Skins.** De lo mínimo a un manuscrito iluminado. Cambian la apariencia, nunca la
    estructura ni el texto.
+7. **Recordatorio diario.** Opcional: un aviso a la hora que se elija. Dice que es la
+   hora, nada más.
+8. **Otras devociones, apagadas de inicio.** Las oraciones diarias de Auxilium
+   Christianorum, con audio y su propio aviso. Viven aparte del Rosario y se explican
+   con su fuente: qué es la asociación y qué pide a quien las reza.
 
 ## Sin cuentas ni servidor
 

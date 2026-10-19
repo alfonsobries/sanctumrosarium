@@ -10,6 +10,7 @@
  *   every launcher mask shows the whole medallion; a solid night background.
  * - Splash: the medallion alone; expo-splash-screen paints the light and dark backdrops.
  * - The app's own copy of the medallion (brand-logo.gen.ts), drawn in the skin's colour.
+ * - The Android notification icon: the decade mark in white.
  *
  * Run `pnpm icons:generate` after changing the logo or the palette, then rebuild.
  */
@@ -84,8 +85,9 @@ function svg(body: string, color: string, canvas = logoSize): string {
 const whole = `${rings}${beads}${cross}${stars}${clip}${virgin}`;
 
 async function png(svgText: string, width: number, file: string, background?: string): Promise<void> {
-  let image = sharp(Buffer.from(svgText), { density: (72 * width) / Number(svgText.match(/width="([\d.]+)"/)?.[1]) })
-    .resize(width, width);
+  let image = sharp(Buffer.from(svgText), {
+    density: (72 * width) / Number(svgText.match(/width="([\d.]+)"/)?.[1]),
+  }).resize(width, width);
   if (background !== undefined) {
     image = image.flatten({ background });
   }
@@ -165,9 +167,25 @@ const decadeCross = [
   `<rect x="${logoSize / 2 - crossLength * 0.34}" y="${crossTop + crossLength * 0.28}" width="${crossLength * 0.68}" height="${crossWidth}" rx="${crossWidth * 0.2}" fill="currentColor"/>`,
 ].join('');
 const small = `${decadeBeads}${decadeCross}`;
+
+// Android notification icon: the status bar shows it at 24 dp in a single colour, where only
+// the decade mark reads; the system tints the white.
+await sharp(
+  Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${logoSize} ${logoSize}" width="${logoSize}" height="${logoSize}">${small.replaceAll('currentColor', '#FFFFFF')}</svg>`,
+  ),
+  { density: 300 },
+)
+  .resize(96, 96)
+  .png()
+  .toFile(join(assets, 'images/notification-icon.png'));
+console.log('  images/notification-icon.png');
 const tileCanvas = logoSize * 1.1;
 const tileOrigin = -(tileCanvas - logoSize) / 2;
-const tile = (fill: string, mark: string): string => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${tileOrigin} ${tileOrigin} ${tileCanvas} ${tileCanvas}" width="${tileCanvas}" height="${tileCanvas}">
+const tile = (
+  fill: string,
+  mark: string,
+): string => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${tileOrigin} ${tileOrigin} ${tileCanvas} ${tileCanvas}" width="${tileCanvas}" height="${tileCanvas}">
   <rect x="${tileOrigin}" y="${tileOrigin}" width="${tileCanvas}" height="${tileCanvas}" rx="${tileCanvas * 0.22}" fill="${fill}"/>
   ${small.replaceAll('currentColor', mark)}
 </svg>
@@ -186,7 +204,10 @@ writeFileSync(
 const icoSizes = [16, 32, 48];
 const icoImages = await Promise.all(
   icoSizes.map((width) =>
-    sharp(Buffer.from(tile(palette.night, palette.copper)), { density: 300 }).resize(width, width).png().toBuffer(),
+    sharp(Buffer.from(tile(palette.night, palette.copper)), { density: 300 })
+      .resize(width, width)
+      .png()
+      .toBuffer(),
   ),
 );
 const icoHeader = Buffer.alloc(6 + 16 * icoSizes.length);
