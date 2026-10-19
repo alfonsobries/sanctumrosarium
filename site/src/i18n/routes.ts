@@ -73,4 +73,4 @@ export const stores = {
 } as const;
 
 export const repository = 'https://github.com/alfonsobries/sanctumrosarium';
-export const sponsors = 'https://github.com/sponsors/alfonsobries';
+export const donations = 'https://sanctum-rosarium.dona.me/';
