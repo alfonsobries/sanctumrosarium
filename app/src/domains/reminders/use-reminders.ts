@@ -1,5 +1,5 @@
 import * as Notifications from 'expo-notifications';
-import { useRouter, type Href } from 'expo-router';
+import { useRootNavigationState, useRouter, type Href } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppState } from 'react-native';
@@ -70,12 +70,18 @@ export function useReminders(): void {
   }, [key, permission, i18n.language]);
 
   const response = Notifications.useLastNotificationResponse();
+  // A tap can relaunch the app; navigating before the root navigator exists is lost.
+  const navigationReady = useRootNavigationState()?.key !== undefined;
   useEffect(() => {
     const url: unknown = response?.notification.request.content.data?.url;
-    if (response?.actionIdentifier !== Notifications.DEFAULT_ACTION_IDENTIFIER || typeof url !== 'string') {
+    if (
+      !navigationReady ||
+      response?.actionIdentifier !== Notifications.DEFAULT_ACTION_IDENTIFIER ||
+      typeof url !== 'string'
+    ) {
       return;
     }
     Notifications.clearLastNotificationResponse();
     router.navigate(url as Href);
-  }, [response, router]);
+  }, [response, router, navigationReady]);
 }

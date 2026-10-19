@@ -18,11 +18,12 @@ Notifications.setNotificationHandler({
 });
 
 export async function permissionState(): Promise<PermissionState> {
-  const { status, ios } = await Notifications.getPermissionsAsync();
+  const { status, ios, canAskAgain } = await Notifications.getPermissionsAsync();
   if (status === 'granted' || ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL) {
     return 'granted';
   }
-  return status === 'undetermined' ? 'undetermined' : 'denied';
+  // Android reports "denied" before it has ever asked; only a refusal stops it from asking.
+  return status === 'undetermined' || canAskAgain ? 'undetermined' : 'denied';
 }
 
 /** Asks only when the system still can; a refusal is answered from Settings, not by asking again. */

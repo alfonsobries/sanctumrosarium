@@ -1,4 +1,4 @@
-import { TimePickerDialog } from '@expo/ui/jetpack-compose';
+import { Host, TimePickerDialog } from '@expo/ui/jetpack-compose';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -32,18 +32,36 @@ export function TimeField({ label, minutes, onChange }: TimeFieldProperties) {
         onPress={() => setOpen(true)}
       />
       {open && (
-        <TimePickerDialog
-          initialDate={date.toISOString()}
-          is24Hour={is24Hour}
-          color={colors.accent}
-          confirmButtonLabel={t('settings.done')}
-          dismissButtonLabel={t('common.cancel')}
-          onDateSelected={(selected) => {
-            setOpen(false);
-            onChange(minutesOf(selected));
-          }}
-          onDismissRequest={() => setOpen(false)}
-        />
+        <Host matchContents>
+          <TimePickerDialog
+            initialDate={date.toISOString()}
+            is24Hour={is24Hour}
+            color={colors.accent}
+            elementColors={{
+              containerColor: colors['surface-raised'],
+              clockDialColor: colors.surface,
+              clockDialSelectedContentColor: colors['accent-foreground'],
+              clockDialUnselectedContentColor: colors.foreground,
+              selectorColor: colors.accent,
+              periodSelectorBorderColor: colors.border,
+              periodSelectorSelectedContainerColor: colors.accent,
+              periodSelectorUnselectedContainerColor: colors['surface-raised'],
+              periodSelectorSelectedContentColor: colors['accent-foreground'],
+              periodSelectorUnselectedContentColor: colors.muted,
+              timeSelectorSelectedContainerColor: colors.accent,
+              timeSelectorUnselectedContainerColor: colors.surface,
+              timeSelectorSelectedContentColor: colors['accent-foreground'],
+              timeSelectorUnselectedContentColor: colors.foreground,
+            }}
+            confirmButtonLabel={t('settings.done')}
+            dismissButtonLabel={t('common.cancel')}
+            onDateSelected={(selected) => {
+              setOpen(false);
+              onChange(minutesOf(selected));
+            }}
+            onDismissRequest={() => setOpen(false)}
+          />
+        </Host>
       )}
     </>
   );
