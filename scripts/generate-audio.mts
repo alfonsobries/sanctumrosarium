@@ -16,8 +16,13 @@
  * The Gospel passages are their own packs, one per language (both Spanish locales read
  * the same translation), read by the leader at a lower bitrate that suits speech.
  *
+ * The Auxilium Christianorum prayers are their own packs, one per language, read by the
+ * same two voices as that language's Rosary; the Our Father, Hail Mary and Glory Be come
+ * from the Rosary pack. A response said many times is recorded once.
+ *
  * Run: pnpm audio:generate [--locale=es-MX] [--force] [--dry-run]
  *      pnpm audio:generate --scripture [--language=es] [--force] [--dry-run]
+ *      pnpm audio:generate --auxilium [--language=es] [--force] [--dry-run]
  *      pnpm audio:generate --registry
  */
 import { execFileSync } from 'node:child_process';
@@ -36,6 +41,7 @@ import { homedir } from 'node:os';
 import { join } from 'node:path';
 
 import {
+  auxiliumText,
   hasPrayerText,
   passagesOf,
   litany,
@@ -161,6 +167,15 @@ const scripturePacks: ScriptureSpec[] = [
   { language: 'la', languageCode: 'it', delivery: v4, reader: giacomo },
 ];
 
+type AuxiliumSpec = { language: 'es' | 'en' | 'la'; pack: Locale };
+
+/** Both Spanish locales share one booklet, so one pack read by the Mexican voices. */
+const auxiliumPacks: AuxiliumSpec[] = [
+  { language: 'es', pack: 'es-MX' },
+  { language: 'en', pack: 'en-US' },
+  { language: 'la', pack: 'la' },
+];
+
 const rosaryPrayers = [
   'sign-of-the-cross',
   'apostles-creed',
@@ -218,6 +233,7 @@ function durationMs(file: string): number {
 function spoken(text: string): string {
   return text
     .replace(/[¡!]/g, '')
+    .replace(/✠\s*/g, '')
     .replaceAll(';', ',')
     .replace(/\s*\n\s*/g, ' ')
     .replace(/\s+([,.:])/g, '$1')
@@ -490,6 +506,96 @@ async function buildScripture(spec: ScriptureSpec): Promise<number> {
   return characters;
 }
 
+type AuxiliumManifest = {
+  version: 1;
+  language: string;
+  model: string;
+  voices: { leader: string; response: string };
+  /** Keyed by section, block and part; repeated responses point to the same file. */
+  tracks: Record<string, Track>;
+};
+
+function auxiliumJobs(spec: AuxiliumSpec, pack: PackSpec): Job[] {
+  const jobs: Job[] = [];
+  const response = (key: string, text: string) => jobs.push({ key, text, voice: pack.response });
+  for (const section of auxiliumText(spec.pack).sections) {
+    section.blocks.forEach((block, index) => {
+      const at = `${section.id}.${index}`;
+      if (block.kind === 'versicle') {
+        jobs.push({ key: `${at}.call`, text: block.call, voice: pack.leader });
+        response(`${at}.response`, block.response);
+      } else if (block.kind === 'text') {
+        jobs.push({ key: `${at}.text`, text: block.text, voice: pack.leader });
+        if (block.response !== undefined) {
+          response(`${at}.response`, block.response);
+        }
+      } else if (block.kind === 'litany') {
+        block.items.forEach((item, line) => {
+          jobs.push({ key: `${at}.${line}.call`, text: item.call, voice: pack.leader });
+          if (item.response !== undefined) {
+            response(`${at}.${line}.response`, item.response);
+          }
+        });
+      }
+    });
+  }
+  return jobs;
+}
+
+async function buildAuxilium(spec: AuxiliumSpec): Promise<number> {
+  const pack = packs.find((candidate) => candidate.locale === spec.pack);
+  if (pack === undefined) {
+    throw new Error(`No pack for ${spec.pack}`);
+  }
+  const dir = join(audioRoot, `auxilium-${spec.language}`);
+  mkdirSync(dir, { recursive: true });
+  const manifestPath = join(dir, 'manifest.json');
+  const previous: AuxiliumManifest | null = existsSync(manifestPath)
+    ? (JSON.parse(readFileSync(manifestPath, 'utf8')) as AuxiliumManifest)
+    : null;
+  const known = new Map(Object.values(previous?.tracks ?? {}).map((track) => [track.file, track.durationMs]));
+  const manifest: AuxiliumManifest = {
+    version: 1,
+    language: spec.language,
+    model: pack.delivery.model,
+    voices: { leader: pack.leader.name, response: pack.response.name },
+    tracks: {},
+  };
+
+  let characters = 0;
+  for (const job of auxiliumJobs(spec, pack)) {
+    // A response is named by its words alone, so every repetition shares one recording.
+    const isResponse = job.voice === pack.response;
+    const file = fileFor(isResponse ? 'response' : job.key, job.text, job.voice, pack.delivery);
+    const path = join(dir, file);
+    if (manifest.tracks[job.key] !== undefined) {
+      continue;
+    }
+    const recorded = Object.values(manifest.tracks).find((track) => track.file === file);
+    if (recorded !== undefined) {
+      manifest.tracks[job.key] = recorded;
+      continue;
+    }
+    if (!force && existsSync(path)) {
+      manifest.tracks[job.key] = { file, durationMs: known.get(file) ?? durationMs(path) };
+      continue;
+    }
+    characters += job.text.length;
+    if (dryRun) {
+      continue;
+    }
+    process.stdout.write(`auxilium-${spec.language} ${job.key}\n`);
+    await synthesize(job.text, job.voice, pack.languageCode, pack.delivery, path);
+    manifest.tracks[job.key] = { file, durationMs: durationMs(path) };
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  }
+  if (!dryRun) {
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+    prune(dir, manifest.tracks);
+  }
+  return characters;
+}
+
 /** Drops recordings no manifest points to any more, so the app never bundles them. */
 function prune(dir: string, tracks: Record<string, Track>): void {
   const kept = new Set(Object.values(tracks).map((track) => track.file));
@@ -534,6 +640,23 @@ function writeRegistry(): void {
     lines.push('    },');
     lines.push('  },');
   }
+  lines.push('} as const;', '', 'export const auxiliumPacks = {');
+  for (const spec of auxiliumPacks) {
+    const folder = `auxilium-${spec.language}`;
+    const manifestPath = join(audioRoot, folder, 'manifest.json');
+    if (!existsSync(manifestPath)) {
+      continue;
+    }
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as AuxiliumManifest;
+    lines.push(`  ${spec.language}: {`);
+    lines.push(`    manifest: require('@/assets/audio/${folder}/manifest.json'),`);
+    lines.push('    files: {');
+    for (const file of new Set(Object.values(manifest.tracks).map((track) => track.file))) {
+      lines.push(`      '${file}': require('@/assets/audio/${folder}/${file}'),`);
+    }
+    lines.push('    },');
+    lines.push('  },');
+  }
   lines.push('} as const;', '');
   writeFileSync(join(root, 'app/src/domains/audio/packs.gen.ts'), lines.join('\n'));
 }
@@ -541,6 +664,13 @@ function writeRegistry(): void {
 let total = 0;
 if (args.has('--registry')) {
   // Only rewrites the app's registry from the packs already on disk.
+} else if (args.has('--auxilium')) {
+  const language = [...args].find((arg) => arg.startsWith('--language='))?.split('=')[1];
+  for (const spec of auxiliumPacks.filter(
+    (candidate) => language === undefined || candidate.language === language,
+  )) {
+    total += await buildAuxilium(spec);
+  }
 } else if (args.has('--scripture')) {
   const language = [...args].find((arg) => arg.startsWith('--language='))?.split('=')[1];
   for (const spec of scripturePacks.filter(
