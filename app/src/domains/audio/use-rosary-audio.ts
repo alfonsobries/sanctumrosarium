@@ -19,12 +19,12 @@ import { coverMysteries } from './now-playing';
 import { audioPacks, scripturePacks } from './packs.gen';
 import { buildQueue, type AudioManifest, type ManifestTrack } from './queue';
 
-const silence = require('@/assets/audio/silence.mp3') as number;
+export const silence = require('@/assets/audio/silence.mp3') as number;
 
 type Pack = { manifest: AudioManifest; files: Record<string, number> };
 type ScripturePack = { manifest: { tracks: Record<string, ManifestTrack> }; files: Record<string, number> };
 
-function packFor(locale: Locale): Pack | null {
+export function packFor(locale: Locale): Pack | null {
   const packs = audioPacks as unknown as Partial<Record<Locale, Pack>>;
   return packs[locale] ?? null;
 }
@@ -43,7 +43,7 @@ export function hasAudio(locale: Locale): boolean {
 const resolved = new Map<number, Promise<string>>();
 
 /** Local file URI of a bundled asset, resolved once per app run. */
-function uriOf(module: number): Promise<string> {
+export function uriOf(module: number): Promise<string> {
   let uri = resolved.get(module);
   if (uri === undefined) {
     uri = (async () => {

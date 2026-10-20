@@ -39,6 +39,7 @@ import { useTranslation } from 'react-i18next';
 
 import { prepareAudio } from '@/domains/audio/use-rosary-audio';
 import { journalKeys } from '@/domains/journal/queries';
+import { useReminders } from '@/domains/reminders/use-reminders';
 import { useSettings, useSettingsHydrated } from '@/domains/settings/use-settings';
 import { useWatchSync } from '@/domains/watch/use-watch-sync';
 import { SkinProvider, useSkin } from '@/shared/theme/SkinProvider';
@@ -56,6 +57,7 @@ function Navigation() {
     void prepareAudio(prayerLocale);
   }, [prayerLocale]);
   useWatchSync(() => queryClient.invalidateQueries({ queryKey: journalKeys.all }));
+  useReminders();
   const { t } = useTranslation();
   const { colors, scheme, screenBackground } = useSkin();
   const onboarded = useSettings((state) => state.onboarded);
@@ -108,14 +110,17 @@ function Navigation() {
           />
           <Stack.Screen
             name="settings"
+            options={{ presentation: 'modal', contentStyle: { backgroundColor: colors.background } }}
+          />
+          <Stack.Screen
+            name="auxilium"
             options={{
-              presentation: 'modal',
-              contentStyle: { backgroundColor: colors.background },
               headerShown: true,
-              headerStyle: { backgroundColor: colors.background },
+              headerTransparent: process.env.EXPO_OS === 'ios',
+              headerShadowVisible: false,
+              headerStyle: process.env.EXPO_OS === 'ios' ? undefined : { backgroundColor: colors.background },
               headerTintColor: colors.accent,
               headerTitleStyle: { color: colors.foreground },
-              headerShadowVisible: false,
             }}
           />
           <Stack.Screen name="lesson/[id]" options={{ presentation: 'fullScreenModal' }} />

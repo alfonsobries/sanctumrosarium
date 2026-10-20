@@ -27,6 +27,14 @@ export type Settings = {
   prayerForThePope: boolean;
   litany: boolean;
   textSize: 'regular' | 'large' | 'larger';
+  /** A daily notification to pray the Rosary. */
+  rosaryReminder: boolean;
+  /** Local time of the reminder, in minutes after midnight. */
+  rosaryReminderAt: number;
+  /** The Auxilium Christianorum prayers on Today, off until chosen. */
+  auxilium: boolean;
+  auxiliumReminder: boolean;
+  auxiliumReminderAt: number;
   /** The bead wheel folded into a slim bar while praying. */
   onboarded: boolean;
 };
@@ -55,6 +63,11 @@ export const defaultSettings: Settings = {
   prayerForThePope: true,
   litany: false,
   textSize: 'regular',
+  rosaryReminder: false,
+  rosaryReminderAt: 20 * 60,
+  auxilium: false,
+  auxiliumReminder: false,
+  auxiliumReminderAt: 12 * 60,
   onboarded: false,
 };
 
@@ -70,8 +83,17 @@ export function normalizeSettings(stored: unknown): Settings {
       result[key] = source[key];
     }
   }
+  for (const key of ['rosaryReminderAt', 'auxiliumReminderAt'] as const) {
+    if (!isMinuteOfDay(result[key])) {
+      result[key] = defaultSettings[key];
+    }
+  }
   if (!(openingForms as readonly unknown[]).includes(result.openingForm)) {
     result.openingForm = defaultSettings.openingForm;
   }
   return result as Settings;
+}
+
+function isMinuteOfDay(value: unknown): boolean {
+  return typeof value === 'number' && Number.isInteger(value) && value >= 0 && value < 24 * 60;
 }

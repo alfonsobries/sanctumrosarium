@@ -16,6 +16,22 @@ describe('normalizeSettings', () => {
     expect(normalizeSettings({ openingForm: 'five-virtues' }).openingForm).toBe('standard');
   });
 
+  it('keeps a reminder time within the day and drops any other', () => {
+    expect(normalizeSettings({ rosaryReminderAt: 7 * 60 + 30 }).rosaryReminderAt).toBe(450);
+    expect(normalizeSettings({ rosaryReminderAt: 24 * 60 }).rosaryReminderAt).toBe(
+      defaultSettings.rosaryReminderAt,
+    );
+    expect(normalizeSettings({ auxiliumReminderAt: 12.5 }).auxiliumReminderAt).toBe(
+      defaultSettings.auxiliumReminderAt,
+    );
+  });
+
+  it('keeps the reminders and Auxilium off until chosen', () => {
+    expect(defaultSettings.rosaryReminder).toBe(false);
+    expect(defaultSettings.auxilium).toBe(false);
+    expect(defaultSettings.auxiliumReminder).toBe(false);
+  });
+
   it('survives garbage', () => {
     expect(normalizeSettings(null)).toEqual(defaultSettings);
   });

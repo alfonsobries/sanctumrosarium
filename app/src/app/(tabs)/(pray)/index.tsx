@@ -81,6 +81,7 @@ export default function TodayScreen() {
   const mode = useSettings((state) => state.mode);
   const prayerLocale = useSettings((state) => state.prayerLocale);
   const luminous = useSettings((state) => state.luminous);
+  const auxilium = useSettings((state) => state.auxilium);
   const listens = mode === 'listen' && hasAudio(prayerLocale);
   const plan = useSession((state) => state.plan);
   const position = useSession((state) => state.position);
@@ -202,6 +203,22 @@ export default function TodayScreen() {
                   set: t(`setShort.${resumable.set}`),
                 })}
               </Text>
+            </View>
+            <Icon name="chevron" size={18} color={colors.faint} />
+          </Pressable>
+        )}
+
+        {auxilium && (
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push('/auxilium')}
+            className="flex-row items-center gap-4 rounded-card bg-surface p-4 active:opacity-80"
+            style={{ borderCurve: 'continuous' }}
+          >
+            <Icon name="cross" color={colors.accent} />
+            <View className="flex-1 gap-0.5">
+              <Text variant="headline">{t('auxilium.title')}</Text>
+              <Text variant="footnote">{t('auxilium.today')}</Text>
             </View>
             <Icon name="chevron" size={18} color={colors.faint} />
           </Pressable>

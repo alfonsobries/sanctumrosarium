@@ -1,0 +1,659 @@
+{
+  "version": 1,
+  "language": "en",
+  "model": "eleven_v4",
+  "voices": {
+    "leader": "Marcus",
+    "response": "Katie"
+  },
+  "tracks": {
+    "opening.0.call": {
+      "file": "opening.0.call-9c792444.mp3",
+      "durationMs": 2612
+    },
+    "opening.0.response": {
+      "file": "response-ba409d1e.mp3",
+      "durationMs": 1840
+    },
+    "offering.0.text": {
+      "file": "offering.0.text-744fcd3c.mp3",
+      "durationMs": 50755
+    },
+    "saint-michael.0.text": {
+      "file": "saint-michael.0.text-206495c8.mp3",
+      "durationMs": 22599
+    },
+    "guardian-angel.0.text": {
+      "file": "guardian-angel.0.text-31eb78c9.mp3",
+      "durationMs": 12202
+    },
+    "precious-blood.0.0.call": {
+      "file": "precious-blood.0.0.call-2bd9e798.mp3",
+      "durationMs": 1837
+    },
+    "precious-blood.0.1.call": {
+      "file": "precious-blood.0.1.call-d15bb497.mp3",
+      "durationMs": 1813
+    },
+    "precious-blood.0.2.call": {
+      "file": "precious-blood.0.2.call-2bd9e798.mp3",
+      "durationMs": 1642
+    },
+    "precious-blood.0.3.call": {
+      "file": "precious-blood.0.3.call-97c93e2d.mp3",
+      "durationMs": 1578
+    },
+    "precious-blood.0.4.call": {
+      "file": "precious-blood.0.4.call-3c9026fc.mp3",
+      "durationMs": 2331
+    },
+    "precious-blood.0.5.call": {
+      "file": "precious-blood.0.5.call-de1f402b.mp3",
+      "durationMs": 1980
+    },
+    "precious-blood.0.5.response": {
+      "file": "response-afbd12f4.mp3",
+      "durationMs": 1600
+    },
+    "precious-blood.0.6.call": {
+      "file": "precious-blood.0.6.call-ceef1de9.mp3",
+      "durationMs": 3174
+    },
+    "precious-blood.0.6.response": {
+      "file": "response-afbd12f4.mp3",
+      "durationMs": 1600
+    },
+    "precious-blood.0.7.call": {
+      "file": "precious-blood.0.7.call-46460b6d.mp3",
+      "durationMs": 1964
+    },
+    "precious-blood.0.7.response": {
+      "file": "response-afbd12f4.mp3",
+      "durationMs": 1600
+    },
+    "precious-blood.0.8.call": {
+      "file": "precious-blood.0.8.call-7db6cb13.mp3",
+      "durationMs": 2447
+    },
+    "precious-blood.0.8.response": {
+      "file": "response-afbd12f4.mp3",
+      "durationMs": 1600
+    },
+    "precious-blood.0.9.call": {
+      "file": "precious-blood.0.9.call-0f88d844.mp3",
+      "durationMs": 4683
+    },
+    "precious-blood.0.9.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.10.call": {
+      "file": "precious-blood.0.10.call-4aff813f.mp3",
+      "durationMs": 3243
+    },
+    "precious-blood.0.10.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.11.call": {
+      "file": "precious-blood.0.11.call-92fdadee.mp3",
+      "durationMs": 3881
+    },
+    "precious-blood.0.11.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.12.call": {
+      "file": "precious-blood.0.12.call-18eacd50.mp3",
+      "durationMs": 4039
+    },
+    "precious-blood.0.12.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.13.call": {
+      "file": "precious-blood.0.13.call-142ff343.mp3",
+      "durationMs": 3883
+    },
+    "precious-blood.0.13.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.14.call": {
+      "file": "precious-blood.0.14.call-ad9872fa.mp3",
+      "durationMs": 4360
+    },
+    "precious-blood.0.14.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.15.call": {
+      "file": "precious-blood.0.15.call-774d9d08.mp3",
+      "durationMs": 3489
+    },
+    "precious-blood.0.15.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.16.call": {
+      "file": "precious-blood.0.16.call-a1bdea43.mp3",
+      "durationMs": 3567
+    },
+    "precious-blood.0.16.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.17.call": {
+      "file": "precious-blood.0.17.call-cdf6ff33.mp3",
+      "durationMs": 4124
+    },
+    "precious-blood.0.17.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.18.call": {
+      "file": "precious-blood.0.18.call-87cd3d47.mp3",
+      "durationMs": 4839
+    },
+    "precious-blood.0.18.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.19.call": {
+      "file": "precious-blood.0.19.call-9aa426fa.mp3",
+      "durationMs": 3165
+    },
+    "precious-blood.0.19.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.20.call": {
+      "file": "precious-blood.0.20.call-ce46e1ce.mp3",
+      "durationMs": 3482
+    },
+    "precious-blood.0.20.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.21.call": {
+      "file": "precious-blood.0.21.call-bc987405.mp3",
+      "durationMs": 3162
+    },
+    "precious-blood.0.21.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.22.call": {
+      "file": "precious-blood.0.22.call-95937ac5.mp3",
+      "durationMs": 3406
+    },
+    "precious-blood.0.22.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.23.call": {
+      "file": "precious-blood.0.23.call-5973a345.mp3",
+      "durationMs": 3485
+    },
+    "precious-blood.0.23.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.24.call": {
+      "file": "precious-blood.0.24.call-8a6dd4f3.mp3",
+      "durationMs": 3403
+    },
+    "precious-blood.0.24.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.25.call": {
+      "file": "precious-blood.0.25.call-01dcfbe9.mp3",
+      "durationMs": 3404
+    },
+    "precious-blood.0.25.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.26.call": {
+      "file": "precious-blood.0.26.call-b6c21c89.mp3",
+      "durationMs": 3323
+    },
+    "precious-blood.0.26.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.27.call": {
+      "file": "precious-blood.0.27.call-a22bb482.mp3",
+      "durationMs": 3167
+    },
+    "precious-blood.0.27.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.28.call": {
+      "file": "precious-blood.0.28.call-aa19aed9.mp3",
+      "durationMs": 3482
+    },
+    "precious-blood.0.28.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.29.call": {
+      "file": "precious-blood.0.29.call-654bef2f.mp3",
+      "durationMs": 3958
+    },
+    "precious-blood.0.29.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.30.call": {
+      "file": "precious-blood.0.30.call-02b12ae1.mp3",
+      "durationMs": 3483
+    },
+    "precious-blood.0.30.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.31.call": {
+      "file": "precious-blood.0.31.call-b100b010.mp3",
+      "durationMs": 3805
+    },
+    "precious-blood.0.31.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.32.call": {
+      "file": "precious-blood.0.32.call-e0006c04.mp3",
+      "durationMs": 4520
+    },
+    "precious-blood.0.32.response": {
+      "file": "response-f3076a0e.mp3",
+      "durationMs": 1184
+    },
+    "precious-blood.0.33.call": {
+      "file": "precious-blood.0.33.call-aacd9231.mp3",
+      "durationMs": 3718
+    },
+    "precious-blood.0.33.response": {
+      "file": "response-73de6fe0.mp3",
+      "durationMs": 1915
+    },
+    "precious-blood.0.34.call": {
+      "file": "precious-blood.0.34.call-aacd9231.mp3",
+      "durationMs": 3726
+    },
+    "precious-blood.0.34.response": {
+      "file": "response-f68aef14.mp3",
+      "durationMs": 2371
+    },
+    "precious-blood.0.35.call": {
+      "file": "precious-blood.0.35.call-aacd9231.mp3",
+      "durationMs": 3884
+    },
+    "precious-blood.0.35.response": {
+      "file": "response-afbd12f4.mp3",
+      "durationMs": 1600
+    },
+    "precious-blood.1.call": {
+      "file": "precious-blood.1.call-9a901c3a.mp3",
+      "durationMs": 3248
+    },
+    "precious-blood.1.response": {
+      "file": "response-2db0060c.mp3",
+      "durationMs": 2874
+    },
+    "precious-blood.2.text": {
+      "file": "precious-blood.2.text-b66939bd.mp3",
+      "durationMs": 1108
+    },
+    "precious-blood.3.text": {
+      "file": "precious-blood.3.text-b6a4a985.mp3",
+      "durationMs": 28204
+    },
+    "precious-blood.3.response": {
+      "file": "response-d4a7bf6d.mp3",
+      "durationMs": 996
+    },
+    "sunday.0.text": {
+      "file": "sunday.0.text-fa47b7f9.mp3",
+      "durationMs": 62350
+    },
+    "sunday.1.text": {
+      "file": "sunday.1.text-7905c20b.mp3",
+      "durationMs": 17769
+    },
+    "sunday.2.text": {
+      "file": "sunday.2.text-d39c0ce3.mp3",
+      "durationMs": 19262
+    },
+    "monday.0.text": {
+      "file": "monday.0.text-1f843eef.mp3",
+      "durationMs": 16118
+    },
+    "tuesday.0.text": {
+      "file": "tuesday.0.text-c95c7ac9.mp3",
+      "durationMs": 20524
+    },
+    "wednesday.0.text": {
+      "file": "wednesday.0.text-30ed77ec.mp3",
+      "durationMs": 64430
+    },
+    "thursday.0.text": {
+      "file": "thursday.0.text-7348a6cd.mp3",
+      "durationMs": 21152
+    },
+    "thursday.1.0.call": {
+      "file": "thursday.1.0.call-a2722cd4.mp3",
+      "durationMs": 3387
+    },
+    "thursday.1.0.response": {
+      "file": "response-b0061200.mp3",
+      "durationMs": 3332
+    },
+    "thursday.1.1.call": {
+      "file": "thursday.1.1.call-46dde3d5.mp3",
+      "durationMs": 3056
+    },
+    "thursday.1.1.response": {
+      "file": "response-b0061200.mp3",
+      "durationMs": 3332
+    },
+    "thursday.1.2.call": {
+      "file": "thursday.1.2.call-28a69ab3.mp3",
+      "durationMs": 3545
+    },
+    "thursday.1.2.response": {
+      "file": "response-b0061200.mp3",
+      "durationMs": 3332
+    },
+    "thursday.1.3.call": {
+      "file": "thursday.1.3.call-9902bcff.mp3",
+      "durationMs": 3224
+    },
+    "thursday.1.3.response": {
+      "file": "response-b0061200.mp3",
+      "durationMs": 3332
+    },
+    "thursday.1.4.call": {
+      "file": "thursday.1.4.call-32d63b80.mp3",
+      "durationMs": 2983
+    },
+    "thursday.1.4.response": {
+      "file": "response-b0061200.mp3",
+      "durationMs": 3332
+    },
+    "thursday.1.5.call": {
+      "file": "thursday.1.5.call-1aedb355.mp3",
+      "durationMs": 4319
+    },
+    "thursday.1.5.response": {
+      "file": "response-b0061200.mp3",
+      "durationMs": 3332
+    },
+    "thursday.1.6.call": {
+      "file": "thursday.1.6.call-76ffbe0d.mp3",
+      "durationMs": 5625
+    },
+    "thursday.1.6.response": {
+      "file": "response-b0061200.mp3",
+      "durationMs": 3332
+    },
+    "thursday.2.text": {
+      "file": "thursday.2.text-8865b7d4.mp3",
+      "durationMs": 17644
+    },
+    "friday.0.0.call": {
+      "file": "friday.0.0.call-0caac6b0.mp3",
+      "durationMs": 3316
+    },
+    "friday.0.0.response": {
+      "file": "response-81000244.mp3",
+      "durationMs": 987
+    },
+    "friday.0.1.call": {
+      "file": "friday.0.1.call-7870a298.mp3",
+      "durationMs": 2505
+    },
+    "friday.0.1.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.2.call": {
+      "file": "friday.0.2.call-672fcf0f.mp3",
+      "durationMs": 2349
+    },
+    "friday.0.2.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.3.call": {
+      "file": "friday.0.3.call-47d5ac03.mp3",
+      "durationMs": 2420
+    },
+    "friday.0.3.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.4.call": {
+      "file": "friday.0.4.call-2fe55edc.mp3",
+      "durationMs": 2346
+    },
+    "friday.0.4.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.5.call": {
+      "file": "friday.0.5.call-4d8018fb.mp3",
+      "durationMs": 2343
+    },
+    "friday.0.5.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.6.call": {
+      "file": "friday.0.6.call-251287a6.mp3",
+      "durationMs": 2911
+    },
+    "friday.0.6.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.7.call": {
+      "file": "friday.0.7.call-a77d5518.mp3",
+      "durationMs": 2338
+    },
+    "friday.0.7.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.8.call": {
+      "file": "friday.0.8.call-7565e0ce.mp3",
+      "durationMs": 2341
+    },
+    "friday.0.8.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.9.call": {
+      "file": "friday.0.9.call-c8c9a372.mp3",
+      "durationMs": 2340
+    },
+    "friday.0.9.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.10.call": {
+      "file": "friday.0.10.call-34e722fc.mp3",
+      "durationMs": 2421
+    },
+    "friday.0.10.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.11.call": {
+      "file": "friday.0.11.call-1d14d629.mp3",
+      "durationMs": 2643
+    },
+    "friday.0.11.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.12.call": {
+      "file": "friday.0.12.call-2ea18377.mp3",
+      "durationMs": 2419
+    },
+    "friday.0.12.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.13.call": {
+      "file": "friday.0.13.call-51c74ef8.mp3",
+      "durationMs": 2172
+    },
+    "friday.0.13.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.14.call": {
+      "file": "friday.0.14.call-21d27ae2.mp3",
+      "durationMs": 2341
+    },
+    "friday.0.14.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.15.call": {
+      "file": "friday.0.15.call-ce702544.mp3",
+      "durationMs": 2179
+    },
+    "friday.0.15.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.16.call": {
+      "file": "friday.0.16.call-5e2f08cf.mp3",
+      "durationMs": 2258
+    },
+    "friday.0.16.response": {
+      "file": "response-9e0f51ed.mp3",
+      "durationMs": 2071
+    },
+    "friday.0.17.call": {
+      "file": "friday.0.17.call-1e8732a6.mp3",
+      "durationMs": 2677
+    },
+    "friday.0.17.response": {
+      "file": "response-1d2d97ba.mp3",
+      "durationMs": 3236
+    },
+    "friday.0.18.call": {
+      "file": "friday.0.18.call-4d1416e6.mp3",
+      "durationMs": 2746
+    },
+    "friday.0.18.response": {
+      "file": "response-1d2d97ba.mp3",
+      "durationMs": 3236
+    },
+    "friday.0.19.call": {
+      "file": "friday.0.19.call-e516ec5a.mp3",
+      "durationMs": 5327
+    },
+    "friday.0.19.response": {
+      "file": "response-1d2d97ba.mp3",
+      "durationMs": 3236
+    },
+    "friday.0.20.call": {
+      "file": "friday.0.20.call-ccd5ca8c.mp3",
+      "durationMs": 3390
+    },
+    "friday.0.20.response": {
+      "file": "response-1d2d97ba.mp3",
+      "durationMs": 3236
+    },
+    "friday.0.21.call": {
+      "file": "friday.0.21.call-7b359dce.mp3",
+      "durationMs": 3727
+    },
+    "friday.0.21.response": {
+      "file": "response-1d2d97ba.mp3",
+      "durationMs": 3236
+    },
+    "friday.0.22.call": {
+      "file": "friday.0.22.call-85724048.mp3",
+      "durationMs": 3155
+    },
+    "friday.0.22.response": {
+      "file": "response-1d2d97ba.mp3",
+      "durationMs": 3236
+    },
+    "friday.0.23.call": {
+      "file": "friday.0.23.call-43e41073.mp3",
+      "durationMs": 6046
+    },
+    "friday.0.23.response": {
+      "file": "response-1d2d97ba.mp3",
+      "durationMs": 3236
+    },
+    "saturday.0.text": {
+      "file": "saturday.0.text-eb978832.mp3",
+      "durationMs": 27322
+    },
+    "conclusion.0.text": {
+      "file": "conclusion.0.text-637db0c2.mp3",
+      "durationMs": 42123
+    },
+    "invocations.0.0.call": {
+      "file": "invocations.0.0.call-8c1e67ef.mp3",
+      "durationMs": 2276
+    },
+    "invocations.0.0.response": {
+      "file": "response-afbd12f4.mp3",
+      "durationMs": 1600
+    },
+    "invocations.0.1.call": {
+      "file": "invocations.0.1.call-2a964903.mp3",
+      "durationMs": 2362
+    },
+    "invocations.0.1.response": {
+      "file": "response-a3361b33.mp3",
+      "durationMs": 1228
+    },
+    "invocations.0.2.call": {
+      "file": "invocations.0.2.call-e56cbfdd.mp3",
+      "durationMs": 2056
+    },
+    "invocations.0.2.response": {
+      "file": "response-a3361b33.mp3",
+      "durationMs": 1228
+    },
+    "invocations.0.3.call": {
+      "file": "invocations.0.3.call-bed04ebe.mp3",
+      "durationMs": 1176
+    },
+    "invocations.0.3.response": {
+      "file": "response-a3361b33.mp3",
+      "durationMs": 1228
+    },
+    "invocations.0.4.call": {
+      "file": "invocations.0.4.call-d793fdad.mp3",
+      "durationMs": 2041
+    },
+    "invocations.0.4.response": {
+      "file": "response-a3361b33.mp3",
+      "durationMs": 1228
+    },
+    "invocations.0.5.call": {
+      "file": "invocations.0.5.call-e5012f5d.mp3",
+      "durationMs": 2045
+    },
+    "invocations.0.5.response": {
+      "file": "response-a3361b33.mp3",
+      "durationMs": 1228
+    },
+    "sign-of-the-cross.0.text": {
+      "file": "sign-of-the-cross.0.text-ad988ff9.mp3",
+      "durationMs": 4379
+    }
+  }
+}

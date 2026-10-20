@@ -1,0 +1,663 @@
+---
+import PrayerText from '../../../components/PrayerText.astro';
+import Base from '../../../layouts/Base.astro';
+import { prayerLines } from '../../../lib/content';
+import { bars, beats, range, tempo } from '../../../lib/manto';
+
+const path = '/es/laboratorio/melodia-del-manto/';
+const hailMary = prayerLines('hail-mary', 'es');
+const score = JSON.stringify({ beats, range, tempo });
+---
+
+<Base
+  language="es"
+  title="La melodía del manto"
+  description="Un experimento: la melodía que Fernando Ojeda lee en las estrellas y las flores de la imagen de la Virgen de Guadalupe, tocada y dibujada nota por nota."
+  alternates={{ en: '/', es: path }}
+  noindex
+>
+  <section class="wrap narrow page-head">
+    <p class="kicker">Laboratorio · devoción</p>
+    <h1>La melodía del manto</h1>
+    <p class="lead">
+      Según la lectura de Fernando Ojeda Llanes, las 46 estrellas del manto y las flores de la túnica de
+      la Virgen de Guadalupe se pueden leer como notas sobre un teclado. Es una interpretación personal;
+      la Iglesia no se ha pronunciado sobre ella. Toca para escucharla mientras se dibuja.
+    </p>
+  </section>
+
+  <section class="wrap stage-wrap" aria-label="Melodía y animación">
+    <figure class="stage">
+      <canvas id="manto" role="img" aria-label="Las estrellas de la melodía aparecen de abajo arriba sobre un teclado, una por cada nota."></canvas>
+      <figcaption class="now" aria-live="polite"><span id="now">Prueba 2 · de los pies a la cabeza</span></figcaption>
+    </figure>
+
+    <div class="controls">
+      <button id="play" class="button is-solid play" type="button" aria-pressed="false">
+        <span class="play-label">Escuchar</span>
+      </button>
+      <fieldset class="tempo">
+        <legend class="visually-hidden">Ritmo</legend>
+        <label><input type="radio" name="tempo" value="score" checked /><span>Partitura</span></label>
+        <label><input type="radio" name="tempo" value="double" /><span>Doble tiempo</span></label>
+        <label><input type="radio" name="tempo" value="prayer" /><span>Para rezar</span></label>
+      </fieldset>
+      <label class="volume">
+        <span>Volumen</span>
+        <input id="volume" type="range" min="0" max="1" step="0.01" value="0.7" />
+      </label>
+    </div>
+    <p class="hint" id="tempo-hint">
+      La partitura va a 75 negras por minuto, nota por nota, como la imprime Ojeda.
+    </p>
+  </section>
+
+  <section class="wrap narrow pray" aria-labelledby="pray-title">
+    <h2 id="pray-title">Rezar con la melodía de fondo</h2>
+    <p>Elige "Para rezar": la melodía se alarga, baja de volumen y se repite sin fin.</p>
+    <div class="bead-card">
+      <PrayerText text={hailMary} lang="es" />
+    </div>
+  </section>
+
+  <section class="wrap narrow about" aria-labelledby="about-title">
+    <h2 id="about-title">Qué es</h2>
+    <p>
+      El investigador yucateco Fernando Ojeda Llanes propuso que la imagen de la Virgen de Guadalupe
+      guarda una melodía. Dibujó la imagen dentro de un rectángulo áureo, trazó una línea vertical por
+      el centro y 23 a cada lado, una por cada una de las 46 estrellas, y puso encima el teclado de un
+      piano con el do central en la línea del centro. Cada línea y cada espacio es una tecla blanca.
+      Cada estrella y el centro de cada flor de la túnica se vuelven una nota, leídas por renglones.
+    </p>
+    <p>
+      Es una lectura devocional y personal. La Iglesia venera la imagen y celebra su fiesta el 12 de
+      diciembre; sobre esta música no se ha pronunciado. Alberto Aguilar Portillo, el músico que la
+      arregló, la describe en el libro como "un ejercicio de libre interpretación".
+    </p>
+
+    <h3>Cómo suena aquí</h3>
+    <ul class="facts">
+      <li>
+        Las notas son las de la "Prueba 2, registros centrales" de su libro: de los pies a la cabeza,
+        en el registro medio del piano, {bars.length} compases de 4/4.
+      </li>
+      <li>
+        El sonido se genera en tu navegador con un timbre de cuerdas suave. No usa sus grabaciones,
+        que tienen todos los derechos reservados.
+      </li>
+      <li>
+        Los acordes de los compases 5 a 8 se leyeron de una copia escaneada y faltan por cotejar con
+        la grabación original.
+      </li>
+    </ul>
+
+    <h3>Para conocer más</h3>
+    <ul class="links">
+      <li>
+        <a href="https://fernandoojeda.com/musica-en-la-imagen-de-la-virgen-de-guadalupe/" rel="noopener">
+          Música en la imagen de la Virgen de Guadalupe
+        </a>, el estudio en el sitio de Fernando Ojeda
+      </li>
+      <li>
+        <a href="https://fernandoojeda.com/audios/" rel="noopener">Sus grabaciones</a>: piano, arpa, cuarteto, coro
+        y orquesta
+      </li>
+      <li>
+        <a href="https://fernandoojeda.com/las-constelaciones-en-la-imagen-de-la-virgen-de-guadalupe/" rel="noopener">
+          Las constelaciones en la imagen
+        </a>
+      </li>
+    </ul>
+  </section>
+</Base>
+
+<script is:inline define:vars={{ score }}>
+  (function () {
+    var data = JSON.parse(score);
+    var canvas = document.getElementById('manto');
+    var context = canvas.getContext('2d');
+    var playButton = document.getElementById('play');
+    var playLabel = playButton.querySelector('.play-label');
+    var nowLabel = document.getElementById('now');
+    var hint = document.getElementById('tempo-hint');
+    var volumeInput = document.getElementById('volume');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var letters = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+    var semitones = [0, 2, 4, 5, 7, 9, 11];
+    var names = { C: 'do', D: 're', E: 'mi', F: 'fa', G: 'sol', A: 'la', B: 'si' };
+    function stepOf(note) {
+      return (Number(note.slice(1)) - 4) * 7 + letters.indexOf(note[0]);
+    }
+    function frequencyOf(note) {
+      var midi = 12 * (Number(note.slice(1)) + 1) + semitones[letters.indexOf(note[0])];
+      return 440 * Math.pow(2, (midi - 69) / 12);
+    }
+
+    var modes = {
+      score: { beat: 60 / data.tempo, attack: 0.04, release: 0.9, level: 0.16, cutoff: 3200, loop: false,
+        hint: 'La partitura va a 75 negras por minuto, nota por nota, como la imprime Ojeda.' },
+      double: { beat: 120 / data.tempo, attack: 0.12, release: 1.8, level: 0.15, cutoff: 2600, loop: false,
+        hint: 'Al doble de tiempo, como la "Armonía Original" que grabó con instrumentos electrónicos.' },
+      prayer: { beat: 4.2, attack: 1.6, release: 7, level: 0.1, cutoff: 1400, loop: true,
+        hint: 'Muy lenta y baja, en bucle, por si te ayuda a recogerte.' },
+    };
+    var mode = modes.score;
+
+    // Each star sits on its key's line; beats climb from the feet to the head, as Prueba 2 reads.
+    var stars = [];
+    data.beats.forEach(function (beat, index) {
+      beat.forEach(function (note, voice) {
+        stars.push({ note: note, beat: index, step: stepOf(note), voice: voice, seed: Math.sin(index * 12.9898 + voice * 78.233) });
+      });
+    });
+    var total = data.beats.length;
+
+    var audio = null;
+    var playing = false;
+    var startTime = 0;
+    var nextBeat = 0;
+    var scheduled = [];
+    var timer = null;
+    var lit = new Map();
+
+    function makeImpulse(ctx, seconds) {
+      var length = Math.floor(ctx.sampleRate * seconds);
+      var impulse = ctx.createBuffer(2, length, ctx.sampleRate);
+      for (var channel = 0; channel < 2; channel++) {
+        var samples = impulse.getChannelData(channel);
+        for (var i = 0; i < length; i++) {
+          samples[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 3.2);
+        }
+      }
+      return impulse;
+    }
+
+    function setupAudio() {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var master = ctx.createGain();
+      master.gain.value = Number(volumeInput.value);
+      var compressor = ctx.createDynamicsCompressor();
+      compressor.threshold.value = -18;
+      compressor.ratio.value = 3;
+      var reverb = ctx.createConvolver();
+      reverb.buffer = makeImpulse(ctx, 4.5);
+      var wet = ctx.createGain();
+      wet.gain.value = 0.55;
+      var dry = ctx.createGain();
+      dry.gain.value = 0.6;
+      var bus = ctx.createGain();
+      bus.connect(dry);
+      bus.connect(reverb);
+      reverb.connect(wet);
+      dry.connect(compressor);
+      wet.connect(compressor);
+      compressor.connect(master);
+      master.connect(ctx.destination);
+      return { ctx: ctx, master: master, bus: bus };
+    }
+
+    function voice(note, at, length, chordSize) {
+      var ctx = audio.ctx;
+      var frequency = frequencyOf(note);
+      var level = mode.level / Math.sqrt(chordSize);
+      var envelope = ctx.createGain();
+      var filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = mode.cutoff;
+      filter.Q.value = 0.4;
+      envelope.gain.setValueAtTime(0, at);
+      envelope.gain.linearRampToValueAtTime(level, at + mode.attack);
+      envelope.gain.setTargetAtTime(level * 0.7, at + mode.attack, length * 0.5);
+      envelope.gain.setTargetAtTime(0, at + length, mode.release / 4);
+      filter.connect(envelope);
+      envelope.connect(audio.bus);
+      var end = at + length + mode.release * 1.5;
+      [-6, 6].forEach(function (cents) {
+        var oscillator = ctx.createOscillator();
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.value = frequency;
+        oscillator.detune.value = cents;
+        var gain = ctx.createGain();
+        gain.gain.value = 0.32;
+        oscillator.connect(gain);
+        gain.connect(filter);
+        oscillator.start(at);
+        oscillator.stop(end);
+      });
+      var body = ctx.createOscillator();
+      body.type = 'sine';
+      body.frequency.value = frequency / 2;
+      var bodyGain = ctx.createGain();
+      bodyGain.gain.value = 0.35;
+      body.connect(bodyGain);
+      bodyGain.connect(filter);
+      body.start(at);
+      body.stop(end);
+    }
+
+    function schedule() {
+      var ctx = audio.ctx;
+      while (startTime + nextBeat * mode.beat < ctx.currentTime + 0.4) {
+        var index = nextBeat % (total + 1);
+        var at = startTime + nextBeat * mode.beat;
+        if (index < total) {
+          var beat = data.beats[index];
+          beat.forEach(function (note) {
+            voice(note, at, mode.beat * (mode.loop ? 1.6 : 0.95), beat.length);
+          });
+          scheduled.push({ at: at, index: index });
+        } else if (!mode.loop) {
+          scheduled.push({ at: at, index: -1 });
+          nextBeat++;
+          break;
+        }
+        nextBeat++;
+      }
+    }
+
+    function start() {
+      if (audio === null) {
+        audio = setupAudio();
+      }
+      void audio.ctx.resume();
+      startTime = audio.ctx.currentTime + 0.15;
+      nextBeat = 0;
+      scheduled = [];
+      lit.clear();
+      playing = true;
+      schedule();
+      timer = window.setInterval(schedule, 100);
+      playButton.setAttribute('aria-pressed', 'true');
+      playLabel.textContent = 'Pausar';
+    }
+
+    function stop() {
+      playing = false;
+      window.clearInterval(timer);
+      if (audio !== null) {
+        var ctx = audio.ctx;
+        audio.master.gain.setTargetAtTime(0, ctx.currentTime, 0.3);
+        var old = audio;
+        audio = null;
+        window.setTimeout(function () {
+          void old.ctx.close();
+        }, 1500);
+      }
+      playButton.setAttribute('aria-pressed', 'false');
+      playLabel.textContent = 'Escuchar';
+    }
+
+    playButton.addEventListener('click', function () {
+      if (playing) {
+        stop();
+      } else {
+        start();
+      }
+    });
+
+    document.querySelectorAll('input[name="tempo"]').forEach(function (input) {
+      input.addEventListener('change', function () {
+        mode = modes[input.value];
+        hint.textContent = mode.hint;
+        if (playing) {
+          stop();
+          start();
+        }
+      });
+    });
+
+    volumeInput.addEventListener('input', function () {
+      if (audio !== null) {
+        audio.master.gain.setTargetAtTime(Number(volumeInput.value), audio.ctx.currentTime, 0.05);
+      }
+    });
+
+    // Drawing.
+    var width = 0;
+    var height = 0;
+    var palette = {};
+    function readPalette() {
+      var style = getComputedStyle(document.documentElement);
+      palette = {
+        ink: style.getPropertyValue('--ink').trim(),
+        mute: style.getPropertyValue('--mute').trim(),
+        line: style.getPropertyValue('--line').trim(),
+        gold: style.getPropertyValue('--gold').trim(),
+        accent: style.getPropertyValue('--accent').trim(),
+        light: document.documentElement.dataset.theme === 'light',
+      };
+    }
+
+    function resize() {
+      var ratio = window.devicePixelRatio || 1;
+      var rect = canvas.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    }
+
+    function star(x, y, radius, points, rotation) {
+      context.beginPath();
+      for (var i = 0; i < points * 2; i++) {
+        var angle = rotation + (i * Math.PI) / points;
+        var r = i % 2 === 0 ? radius : radius * 0.42;
+        context.lineTo(x + Math.cos(angle) * r, y + Math.sin(angle) * r);
+      }
+      context.closePath();
+    }
+
+    function geometry() {
+      // The golden frame Ojeda draws: 12.60 by 20.39 cm.
+      var frameHeight = Math.min(height - 72, (width - 32) * (20.39 / 12.6));
+      var frameWidth = frameHeight * (12.6 / 20.39);
+      var left = (width - frameWidth) / 2;
+      var top = 64;
+      var keys = data.range.high - data.range.low + 1;
+      return { left: left, top: top, width: frameWidth, height: frameHeight, keys: keys, keyWidth: frameWidth / keys };
+    }
+
+    function xOf(g, step) {
+      return g.left + (step - data.range.low + 0.5) * g.keyWidth;
+    }
+
+    function yOf(g, beat) {
+      var inner = g.height - 36;
+      return g.top + 18 + inner - (beat / (total - 1)) * inner;
+    }
+
+    function draw(time) {
+      var g = geometry();
+      context.clearRect(0, 0, width, height);
+      var now = audio !== null ? audio.ctx.currentTime : 0;
+      var current = -1;
+      for (var s = scheduled.length - 1; s >= 0; s--) {
+        if (scheduled[s].at <= now) {
+          current = scheduled[s].index;
+          if (current >= 0 && !lit.has(scheduled[s].at)) {
+            if (current === 0) {
+              lit.clear();
+            }
+            lit.set(scheduled[s].at, current);
+          }
+          break;
+        }
+      }
+      if (current === -1 && playing && scheduled.length > 0 && scheduled[scheduled.length - 1].index === -1 && scheduled[scheduled.length - 1].at <= now) {
+        stop();
+      }
+      var breathing = reduceMotion ? 0.5 : 0.5 + 0.5 * Math.sin(time / 2400);
+
+      // Rays around the frame, the aureole of the image.
+      context.save();
+      var cx = g.left + g.width / 2;
+      var cy = g.top + g.height / 2;
+      context.strokeStyle = palette.gold;
+      context.lineWidth = 1;
+      for (var r = 0; r < 120; r++) {
+        var angle = (r / 120) * Math.PI * 2;
+        var inner = 0.5 + 0.03 * Math.sin(r * 3.1);
+        var rx = (g.width / 2) * 1.06;
+        var ry = (g.height / 2) * 1.02;
+        context.globalAlpha = (palette.light ? 0.18 : 0.12) + 0.08 * breathing * ((r % 3) / 2);
+        context.beginPath();
+        context.moveTo(cx + Math.cos(angle) * rx * inner, cy + Math.sin(angle) * ry * inner);
+        context.lineTo(cx + Math.cos(angle) * rx, cy + Math.sin(angle) * ry);
+        context.stroke();
+      }
+      context.restore();
+
+      // Frame and key lines: every line and every space is a white key.
+      context.save();
+      context.strokeStyle = palette.line;
+      context.lineWidth = 1;
+      context.strokeRect(g.left, g.top, g.width, g.height);
+      for (var k = 0; k < g.keys; k++) {
+        var step = data.range.low + k;
+        var x = xOf(g, step);
+        context.globalAlpha = step === 0 ? 0.9 : step % 2 === 0 ? 0.55 : 0.2;
+        context.strokeStyle = step === 0 ? palette.accent : palette.line;
+        context.beginPath();
+        context.moveTo(x, g.top);
+        context.lineTo(x, g.top + g.height);
+        context.stroke();
+      }
+      context.restore();
+
+      // The keyboard on top, lit by what sounds now.
+      var activeSteps = new Set();
+      if (current >= 0) {
+        data.beats[current].forEach(function (note) {
+          activeSteps.add(stepOf(note));
+        });
+      }
+      for (var key = 0; key < g.keys; key++) {
+        var keyStep = data.range.low + key;
+        var kx = g.left + key * g.keyWidth;
+        context.fillStyle = activeSteps.has(keyStep) ? palette.gold : palette.light ? '#fffaf2' : '#e9e2d4';
+        context.globalAlpha = activeSteps.has(keyStep) ? 1 : palette.light ? 1 : 0.9;
+        context.fillRect(kx + 0.5, g.top - 40, g.keyWidth - 1, 34);
+        context.globalAlpha = 1;
+        // Black keys between C-D, D-E, F-G, G-A, A-B.
+        var letter = ((keyStep % 7) + 7) % 7;
+        if (key < g.keys - 1 && letter !== 2 && letter !== 6) {
+          context.fillStyle = palette.light ? '#1d1a16' : '#0a0e17';
+          context.fillRect(kx + g.keyWidth * 0.68, g.top - 40, g.keyWidth * 0.64, 20);
+        }
+      }
+
+      // Stars: dim until they sound, then they stay lit.
+      var litBeats = new Set(lit.values());
+      stars.forEach(function (item) {
+        var sx = xOf(g, item.step);
+        var sy = yOf(g, item.beat);
+        var isNow = item.beat === current;
+        var wasLit = litBeats.has(item.beat);
+        var size = Math.max(4, g.keyWidth * 0.32);
+        var twinkle = reduceMotion ? 0 : Math.sin(time / 700 + item.seed * 40) * 0.12;
+        if (isNow) {
+          context.save();
+          var glow = context.createRadialGradient(sx, sy, 0, sx, sy, size * 5);
+          glow.addColorStop(0, palette.gold);
+          glow.addColorStop(1, 'transparent');
+          context.globalAlpha = 0.45;
+          context.fillStyle = glow;
+          context.fillRect(sx - size * 5, sy - size * 5, size * 10, size * 10);
+          context.globalAlpha = 0.5;
+          context.strokeStyle = palette.gold;
+          context.beginPath();
+          context.moveTo(sx, sy);
+          context.lineTo(sx, g.top);
+          context.stroke();
+          context.restore();
+        }
+        context.save();
+        context.globalAlpha = isNow ? 1 : wasLit ? 0.85 + twinkle : 0.16;
+        context.fillStyle = wasLit || isNow ? palette.gold : palette.mute;
+        star(sx, sy, isNow ? size * 1.5 : size, 8, item.seed + (reduceMotion ? 0 : time / 9000));
+        context.fill();
+        context.restore();
+      });
+
+      if (current >= 0) {
+        var label = data.beats[current]
+          .map(function (note) {
+            return names[note[0]];
+          })
+          .join(' · ');
+        var bar = Math.floor(current / 4) + 1;
+        if (nowLabel.dataset.beat !== String(current)) {
+          nowLabel.dataset.beat = String(current);
+          nowLabel.textContent = 'Compás ' + bar + ' · ' + label;
+        }
+      }
+      window.requestAnimationFrame(draw);
+    }
+
+    readPalette();
+    resize();
+    window.addEventListener('resize', resize);
+    new MutationObserver(readPalette).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    window.requestAnimationFrame(draw);
+  })();
+</script>
+
+<style>
+  .stage-wrap {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: center;
+  }
+
+  .stage {
+    margin: 0;
+    width: 100%;
+    max-width: 560px;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  canvas {
+    width: 100%;
+    aspect-ratio: 12.6 / 22.4;
+    max-height: 82vh;
+    border-radius: var(--radius);
+    background:
+      radial-gradient(ellipse at 50% 55%, color-mix(in srgb, #2c6b66 30%, transparent), transparent 70%),
+      var(--bg-deep);
+  }
+
+  .now {
+    text-align: center;
+    font-family: var(--serif);
+    font-size: var(--step-1);
+    color: var(--mute);
+    min-height: 1.6em;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .play {
+    min-width: 9rem;
+  }
+
+  .tempo {
+    display: flex;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px;
+    margin: 0;
+  }
+
+  .tempo label {
+    position: relative;
+  }
+
+  .tempo input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .tempo span {
+    display: block;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    font-size: var(--step--1);
+    color: var(--mute);
+  }
+
+  .tempo input:checked + span {
+    background: var(--surface-raised);
+    color: var(--ink);
+  }
+
+  .tempo input:focus-visible + span {
+    outline: 2px solid var(--accent);
+  }
+
+  .volume {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--step--1);
+    color: var(--mute);
+  }
+
+  .volume input {
+    accent-color: var(--accent);
+    width: 8rem;
+  }
+
+  .hint {
+    margin: 0;
+    max-width: var(--measure);
+    text-align: center;
+    color: var(--faint);
+    font-size: var(--step--1);
+  }
+
+  .pray,
+  .about {
+    padding-block: var(--space-5) 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .about {
+    padding-bottom: var(--space-6);
+  }
+
+  .about h3 {
+    font-size: var(--step-1);
+    margin-top: var(--space-2);
+  }
+
+  .bead-card {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+
+
+
+
+
+
+  .facts,
+  .links {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.5rem;
+    color: var(--mute);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 480px) {
+    .tempo span {
+      padding: 0.45rem 0.6rem;
+    }
+  }
+</style>

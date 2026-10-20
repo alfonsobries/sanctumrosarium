@@ -1,0 +1,1613 @@
+{
+  "_meta": {
+    "schema": "Ver README.md, sección auxilium.json",
+    "generated": "2026-10-19",
+    "approval": "Cada folleto dice \"With Ecclesiastical Approval\" / \"Con Aprobación Eclesiástica\" / \"Cum approbatione ecclesiasticâ\", sin nombrar obispo ni fecha.",
+    "rights": "Copyright © 2012 (en, es) y MMXVII (la) Auxilium Christianorum. El sitio no dice si se pueden reproducir; falta pedir permiso.",
+    "membership": "Según su FAQ, basta rezar estas oraciones cada día para ser miembro; recomiendan consultar antes al director espiritual o confesor."
+  },
+  "id": "auxilium-christianorum",
+  "category": "pious-tradition",
+  "links": {
+    "home": "https://auxiliumchristianorum.org/",
+    "prayers": "https://auxiliumchristianorum.org/prayers/",
+    "requirements": "https://auxiliumchristianorum.org/requirements/",
+    "faq": "https://auxiliumchristianorum.org/faq/"
+  },
+  "texts": {
+    "en-US": {
+      "source": {
+        "publisher": "Auxilium Christianorum (auxiliumchristianorum.org)",
+        "title": "Handbook and Prayers for the Association of the Auxilium Christianorum (laity)",
+        "url": "https://auxiliumchristianorum.org/wp-content/uploads/2018/04/dailyprayers.pdf",
+        "accessed": "2026-10-19"
+      },
+      "sectionSources": {
+        "saint-michael": {
+          "publisher": "Holy See Press Office (press.vatican.va)",
+          "title": "Communiqué of 29 September 2018: the Rosary in October",
+          "url": "https://press.vatican.va/content/salastampa/en/bollettino/pubblico/2018/09/29/180929d.html",
+          "accessed": "2026-10-19"
+        },
+        "guardian-angel": {
+          "publisher": "Holy See (vatican.va)",
+          "title": "Compendium of the Catechism of the Catholic Church (2005), Appendix A: Common Prayers",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html",
+          "accessed": "2026-10-19"
+        }
+      },
+      "notes": "El folleto solo nombra la oración a San Miguel y la del Ángel de la Guarda; sus textos vienen de las fuentes de sectionSources.",
+      "sections": [
+        {
+          "id": "opening",
+          "blocks": [
+            {
+              "kind": "versicle",
+              "call": "Our help is in the name of the Lord.",
+              "response": "Who made heaven and earth."
+            }
+          ]
+        },
+        {
+          "id": "offering",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Most gracious Virgin Mary, thou who wouldst crush the head of the serpent, protect us from the vengeance of the evil one. We offer our prayers, supplications, sufferings and good works to thee so that thou may purify them, sanctify them and present them to thy Son as a perfect offering. May this offering be given so that the demons that influence or seek to influence the members of the Auxilium Christianorum do not know the source of their expulsion and blindness. Blind them so that they know not our good works. Blind them so that they know not on whom to take vengeance. Blind them so that they may receive the just sentence for their works. Cover us with the Precious Blood of thy Son so that we may enjoy the protection which flows from His Passion and Death. Amen."
+            }
+          ]
+        },
+        {
+          "id": "saint-michael",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Saint Michael Archangel, defend us in battle, be our protection against the wickedness and snares of the devil; may God rebuke him, we humbly pray; and do thou, O Prince of the heavenly host, by the power of God, cast into hell Satan and all the evil spirits who prowl through the world seeking the ruin of souls. Amen."
+            }
+          ]
+        },
+        {
+          "id": "guardian-angel",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Angel of God, my guardian dear, to whom God's love commits me here, ever this day be at my side, to light and guard, to rule and guide. Amen."
+            }
+          ]
+        },
+        {
+          "id": "our-father",
+          "blocks": [
+            {
+              "kind": "prayer",
+              "prayer": "our-father"
+            }
+          ]
+        },
+        {
+          "id": "hail-mary",
+          "blocks": [
+            {
+              "kind": "prayer",
+              "prayer": "hail-mary"
+            }
+          ]
+        },
+        {
+          "id": "glory-be",
+          "blocks": [
+            {
+              "kind": "prayer",
+              "prayer": "glory-be"
+            }
+          ]
+        },
+        {
+          "id": "precious-blood",
+          "blocks": [
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "Lord have mercy."
+                },
+                {
+                  "call": "Christ have mercy."
+                },
+                {
+                  "call": "Lord have mercy."
+                },
+                {
+                  "call": "Christ hear us."
+                },
+                {
+                  "call": "Christ graciously hear us."
+                },
+                {
+                  "call": "God the Father of Heaven",
+                  "response": "have mercy on us."
+                },
+                {
+                  "call": "God the Son, Redeemer of the world",
+                  "response": "have mercy on us."
+                },
+                {
+                  "call": "God the Holy Spirit",
+                  "response": "have mercy on us."
+                },
+                {
+                  "call": "Holy Trinity, One God",
+                  "response": "have mercy on us."
+                },
+                {
+                  "call": "Blood of Christ, only-begotten Son of the Eternal Father",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, Incarnate Word of God",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, of the New and Eternal Testament",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, falling upon the earth in the Agony",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, shed profusely in the Scourging",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, flowing forth in the Crowning with Thorns",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, poured out on the Cross",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, price of our salvation",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, without which there is no forgiveness",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, Eucharistic drink and refreshment of souls",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, stream of mercy",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, victor over demons",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, courage of Martyrs",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, strength of Confessors",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, bringing forth Virgins",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, help of those in peril",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, relief of the burdened",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, solace in sorrow",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, hope of the penitent",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, consolation of the dying",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, peace and tenderness of hearts",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, pledge of eternal life",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, freeing souls from purgatory",
+                  "response": "save us."
+                },
+                {
+                  "call": "Blood of Christ, most worthy of all glory and honor",
+                  "response": "save us."
+                },
+                {
+                  "call": "Lamb of God, Who takest away the sins of the world",
+                  "response": "spare us, O Lord."
+                },
+                {
+                  "call": "Lamb of God, Who takest away the sins of the world",
+                  "response": "graciously hear us, O Lord."
+                },
+                {
+                  "call": "Lamb of God, Who takest away the sins of the world",
+                  "response": "have mercy on us."
+                }
+              ]
+            },
+            {
+              "kind": "versicle",
+              "call": "Thou hast redeemed us with Thy Blood, O Lord.",
+              "response": "And made of us a kingdom for our God."
+            },
+            {
+              "kind": "text",
+              "text": "Let us pray.",
+              "lead": true
+            },
+            {
+              "kind": "text",
+              "text": "Almighty, and everlasting God, Who hast appointed Thine only-begotten Son to be the Redeemer of the world, and hast been pleased to be reconciled unto us by His Blood, grant us, we beseech Thee, so to venerate with solemn worship the price of our salvation, that the power thereof may here on earth keep us from all things hurtful, and the fruit of the same may gladden us for ever hereafter in heaven. Through the same Christ our Lord.",
+              "response": "Amen."
+            }
+          ]
+        },
+        {
+          "id": "sunday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "O Glorious Queen of Heaven and Earth, Virgin Most Powerful, thou who hast the power to crush the head of the ancient serpent with thy heel, come and exercise this power flowing from the grace of thine Immaculate Conception. Shield us under the mantle of thy purity and love, draw us into the sweet abode of thy heart and annihilate and render impotent the forces bent on destroying us. Come Most Sovereign Mistress of the Holy Angels and Mistress of the Most Holy Rosary, thou who from the very beginning hast received from God the power and the mission to crush the head of Satan. Send forth thy holy legions, we humbly beseech thee, that under thy command and by thy power they may pursue the evil spirits, counter them on every side, resist their bold attacks and drive them far from us, harming no one on the way, binding them to the foot of the Cross to be judged and sentenced by Jesus Christ Thy Son and to be disposed of by Him as He wills."
+            },
+            {
+              "kind": "text",
+              "text": "St. Joseph, Patron of the Universal Church, come to our aid in this grave battle against the forces of darkness, repel the attacks of the devil and free the members of the Auxilium Christianorum, and those for whom the priests of the Auxilium Christianorum pray, from the strongholds of the enemy."
+            },
+            {
+              "kind": "text",
+              "text": "St. Michael, summon the entire heavenly court to engage their forces in this fierce battle against the powers of hell. Come O Prince of Heaven with thy mighty sword and thrust into hell Satan and all the other evil spirits. O Guardian Angels, guide and protect us. Amen."
+            }
+          ],
+          "day": 0
+        },
+        {
+          "id": "monday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "In Thy name, Lord Jesus Christ, we pray that Thou cover us, our families, and all of our possessions with Thy love and Thy Most Precious Blood and surround us with Thy Heavenly Angels, Saints and the mantle of Our Blessed Mother. Amen."
+            }
+          ],
+          "day": 1
+        },
+        {
+          "id": "tuesday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Lord Jesus Christ, we beg Thee for the grace to remain guarded beneath the protective mantle of Mary, surrounded by the holy briar from which was taken the Holy Crown of Thorns, and saturated with Thy Precious Blood in the power of the Holy Spirit, with our Guardian Angels, for the greater glory of the Father. Amen."
+            }
+          ],
+          "day": 2
+        },
+        {
+          "id": "wednesday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "In the Name of Jesus Christ, Our Lord and God, we ask Thee to render all spirits impotent, paralyzed and ineffective in attempting to take revenge against anyone of the members of the Auxilium Christianorum, our families, friends, communities, those who pray for us and their family members, or anyone associated with us and for whom the priests of the Auxilium Christianorum pray. We ask Thee to bind all evil spirits, all powers in the air, the water, the ground, the fire, under ground, or wherever they exercise their powers, any satanic forces in nature and any and all emissaries of the satanic headquarters. We ask Thee to bind by Thy Precious Blood all of the attributes, aspects and characteristics, interactions, communications and deceitful games of the evil spirits. We ask Thee to break any and all bonds, ties and attachments in the Name of the Father, and of the Son and of the Holy Spirit. Amen."
+            }
+          ],
+          "day": 3
+        },
+        {
+          "id": "thursday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "My Lord, Thou art all powerful, Thou art God, Thou art our Father. We beg Thee through the intercession and help of the Archangels Sts. Michael, Raphael, and Gabriel for the deliverance of our brothers and sisters who are enslaved by the evil one. All Saints of Heaven, come to our aid."
+            },
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "From anxiety, sadness and obsessions",
+                  "response": "We implore Thee, deliver us, O Lord."
+                },
+                {
+                  "call": "From hatred, fornication, and envy",
+                  "response": "We implore Thee, deliver us, O Lord."
+                },
+                {
+                  "call": "From thoughts of jealousy, rage, and death",
+                  "response": "We implore Thee, deliver us, O Lord."
+                },
+                {
+                  "call": "From every thought of suicide and abortion",
+                  "response": "We implore Thee, deliver us, O Lord."
+                },
+                {
+                  "call": "From every form of sinful sexuality",
+                  "response": "We implore Thee, deliver us, O Lord."
+                },
+                {
+                  "call": "From every division in our family, and every harmful friendship",
+                  "response": "We implore Thee, deliver us, O Lord."
+                },
+                {
+                  "call": "From every sort of spell, malefice, witchcraft, and every form of the occult",
+                  "response": "We implore Thee, deliver us, O Lord."
+                }
+              ]
+            },
+            {
+              "kind": "text",
+              "text": "Thou who said, \"Peace I leave with you, my peace I give unto you.\" Grant that, through the intercession of the Virgin Mary, we may be liberated from every demonic influence and enjoy Thy peace always. In the Name of Christ, our Lord. Amen."
+            }
+          ],
+          "day": 4
+        },
+        {
+          "id": "friday",
+          "blocks": [
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "O Jesus, meek and humble of heart",
+                  "response": "hear me."
+                },
+                {
+                  "call": "From the desire of being esteemed",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the desire of being loved",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the desire of being extolled",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the desire of being honored",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the desire of being praised",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the desire of being preferred to others",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the desire of being consulted",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the desire of being approved",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the fear of being humiliated",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the fear of being despised",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the fear of suffering rebukes",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the fear of being calumniated",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the fear of being forgotten",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the fear of being ridiculed",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the fear of being wronged",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "From the fear of being suspected",
+                  "response": "deliver me, Jesus."
+                },
+                {
+                  "call": "That others may be loved more than I",
+                  "response": "Jesus, grant me the grace to desire it."
+                },
+                {
+                  "call": "That others may be esteemed more than I",
+                  "response": "Jesus, grant me the grace to desire it."
+                },
+                {
+                  "call": "That in the opinion of the world, others may increase and I may decrease",
+                  "response": "Jesus, grant me the grace to desire it."
+                },
+                {
+                  "call": "That others may be chosen and I set aside",
+                  "response": "Jesus, grant me the grace to desire it."
+                },
+                {
+                  "call": "That others may be praised and I unnoticed",
+                  "response": "Jesus, grant me the grace to desire it."
+                },
+                {
+                  "call": "That others may be preferred to me in everything",
+                  "response": "Jesus, grant me the grace to desire it."
+                },
+                {
+                  "call": "That others may become holier than I, provided that I become as holy as I should",
+                  "response": "Jesus, grant me the grace to desire it."
+                }
+              ]
+            }
+          ],
+          "day": 5
+        },
+        {
+          "id": "saturday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "O God and Father of our Lord Jesus Christ, we call upon Thy holy Name and humbly beseech Thy clemency, that, through the intercession of the ever immaculate Virgin, our Mother Mary, and of the glorious Archangel Saint Michael, thou wouldst vouchsafe to help us against Satan and all the other unclean spirits that are prowling about the world to the great peril of the human race and the loss of souls. Amen."
+            }
+          ],
+          "day": 6
+        },
+        {
+          "id": "conclusion",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "August Queen of the Heavens, heavenly Sovereign of the Angels, Thou who from the beginning hast received from God the power and the mission to crush the head of Satan, we humbly beseech Thee to send thy holy legions, so that under Thy command and through Thy power, they may pursue the demons and combat them everywhere, suppress their boldness, and drive them back into the abyss. O good and tender Mother, Thou wilt always be our love and hope! O Divine Mother, send Thy Holy Angels to defend us and to drive far away from us the cruel enemy. Holy Angels and Archangels, defend us, guard us. Amen."
+            }
+          ]
+        },
+        {
+          "id": "invocations",
+          "blocks": [
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "Most Sacred Heart of Jesus",
+                  "response": "have mercy on us."
+                },
+                {
+                  "call": "Mary, Help of Christians",
+                  "response": "pray for us."
+                },
+                {
+                  "call": "Virgin Most Powerful",
+                  "response": "pray for us."
+                },
+                {
+                  "call": "St. Joseph",
+                  "response": "pray for us."
+                },
+                {
+                  "call": "St. Michael the Archangel",
+                  "response": "pray for us."
+                },
+                {
+                  "call": "All You Holy Angels",
+                  "response": "pray for us."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sign-of-the-cross",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "In the name of the Father, the Son and the Holy Spirit. Amen."
+            }
+          ]
+        }
+      ]
+    },
+    "es-MX": {
+      "source": {
+        "publisher": "Auxilium Christianorum (auxiliumchristianorum.org)",
+        "title": "De la Introducción del Manual y Oraciones de la Asociación del Auxilium Christianorum",
+        "url": "https://auxiliumchristianorum.org/wp-content/uploads/2018/04/AC_Esp.pdf",
+        "accessed": "2026-10-19"
+      },
+      "sectionSources": {
+        "saint-michael": {
+          "publisher": "EWTN Español (antes ACI Prensa, recurso 431)",
+          "title": "Oración a San Miguel Arcángel",
+          "url": "https://www.ewtn.com/es/oracion/oracion-a-san-miguel-arcangel",
+          "accessed": "2026-10-19"
+        },
+        "guardian-angel": {
+          "publisher": "Santa Sede (vatican.va)",
+          "title": "Compendio del Catecismo de la Iglesia Católica (2005), Apéndice A: Oraciones comunes",
+          "url": "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html",
+          "accessed": "2026-10-19"
+        }
+      },
+      "notes": "El folleto solo nombra la oración a San Miguel y la del Ángel de la Guarda; sus textos vienen de las fuentes de sectionSources.",
+      "editorialCorrections": [
+        {
+          "from": "tu que aplastas",
+          "to": "tú que aplastas"
+        },
+        {
+          "from": "contra quien vengarse",
+          "to": "contra quién vengarse"
+        },
+        {
+          "from": "tu que tienes",
+          "to": "tú que tienes"
+        },
+        {
+          "from": "haz recibido",
+          "to": "has recibido"
+        },
+        {
+          "from": "perseguir los a espíritus",
+          "to": "perseguir a los espíritus"
+        },
+        {
+          "from": "sin hacer dañando a ninguno",
+          "to": "sin hacer daño a ninguno"
+        },
+        {
+          "from": "rabia muerte",
+          "to": "rabia y muerte"
+        },
+        {
+          "from": "consuelo del moribundo, Sálvanos ",
+          "to": "consuelo del moribundo, Sálvanos. "
+        },
+        {
+          "from": "Tu que dijiste",
+          "to": "Tú que dijiste"
+        },
+        {
+          "from": "tu eres Todopoderoso, tu eres Dios, tu eres mi Padre",
+          "to": "tú eres Todopoderoso, tú eres Dios, tú eres mi Padre"
+        },
+        {
+          "from": "Amen",
+          "to": "Amén",
+          "reason": "Acento que falta en todo el folleto."
+        }
+      ],
+      "sections": [
+        {
+          "id": "opening",
+          "blocks": [
+            {
+              "kind": "versicle",
+              "call": "Nuestro auxilio es en el nombre del Señor.",
+              "response": "Que hizo el cielo y la tierra."
+            }
+          ]
+        },
+        {
+          "id": "offering",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Amabilísima Virgen María, tú que aplastas la cabeza de la serpiente, protégenos de la venganza del maligno. Te ofrecemos nuestras oraciones, sufrimientos y buenas obras, para que tú las purifiques, las santifiques y las presentes a tu Hijo como una ofrenda perfecta. Que esta ofrenda sea dada para que los demonios que influencian o que buscan influir a los miembros del Auxilium Christianorum no reconozcan el origen de su expulsión y de su ceguera. Enceguécelos para que no reconozcan nuestras buenas obras. Enceguécelos para que no sepan contra quién vengarse. Enceguécelos para que reciban la sentencia justa de sus obras. Cúbrenos con la Sangre Preciosa de tu Hijo para que podamos gozar de la protección que brota de su Pasión y Muerte. Amén."
+            }
+          ]
+        },
+        {
+          "id": "saint-michael",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "San Miguel Arcángel, defiéndenos en la lucha. Sé nuestro amparo contra la perversidad y acechanzas del demonio. Que Dios manifieste sobre él su poder, es nuestra humilde súplica. Y tú, oh Príncipe de la Milicia Celestial, con el poder que Dios te ha conferido, arroja al infierno a Satanás, y a los demás espíritus malignos que vagan por el mundo para la perdición de las almas. Amén."
+            }
+          ]
+        },
+        {
+          "id": "guardian-angel",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Ángel de Dios, que eres mi custodio, pues la bondad divina me ha encomendado a ti, ilumíname, guárdame, defiéndeme y gobiérname. Amén."
+            }
+          ]
+        },
+        {
+          "id": "our-father",
+          "blocks": [
+            {
+              "kind": "prayer",
+              "prayer": "our-father"
+            }
+          ]
+        },
+        {
+          "id": "hail-mary",
+          "blocks": [
+            {
+              "kind": "prayer",
+              "prayer": "hail-mary"
+            }
+          ]
+        },
+        {
+          "id": "glory-be",
+          "blocks": [
+            {
+              "kind": "prayer",
+              "prayer": "glory-be"
+            }
+          ]
+        },
+        {
+          "id": "precious-blood",
+          "blocks": [
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "Señor, ten piedad de nosotros."
+                },
+                {
+                  "call": "Cristo, ten piedad de nosotros."
+                },
+                {
+                  "call": "Señor, ten piedad de nosotros."
+                },
+                {
+                  "call": "Cristo, óyenos."
+                },
+                {
+                  "call": "Cristo, escúchanos."
+                },
+                {
+                  "call": "Dios Padre celestial",
+                  "response": "ten piedad de nosotros."
+                },
+                {
+                  "call": "Dios Hijo, Redentor del mundo",
+                  "response": "ten piedad de nosotros."
+                },
+                {
+                  "call": "Dios Espíritu Santo",
+                  "response": "ten piedad de nosotros."
+                },
+                {
+                  "call": "Santísima Trinidad, que sois un solo Dios",
+                  "response": "ten piedad de nosotros."
+                },
+                {
+                  "call": "Sangre de Cristo, del Unigénito del Padre",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, del Verbo de Dios encarnado",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, del Testamento Nuevo y Eterno",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, derramada sobre la tierra en la agonía",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, vertida copiosamente en la flagelación",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, brotada en la coronación de espinas",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, derramada en la cruz",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, prenda de nuestra salvación",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, sin la cual no hay perdón",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, bebida eucarística y refrigerio de las almas",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, manantial de misericordia",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, vencedora de los demonios",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, fortaleza de los mártires",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, fuerza de los confesores",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, que engendra vírgenes",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, socorro en el peligro",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, alivio de los afligidos",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, solaz en las penas",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, esperanza del penitente",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, consuelo del moribundo",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, paz y ternura para los corazones",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, promesa de vida eterna",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, que libras a las almas del purgatorio",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Sangre de Cristo, dignísima de toda gloria y honor",
+                  "response": "Sálvanos."
+                },
+                {
+                  "call": "Cordero de Dios, que quitas el pecado del mundo",
+                  "response": "Perdónanos, Señor."
+                },
+                {
+                  "call": "Cordero de Dios, que quitas el pecado del mundo",
+                  "response": "Escúchanos, Señor."
+                },
+                {
+                  "call": "Cordero de Dios, que quitas el pecado del mundo",
+                  "response": "Ten piedad de nosotros."
+                }
+              ]
+            },
+            {
+              "kind": "versicle",
+              "call": "¡Oh Señor, nos has redimido en tu sangre!",
+              "response": "Y nos hiciste reino de nuestro Dios."
+            },
+            {
+              "kind": "text",
+              "text": "Oremos.",
+              "lead": true
+            },
+            {
+              "kind": "text",
+              "text": "Omnipotente y Sempiterno Dios, que constituiste a tu Hijo Unigénito Redentor del mundo, y que te es grato reconciliarte con nosotros a través de Su Sangre: te suplicamos nos concedas que veneremos con solemne adoración el precio de nuestra Redención, que por su virtud seamos preservados en la tierra de los males de la vida presente, para que gocemos en el Cielo de su fruto eterno. Por el mismo Cristo Nuestro Señor.",
+              "response": "Amén."
+            }
+          ]
+        },
+        {
+          "id": "sunday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Oh Gloriosa Reina del Cielo y de la Tierra, Virgen, Virgen Poderosísima, tú que tienes el poder de aplastar la cabeza de la serpiente antigua con tu talón, ven y ejerce este poder que fluye de la gracia de tu Inmaculada Concepción. Protégenos bajo tu manto de pureza y de amor, atráenos hacia la dulce morada de tu corazón, aniquila y rinde impotente esas fuerzas que se inclinan a destruirnos."
+            },
+            {
+              "kind": "text",
+              "text": "Ven, Ama Soberana de los Santos Ángeles y Ama del Santo Rosario, tú que desde el principio has recibido de Dios el poder y la misión de aplastar la cabeza de Satanás. Envíanos tus Santas Legiones, humildemente te suplicamos, para que, bajo tu mando y tu poder, puedan perseguir a los espíritus malignos, rodearlos por todos lados, resistir sus ataques atrevidos y arrojarlos lejos de nosotros sin hacer daño a ninguno a su paso, atándolos al pie de la Cruz para ser juzgados y sentenciados por Jesucristo tu Hijo y ser dispuestos por Él según su Voluntad."
+            },
+            {
+              "kind": "text",
+              "text": "San José, Patrón de la Iglesia Universal, ven en nuestro auxilio en esta grave batalla contra las fuerzas de la oscuridad, rechaza los ataques del demonio y libra a los miembros del Auxilium Christianorum y a todos aquellos por quienes rezan los sacerdotes del Auxilium Christianorum de las fortalezas del enemigo."
+            },
+            {
+              "kind": "text",
+              "text": "San Miguel, llama a la corte celestial entera a unir sus fuerzas en esta batalla feroz contra los poderes del infierno. ¡Ven, Oh Príncipe del Cielo! con tu gran espada y arroja al infierno a Satanás y a todos los demás espíritus malignos. Oh Ángeles de la Guarda, guíennos y protéjannos. Amén"
+            }
+          ],
+          "day": 0
+        },
+        {
+          "id": "monday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Señor Jesucristo, te suplicamos que cubras nuestras familias, y todas nuestras posesiones con tu amor y con tu Preciosísima Sangre y rodéanos con tus Ángeles Celestiales, Santos y el manto de Nuestra Santa Madre. Amén."
+            }
+          ],
+          "day": 1
+        },
+        {
+          "id": "tuesday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Señor Jesucristo, te imploramos la gracia de permanecer protegidos bajo el manto protector de María, rodeados por la Santa Zarza de la cual fue tomada la Santa Corona de Espinas, y cual fue saturada con tu Preciosísima Sangre en el poder del Espíritu Santo, con nuestros Ángeles de la Guarda, para la mayor gloria del Padre. Amén."
+            }
+          ],
+          "day": 2
+        },
+        {
+          "id": "wednesday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "En el Nombre de Jesucristo, Nuestro Señor y Dios, te pedimos que rindas impotentes, paralizados e inefectivos a todos los espíritus que intenten tomar venganza contra cualquier miembro del Auxilium Christianorum, nuestras familias, amistades, comunidades, aquellos que ruegan por nosotros y a los miembros de sus familias o cualquier persona asociada con nosotros y por quienes rezan los sacerdotes del Auxilium Christianorum. Te pedimos que ates a todos los espíritus malignos, a todas las potestades en el aire, en el agua, en la tierra, en el fuego, bajo la tierra o dondequiera que ejerzan sus poderes, cualquier fuerza satánica en la naturaleza y todos los emisarios de la sede satánica. Te pedimos que ates en tu Preciosísima Sangre todos los atributos, aspectos y características, interacciones, comunicaciones y juegos engañosos de los espíritus malignos. Te pedimos que rompas cualquier y todas las cadenas, lazos y enlaces en el Nombre del Padre, y del Hijo y del Espíritu Santo. Amén."
+            }
+          ],
+          "day": 3
+        },
+        {
+          "id": "thursday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Mi Señor, tú eres Todopoderoso, tú eres Dios, tú eres mi Padre. Te rogamos por la intercesión y ayuda de los Santos Arcángeles Miguel, Rafael, y Gabriel por la liberación de nuestros hermanos y hermanas que están esclavizados por el maligno. Que todos los Santos y Santas del Cielo, vengan en nuestra ayuda."
+            },
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "De toda ansiedad, tristeza y obsesiones",
+                  "response": "Te suplicamos, líbranos Señor."
+                },
+                {
+                  "call": "De odios, fornicación y envidia",
+                  "response": "Te suplicamos, líbranos Señor."
+                },
+                {
+                  "call": "De pensamientos de celos, rabia y muerte",
+                  "response": "Te suplicamos, líbranos Señor."
+                },
+                {
+                  "call": "De todo pensamiento de suicidio y aborto",
+                  "response": "Te suplicamos, líbranos Señor."
+                },
+                {
+                  "call": "De toda forma de sexualidad pecaminosa",
+                  "response": "Te suplicamos, líbranos Señor."
+                },
+                {
+                  "call": "De toda división dentro de nuestra familia, y amistades dañinas",
+                  "response": "Te suplicamos, líbranos Señor."
+                },
+                {
+                  "call": "De toda clase de hechizos, maldición, brujería y toda forma de lo oculto",
+                  "response": "Te suplicamos, líbranos Señor."
+                }
+              ]
+            },
+            {
+              "kind": "text",
+              "text": "Tú que dijiste, “Mi paz les dejo, Mi paz les doy” concédenos que, por la intercesión de la Virgen María, seamos liberados de toda influencia demoniaca y disfrutar siempre de tu paz. En el Nombre de Cristo, Nuestro Señor. Amén"
+            }
+          ],
+          "day": 4
+        },
+        {
+          "id": "friday",
+          "blocks": [
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "Jesús, manso y humilde de Corazón",
+                  "response": "Escúchame"
+                },
+                {
+                  "call": "Del deseo de ser lisonjeado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del deseo de ser amado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del deseo de ser alabado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del deseo de ser honrado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del deseo de ser adulado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del deseo de ser preferido a otros",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del deseo de ser consultado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del deseo de ser aprobado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del temor de ser humillado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del temor de ser despreciado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del temor de ser reprendido",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del temor de ser calumniado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del temor de ser olvidado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del temor de ser puesto en ridículo",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del temor de ser injuriado",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Del temor de ser juzgado con malicia",
+                  "response": "Líbrame, Jesús."
+                },
+                {
+                  "call": "Que otros sean más amados que yo",
+                  "response": "Jesús, dame la gracia de desearlo."
+                },
+                {
+                  "call": "Que otros sean más estimados que yo",
+                  "response": "Jesús, dame la gracia de desearlo."
+                },
+                {
+                  "call": "Que otros crezcan en la opinión del mundo y yo me eclipse",
+                  "response": "Jesús, dame la gracia de desearlo."
+                },
+                {
+                  "call": "Que otros sean elegidos y de mí no se haga caso",
+                  "response": "Jesús, dame la gracia de desearlo."
+                },
+                {
+                  "call": "Que otros sean elogiados, y yo pase desapercibido",
+                  "response": "Jesús, dame la gracia de desearlo."
+                },
+                {
+                  "call": "Que otros sean preferidos a mí en todo",
+                  "response": "Jesús, dame la gracia de desearlo."
+                },
+                {
+                  "call": "Que los demás sean más santos que yo con tal que yo sea todo lo santo que pueda",
+                  "response": "Jesús, dame la gracia de desearlo."
+                }
+              ]
+            }
+          ],
+          "day": 5
+        },
+        {
+          "id": "saturday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Oh Dios y Padre de Nuestro Señor Jesucristo, clamamos a tu Nombre Santo y humildemente suplicamos tu clemencia, que por la intercesión de la Inmaculada Siempre Virgen, Nuestra Madre María, y del glorioso Arcángel San Miguel nos concedas socorrernos contra Satanás y todos los demás espíritus impuros que vagan por el mundo como peligro inminente para el ser humano y para perdición de las almas. Amén."
+            }
+          ],
+          "day": 6
+        },
+        {
+          "id": "conclusion",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Augusta Reina de los Cielos, Celestial Soberana de los Ángeles, tú que desde el principio has recibido de Dios el poder y la misión de aplastar la cabeza de Satanás, humildemente te suplicamos que envíes tus legiones, para que bajo tu mando y por tu poder, persigan a los demonios y los combatan donde quiera que se encuentren, suprimiendo sus audacias, y los arrojen al abismo. ¡Oh buena y tierna Madre, siempre serás nuestro amor y esperanza! ¡Oh Divina Madre! envía tus Santos Ángeles a defendernos y a expulsar lejos de nosotros al enemigo cruel. Santos Ángeles y Arcángeles, defiéndanos y guárdenos. Amén"
+            }
+          ]
+        },
+        {
+          "id": "invocations",
+          "blocks": [
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "Sacratísimo Corazón de Jesús",
+                  "response": "ten piedad de nosotros."
+                },
+                {
+                  "call": "María, Auxilio de Cristianos",
+                  "response": "Ruega por nosotros."
+                },
+                {
+                  "call": "Virgen La Más Poderosa",
+                  "response": "Ruega por nosotros."
+                },
+                {
+                  "call": "San José",
+                  "response": "Ruega por nosotros."
+                },
+                {
+                  "call": "San Miguel Arcángel",
+                  "response": "Ruega por nosotros."
+                },
+                {
+                  "call": "Todos los Santos Ángeles",
+                  "response": "Rueguen por nosotros."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sign-of-the-cross",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "En el Nombre del Padre, del Hijo y del Espíritu Santo. Amén."
+            }
+          ]
+        }
+      ]
+    },
+    "es-ES": {
+      "sameAs": "es-MX"
+    },
+    "la": {
+      "source": {
+        "publisher": "Auxilium Christianorum (auxiliumchristianorum.org)",
+        "title": "Manuale et Orationes ad usum Sodalitatis Auxilii Christianorum (Pro Laicis)",
+        "url": "https://auxiliumchristianorum.org/wp-content/uploads/2018/04/Latinlaicis-1.pdf",
+        "accessed": "2026-10-19"
+      },
+      "editorialCorrections": [
+        {
+          "from": "Audjutorium a nostrum",
+          "to": "Adjutorium nostrum",
+          "reason": "Errata del folleto."
+        },
+        {
+          "from": "Filii a et / Patris, a et Filii",
+          "to": "Filii, ✠ et / Patris, ✠ et Filii",
+          "reason": "La \"a\" es la cruz de la fuente tipográfica del PDF."
+        }
+      ],
+      "sections": [
+        {
+          "id": "opening",
+          "blocks": [
+            {
+              "kind": "versicle",
+              "call": "Adjutorium nostrum in nomine Domini.",
+              "response": "Qui fécit cælum et terram."
+            }
+          ]
+        },
+        {
+          "id": "offering",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "O Piissima Virgo Maria, quæ caput serpentis contrivisti, protege nos a vindicta mali. Offerimus tibi dolores, bona, operaque ut ea purifices, sanctifices et largiaris Filio tuo sicut oblationem perfectam. Hæc oblatio fit ne dæmonia qui afficere membra Auxilii Christianorum petunt cognoscant originem expulsionis et cæcitatis suae. Cæca eos ne nostra opera bona cognoscant. Cæca eos ne cognoscant quos ulcantur. Cæca eos ut sententiam iustam operum suorum suscipiant. Operi nos sanguine pretioso Filii tui ut protectione quæ ab Passione Morteque ejus fluit fruamur. Amen."
+            }
+          ]
+        },
+        {
+          "id": "saint-michael",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Sancte Michæl Archangele, defende nos in proelio, contra nequitiam et insidias diaboli esto præsidium. Imperet illi Deus, supplices deprecamur: tuque, Princeps militiæ cælestis, Satanam aliosque spiritus malignos, qui ad perditionem animarum pervagantur in mundo, divina virtute, in infernum detrude. Amen."
+            }
+          ]
+        },
+        {
+          "id": "guardian-angel",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Angele Dei, qui custos es mei, Me tibi commissum pietate superna; Hac nocte (die) illumina, custodi, rege, et guberna. Amen."
+            }
+          ]
+        },
+        {
+          "id": "our-father",
+          "blocks": [
+            {
+              "kind": "prayer",
+              "prayer": "our-father"
+            }
+          ]
+        },
+        {
+          "id": "hail-mary",
+          "blocks": [
+            {
+              "kind": "prayer",
+              "prayer": "hail-mary"
+            }
+          ]
+        },
+        {
+          "id": "glory-be",
+          "blocks": [
+            {
+              "kind": "prayer",
+              "prayer": "glory-be"
+            }
+          ]
+        },
+        {
+          "id": "precious-blood",
+          "blocks": [
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "Kyrie, eleison."
+                },
+                {
+                  "call": "Christe, eleison."
+                },
+                {
+                  "call": "Kyrie, eleison."
+                },
+                {
+                  "call": "Christe, audi nos."
+                },
+                {
+                  "call": "Christe, exaudi nos."
+                },
+                {
+                  "call": "Pater de cælis, Deus",
+                  "response": "miserere nobis."
+                },
+                {
+                  "call": "Fili, Redemptor mundi, Deus",
+                  "response": "miserere nobis."
+                },
+                {
+                  "call": "Spiritus Sancte, Deus",
+                  "response": "miserere nobis."
+                },
+                {
+                  "call": "Sancta Trinitas, unus Deus",
+                  "response": "miserere nobis."
+                },
+                {
+                  "call": "Sanguis Christi, Unigeniti Patris æterni",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, Verbi Dei incarnati",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, Novi et Æterni Testamenti",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, in agonia decurrens in terram",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, in flagellatione profluens",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, in coronatione spinarum emanans",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, in Cruce effusus",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, pretium nostræ salutis",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, sine quo non fit remissio",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, in Eucharistia potus et lavacrum animarum",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, flumen misericordiæ",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, victor dæmonum",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, fortitudo martyrum",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, virtus confessorum",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, germinans virgines",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, robur periclitantium",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, levamen laborantium",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, in fletu solatium",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, spes poenitentium",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, solamen morientium",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, pax et dulcedo cordium",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, pignus vitæ æternæ",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, animas liberans de lacu Purgatorii",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Sanguis Christi, omni gloria et honore dignissimus",
+                  "response": "salva nos."
+                },
+                {
+                  "call": "Agnus Dei, qui tollis peccata mundi",
+                  "response": "parce nobis, Domine."
+                },
+                {
+                  "call": "Agnus Dei, qui tollis peccata mundi",
+                  "response": "exaudi nos, Domine."
+                },
+                {
+                  "call": "Agnus Dei, qui tollis peccata mundi",
+                  "response": "miserere nobis, Domine."
+                }
+              ]
+            },
+            {
+              "kind": "versicle",
+              "call": "Redimisti nos, Domine, in sanguine tuo.",
+              "response": "Et fecisti nos Deo nostro regnum."
+            },
+            {
+              "kind": "text",
+              "text": "Oremus.",
+              "lead": true
+            },
+            {
+              "kind": "text",
+              "text": "Omnipotens sempiterne Deus, qui unigenitum Filium tuum mundi Redemptorem constituisti, ac eius sanguine placari voluisti: concede, quæsumus, salutis nostræ pretium ita venerari, atque a præsentis vitæ malis eius virtute defendi in terris, ut fructu perpetuo lætemur in cælis. Per eundem Christum Dominum nostrum.",
+              "response": "Amen."
+            }
+          ]
+        },
+        {
+          "id": "sunday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "O Gloriosa Regina Cœli et terræ, Virgo Potens, quæ habuisti contere caput serpentis antiqui calcaneo tuo, veni et utere hac potentiâ ab gratiâ Immaculatæ Conceptionis tuæ fluente. Tege nos sub amictu puritatis et dilectionis tuæ, trahe nos in dulcem domicilliam cordis tui; dele atque rende hostes impotentes ecfatos adnullare nos. Veni, Superana Domina Sanctorum Angelorum et Domina Sacratissimæ Rosariæ, quæ ab initio recepisti potentiam et missionem à Deo ad caput Satanæ conterendum. Emitte, supplices quæsumus, sanctas legiones tuas ut te imperante et cum potentiâ tuâ persequantur spiritus malignos, undique compescant, repelle audaces impetus eorum et procul a nobis expellant eos, nocentes nulli in via, ligantes eos juxta pedem Crucis judicari et sententiam ferri ab Jesu Christo, Filio tuo atque disponi ad libitum suum."
+            },
+            {
+              "kind": "text",
+              "text": "Sancte Joseph, Patronus Universalis Ecclesiæ, veni fer nobis auxilium contra potentias tenebrarum, repelle impetús diaboli et libera membra Auxilii Christianorum, et eos quibus sacerdotes ejusdem Sodalitatis orarent, à robore hostis."
+            },
+            {
+              "kind": "text",
+              "text": "Sancte Michæl, invoca totam cohortem coelestem ut commitant potentias suas in hoc prœlio feroce contra vires inferi. O Custodes Angeli, dirigite et protegite nos. Amen."
+            }
+          ],
+          "day": 0
+        },
+        {
+          "id": "monday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Domine Jesu Christe, oramus ut tu tegeas nos, familias, et omnes possessiones nostras cum dilectione et Pretiosissimo Sanguine tuo et circumdes nos cum Angelis cælestis, Sanctis et amictu Benedictæ Matris Nostræ. Amen."
+            }
+          ],
+          "day": 1
+        },
+        {
+          "id": "tuesday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Domine Jesu Christe, quæsumus te pro gratiâ ut remaneamus tuti in tutela amictús Mariæ, circumdati cum rubo sancto ex quo sancta corona spinarum facta est et intincta est Pretiosissimo Sanguine Tuo et Angelis Custodibus in potentia Sancti Spiritus, ad majorem Patris gloriam. Amen."
+            }
+          ],
+          "day": 2
+        },
+        {
+          "id": "wednesday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "In Nomine Jesu Christi, Domini et Dei nostri, Te deprecamur efficere omnes spiritús esse impotentes, paralyticos, debiles in conatu ulcisci in ulla membra Auxilii Christianorum, familias, amicos, communitates eorum, pro nobis orantes familiasque illorum vel quicumque additus nobis et quibus sacerdotes Auxilii Christianorum orarent. Ligamus omnes spiritus malignos, omnes potentias in aëre, aquâ, terrâ, igne, sub terrâ vel ubicumque viribus suis utantur, et ullam copiam satanicam in naturâ et ullos emissarios pretorii satanici. Ligamus, in Pretiosissimo Sanguine Jesu, omnes attributa, idos, vulticulos, adjuncta, interactiones ludusque dolosos spirituum malignorum. Fregimus ulla et omnia ligamina, et adplicationes in nomine Patris, et Filii, ✠ et Spiritus Sancti. Amen."
+            }
+          ],
+          "day": 3
+        },
+        {
+          "id": "thursday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Omnipotens Deus, Pater, te quæsumus pro redemptionem fratrum sororumque quos a malo addictos esse per intercessionem et adjutorium Archangelorum Sanctorum Michæl, Raphæl et Gabriel. Omnes Sancti Cœli, ferte nobis auxilium."
+            },
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "Ab anxietate, mæstitiâ et obsessionibus",
+                  "response": "Te rogamus libera nos Domine."
+                },
+                {
+                  "call": "Ab odio, fornicatione et invidiâ",
+                  "response": "Te rogamus, libera nos Domine."
+                },
+                {
+                  "call": "A cogitationibus zelotypiæ, furoris et mortis",
+                  "response": "Te rogamus, libera nos Domine."
+                },
+                {
+                  "call": "Ab omni cogitatione suicidii et abortionis",
+                  "response": "Te rogamus, libera nos Domine."
+                },
+                {
+                  "call": "Ab omni specie complexús peccabilis venerii",
+                  "response": "Te rogamus libera nos Domine."
+                },
+                {
+                  "call": "Ab omni divisione in familiâ nostrâ, et omni amicitate nocivâ",
+                  "response": "Te rogamus libera nos Domine."
+                },
+                {
+                  "call": "Ab omni genere incantationis, maleficii, artis magicæ et omni genere occulti",
+                  "response": "Te rogamus libera nos Domine."
+                }
+              ]
+            },
+            {
+              "kind": "text",
+              "text": "Da, qui dixisti “Pacem relinquo vobis, pacem meam do vobis”, per intercessionem Beatae Mariæ Virginis, ab omni contagione dæmonica libereamur et fruamur perenni pace tua. Per nomen Christi Domini nostri. Amen."
+            }
+          ],
+          "day": 4
+        },
+        {
+          "id": "friday",
+          "blocks": [
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "O Jesu, mitis et humilis corde",
+                  "response": "exaudi me."
+                },
+                {
+                  "call": "A desiderio, ut amer",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A desiderio, ut exalter",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A desiderio, ut honorer",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A desiderio, ut lauder",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A desiderio, ut aliis praeterear",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A desiderio, ut consular",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A desiderio, ut approber",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A timore, ne humilier",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A timore, ne spernar",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A timore, ne contemnar",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A timore, ne calumniam feram",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A timore, ne oblivioni tradar",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A timore, ne irridear",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A timore, ne iniuriam accipiam",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "A timore, ne suspiciar",
+                  "response": "libera me Domine."
+                },
+                {
+                  "call": "Ut magis alii amentur quam ego",
+                  "response": "Iesu, da mihi gratiam ita desiderandi."
+                },
+                {
+                  "call": "Ut plus alii aestimentur quam ego",
+                  "response": "Iesu, da mihi gratiam ita desiderandi."
+                },
+                {
+                  "call": "Ut alii extollantur in mundi existimatione, ego autem minuar",
+                  "response": "Iesu, da mihi gratiam ita desiderandi."
+                },
+                {
+                  "call": "Ut alii eligantur, ego autem praeterear",
+                  "response": "Iesu, da mihi gratiam ita desiderandi."
+                },
+                {
+                  "call": "Ut alii mihi in omnibus rebus praeferantur",
+                  "response": "Iesu, da mihi gratiam ita desiderandi."
+                },
+                {
+                  "call": "Ut alii me, dum sanctus fieri debeam, sanctiores sint",
+                  "response": "Iesu, da mihi gratiam ita desiderandi."
+                }
+              ]
+            }
+          ],
+          "day": 5
+        },
+        {
+          "id": "saturday",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Invoco Nomen Sanctum tuum, Deus et Pater Domini Nostri Jesu Christi, et clementiam tuam supplices deprecamur ut, nobis per intercessionem semper Virginis Mariæ Matris, et Sancti Michælis Archangeli gloriosi, digneris largiri auxilium contra satanam aliosque spiritus immundos qui pervagantur in mundo magno cum periculo generis humani et damno animarum. Amen."
+            }
+          ],
+          "day": 6
+        },
+        {
+          "id": "conclusion",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Augusta Regina cœlorum, cœleste Superana Angelorum, quæ ab initio à Deo recepisti potentiam et missionem ad caput satanæ conterendum, supplices deprecamur te mittere tuas legiones sanctas, ut te imperante et potentiâ tuâ, ubique persequantur demonia et confligant eos, deprimant audacitatem et expellant eos in abysso. O bona et piissima Mater, semper amor et spes nostra eris! O Mater divina, mitte Sanctos Angelos tuos ad nos defendendos et longe hostem efferum expellendum. Sancti Angeli et Archangeli, defendite et custodite nos. Amen."
+            }
+          ]
+        },
+        {
+          "id": "invocations",
+          "blocks": [
+            {
+              "kind": "litany",
+              "items": [
+                {
+                  "call": "Cor Jesu Sacratissimum",
+                  "response": "miserere nobis."
+                },
+                {
+                  "call": "Auxilium Christianorum",
+                  "response": "ora pro nobis."
+                },
+                {
+                  "call": "Virgo Potens",
+                  "response": "ora pro nobis."
+                },
+                {
+                  "call": "Sancte Joseph",
+                  "response": "ora pro nobis."
+                },
+                {
+                  "call": "Sancte Michæl Archangele",
+                  "response": "ora pro nobis."
+                },
+                {
+                  "call": "Omnes Sancti Angeli",
+                  "response": "orate pro nobis."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sign-of-the-cross",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "In nomine Patris, ✠ et Filii, et Spiritús Sancti. Amen."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

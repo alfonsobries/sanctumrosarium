@@ -1,5 +1,8 @@
 import {
+  Bell,
   BookOpen,
+  Clock,
+  ExternalLink,
   BookOpenText,
   Church,
   Gauge,
@@ -67,6 +70,9 @@ const library = {
   privacy: ShieldCheck,
   terms: FileText,
   help: HandHeart,
+  bell: Bell,
+  time: Clock,
+  external: ExternalLink,
 } satisfies Record<string, LucideComponent>;
 
 const custom = {

@@ -17,6 +17,7 @@ import type { Locale, Mystery, Passage, Prayer, PrayerText, Source } from './typ
 
 export * from './types';
 export * from './lessons';
+export * from './auxilium';
 
 const prayers = prayersFile.prayers as unknown as Prayer[];
 const mysteries = mysteriesFile.mysteries as unknown as Mystery[];

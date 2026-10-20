@@ -12,6 +12,11 @@ function pages(dir: string): string[] {
   );
 }
 
+/** Pages kept out of search: no canonical and no alternates. */
+function unlisted(file: string): boolean {
+  return file.startsWith('/404') || file.startsWith('/es/laboratorio/');
+}
+
 function resolves(href: string): boolean {
   const path = decodeURIComponent(href.split('#')[0]!.split('?')[0]!);
   const file = join(dist, path);
@@ -34,7 +39,7 @@ describe.skipIf(!existsSync(dist))('built site', () => {
   });
 
   it('gives every page a title, a description, a canonical URL and both languages', () => {
-    for (const page of html.filter((p) => !p.file.startsWith('/404'))) {
+    for (const page of html.filter((p) => !unlisted(p.file))) {
       expect(page.text, page.file).toMatch(/<title>[^<]{10,}<\/title>/);
       expect(page.text, page.file).toMatch(/<meta name="description" content="[^"]{50,}"/);
       expect(page.text, page.file).toMatch(/<link rel="canonical" href="https:\/\/sanctumrosarium\.app\//);
@@ -44,7 +49,7 @@ describe.skipIf(!existsSync(dist))('built site', () => {
   });
 
   it('serves English at the root and Spanish under /es/, with English as x-default', () => {
-    for (const page of html.filter((p) => !p.file.startsWith('/404'))) {
+    for (const page of html.filter((p) => !unlisted(p.file))) {
       const spanish = page.file.startsWith('/es/');
       expect(page.text, page.file).toContain(`<html lang="${spanish ? 'es' : 'en'}"`);
       const canonical = page.text.match(/<link rel="canonical" href="https:\/\/sanctumrosarium\.app([^"]*)"/)?.[1];
